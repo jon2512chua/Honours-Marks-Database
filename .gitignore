@@ -7,3 +7,6 @@
 
 # IDE Files #
 nbproject/
+
+# Miscellaeneous Files #
+.DS_Store

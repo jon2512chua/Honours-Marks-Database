@@ -1,0 +1,1 @@
+For business logic stuff, e.g. formula for marks calculations, file import/export, backups, etc.

@@ -1,0 +1,1 @@
+Keep configuration files here. The idea is to keep settings away from business logic or any other code. Makes changing settings much easier. Besides it's just good software practice anyway.

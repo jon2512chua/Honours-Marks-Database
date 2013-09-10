@@ -1,0 +1,1 @@
+For mappings between our Java classes (Student, Unit, Assessment, etc) and the database. If still unsure this is basically what Jon will be mainly working in.

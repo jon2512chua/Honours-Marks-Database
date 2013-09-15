@@ -9,6 +9,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * @author Tim Lander
+ * 
+ * Displays the Tools section
+ */
 public class DisplayTools {
 	static CTabFolder display(Shell shell) {
 		final Composite displayComposite = new Composite(shell, SWT.BORDER);

@@ -1,4 +1,5 @@
 package gui;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.graphics.Rectangle;
@@ -15,6 +16,11 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 
+/**
+ * @author Tim Lander
+ *
+ * Main UI class
+ */
 public class MainUI {
 	
 	//Constants
@@ -23,9 +29,7 @@ public class MainUI {
 	final static int LColumnWidth = 200;	//TODO: calculate dynamically
 	final static int RColumnWidth = 500;
 	
-	public static void main(String[] args) {
-		
-		//SWTLoader.loadSwtJar();
+	public static void main2() {
 		
 		//Set up Shell
 		Display display = new Display();

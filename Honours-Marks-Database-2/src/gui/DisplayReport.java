@@ -11,6 +11,11 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
 
+/**
+ * @author Tim Lander
+ *
+ * Displays the Reports section
+ */
 public class DisplayReport {
 	static CTabFolder display(Shell shell) {
 		Composite displayComposite = new Composite(shell, SWT.BORDER);

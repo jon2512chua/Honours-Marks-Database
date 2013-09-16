@@ -25,10 +25,10 @@ public class SWTLoader {
 	        String swtFileNameOsPart = 
 	            osName.contains("win") ? "win32" :
 	            osName.contains("mac") ? "macosx" :
-	            osName.contains("linux") || osName.contains("nix") ? "linux_gtk" :
+	            osName.contains("linux") || osName.contains("nix") ? "linux_gtk" :	//TODO: add linux libraries to swt_lib
 	            "error"; // throw new RuntimeException("Unknown OS name: "+osName)
 	        if (swtFileNameOsPart == "error") {
-	        	System.err.println("Error: Unsuported opperating system detected.");
+	        	System.err.println("Error: Unsuported opperating system ("+osName+") detected.");
 	        }
 
 	        //Determine OS architecture

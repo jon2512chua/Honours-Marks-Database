@@ -138,8 +138,6 @@ public class MainUI {
 		//TODO: check on a mac
 		reportTabFolder.getParent().addListener (SWT.Resize,  new Listener () {
 			public void handleEvent (Event event) {
-				System.out.println(menuComposite.getBounds());
-				System.out.println(reportTabFolder.getParent().getParent().getBounds());
 				Rectangle idealDimensions = new Rectangle(
 						2*menuComposite.getBounds().x + menuComposite.getBounds().width, menuComposite.getBounds().y, 
 						reportTabFolder.getParent().getParent().getBounds().width - 6*menuComposite.getBounds().x - menuComposite.getBounds().width, menuComposite.getBounds().height);

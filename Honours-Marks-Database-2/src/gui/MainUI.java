@@ -134,10 +134,15 @@ public class MainUI {
 		btnBackup.addListener(SWT.Selection, btnBackupListener);
 
 		//Listener to Constrain the Resizing of the Right Composites.
+		//TODO: There is likely a better way to do this
+		//TODO: check on a mac
 		reportTabFolder.getParent().addListener (SWT.Resize,  new Listener () {
 			public void handleEvent (Event event) {
-				//TODO: determine dimensions better
-				Rectangle idealDimensions = new Rectangle(129, 5, reportTabFolder.getParent().getParent().getBounds().width-150, reportTabFolder.getParent().getParent().getBounds().height-49);
+				System.out.println(menuComposite.getBounds());
+				System.out.println(reportTabFolder.getParent().getParent().getBounds());
+				Rectangle idealDimensions = new Rectangle(
+						2*menuComposite.getBounds().x + menuComposite.getBounds().width, menuComposite.getBounds().y, 
+						reportTabFolder.getParent().getParent().getBounds().width - 6*menuComposite.getBounds().x - menuComposite.getBounds().width, menuComposite.getBounds().height);
 				reportTabFolder.getParent().setBounds(idealDimensions);
 				toolsTabFolder.getParent().setBounds(idealDimensions);
 				menuComposite.setSize(menuComposite.getSize().x, idealDimensions.height);

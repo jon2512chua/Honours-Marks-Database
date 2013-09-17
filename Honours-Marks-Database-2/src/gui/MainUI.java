@@ -30,6 +30,9 @@ public class MainUI {
 	
 	//static Display display = null;
 	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public static void main2() {
 		
 		//Set up Shell

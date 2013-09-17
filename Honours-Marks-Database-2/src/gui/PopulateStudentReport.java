@@ -42,6 +42,11 @@ public class PopulateStudentReport {
 					assessment.setText(new String[] {Data.Assessment[assessments]});
 					TreeItem studentAssessmentMark = new TreeItem(assessment, SWT.NONE);
 					studentAssessmentMark.setText(new String[] {"Student Assessment Mark", "100%"});
+					TreeItem AssessmentPercentUnit = new TreeItem(assessment, SWT.NONE);
+					AssessmentPercentUnit.setText(new String[] {"Percent of Unit", "22%"});
+					TreeItem AssessmentPercentFinalGrade = new TreeItem(assessment, SWT.NONE);
+					AssessmentPercentFinalGrade.setText(new String[] {"Percent of Final Grade", "5%"});
+					//TODO: add in markers. May be a bit tricky, as the number of markers are variable.
 				}
 
 			}

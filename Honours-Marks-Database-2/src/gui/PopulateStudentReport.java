@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.TreeItem;
  * @author Tim Lander
  */
 public class PopulateStudentReport {
-	static void populate(Tree studentTree) {
+	static void populate(final Tree studentTree) {
 		for (int sn=0; sn<5; sn++) {
 			TreeItem student = new TreeItem(studentTree, SWT.NONE);
 
@@ -36,17 +36,18 @@ public class PopulateStudentReport {
 				studentUnitGrade.setText(new String[] {"Students Unit Grade", "HD"});
 				TreeItem unitPoints = new TreeItem(unit, SWT.NONE);
 				unitPoints.setText(new String[] {"Unit Points", "6"});
-				
+
 				for (int assessments=0; assessments<4; assessments++) {
 					TreeItem assessment = new TreeItem(unit, SWT.NONE);
 					assessment.setText(new String[] {Data.Assessment[assessments]});
 					TreeItem studentAssessmentMark = new TreeItem(assessment, SWT.NONE);
-					studentAssessmentMark.setText(new String[] {"Mark", "100%"});
+					studentAssessmentMark.setText(new String[] {"Student Assessment Mark", "100%"});
 				}
-				
+
 			}
 
 			//student.setExpanded(true);		//TODO:Perhaps add an expand all button?
 		}
+
 	}
 }

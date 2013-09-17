@@ -28,6 +28,8 @@ public class MainUI {
 	final static int LColumnWidth = 200;	//TODO: calculate dynamically
 	final static int RColumnWidth = 500;
 	
+	//static Display display = null;
+	
 	public static void main2() {
 		
 		//Set up Shell

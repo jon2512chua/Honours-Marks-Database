@@ -90,11 +90,14 @@ public class MainUI {
 		//Generate the Tools Screen
 		final CTabFolder toolsTabFolder = DisplayTools.display(shell);
 		
+		//Generate the Creation/Editing screen
+		final CTabFolder CETabFolder = DisplayCE.display(shell);
+		
 		
 		//Button Listeners
 		Listener btnStudentReportListener = new Listener() {
 			public void handleEvent(Event event) {
-				CTabFolder hideTabFolder[] = {toolsTabFolder};
+				CTabFolder hideTabFolder[] = {toolsTabFolder, CETabFolder};
 				showScreen(shell, "Reports", reportTabFolder, hideTabFolder, 0);
 				
 			}
@@ -103,7 +106,7 @@ public class MainUI {
 		
 		Listener btnMarkerReportListener = new Listener() {
 			public void handleEvent(Event event) {
-				CTabFolder hideTabFolder[] = {toolsTabFolder};
+				CTabFolder hideTabFolder[] = {toolsTabFolder, CETabFolder};
 				showScreen(shell, "Reports", reportTabFolder, hideTabFolder, 1);
 			}
 		};
@@ -112,7 +115,7 @@ public class MainUI {
 		Listener btnEditStudentListener = new Listener() {
 			public void handleEvent(Event event) {
 				CTabFolder hideTabFolder[] = {reportTabFolder, toolsTabFolder};
-				showScreen(shell, "Creation/Editing", toolsTabFolder, hideTabFolder, 0);
+				showScreen(shell, "Creation/Editing", CETabFolder, hideTabFolder, 0);
 			}
 		};
 		btnEditStudent.addListener(SWT.Selection, btnEditStudentListener);
@@ -120,14 +123,14 @@ public class MainUI {
 		Listener btnEditStaffListener = new Listener() {
 			public void handleEvent(Event event) {
 				CTabFolder hideTabFolder[] = {reportTabFolder, toolsTabFolder};
-				showScreen(shell, "Creation/Editing", toolsTabFolder, hideTabFolder, 0);
+				showScreen(shell, "Creation/Editing", CETabFolder, hideTabFolder, 1);
 			}
 		};
 		btnEditStaff.addListener(SWT.Selection, btnEditStaffListener);
 		
 		Listener btnBackupListener = new Listener() {
 			public void handleEvent(Event event) {
-				CTabFolder hideTabFolder[] = {reportTabFolder};
+				CTabFolder hideTabFolder[] = {reportTabFolder, CETabFolder};
 				showScreen(shell, "Tools", toolsTabFolder, hideTabFolder, 0);
 			}
 		};
@@ -135,7 +138,6 @@ public class MainUI {
 
 		//Listener to Constrain the Resizing of the Right Composites.
 		//TODO: There is likely a better way to do this
-		//TODO: check on a mac
 		reportTabFolder.getParent().addListener (SWT.Resize,  new Listener () {
 			public void handleEvent (Event event) {
 				Rectangle idealDimensions = new Rectangle(
@@ -143,13 +145,14 @@ public class MainUI {
 						reportTabFolder.getParent().getParent().getBounds().width - 6*menuComposite.getBounds().x - menuComposite.getBounds().width, menuComposite.getBounds().height);
 				reportTabFolder.getParent().setBounds(idealDimensions);
 				toolsTabFolder.getParent().setBounds(idealDimensions);
+				CETabFolder.getParent().setBounds(idealDimensions);
 				menuComposite.setSize(menuComposite.getSize().x, idealDimensions.height);
 				
 			}
 		});
 
 		//Set Initial Screen
-		CTabFolder hideTabFolder[] = {reportTabFolder, toolsTabFolder};
+		CTabFolder hideTabFolder[] = {reportTabFolder, toolsTabFolder,CETabFolder};
 		showScreen(shell, "CITS3200 Program", toolsTabFolder, hideTabFolder, 0);
 		
 		

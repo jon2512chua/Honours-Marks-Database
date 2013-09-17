@@ -14,7 +14,6 @@ public class PopulateStudentReport {
 			TreeItem student = new TreeItem(studentTree, SWT.NONE);
 
 			student.setText(new String[] {Data.StudentNumber[sn]});
-			//student.setExpanded(true);
 			TreeItem studentNameTitle = new TreeItem(student, SWT.NONE);		//TODO: in theory these could be combined into one row
 			studentNameTitle.setText(new String[] {"Title", Data.StudentNameTitle[sn]});
 			TreeItem studentNameLast = new TreeItem(student, SWT.NONE);
@@ -25,19 +24,29 @@ public class PopulateStudentReport {
 			studentDissTitle.setText(new String[] {"Dissertation Title", Data.StudentDissTitle[sn]});
 			TreeItem studentSuper = new TreeItem(student, SWT.NONE);
 			studentSuper.setText(new String[] { "Supervisor", Data.StaffNameTitle[sn] + " " + Data.StaffNameFirst[sn].charAt(0) + ". " + Data.StaffNameLast[sn]});
-			//TreeItem studentFinalMark = new TreeItem(student, SWT.NONE);
-			//studentFinalMark.setText(new String[] {"Dissertation Title", SDissTitle[sn]});
 
 			for (int units=sn/2; units<=sn/2+3; units++) {
 				TreeItem unit = new TreeItem(student, SWT.NONE);
 				unit.setText(new String[] {Data.Unit[units]});
 				TreeItem unitName = new TreeItem(unit, SWT.NONE);
 				unitName.setText(new String[] {"Unit Name", Data.UnitName[units]});
-				TreeItem unitMark = new TreeItem(unit, SWT.NONE);
-				unitMark.setText(new String[] {"Unit Mark", "100%"});
+				TreeItem studentUnitMark = new TreeItem(unit, SWT.NONE);
+				studentUnitMark.setText(new String[] {"Students Unit Mark", "100%"});
+				TreeItem studentUnitGrade = new TreeItem(unit, SWT.NONE);
+				studentUnitGrade.setText(new String[] {"Students Unit Grade", "HD"});
+				TreeItem unitPoints = new TreeItem(unit, SWT.NONE);
+				unitPoints.setText(new String[] {"Unit Points", "6"});
+				
+				for (int assessments=0; assessments<4; assessments++) {
+					TreeItem assessment = new TreeItem(unit, SWT.NONE);
+					assessment.setText(new String[] {Data.Assessment[assessments]});
+					TreeItem studentAssessmentMark = new TreeItem(assessment, SWT.NONE);
+					studentAssessmentMark.setText(new String[] {"Mark", "100%"});
+				}
+				
 			}
 
-			//student.setExpanded(true);
+			//student.setExpanded(true);		//TODO:Perhaps add an expand all button?
 		}
 	}
 }

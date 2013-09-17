@@ -12,12 +12,16 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
 /**
- * @author Tim Lander
- *
  * Displays the Reports section
+ * @author Tim Lander
  */
 public class DisplayReport {
-	static CTabFolder display(Shell shell) {
+	
+	/**
+	 * @param shell the shell the data is displayed on.
+	 * @return the CTabFolder that contains the data
+	 */
+	public static CTabFolder display(Shell shell) {
 		Composite displayComposite = new Composite(shell, SWT.BORDER);
 	    displayComposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1));
 		displayComposite.setLayout(new FillLayout());
@@ -38,7 +42,7 @@ public class DisplayReport {
 		return reportTabFolder;
 	}
 	
-	static Tree createTab(CTabFolder tabFolder, String tabName, String column1Name, String column2Name) {
+	private static Tree createTab(CTabFolder tabFolder, String tabName, String column1Name, String column2Name) {
 
 		CTabItem tbtmReport = new CTabItem(tabFolder, SWT.NONE);
 		tbtmReport.setText(tabName);

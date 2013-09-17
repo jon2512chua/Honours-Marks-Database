@@ -11,12 +11,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * @author Tim Lander
- * 
  * Displays the Creation/Editing section
+ * @author Tim Lander
  */
 public class DisplayCE {
-	static CTabFolder display(Shell shell) {
+	
+	/**
+	 * @param shell the shell the data is displayed on.
+	 * @return the CTabFolder that contains the data
+	 */
+	public static CTabFolder display(Shell shell) {
 		final Composite displayComposite = new Composite(shell, SWT.BORDER);
 		displayComposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1));
 		displayComposite.setLayout(new FillLayout());

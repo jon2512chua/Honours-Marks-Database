@@ -17,9 +17,8 @@ import org.eclipse.swt.widgets.Shell;
 
 
 /**
- * @author Tim Lander
- *
  * Main UI class
+ * @author Tim Lander
  */
 public class MainUI {
 	

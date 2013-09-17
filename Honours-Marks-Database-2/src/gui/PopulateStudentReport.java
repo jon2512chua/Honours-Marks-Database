@@ -1,12 +1,12 @@
 package gui;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 /**
- * @author Tim Lander
- *
  * Student Report
+ * @author Tim Lander
  */
 public class PopulateStudentReport {
 	static void populate(Tree studentTree) {

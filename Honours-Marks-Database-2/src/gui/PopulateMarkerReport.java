@@ -1,12 +1,12 @@
 package gui;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 /**
- * @author Tim Lander
- *
  * Marker Report
+ * @author Tim Lander
  */
 public class PopulateMarkerReport {
 	static void populate(Tree markerTree) {

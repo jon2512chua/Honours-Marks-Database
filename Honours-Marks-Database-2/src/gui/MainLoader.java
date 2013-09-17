@@ -1,9 +1,8 @@
 package gui;
 
 /**
- * @author Tim Lander
- *
  * Main class. Acts as a preloader for MainUI.
+ * @author Tim Lander
  */
 public class MainLoader {
 

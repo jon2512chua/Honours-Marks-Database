@@ -1,9 +1,8 @@
 package gui;
 
 /**
- * @author Tim Lander
- *
  * Test Data
+ * @author Tim Lander
  */
 public class Data {
 	static String StudentNumber[] = {			"20355999", "20199654", "10965484", "20698762", "10779849"};

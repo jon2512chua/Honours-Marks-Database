@@ -7,11 +7,20 @@ import java.net.URLClassLoader;
 
 
 /**
- * @author Tim Lander
- *
  * Class which determines and loads correct SWT library, depending on OS.
+ * @author Tim Lander
  */
 public class SWTLoader {
+	
+	//Location to search for the SWT libraries. Relative to the .jar location.
+	private static final String swtFileNameDirectory = "swt_lib";
+	
+	/**
+	 * Dynamically loads the SWT libraries according to OS. Supports Windows, Mac and Linux (x86 and x64). <br>
+	 * Expected file names are SWT_[OS]_[Architecture].jar. eg swt_win32_x64.jar <br>
+	 * OS = win32 || macoxs || linux_gtk <br>
+	 * Architecture = x64 || x86 <br>
+	 */
 	public static void loadSwtJar() {		
 		String swtFileName = null;
 	    try {
@@ -34,7 +43,6 @@ public class SWTLoader {
 	        //Determine OS architecture
 	        String osArch = System.getProperty("os.arch").toLowerCase();
 	        String swtFileNameArchPart = osArch.contains("64") ? "x64" : "x86";
-	        String swtFileNameDirectory = "swt_lib";
 	        
 	        swtFileName = swtFileNameDirectory+"/swt"+"_"+swtFileNameOsPart+"_"+swtFileNameArchPart+".jar";
 	        File swtFile = new File(swtFileName);

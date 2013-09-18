@@ -137,6 +137,7 @@ public class DisplayTools {
 	//Save settings
 	private static final void saveSettings() {
 		System.out.println("Backup settings saved");	//TODO: remove
+		PopupWindow.display(text.getDisplay(), "Backup settings saved.", "Saved");
 		//TODO: save somewhere
 	}
 

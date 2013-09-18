@@ -9,6 +9,10 @@ import org.eclipse.swt.widgets.TreeItem;
  * @author Tim Lander
  */
 public class PopulateStudentReport {
+	/**
+	 * @wbp.parser.entryPoint
+	 * @param studentTree
+	 */
 	static void populate(final Tree studentTree) {
 		for (int sn=0; sn<5; sn++) {
 			TreeItem student = new TreeItem(studentTree, SWT.NONE);

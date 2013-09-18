@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 public class DisplayReport {
 	
 	/**
+	 * @wbp.parser.entryPoint
 	 * @param parent the composite the data is displayed on.
 	 * @return the CTabFolder that contains the data
 	 */

@@ -29,7 +29,7 @@ import org.eclipse.swt.graphics.Point;
 public class DisplayTools {
 	private static Text text;
 	private static int radioSelection = 4;
-	private static Point comboSelection = new Point(0, 0);
+	private static Point comboSelection = new Point(0, 0);	//TODO: check that this works, once saving loading is implemented
 
 	/**
 	 * @wbp.parser.entryPoint

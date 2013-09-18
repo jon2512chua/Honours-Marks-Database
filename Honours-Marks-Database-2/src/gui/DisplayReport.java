@@ -9,7 +9,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
@@ -20,11 +19,11 @@ import org.eclipse.swt.widgets.TreeColumn;
 public class DisplayReport {
 	
 	/**
-	 * @param shell the shell the data is displayed on.
+	 * @param parent the composite the data is displayed on.
 	 * @return the CTabFolder that contains the data
 	 */
-	public static CTabFolder display(Shell shell) {
-		Composite displayComposite = new Composite(shell, SWT.BORDER);
+	public static CTabFolder display(Composite parent) {
+		Composite displayComposite = new Composite(parent, SWT.BORDER);
 	    displayComposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1));
 		displayComposite.setLayout(new FillLayout());
 		

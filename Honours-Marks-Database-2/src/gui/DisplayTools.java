@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.widgets.Text;
@@ -34,13 +33,13 @@ public class DisplayTools {
 
 	/**
 	 * @wbp.parser.entryPoint
-	 * @param shell the shell the data is displayed on.
+	 * @param parent the parent composite the data is displayed on.
 	 * @return the CTabFolder that contains the data
 	 */
-	public static final CTabFolder display(Shell shell) {
+	public static final CTabFolder display(Composite parent) {
 		restoreSettings();
 
-		final Composite displayComposite = new Composite(shell, SWT.BORDER);
+		final Composite displayComposite = new Composite(parent, SWT.BORDER);
 		displayComposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1));
 		displayComposite.setLayout(new FillLayout());
 

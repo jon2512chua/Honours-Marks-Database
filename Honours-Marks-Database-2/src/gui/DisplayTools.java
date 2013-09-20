@@ -1,5 +1,12 @@
 package gui;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Properties;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -16,11 +23,10 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.graphics.Point;
 
 /**
  * Displays the Tools section
@@ -28,8 +34,11 @@ import org.eclipse.swt.graphics.Point;
  */
 public class DisplayTools {
 	private static Text text;
-	private static int radioSelection = 4;
-	private static Point comboSelection = new Point(0, 0);	//TODO: check that this works, once saving loading is implemented
+	private static String setText;
+	private static int radioSelection;
+	private static int comboSelection;
+	
+	public static final String settingsFileName = "settings";
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -99,26 +108,31 @@ public class DisplayTools {
 		});
 		text.setTextLimit(3);
 		text.setLayoutData(new RowData(25, SWT.DEFAULT));
-		//text.setText("");		//TODO: not needed?
+		text.setText(setText);
 
 		final Combo combo = new Combo(custombackupComposite, SWT.READ_ONLY);
 		combo.add("hours");
 		combo.add("days");
 		combo.add("weeks");
 
-		//Sets some controls initially disabled
-		//TODO: may be able to be removed once we load settings
-		for ( Control ctrl : custombackupComposite.getChildren() ) ctrl.setEnabled(!ctrl.getEnabled());
-
 		Button btnSaveChanges = new Button(radioButtonComposite, SWT.NONE);
 		btnSaveChanges.setText("Save Changes");
 
 		//Displays previously saved settings
-		((Button) radioButtonComposite.getChildren()[radioSelection]).setSelection(true);
-		combo.setSelection(comboSelection);
+		try {
+			((Button) radioButtonComposite.getChildren()[radioSelection]).setSelection(true);
+			combo.select(comboSelection);
+		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
+			System.err.println("Warning: Invalid settings file. Default values have been loaded.");
+			radioSelection = 5;
+			comboSelection = 0;
+			((Button) radioButtonComposite.getChildren()[radioSelection]).setSelection(true);
+			combo.select(comboSelection);
+		}
+		
+		SelectionListener btnBackupCustomListene = new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
-		//Custom Button radio listener. Disables some controls if not selected.
-		btnBackupCustom.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (btnBackupCustom.getSelection()) {
 					for ( Control ctrl : custombackupComposite.getChildren() ) ctrl.setEnabled(true);
@@ -126,11 +140,17 @@ public class DisplayTools {
 					for ( Control ctrl : custombackupComposite.getChildren() ) ctrl.setEnabled(false);
 				}
 			}
-		});
+		};
+		btnBackupCustom.addSelectionListener(btnBackupCustomListene);
+		btnBackupCustom.notifyListeners(SWT.Selection, new Event());	//Sets listener to check once on startup
+		
 
 		//Save button Listener
 		Listener btnSaveChangesListener = new Listener() {
 			public void handleEvent(Event event) {
+				comboSelection = combo.getSelectionIndex();
+				radioSelection = 0;
+				while (((Button) radioButtonComposite.getChildren()[radioSelection]).getSelection() == false && radioSelection<100) radioSelection++;
 				saveSettings();
 			}
 		};
@@ -143,16 +163,38 @@ public class DisplayTools {
 	 * Save settings
 	 */
 	private static final void saveSettings() {
-		System.out.println("Backup settings saved");	//TODO: remove
-		PopupWindow.display(text.getDisplay(), "Backup settings saved.", "Saved");
-		//TODO: save somewhere
+        try {
+            Properties props = new Properties();
+            props.setProperty("text", text.getText());
+            props.setProperty("radioSelection", ""+radioSelection);
+            props.setProperty("comboSelection", ""+comboSelection);
+            
+            OutputStream out = new FileOutputStream(new File(settingsFileName));
+            props.store(out, "HMD Settings File");
+    		PopupWindow.display(text.getDisplay(), "Backup settings saved.", "Saved");
+        }
+        catch (Exception e ) {
+            e.printStackTrace();
+        }
+
 	}
 
 	/**
 	 * Restore settings
 	 */
 	private static final void restoreSettings() {
-		System.out.println("Backup settings loaded");	//TODO: remove
-		//TODO: load from somewhere		
+		Properties props = new Properties();
+		InputStream is = null;
+
+		// Try loading from the current directory
+		try {
+			is = new FileInputStream( new File(settingsFileName) );
+			// Try loading properties from the file (if found)
+			props.load( is );
+		} catch (Exception e) {is = null;}
+		
+		setText = new String(props.getProperty("text", "0"));
+		radioSelection = new Integer(props.getProperty("radioSelection", "5"));
+		comboSelection = new Integer(props.getProperty("comboSelection", "0"));
 	}
 }

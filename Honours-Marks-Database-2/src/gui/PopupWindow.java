@@ -25,9 +25,7 @@ public class PopupWindow {
 	public static void display(Display display, String text, String title) {
 		final Shell shell = new Shell(display, SWT.CLOSE | SWT.TITLE);
 
-		// =====================
 		// Set the Window Title
-		// =====================
 		shell.setText(title);
 		RowLayout rl_shell = new RowLayout(SWT.VERTICAL);
 		rl_shell.marginTop = 8;
@@ -38,9 +36,7 @@ public class PopupWindow {
 		rl_shell.center = true;
 		shell.setLayout(rl_shell);
 
-		// ============================
 		// Create a Label in the Shell
-		// ============================
 		Label label = new Label(shell, SWT.NONE);
 		label.setText(text);
 
@@ -50,7 +46,7 @@ public class PopupWindow {
 
 		shell.pack();
 		shell.open();
-		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 200);	//Centers popup
+		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
 
 		//Button listener to deal with the button being pressed
 		Listener btnBackupListener = new Listener() {

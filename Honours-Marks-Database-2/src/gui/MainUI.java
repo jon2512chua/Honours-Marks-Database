@@ -22,12 +22,10 @@ import org.eclipse.swt.custom.StackLayout;
 public class MainUI {
 
 	//Constants
-	final static int DefaultHeight = 600;
-	final static int DefaultWidth = 900;
-	final static int LColumnWidth = 200;	//TODO: calculate dynamically
-	final static int RColumnWidth = 500;
-
-	//static Display display = null;
+	private final static int DefaultHeight = 600;
+	private final static int DefaultWidth = 900;
+	public final static int LColumnWidth = 200;	//TODO: calculate dynamically
+	public final static int RColumnWidth = 500;
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -243,5 +241,11 @@ public class MainUI {
 		showTabFolder.getParent().getParent().layout();
 		showTabFolder.getShell().setText(title);
 	}
+	
+	//TODO: Tree *should* update automatically. If not, try this:
+	/*public static void refresh(TreeItem ctrl, Tree tree) {
+		//tree.getItems()	//list of all children
+		//TreeItemsetSelection() //might work
+	}*/
 
 }

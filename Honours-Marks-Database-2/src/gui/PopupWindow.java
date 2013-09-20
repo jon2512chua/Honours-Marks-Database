@@ -1,29 +1,38 @@
 package gui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Canvas;
 
 /**
  * Popup Windows
  * @author Tim Lander
  */
 public class PopupWindow {
+	private static Text userNameText;
+	private static Text passwordText;
 	/**
 	 * Popups a message. No line wrapping currently implemented.
-	 * @wbp.parser.entryPoint
-	 * @param display the display currently in use
+	 * @param parentShell the display currently in use
 	 * @param text the text the popup displays 
 	 * @param title the title to display
 	 */
-	public static void display(Display display, String text, String title) {
-		final Shell shell = new Shell(display, SWT.CLOSE | SWT.TITLE);
+	public static void popupMessage(Shell parentShell, String text, String title) {
+		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 
 		// Set the Window Title
 		shell.setText(title);
@@ -67,4 +76,137 @@ public class PopupWindow {
 		});*/
 	}
 
+
+	/**
+	 * @wbp.parser.entryPoint
+	 * @param parentShell
+	 * @return
+	 */
+	public static void popupLogon(Shell parentShell) {
+		final Shell shell = new Shell(parentShell, SWT.TITLE);
+		//shell.setSize(408, 235);
+
+		// Set the Window Title
+		shell.setText("Log On to the HMD System");
+		GridLayout gl_shell = new GridLayout(3, false);
+		gl_shell.marginWidth = 0;
+		gl_shell.marginHeight = 0;
+		gl_shell.marginBottom = 10;
+		shell.setLayout(gl_shell);
+
+		Composite composite_2 = new Composite(shell, SWT.NONE);
+		RowLayout rl_composite_2 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_2.marginLeft = 0;
+		rl_composite_2.marginTop = 0;
+		rl_composite_2.marginRight = 0;
+		rl_composite_2.marginBottom = 0;
+		rl_composite_2.center = true;
+		//rl_composite_2.fill = true;
+		composite_2.setLayout(rl_composite_2);
+		GridData gd_composite_2 = new GridData(SWT.CENTER, SWT.CENTER, true, true, 3, 1);
+		gd_composite_2.widthHint = 550;
+		gd_composite_2.heightHint = 200;
+		composite_2.setLayoutData(gd_composite_2);
+
+		Label label = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
+		GridData gd_label = new GridData(SWT.CENTER, SWT.TOP, true, false, 3, 1);
+		gd_label.widthHint = 550;
+		label.setLayoutData(gd_label);
+
+		//composite_2.pack();
+
+		Canvas canvas = new Canvas(composite_2, SWT.NONE);
+		canvas.setLayoutData(new RowData(550, 200));
+		Image image = new Image(parentShell.getDisplay(), "splash.png");
+		canvas.setBackgroundImage(image );
+
+		Label userNameLabel = new Label(shell, SWT.NONE);
+		GridData gd_userNameLabel = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_userNameLabel.verticalIndent = 10;
+		gd_userNameLabel.horizontalIndent = 10;
+		userNameLabel.setLayoutData(gd_userNameLabel);
+		userNameLabel.setText("User Name:");
+		userNameText = new Text(shell, SWT.BORDER);
+		GridData gd_userNameText = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
+		gd_userNameText.horizontalIndent = 20;
+		gd_userNameText.verticalIndent = 10;
+		gd_userNameText.widthHint = 350;
+		userNameText.setLayoutData(gd_userNameText);
+		new Label(shell, SWT.NONE);
+
+		Label passwordLabel = new Label(shell, SWT.NONE);
+		GridData gd_passwordLabel = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_passwordLabel.horizontalIndent = 10;
+		passwordLabel.setLayoutData(gd_passwordLabel);
+		passwordLabel.setText("Password:");
+		passwordText = new Text(shell, SWT.BORDER | SWT.PASSWORD);
+		GridData gd_passwordText = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
+		gd_passwordText.horizontalIndent = 20;
+		gd_passwordText.widthHint = 350;
+		passwordText.setLayoutData(gd_passwordText);
+		new Label(shell, SWT.NONE);
+
+
+
+
+
+
+		Composite composite = new Composite(shell, SWT.NONE);
+		GridData gd_composite = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1);
+		gd_composite.verticalIndent = 20;
+		composite.setLayoutData(gd_composite);
+		RowLayout rl_composite = new RowLayout(SWT.HORIZONTAL);
+		rl_composite.center = true;
+		composite.setLayout(rl_composite);
+
+		Button btnOK = new Button(composite, SWT.CENTER);
+		btnOK.setLayoutData(new RowData(75, SWT.DEFAULT));
+		btnOK.setText("OK");
+
+		Button btnClear = new Button(composite, SWT.CENTER);
+		btnClear.setLayoutData(new RowData(75, SWT.DEFAULT));
+		btnClear.setText("Clear");
+
+		Button btnQuit = new Button(composite, SWT.CENTER);
+		btnQuit.setLayoutData(new RowData(75, SWT.DEFAULT));
+		btnQuit.setText("Quit");
+
+		//Button listener to deal with the OK button being pressed
+		Listener btnOKistener = new Listener() {
+			public void handleEvent(Event event) {
+				//TODO: username/password validation
+				shell.dispose();
+			}
+		};
+		btnOK.addListener(SWT.Selection, btnOKistener);
+
+		//Button listener to deal with the button clear being pressed
+		Listener btnClearListener = new Listener() {
+			public void handleEvent(Event event) {
+				userNameText.setText("");
+				passwordText.setText("");
+			}
+		};
+		btnClear.addListener(SWT.Selection, btnClearListener);
+
+		//Button listener to deal with the Quit button being pressed
+		Listener btnQuitListener = new Listener() {
+			public void handleEvent(Event event) {
+				shell.getParent().dispose();
+			}
+		};
+		btnQuit.addListener(SWT.Selection, btnQuitListener);
+
+		DisposeListener logOnListner = new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
+			}
+		};
+		shell.addDisposeListener(logOnListner);
+
+		shell.pack();
+		shell.open();
+		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 150);
+
+	}
 }

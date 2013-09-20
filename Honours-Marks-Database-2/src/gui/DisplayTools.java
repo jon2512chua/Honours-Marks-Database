@@ -171,7 +171,7 @@ public class DisplayTools {
             
             OutputStream out = new FileOutputStream(new File(settingsFileName));
             props.store(out, "HMD Settings File");
-    		PopupWindow.display(text.getDisplay(), "Backup settings saved.", "Saved");
+    		PopupWindow.popupMessage(text.getShell(), "Backup settings saved.", "Saved");
         }
         catch (Exception e ) {
             e.printStackTrace();

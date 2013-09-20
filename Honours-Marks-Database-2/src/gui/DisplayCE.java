@@ -28,21 +28,31 @@ public class DisplayCE {
 		final CTabFolder CETabFolder = new CTabFolder(displayComposite, SWT.NONE);
 		CETabFolder.setSelectionBackground(Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		
-		//Create Backup Data
 		CTabItem tbtmEditStudent = new CTabItem(CETabFolder, SWT.NONE);
 		tbtmEditStudent.setText("Edit Student");
 		
-	//TODO: replace
+		CTabItem tbtmEditStaff = new CTabItem(CETabFolder, SWT.NONE);
+		tbtmEditStaff.setText("Edit Staff");
+		
+		CTabItem tbtmEditCourse = new CTabItem(CETabFolder, SWT.NONE);
+		tbtmEditCourse.setText("Edit Course");
+		
+		CTabItem tbtmEditUnit = new CTabItem(CETabFolder, SWT.NONE);
+		tbtmEditUnit.setText("Edit Unit");
+		
+		CTabItem tbtmEditAssessment = new CTabItem(CETabFolder, SWT.NONE);
+		tbtmEditAssessment.setText("Edit Assessment");
+		
+		
+	//TODO: replace with student tuff
 		Button btnNewButton1 = new Button(CETabFolder, SWT.NONE);
 		btnNewButton1.setText("TODO:delete button, replace with student stuff");
 
 		tbtmEditStudent.setControl(btnNewButton1);
 	//End replace
 		
-		CTabItem tbtmEditStaff = new CTabItem(CETabFolder, SWT.NONE);
-		tbtmEditStaff.setText("Edit Staff");
 		
-	//TODO: replace
+	//TODO: replace with staff stuff
 		Button btnNewButton2 = new Button(CETabFolder, SWT.NONE);
 		btnNewButton2.setText("TODO:delete button, replace with staff stuff");
 		

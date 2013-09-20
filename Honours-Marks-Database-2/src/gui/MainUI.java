@@ -60,6 +60,14 @@ public class MainUI {
 		Button btnMarkerReport = new Button(grpReports, SWT.NONE);
 		btnMarkerReport.setAlignment(SWT.LEFT);
 		btnMarkerReport.setText("Marker Report");
+		
+		Button btnUnitReport = new Button(grpReports, SWT.NONE);
+		btnUnitReport.setAlignment(SWT.LEFT);
+		btnUnitReport.setText("Unit Report");
+		
+		Button btnCohortReport = new Button(grpReports, SWT.NONE);
+		btnCohortReport.setAlignment(SWT.LEFT);
+		btnCohortReport.setText("Cohort Report");
 
 		Group grpEditing = new Group(menuComposite, SWT.NONE);
 		grpEditing.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
@@ -73,6 +81,18 @@ public class MainUI {
 		Button btnEditStaff = new Button(grpEditing, SWT.NONE);
 		btnEditStaff.setAlignment(SWT.LEFT);
 		btnEditStaff.setText("Edit Staff");
+		
+		Button btnEditCourse = new Button(grpEditing, SWT.NONE);
+		btnEditCourse.setAlignment(SWT.LEFT);
+		btnEditCourse.setText("Edit Course");
+		
+		Button btnEditUnit = new Button(grpEditing, SWT.NONE);
+		btnEditUnit.setAlignment(SWT.LEFT);
+		btnEditUnit.setText("Edit Unit");
+		
+		Button btnEditAssessment = new Button(grpEditing, SWT.NONE);
+		btnEditAssessment.setAlignment(SWT.LEFT);
+		btnEditAssessment.setText("Edit Assessment");
 
 		Group grpTools = new Group(menuComposite, SWT.NONE);
 		grpTools.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
@@ -81,7 +101,16 @@ public class MainUI {
 
 		Button btnBackup = new Button(grpTools, SWT.NONE);
 		btnBackup.setAlignment(SWT.LEFT);
-		btnBackup.setText("Backup");		
+		btnBackup.setText("Backup");
+		
+		Button btnImport = new Button(grpTools, SWT.NONE);
+		btnImport.setAlignment(SWT.LEFT);
+		btnImport.setText("Import Data");
+
+		Button btnExport = new Button(grpTools, SWT.NONE);
+		btnExport.setAlignment(SWT.LEFT);
+		btnExport.setText("Export Data");
+		
 
 		final Composite displayComposite = new Composite(shell, SWT.NONE);
 		displayComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -112,6 +141,20 @@ public class MainUI {
 			}
 		};
 		btnMarkerReport.addListener(SWT.Selection, btnMarkerReportListener);
+		
+		Listener btnUnitReportListener = new Listener() {
+			public void handleEvent(Event event) {
+				showScreen(reportTabFolder, sl_displayComposite, 2, "Reports");
+			}
+		};
+		btnUnitReport.addListener(SWT.Selection, btnUnitReportListener);
+		
+		Listener btnCohortReportListener = new Listener() {
+			public void handleEvent(Event event) {
+				showScreen(reportTabFolder, sl_displayComposite, 3, "Reports");
+			}
+		};
+		btnCohortReport.addListener(SWT.Selection, btnCohortReportListener);
 
 		Listener btnEditStudentListener = new Listener() {
 			public void handleEvent(Event event) {
@@ -126,6 +169,27 @@ public class MainUI {
 			}
 		};
 		btnEditStaff.addListener(SWT.Selection, btnEditStaffListener);
+		
+		Listener btnEditCourseListener = new Listener() {
+			public void handleEvent(Event event) {
+				showScreen(CETabFolder, sl_displayComposite, 2, "Creation/Editing");
+			}
+		};
+		btnEditCourse.addListener(SWT.Selection, btnEditCourseListener);
+		
+		Listener btnEditUnitListener = new Listener() {
+			public void handleEvent(Event event) {
+				showScreen(CETabFolder, sl_displayComposite, 3, "Creation/Editing");
+			}
+		};
+		btnEditUnit.addListener(SWT.Selection, btnEditUnitListener);
+		
+		Listener btnEditAssessmentListener = new Listener() {
+			public void handleEvent(Event event) {
+				showScreen(CETabFolder, sl_displayComposite, 4, "Creation/Editing");
+			}
+		};
+		btnEditAssessment.addListener(SWT.Selection, btnEditAssessmentListener);
 
 		Listener btnBackupListener = new Listener() {
 			public void handleEvent(Event event) {
@@ -133,6 +197,20 @@ public class MainUI {
 			}
 		};
 		btnBackup.addListener(SWT.Selection, btnBackupListener);
+		
+		Listener btnImportListener = new Listener() {
+			public void handleEvent(Event event) {
+				showScreen(toolsTabFolder, sl_displayComposite, 1, "Tools");
+			}
+		};
+		btnImport.addListener(SWT.Selection, btnImportListener);
+		
+		Listener btnExportListener = new Listener() {
+			public void handleEvent(Event event) {
+				showScreen(toolsTabFolder, sl_displayComposite, 2, "Tools");
+			}
+		};
+		btnExport.addListener(SWT.Selection, btnExportListener);
 
 		//Set Initial Screen
 		shell.setText("CITS3200 Program");

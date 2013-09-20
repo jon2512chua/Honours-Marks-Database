@@ -47,10 +47,16 @@ public class DisplayTools {
 		final CTabFolder toolsTabFolder = new CTabFolder(displayComposite, SWT.NONE);
 		toolsTabFolder.setSelectionBackground(Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 
-		//Create Backup Data
 		CTabItem tbtmTools = new CTabItem(toolsTabFolder, SWT.NONE);
 		tbtmTools.setText("Schedule Backup");
+		
+		CTabItem tbtmImport = new CTabItem(toolsTabFolder, SWT.NONE);
+		tbtmImport.setText("Import Data");
+		
+		CTabItem tbtmExport = new CTabItem(toolsTabFolder, SWT.NONE);
+		tbtmExport.setText("Export Data");
 
+		//Create Backup Data
 		final Composite radioButtonComposite = new Composite(toolsTabFolder, SWT.NONE);
 		tbtmTools.setControl(radioButtonComposite);
 		radioButtonComposite.setLayout(new RowLayout(SWT.VERTICAL));
@@ -133,14 +139,18 @@ public class DisplayTools {
 		return toolsTabFolder;
 	}
 
-	//Save settings
+	/**
+	 * Save settings
+	 */
 	private static final void saveSettings() {
 		System.out.println("Backup settings saved");	//TODO: remove
 		PopupWindow.display(text.getDisplay(), "Backup settings saved.", "Saved");
 		//TODO: save somewhere
 	}
 
-	//Restore settings
+	/**
+	 * Restore settings
+	 */
 	private static final void restoreSettings() {
 		System.out.println("Backup settings loaded");	//TODO: remove
 		//TODO: load from somewhere		

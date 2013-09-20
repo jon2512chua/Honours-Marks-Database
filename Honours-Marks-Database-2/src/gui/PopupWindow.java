@@ -170,7 +170,7 @@ public class PopupWindow {
 		btnQuit.setText("Quit");
 
 		//Button listener to deal with the OK button being pressed
-		Listener btnOKistener = new Listener() {
+		Listener btnOKListener = new Listener() {
 			@SuppressWarnings("unused")			///TODO: delete after validation is added in
 			public void handleEvent(Event event) {
 				//TODO: username/password validation
@@ -181,7 +181,7 @@ public class PopupWindow {
 				} else popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
 			}
 		};
-		btnOK.addListener(SWT.Selection, btnOKistener);
+		btnOK.addListener(SWT.Selection, btnOKListener);
 
 		//Button listener to deal with the button clear being pressed
 		Listener btnClearListener = new Listener() {

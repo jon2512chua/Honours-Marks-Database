@@ -1,6 +1,9 @@
 package gui;
 
+import java.io.File;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -81,6 +84,7 @@ public class PopupWindow {
 	 * @return
 	 */
 	public static void popupLogon(Shell parentShell) {
+		final String imageFileName = "splash.png";
 		final Shell shell = new Shell(parentShell, SWT.TITLE);
 
 		// Set the Window Title
@@ -105,8 +109,12 @@ public class PopupWindow {
 		imageComposite.setLayoutData(gd_imageComposite);
 		Canvas canvas = new Canvas(imageComposite, SWT.NONE);
 		canvas.setLayoutData(new RowData(550, 200));
-		Image splashImage = new Image(parentShell.getDisplay(), "splash.png");
-		canvas.setBackgroundImage(splashImage );
+		try {
+			Image splashImage = new Image(parentShell.getDisplay(), imageFileName);
+			canvas.setBackgroundImage(splashImage);
+		} catch (SWTException e) {
+			System.err.println("Warning: The file " + (new File(imageFileName)).toURI() + " was unable to be located.");
+		}
 
 		Label seperator = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
 		GridData gd_seperator = new GridData(SWT.CENTER, SWT.TOP, true, false, 3, 1);

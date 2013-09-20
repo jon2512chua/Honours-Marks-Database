@@ -7,7 +7,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -222,7 +221,6 @@ public class MainUI {
 		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 80);
 		
 		//Displays Log On screen
-		for ( Control ctrl : shell.getChildren() ) ctrl.setEnabled(false);	//Disables elements while the logon screen is displayed
 		PopupWindow.popupLogon(shell);
 
 		while (!shell.isDisposed()) {

@@ -31,6 +31,7 @@ public class PopupWindow {
 	 * @param parentShell the display currently in use
 	 * @param text the text the popup displays 
 	 * @param title the title to display
+	 * @wbp.parser.entryPoint
 	 */
 	public static void popupMessage(Shell parentShell, String text, String title) {
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
@@ -47,7 +48,7 @@ public class PopupWindow {
 		shell.setLayout(rl_shell);
 
 		// Create a Label in the Shell
-		Label label = new Label(shell, SWT.NONE);
+		Label label = new Label(shell, SWT.WRAP);
 		label.setText(text);
 
 		Button btnOk = new Button(shell, SWT.CENTER);
@@ -79,13 +80,14 @@ public class PopupWindow {
 
 
 	/**
-	 * @wbp.parser.entryPoint
+	 * Popups a log on screen. Controls are disabled until a account is accepted.
 	 * @param parentShell
-	 * @return
 	 */
-	public static void popupLogon(Shell parentShell) {
+	public static void popupLogon(Shell parentShell) {		//TODO: perhaps add a forgotten password button?
 		final String imageFileName = "splash.png";
 		final Shell shell = new Shell(parentShell, SWT.TITLE);
+		//Disables controls while the logon screen is displayed
+		for ( Control ctrl : shell.getChildren() ) ctrl.setEnabled(false);
 
 		// Set the Window Title
 		shell.setText("Log On to the HMD System");
@@ -169,11 +171,14 @@ public class PopupWindow {
 
 		//Button listener to deal with the OK button being pressed
 		Listener btnOKistener = new Listener() {
+			@SuppressWarnings("unused")			///TODO: delete after validation is added in
 			public void handleEvent(Event event) {
 				//TODO: username/password validation
-
-				for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
-				shell.dispose();
+				if (true) {
+					//Enables controls
+					for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
+					shell.dispose();
+				} else popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
 			}
 		};
 		btnOK.addListener(SWT.Selection, btnOKistener);

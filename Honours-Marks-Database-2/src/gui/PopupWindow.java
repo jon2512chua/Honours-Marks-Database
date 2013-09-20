@@ -6,8 +6,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
@@ -84,7 +82,6 @@ public class PopupWindow {
 	 */
 	public static void popupLogon(Shell parentShell) {
 		final Shell shell = new Shell(parentShell, SWT.TITLE);
-		//shell.setSize(408, 235);
 
 		// Set the Window Title
 		shell.setText("Log On to the HMD System");
@@ -94,31 +91,27 @@ public class PopupWindow {
 		gl_shell.marginBottom = 10;
 		shell.setLayout(gl_shell);
 
-		Composite composite_2 = new Composite(shell, SWT.NONE);
-		RowLayout rl_composite_2 = new RowLayout(SWT.HORIZONTAL);
-		rl_composite_2.marginLeft = 0;
-		rl_composite_2.marginTop = 0;
-		rl_composite_2.marginRight = 0;
-		rl_composite_2.marginBottom = 0;
-		rl_composite_2.center = true;
-		//rl_composite_2.fill = true;
-		composite_2.setLayout(rl_composite_2);
-		GridData gd_composite_2 = new GridData(SWT.CENTER, SWT.CENTER, true, true, 3, 1);
-		gd_composite_2.widthHint = 550;
-		gd_composite_2.heightHint = 200;
-		composite_2.setLayoutData(gd_composite_2);
-
-		Label label = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
-		GridData gd_label = new GridData(SWT.CENTER, SWT.TOP, true, false, 3, 1);
-		gd_label.widthHint = 550;
-		label.setLayoutData(gd_label);
-
-		//composite_2.pack();
-
-		Canvas canvas = new Canvas(composite_2, SWT.NONE);
+		Composite imageComposite = new Composite(shell, SWT.NONE);
+		RowLayout rl_imageComposite = new RowLayout(SWT.HORIZONTAL);
+		rl_imageComposite.marginLeft = 0;
+		rl_imageComposite.marginTop = 0;
+		rl_imageComposite.marginRight = 0;
+		rl_imageComposite.marginBottom = 0;
+		rl_imageComposite.center = true;
+		imageComposite.setLayout(rl_imageComposite);
+		GridData gd_imageComposite = new GridData(SWT.CENTER, SWT.CENTER, true, true, 3, 1);
+		gd_imageComposite.widthHint = 550;
+		gd_imageComposite.heightHint = 200;
+		imageComposite.setLayoutData(gd_imageComposite);
+		Canvas canvas = new Canvas(imageComposite, SWT.NONE);
 		canvas.setLayoutData(new RowData(550, 200));
-		Image image = new Image(parentShell.getDisplay(), "splash.png");
-		canvas.setBackgroundImage(image );
+		Image splashImage = new Image(parentShell.getDisplay(), "splash.png");
+		canvas.setBackgroundImage(splashImage );
+
+		Label seperator = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
+		GridData gd_seperator = new GridData(SWT.CENTER, SWT.TOP, true, false, 3, 1);
+		gd_seperator.widthHint = 550;
+		seperator.setLayoutData(gd_seperator);
 
 		Label userNameLabel = new Label(shell, SWT.NONE);
 		GridData gd_userNameLabel = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -146,28 +139,23 @@ public class PopupWindow {
 		passwordText.setLayoutData(gd_passwordText);
 		new Label(shell, SWT.NONE);
 
+		Composite buttonsComposite = new Composite(shell, SWT.NONE);
+		GridData gd_buttonsComposite = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1);
+		gd_buttonsComposite.verticalIndent = 20;
+		buttonsComposite.setLayoutData(gd_buttonsComposite);
+		RowLayout rl_buttonsComposite = new RowLayout(SWT.HORIZONTAL);
+		rl_buttonsComposite.center = true;
+		buttonsComposite.setLayout(rl_buttonsComposite);
 
-
-
-
-
-		Composite composite = new Composite(shell, SWT.NONE);
-		GridData gd_composite = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1);
-		gd_composite.verticalIndent = 20;
-		composite.setLayoutData(gd_composite);
-		RowLayout rl_composite = new RowLayout(SWT.HORIZONTAL);
-		rl_composite.center = true;
-		composite.setLayout(rl_composite);
-
-		Button btnOK = new Button(composite, SWT.CENTER);
+		Button btnOK = new Button(buttonsComposite, SWT.CENTER);
 		btnOK.setLayoutData(new RowData(75, SWT.DEFAULT));
 		btnOK.setText("OK");
 
-		Button btnClear = new Button(composite, SWT.CENTER);
+		Button btnClear = new Button(buttonsComposite, SWT.CENTER);
 		btnClear.setLayoutData(new RowData(75, SWT.DEFAULT));
 		btnClear.setText("Clear");
 
-		Button btnQuit = new Button(composite, SWT.CENTER);
+		Button btnQuit = new Button(buttonsComposite, SWT.CENTER);
 		btnQuit.setLayoutData(new RowData(75, SWT.DEFAULT));
 		btnQuit.setText("Quit");
 
@@ -175,6 +163,8 @@ public class PopupWindow {
 		Listener btnOKistener = new Listener() {
 			public void handleEvent(Event event) {
 				//TODO: username/password validation
+
+				for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
 				shell.dispose();
 			}
 		};
@@ -196,13 +186,6 @@ public class PopupWindow {
 			}
 		};
 		btnQuit.addListener(SWT.Selection, btnQuitListener);
-
-		DisposeListener logOnListner = new DisposeListener() {
-			public void widgetDisposed(DisposeEvent e) {
-				for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
-			}
-		};
-		shell.addDisposeListener(logOnListner);
 
 		shell.pack();
 		shell.open();

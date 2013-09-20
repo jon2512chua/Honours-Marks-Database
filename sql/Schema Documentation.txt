@@ -1,0 +1,67 @@
+This database schema defines a databse to hold marks for an honurs course.
+
+The "Staff" table:
+It is a table to hold information about markers and supervisors.
+StaffID holds a unique identifier for each staff member; either their UWA staff number, or if they
+do not have one, a uniquely generated number.
+FirstName and LastName hold the first and last name of the staff member.
+
+The "Student" table:
+It is a table to hold information about students.
+StudentID holds the student's unique student number.
+FirstName and LastName hold the first and last name of the student.
+DissTitle is the title of that student's dissertation.
+Discipline is the discipline being studied by that student; one of ANHB, PHYL, NEURO, or BIOMS
+Supervisors1-4 are the StaffIDs corresponding to that student's supervisor
+
+The "Unit" table:
+It is a table to hold information about units.
+UnitCode is the unique 4 letter, 4 number code for the unit.
+UnitName is the name of the unit.
+Points is the number of points the unit is worth (ie. 6 or 12).
+
+The "Discipline" table:
+It is a table to hold information about disciplines.
+DisciplineName is the name of the discipline, corresponding to the Discipline field in the Student table
+UnitCode1-4 are the units that are studied under the discipline, corresponding to the UnitCode in the Unit table.
+
+The "Assessment" table:
+It is a table to hold information about assessments.
+AssessmentID is a uniquely generated integer to refer to each assessment.
+AssessmentName is the name of the assessment.
+UnitCode is the UnitCode of the unit for which this assessment was set.
+UnitPercent is the percentage of that unit that this assessment makes up.
+
+The "SubAssessment" table:
+It is a table to hold information about subassessments.
+SubAssessmentID is a uniquely generated integer to refer to each subassessment.
+SubAssessmentName is the name of the subassessment.
+AssessmentID is the AssessmentID for the assessment that this subassessment is a part of.
+AssessmentPercent is the percentage of that assessment that this subassessment makes up.
+MaxMarks is the number of marks this subassessment was marked out of.
+
+The "SubAssessmentMarks" table:
+It is a table to hold information about subassessment marks.
+MarkID is a uniquely generated integer to refer to each subassessment mark.
+Mark is the integer value of the mark given.
+MarkerID is the StaffID of the marker that gave the mark.
+StudentID is the StudentID of the student that recieved this mark.
+SubAssessmentID is the subassessment that this mark was given for.
+InsideRange is an integer to be set to 0 or 1, to tell if the mark is or isn't within 2 standard deviations
+of the average for this student; 0 if it is, 1 if it isn't. If it is outside this range, it is a flag to
+disregard the mark.
+
+The "AssessmentMarks" table:
+It is a table to hold information about assessment marks.
+MarkID is a uniquely generated integer to refer to each assessment mark.
+Mark is the integer value of the mark given.
+StudentID is the StudentID of the student that recieved this mark.
+AssessmentID is the assessment that this mark was given for.
+
+The "UnitMarks" table:
+It is a table to hold information about whole unit marks.
+MarkID is a uniquely generated integer to refer to each unit mark.
+Mark is the integer value of the mark given.
+Grade is the corresponding grade for that mark (ie. C for 60-69, D for 70-79, etc.)
+StudentID is the StudentID of the student that recieved this mark.
+UnitCode is the unit that this mark was given for.

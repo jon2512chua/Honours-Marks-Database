@@ -12,17 +12,20 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 /**
  * Edit Students Section
  * @author Tim Lander
  */
 public class PopulateEditStudent {
-	private static Text studentNumber;
-	private static Text title;
-	private static Text lastName;
-	private static Text firstName;
-	private static Text dissertationTitle;
+	//TODO: getters/setters
+	public static Text studentNumber;
+	public static Text title;
+	public static Text lastName;
+	public static Text firstName;
+	public static Text dissertationTitle;
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -69,18 +72,7 @@ public class PopulateEditStudent {
 		studentNumber = new Text(rComposite, SWT.BORDER);
 		studentNumber.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		studentNumber.setTextLimit(8);
-		Validation.validateNumber(studentNumber);
-		/*studentNumber.addVerifyListener(new VerifyListener() {
-			public void verifyText(VerifyEvent e) {		//Check if the value entered is an integer
-				if (e.character != '\u0008' && e.character != '\u007F') {	//Allows backspace/delete
-					try {
-						Integer.parseInt(e.text);
-					} catch (final NumberFormatException numberFormatException) {
-						e.doit = false;
-					}
-				}
-			}
-		});*/
+		Validation.validateInt(studentNumber);
 
 		Label lblTitle = new Label(rComposite, SWT.NONE);
 		lblTitle.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -133,7 +125,7 @@ public class PopulateEditStudent {
 
 		Button btnDiscardChanges = new Button(buttonsComposite, SWT.NONE);
 		btnDiscardChanges.setText("Discard Changes");
-		
+
 
 		//Auto Fit Columns
 		for (TreeColumn tc : supervisorTree.getColumns()) tc.pack();
@@ -141,9 +133,47 @@ public class PopulateEditStudent {
 		for (TreeColumn tc : studentTree.getColumns()) tc.pack();
 		studentTree.pack();
 
+		studentTree.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (studentTree.getSelectionCount() == 1)  {
+					TreeItem item = studentTree.getSelection()[0];
+					switch(item.getText()) {
+					case "20355999": populateSelectedData(0);
+					break;
+					case "20199654": populateSelectedData(1);
+					break;
+					case "10965484": populateSelectedData(2);
+					break;
+					case "20698762": populateSelectedData(3);
+					break;
+					case "10779849": populateSelectedData(4);
+					break;
+					default: populateSelectedData();
+					break;
+					}
+				}
+			}
+		});
 
 		return editStudentComposite;
 
+	}
+
+	private static void populateSelectedData(int index) {
+		studentNumber.setText(Data.StudentNumber[index]);
+		title.setText(Data.StudentNameTitle[index]);
+		lastName.setText(Data.StudentNameLast[index]);
+		firstName.setText(Data.StudentNameFirst[index]);
+		dissertationTitle.setText(Data.StudentDissTitle[index]);
+
+	}
+
+	private static void populateSelectedData() {
+		studentNumber.setText("");
+		title.setText("");
+		lastName.setText("");
+		firstName.setText("");
+		dissertationTitle.setText("");
 	}
 
 }

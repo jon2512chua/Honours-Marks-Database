@@ -96,7 +96,7 @@ public class DisplayTools {
 		lblNewLabel.setText("Backup Every:");
 
 		text = new Text(custombackupComposite, SWT.BORDER | SWT.RIGHT);
-		Validation.validateNumber(text);
+		Validation.validateInt(text);
 		text.setTextLimit(3);
 		text.setLayoutData(new RowData(25, SWT.DEFAULT));
 		text.setText(setText);

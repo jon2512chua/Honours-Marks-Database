@@ -18,11 +18,11 @@ import org.eclipse.swt.widgets.Text;
  * @author Tim Lander
  */
 public class DisplaySettings {
-	private static Text text;
-	private static Text text_1;
-	private static Text text_2;
-	private static Text text_3;
-	private static Text text_4;
+	private static Text usernameText;
+	private static Text newPasswordText;
+	private static Text retypeNewPasswordtext;
+	private static Text emailText;
+	private static Text currentPasswordText;
 	/**
 	 * @param parent the composite the data is displayed on.
 	 * @return the CTabFolder that contains the data
@@ -48,37 +48,37 @@ public class DisplaySettings {
 		lblUsername.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblUsername.setText("Username:");
 		
-		text = new Text(accountSettingsComposite, SWT.BORDER);
-		GridData gd_text = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_text.widthHint = 350;
-		text.setLayoutData(gd_text);
+		usernameText = new Text(accountSettingsComposite, SWT.BORDER);
+		GridData gd_usernameText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_usernameText.widthHint = 350;
+		usernameText.setLayoutData(gd_usernameText);
 		
 		Label lblEmailAddress = new Label(accountSettingsComposite, SWT.NONE);
 		lblEmailAddress.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblEmailAddress.setText("Email Address:");
 		
-		text_3 = new Text(accountSettingsComposite, SWT.BORDER);
-		GridData gd_text_3 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_text_3.widthHint = 350;
-		text_3.setLayoutData(gd_text_3);
+		emailText = new Text(accountSettingsComposite, SWT.BORDER);
+		GridData gd_emailText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_emailText.widthHint = 350;
+		emailText.setLayoutData(gd_emailText);
 		
 		Label lblNewPassword = new Label(accountSettingsComposite, SWT.NONE);
 		lblNewPassword.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblNewPassword.setText("New Password:");
 		
-		text_1 = new Text(accountSettingsComposite, SWT.BORDER | SWT.PASSWORD);
-		GridData gd_text_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_text_1.widthHint = 350;
-		text_1.setLayoutData(gd_text_1);
+		newPasswordText = new Text(accountSettingsComposite, SWT.BORDER | SWT.PASSWORD);
+		GridData gd_newPasswordText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_newPasswordText.widthHint = 350;
+		newPasswordText.setLayoutData(gd_newPasswordText);
 		
 		Label lblRetypeNewPassword = new Label(accountSettingsComposite, SWT.NONE);
 		lblRetypeNewPassword.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblRetypeNewPassword.setText("Retype New Password:");
 		
-		text_2 = new Text(accountSettingsComposite, SWT.BORDER | SWT.PASSWORD);
-		GridData gd_text_2 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_text_2.widthHint = 350;
-		text_2.setLayoutData(gd_text_2);
+		retypeNewPasswordtext = new Text(accountSettingsComposite, SWT.BORDER | SWT.PASSWORD);
+		GridData gd_retypeNewPasswordtext = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_retypeNewPasswordtext.widthHint = 350;
+		retypeNewPasswordtext.setLayoutData(gd_retypeNewPasswordtext);
 		
 		Label label = new Label(accountSettingsComposite, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
@@ -87,10 +87,10 @@ public class DisplaySettings {
 		lblCurrentPassword.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblCurrentPassword.setText("Current Password:");
 		
-		text_4 = new Text(accountSettingsComposite, SWT.BORDER | SWT.PASSWORD);
-		GridData gd_text_4 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_text_4.widthHint = 350;
-		text_4.setLayoutData(gd_text_4);
+		currentPasswordText = new Text(accountSettingsComposite, SWT.BORDER | SWT.PASSWORD);
+		GridData gd_currentPasswordText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_currentPasswordText.widthHint = 350;
+		currentPasswordText.setLayoutData(gd_currentPasswordText);
 		
 		Composite buttonsComposite = new Composite(accountSettingsComposite, SWT.NONE);
 		buttonsComposite.setLayout(new RowLayout(SWT.HORIZONTAL));

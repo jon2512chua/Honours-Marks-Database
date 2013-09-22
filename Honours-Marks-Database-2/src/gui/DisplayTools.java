@@ -192,8 +192,8 @@ public class DisplayTools {
 			props.load( is );
 		} catch (Exception e) {is = null;}
 
-		setText = new String(props.getProperty("text", "0"));
-		radioSelection = new Integer(props.getProperty("radioSelection", "5"));
+		setText = new String(props.getProperty("text", ""));
+		radioSelection = new Integer(props.getProperty("radioSelection", "4"));
 		comboSelection = new Integer(props.getProperty("comboSelection", "0"));
 	}
 }

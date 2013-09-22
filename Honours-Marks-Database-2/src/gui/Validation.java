@@ -15,12 +15,32 @@ public class Validation {
 	 * Ensures only integers can be entered.
 	 * @param text the text to validate
 	 */
-	public static void validateNumber(Text text) {
+	public static void validateInt(Text text) {
 		text.addVerifyListener(new VerifyListener() {
 			public void verifyText(VerifyEvent e) {		//Check if the value entered is an integer
 				if (e.character != '\u0008' && e.character != '\u007F') {	//Allows backspace/delete
 					try {
 						Integer.parseInt(e.text);
+					} catch (final NumberFormatException numberFormatException) {
+						e.doit = false;
+					}
+				}
+			}
+		});
+		
+	}
+	
+	/**
+	 * Attaches a VerifyListener to the input.<br/>
+	 * Ensures only doubles can be entered.
+	 * @param text the text to validate
+	 */
+	public static void validateDouble(Text text) {
+		text.addVerifyListener(new VerifyListener() {
+			public void verifyText(VerifyEvent e) {		//Check if the value entered is an integer
+				if (e.character != '\u0008' && e.character != '\u007F' && e.character != '\uFF0E') {	//Allows backspace/delete/.(TODO: check.)
+					try {
+						Double.parseDouble(e.text);	//TODO:check
 					} catch (final NumberFormatException numberFormatException) {
 						e.doit = false;
 					}

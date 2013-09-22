@@ -7,11 +7,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
@@ -152,6 +155,21 @@ public class PopulateEditStudent {
 					break;
 					}
 				}
+			}
+		});
+
+		//Tool tip.
+		//TODO: display when input is invalid
+		final ToolTip tip = new ToolTip(CETabFolder.getShell(), SWT.BALLOON);
+		tip.setMessage("Student number must be 8 digits long.");
+		studentNumber.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent e) {
+				tip.setVisible(false);
+			}
+
+			public void focusGained(FocusEvent e) {
+				tip.setLocation(studentNumber.toDisplay(0, studentNumber.getSize().y));
+				tip.setVisible(true);
 			}
 		});
 

@@ -35,8 +35,7 @@ public class PopulateEditStudent {
 	 */
 	static Composite populate(final CTabFolder CETabFolder) {
 
-		//TODO: sort tree's be clicking on title
-		//TODO: populate trees
+		//TODO: sort tree's be clicking on column title
 		//TODO: save data
 		final Composite editStudentComposite = new Composite(CETabFolder, SWT.NONE);
 		editStudentComposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1));

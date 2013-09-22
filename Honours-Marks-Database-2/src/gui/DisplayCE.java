@@ -45,7 +45,7 @@ public class DisplayCE {
 		tbtmEditAssessment.setText("Edit Assessment");
 		
 		
-	//TODO: replace with student stuff
+		//Populate Editing Students
 		Composite editStudentComposite = PopulateEditStudent.populate(CETabFolder);
 		tbtmEditStudent.setControl(editStudentComposite);
 	//End replace

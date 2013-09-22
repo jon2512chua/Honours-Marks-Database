@@ -38,8 +38,9 @@ public class MainUI {
 		shell.setLayout(new GridLayout(2, false));
 
 		//Left Display
+		//TODO: fix button widths
 		final Composite menuComposite = new Composite(shell, SWT.BORDER);
-		GridData gd_menuComposite = new GridData(SWT.LEFT, SWT.TOP, false, true);
+		GridData gd_menuComposite = new GridData(SWT.LEFT, SWT.FILL, false, true);
 		gd_menuComposite.heightHint = shell.getDisplay().getBounds().height;
 		menuComposite.setLayoutData(gd_menuComposite);
 		GridLayout gl_menuComposite = new GridLayout(1, false);
@@ -49,7 +50,9 @@ public class MainUI {
 		Group grpReports = new Group(menuComposite, SWT.NONE);
 		grpReports.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		grpReports.setText("Reports");
-		grpReports.setLayout(new RowLayout(SWT.VERTICAL));
+		RowLayout rl_grpReports = new RowLayout(SWT.VERTICAL);
+		rl_grpReports.fill = true;
+		grpReports.setLayout(rl_grpReports);
 
 		Button btnStudentReport = new Button(grpReports, SWT.NONE);
 		btnStudentReport.setAlignment(SWT.LEFT);
@@ -70,7 +73,9 @@ public class MainUI {
 		Group grpEditing = new Group(menuComposite, SWT.NONE);
 		grpEditing.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		grpEditing.setText("Creation/Editing");
-		grpEditing.setLayout(new RowLayout(SWT.VERTICAL));
+		RowLayout rl_grpEditing = new RowLayout(SWT.VERTICAL);
+		rl_grpEditing.fill = true;
+		grpEditing.setLayout(rl_grpEditing);
 
 		Button btnEditStudent = new Button(grpEditing, SWT.NONE);
 		btnEditStudent.setAlignment(SWT.LEFT);
@@ -95,7 +100,9 @@ public class MainUI {
 		Group grpTools = new Group(menuComposite, SWT.NONE);
 		grpTools.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		grpTools.setText("Tools");
-		grpTools.setLayout(new RowLayout(SWT.VERTICAL));
+		RowLayout rl_grpTools = new RowLayout(SWT.VERTICAL);
+		rl_grpTools.fill = true;
+		grpTools.setLayout(rl_grpTools);
 
 		Button btnBackup = new Button(grpTools, SWT.NONE);
 		btnBackup.setAlignment(SWT.LEFT);
@@ -109,6 +116,17 @@ public class MainUI {
 		btnExport.setAlignment(SWT.LEFT);
 		btnExport.setText("Export Data");
 		
+		Group grpSettings = new Group(menuComposite, SWT.NONE);
+		grpSettings.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		grpSettings.setText("Settings");
+		RowLayout rl_grpSettings = new RowLayout(SWT.VERTICAL);
+		rl_grpSettings.fill = true;
+		grpSettings.setLayout(rl_grpSettings);
+		
+		Button btnAccountSettings = new Button(grpSettings, SWT.NONE);
+		btnAccountSettings.setAlignment(SWT.LEFT);
+		btnAccountSettings.setText("Account Settings");
+		
 
 		final Composite displayComposite = new Composite(shell, SWT.NONE);
 		displayComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -118,11 +136,14 @@ public class MainUI {
 		//Generate the Reports Screen
 		final CTabFolder reportTabFolder = DisplayReport.display(displayComposite);
 
-		//Generate the Tools Screen
-		final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);
-
 		//Generate the Creation/Editing screen
 		final CTabFolder CETabFolder = DisplayCE.display(displayComposite);
+
+		//Generate the Tools Screen
+		final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);
+		
+		//Generate the Settings Screen
+		final CTabFolder settingsTabFolder = DisplaySettings.display(displayComposite);
 
 
 		//Button Listeners
@@ -209,6 +230,13 @@ public class MainUI {
 			}
 		};
 		btnExport.addListener(SWT.Selection, btnExportListener);
+		
+		Listener btnAccountSettingsListener = new Listener() {
+			public void handleEvent(Event event) {
+				showScreen(settingsTabFolder, sl_displayComposite, 0, "Settings");
+			}
+		};
+		btnAccountSettings.addListener(SWT.Selection, btnAccountSettingsListener);
 
 		//Set Initial Screen
 		shell.setText("CITS3200 Program");

@@ -27,6 +27,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.layout.GridLayout;
 
 /**
  * Displays the Tools section
@@ -37,7 +38,7 @@ public class DisplayTools {
 	private static String setText;
 	private static int radioSelection;
 	private static int comboSelection;
-	
+
 	public static final String settingsFileName = "settings";
 
 	/**
@@ -58,17 +59,17 @@ public class DisplayTools {
 
 		CTabItem tbtmTools = new CTabItem(toolsTabFolder, SWT.NONE);
 		tbtmTools.setText("Schedule Backup");
-		
+
 		CTabItem tbtmImport = new CTabItem(toolsTabFolder, SWT.NONE);
 		tbtmImport.setText("Import Data");
-		
+
 		CTabItem tbtmExport = new CTabItem(toolsTabFolder, SWT.NONE);
 		tbtmExport.setText("Export Data");
 
 		//Create Backup Data
 		final Composite radioButtonComposite = new Composite(toolsTabFolder, SWT.NONE);
 		tbtmTools.setControl(radioButtonComposite);
-		radioButtonComposite.setLayout(new RowLayout(SWT.VERTICAL));
+		radioButtonComposite.setLayout(new GridLayout(1, false));
 
 		final Button btnBackupNever = new Button(radioButtonComposite, SWT.RADIO);
 		btnBackupNever.setText("Never");
@@ -99,10 +100,12 @@ public class DisplayTools {
 		text = new Text(custombackupComposite, SWT.BORDER | SWT.RIGHT);
 		text.addVerifyListener(new VerifyListener() {
 			public void verifyText(VerifyEvent e) {		//Check if the value entered is an integer
-				try {
-					Integer.parseInt(e.text);
-				} catch (final NumberFormatException numberFormatException) {
-					e.doit = false;
+				if (e.character != '\u0008' && e.character != '\u007F') {	//Allows backspace/delete
+					try {
+						Integer.parseInt(e.text);
+					} catch (final NumberFormatException numberFormatException) {
+						e.doit = false;
+					}
 				}
 			}
 		});
@@ -114,9 +117,16 @@ public class DisplayTools {
 		combo.add("hours");
 		combo.add("days");
 		combo.add("weeks");
+		
+		Composite buttonsComposite = new Composite(radioButtonComposite, SWT.NONE);
+		buttonsComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
+		buttonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true, 2, 1));
 
-		Button btnSaveChanges = new Button(radioButtonComposite, SWT.NONE);
+		Button btnSaveChanges = new Button(buttonsComposite, SWT.NONE);
 		btnSaveChanges.setText("Save Changes");
+
+		Button btnDiscardChanges = new Button(buttonsComposite, SWT.NONE);
+		btnDiscardChanges.setText("Discard Changes");
 
 		//Displays previously saved settings
 		try {
@@ -129,7 +139,8 @@ public class DisplayTools {
 			((Button) radioButtonComposite.getChildren()[radioSelection]).setSelection(true);
 			combo.select(comboSelection);
 		}
-		
+
+		//Disables some controls when the custom button is not selected
 		SelectionListener btnBackupCustomListene = new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {}
 
@@ -143,7 +154,7 @@ public class DisplayTools {
 		};
 		btnBackupCustom.addSelectionListener(btnBackupCustomListene);
 		btnBackupCustom.notifyListeners(SWT.Selection, new Event());	//Sets listener to check once on startup
-		
+
 
 		//Save button Listener
 		Listener btnSaveChangesListener = new Listener() {
@@ -163,19 +174,19 @@ public class DisplayTools {
 	 * Save settings
 	 */
 	private static final void saveSettings() {
-        try {
-            Properties props = new Properties();
-            props.setProperty("text", text.getText());
-            props.setProperty("radioSelection", ""+radioSelection);
-            props.setProperty("comboSelection", ""+comboSelection);
-            
-            OutputStream out = new FileOutputStream(new File(settingsFileName));
-            props.store(out, "HMD Settings File");
-    		PopupWindow.popupMessage(text.getShell(), "Backup settings saved.", "Saved");
-        }
-        catch (Exception e ) {
-            e.printStackTrace();
-        }
+		try {
+			Properties props = new Properties();
+			props.setProperty("text", text.getText());
+			props.setProperty("radioSelection", ""+radioSelection);
+			props.setProperty("comboSelection", ""+comboSelection);
+
+			OutputStream out = new FileOutputStream(new File(settingsFileName));
+			props.store(out, "HMD Settings File");
+			PopupWindow.popupMessage(text.getShell(), "Backup settings saved.", "Saved");
+		}
+		catch (Exception e ) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -192,7 +203,7 @@ public class DisplayTools {
 			// Try loading properties from the file (if found)
 			props.load( is );
 		} catch (Exception e) {is = null;}
-		
+
 		setText = new String(props.getProperty("text", "0"));
 		radioSelection = new Integer(props.getProperty("radioSelection", "5"));
 		comboSelection = new Integer(props.getProperty("comboSelection", "0"));

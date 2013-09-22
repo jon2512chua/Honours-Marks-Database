@@ -18,7 +18,7 @@ public class Validation {
 	public static void validateInt(Text text) {
 		text.addVerifyListener(new VerifyListener() {
 			public void verifyText(VerifyEvent e) {		//Check if the value entered is an integer
-				if (e.character != '\u0008' && e.character != '\u007F') {	//Allows backspace/delete
+				if (e.character != '\u0008' && e.character != '\u007F' && e.character != '\u0000') {	//Allows backspace/delete
 					try {
 						Integer.parseInt(e.text);
 					} catch (final NumberFormatException numberFormatException) {
@@ -38,7 +38,7 @@ public class Validation {
 	public static void validateDouble(Text text) {
 		text.addVerifyListener(new VerifyListener() {
 			public void verifyText(VerifyEvent e) {		//Check if the value entered is an integer
-				if (e.character != '\u0008' && e.character != '\u007F' && e.character != '\uFF0E') {	//Allows backspace/delete/.(TODO: check.)
+				if (e.character != '\u0008' && e.character != '\u007F' && e.character != '\uFF0E' && e.character != '\u0000') {	//Allows backspace/delete/.(TODO: check.)
 					try {
 						Double.parseDouble(e.text);	//TODO:check
 					} catch (final NumberFormatException numberFormatException) {

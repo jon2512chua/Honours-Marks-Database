@@ -18,6 +18,7 @@ public class DisplayCE {
 	/**
 	 * @param parent the composite the data is displayed on.
 	 * @return the CTabFolder that contains the data
+	 * @wbp.parser.entryPoint
 	 */
 	public static CTabFolder display(Composite parent) {
 		final Composite displayComposite = new Composite(parent, SWT.BORDER);
@@ -44,11 +45,9 @@ public class DisplayCE {
 		tbtmEditAssessment.setText("Edit Assessment");
 		
 		
-	//TODO: replace with student tuff
-		Button btnNewButton1 = new Button(CETabFolder, SWT.NONE);
-		btnNewButton1.setText("TODO:delete button, replace with student stuff");
-
-		tbtmEditStudent.setControl(btnNewButton1);
+	//TODO: replace with student stuff
+		Composite editStudentComposite = PopulateEditStudent.populate(CETabFolder);
+		tbtmEditStudent.setControl(editStudentComposite);
 	//End replace
 		
 		

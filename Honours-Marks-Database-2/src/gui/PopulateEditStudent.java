@@ -2,8 +2,6 @@ package gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -71,7 +69,8 @@ public class PopulateEditStudent {
 		studentNumber = new Text(rComposite, SWT.BORDER);
 		studentNumber.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		studentNumber.setTextLimit(8);
-		studentNumber.addVerifyListener(new VerifyListener() {
+		Validation.validateNumber(studentNumber);
+		/*studentNumber.addVerifyListener(new VerifyListener() {
 			public void verifyText(VerifyEvent e) {		//Check if the value entered is an integer
 				if (e.character != '\u0008' && e.character != '\u007F') {	//Allows backspace/delete
 					try {
@@ -81,7 +80,7 @@ public class PopulateEditStudent {
 					}
 				}
 			}
-		});
+		});*/
 
 		Label lblTitle = new Label(rComposite, SWT.NONE);
 		lblTitle.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));

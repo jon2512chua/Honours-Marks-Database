@@ -40,7 +40,6 @@ public class DisplaySettings {
 		CTabItem tbtmAccountSettings = new CTabItem(settingsTabFolder, SWT.NONE);
 		tbtmAccountSettings.setText("Account Settings");
 
-	//TODO: replace with staff stuff
 		final Composite accountSettingsComposite = new Composite(settingsTabFolder, SWT.NONE);
 		tbtmAccountSettings.setControl(accountSettingsComposite);
 		accountSettingsComposite.setLayout(new GridLayout(2, false));
@@ -102,8 +101,6 @@ public class DisplaySettings {
 
 		Button btnDiscardChanges = new Button(buttonsComposite, SWT.NONE);
 		btnDiscardChanges.setText("Discard Changes");
-
-	//End replace
 
 		return settingsTabFolder;
 	}

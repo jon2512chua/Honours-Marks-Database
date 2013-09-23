@@ -46,7 +46,7 @@ public class DisplayCE {
 		
 		
 		//Populate Editing Students
-		Composite editStudentComposite = PopulateEditStudent.populate(CETabFolder);
+		Composite editStudentComposite = DisplayCE_PopulateEditStudent.populate(CETabFolder);
 		tbtmEditStudent.setControl(editStudentComposite);
 	//End replace
 		

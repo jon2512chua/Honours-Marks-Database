@@ -35,19 +35,19 @@ public class DisplayReport {
 
 		//Create Student Data
 		final Tree studentTree = createTab(reportTabFolder, "Student Report", "Selection", "Data");
-		PopulateStudentReport.populate(studentTree);
+		DisplayReport_PopulateStudent.populate(studentTree);
 
 		//Create Marker Data
 		final Tree markerTree = createTab(reportTabFolder, "Marker Report", "Selection", "Data");
-		PopulateMarkerReport.populate(markerTree);
+		DisplayReport_PopulateMarker.populate(markerTree);
 
 		//Create Marker Data
 		final Tree unitTree = createTab(reportTabFolder, "Unit Report", "Selection", "Data");
-		PopulateUnitReport.populate(unitTree);
+		DisplayReport_PopulateUnit.populate(unitTree);
 
 		//Create Marker Data
 		final Tree cohortTree = createTab(reportTabFolder, "Cohort Report", "Selection", "Data");
-		PopulateCohortReport.populate(cohortTree);
+		DisplayReport_PopulateCohort.populate(cohortTree);
 
 		//Listener to automatically resize Student Report column widths.
 		Listener autoExpandStudentColumn = new Listener() {

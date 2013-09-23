@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Tree;
  * @author Tim Lander
  *
  */
-public class PopulateCohortReport {
+public class DisplayReport_PopulateCohort {
 	static void populate(Tree cohortTree) {
 
 	}

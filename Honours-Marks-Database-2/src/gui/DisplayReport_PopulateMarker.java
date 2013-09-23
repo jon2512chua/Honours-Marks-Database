@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.TreeItem;
  * Marker Report
  * @author Tim Lander
  */
-public class PopulateMarkerReport {
+public class DisplayReport_PopulateMarker {
 	static void populate(Tree markerTree) {
 		for (int sn=0; sn<5; sn++) {
 			TreeItem marker = new TreeItem(markerTree, SWT.NONE);

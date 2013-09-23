@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.TreeItem;
  * @author Tim Lander
  *
  */
-public class PopulateUnitReport {
+public class DisplayReport_PopulateUnit {
 	static void populate(Tree unitTree) {
 		for (int unitNumber=0; unitNumber<5; unitNumber++) {
 			TreeItem unit = new TreeItem(unitTree, SWT.NONE);

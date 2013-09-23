@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.TreeItem;
  * Student Report
  * @author Tim Lander
  */
-public class PopulateStudentReport {
+public class DisplayReport_PopulateStudent {
 	/**
 	 * @wbp.parser.entryPoint
 	 * @param studentTree

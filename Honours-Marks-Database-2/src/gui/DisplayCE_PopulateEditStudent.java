@@ -22,7 +22,7 @@ import org.eclipse.swt.events.SelectionEvent;
  * Edit Students Section
  * @author Tim Lander
  */
-public class PopulateEditStudent {
+public class DisplayCE_PopulateEditStudent {
 	//TODO: getters/setters
 	public static Text studentNumber;
 	public static Text title;

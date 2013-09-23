@@ -1,6 +1,8 @@
 package gui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -9,10 +11,23 @@ import org.eclipse.swt.widgets.TreeItem;
  * @author Tim Lander
  */
 public class DisplayReport_PopulateMarker {
-	static void populate(Tree markerTree) {
+	
+	/**
+	 * Populates the Marker Report Tab
+	 * @param reportTabFolder the folder to put the tab in
+	 * @param tabName the name of the tab
+	 * @wbp.parser.entryPoint
+	 */
+	public static void populate(final CTabFolder reportTabFolder, String tabName) {
+		CTabItem tbtmReport = new CTabItem(reportTabFolder, SWT.NONE);
+		tbtmReport.setText(tabName);
+
+		Tree markerTree = DisplayReport.createReportTree(reportTabFolder, "Selection", "Data");
+		tbtmReport.setControl(markerTree);
+
 		for (int sn=0; sn<5; sn++) {
 			TreeItem marker = new TreeItem(markerTree, SWT.NONE);
-			
+
 			marker.setText(new String[] {Data.StaffNumber[sn]});
 			//marker.setExpanded(true);
 			TreeItem studentNameTitle = new TreeItem(marker, SWT.NONE);		//TODO: in theory these could be combined into one row
@@ -38,5 +53,7 @@ public class DisplayReport_PopulateMarker {
 			}*/
 
 		}
+		
+		DisplayReport.autoResizeColumn(markerTree);
 	}
 }

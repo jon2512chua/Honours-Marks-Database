@@ -1,6 +1,8 @@
 package gui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -9,11 +11,20 @@ import org.eclipse.swt.widgets.TreeItem;
  * @author Tim Lander
  */
 public class DisplayReport_PopulateStudent {
+	
 	/**
+	 * Populates the Student Report
+	 * @param reportTabFolder the folder to put the tab in
+	 * @param tabName the name of the tab
 	 * @wbp.parser.entryPoint
-	 * @param studentTree
 	 */
-	static void populate(final Tree studentTree) {
+	public static void populate(final CTabFolder reportTabFolder, String tabName) {
+		CTabItem tbtmReport = new CTabItem(reportTabFolder, SWT.NONE);
+		tbtmReport.setText(tabName);
+
+		Tree studentTree = DisplayReport.createReportTree(reportTabFolder, "Selection", "Data");
+		tbtmReport.setControl(studentTree);
+
 		for (int sn=0; sn<5; sn++) {
 			TreeItem student = new TreeItem(studentTree, SWT.NONE);
 
@@ -57,6 +68,9 @@ public class DisplayReport_PopulateStudent {
 
 			//student.setExpanded(true);		//TODO:Perhaps add an expand all button?
 		}
+
+		//Listener to automatically resize Student Report column widths.
+		DisplayReport.autoResizeColumn(studentTree);
 
 	}
 }

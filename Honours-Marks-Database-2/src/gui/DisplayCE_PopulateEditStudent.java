@@ -2,6 +2,7 @@ package gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -31,9 +32,15 @@ public class DisplayCE_PopulateEditStudent {
 	public static Text dissertationTitle;
 
 	/**
+	 * Populates the Edit Students Tab
+	 * @param CETabFolder the folder to put the tab in
+	 * @param tabName the name of the tab
 	 * @wbp.parser.entryPoint
 	 */
-	static Composite populate(final CTabFolder CETabFolder) {
+	public static void populate(final CTabFolder CETabFolder, String tabName) {
+		
+		CTabItem tbtmEditStudent = new CTabItem(CETabFolder, SWT.NONE);
+		tbtmEditStudent.setText(tabName);
 
 		//TODO: sort tree's be clicking on column title
 		//TODO: save data
@@ -172,7 +179,8 @@ public class DisplayCE_PopulateEditStudent {
 			}
 		});
 
-		return editStudentComposite;
+		tbtmEditStudent.setControl(editStudentComposite);
+		//return editStudentComposite;
 
 	}
 

@@ -2,7 +2,6 @@ package gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -28,68 +27,35 @@ public class DisplayReport {
 		displayComposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1));
 		displayComposite.setLayout(new FillLayout());
 
-
 		//Set up tabs
 		final CTabFolder reportTabFolder = new CTabFolder(displayComposite, SWT.NONE);
 		reportTabFolder.setSelectionBackground(Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 
 		//Create Student Data
-		final Tree studentTree = createTab(reportTabFolder, "Student Report", "Selection", "Data");
-		DisplayReport_PopulateStudent.populate(studentTree);
+		DisplayReport_PopulateStudent.populate(reportTabFolder, "Student Report");
 
 		//Create Marker Data
-		final Tree markerTree = createTab(reportTabFolder, "Marker Report", "Selection", "Data");
-		DisplayReport_PopulateMarker.populate(markerTree);
+		DisplayReport_PopulateMarker.populate(reportTabFolder, "Marker Report");
 
-		//Create Marker Data
-		final Tree unitTree = createTab(reportTabFolder, "Unit Report", "Selection", "Data");
-		DisplayReport_PopulateUnit.populate(unitTree);
+		//Create Unit Data
+		DisplayReport_PopulateUnit.populate(reportTabFolder, "Unit Report");
 
-		//Create Marker Data
-		final Tree cohortTree = createTab(reportTabFolder, "Cohort Report", "Selection", "Data");
-		DisplayReport_PopulateCohort.populate(cohortTree);
-
-		//Listener to automatically resize Student Report column widths.
-		Listener autoExpandStudentColumn = new Listener() {
-			public void handleEvent(Event event) {
-				resizeColumns(studentTree);
-			}
-		};
-		studentTree.addListener(SWT.Collapse, autoExpandStudentColumn);
-		studentTree.addListener(SWT.Expand, autoExpandStudentColumn);	//TODO: is the really needed? Just doing on expand would possibly do fine
-
-		//Listener to automatically resize Student Report column widths.
-		Listener autoExpandMarkerColumn = new Listener() {
-			public void handleEvent(Event event) {
-				resizeColumns(markerTree);
-			}
-		};
-		markerTree.addListener(SWT.Collapse, autoExpandMarkerColumn);
-		markerTree.addListener(SWT.Expand, autoExpandMarkerColumn);		//TODO: is the really needed? Just doing on expand would possibly do fine
+		//Create Cohort Data
+		DisplayReport_PopulateCohort.populate(reportTabFolder, "Cohort Report");
 
 		return reportTabFolder;
 	}
 
+
 	/**
-	 * Resizes the columns to fit all the currently displayed data
-	 * @param tree the tree which is to have its column widths adjusted
+	 * Generates a report tree in the following tabFolder
+	 * @param tabFolder the tabFolder which contains the tree
+	 * @param column1Name the title of the first column
+	 * @param column2Name the title of the second column
+	 * @return the generated tree
 	 */
-	private static void resizeColumns(final Tree tree) {
-		tree.getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				for ( TreeColumn tc : tree.getColumns() )
-					tc.pack();
-			}
-		});
-
-	}
-
-	private static Tree createTab(CTabFolder tabFolder, String tabName, String column1Name, String column2Name) {
-		CTabItem tbtmReport = new CTabItem(tabFolder, SWT.NONE);
-		tbtmReport.setText(tabName);
+	public static Tree createReportTree(CTabFolder tabFolder, String column1Name, String column2Name) {
 		final Tree tree = new Tree(tabFolder, SWT.BORDER | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
-		tbtmReport.setControl(tree);
-		//tree.setHeaderVisible(false);	//Stops column resizing though...
 		TreeColumn lColumn = new TreeColumn(tree, SWT.LEFT);
 		lColumn.setText(column1Name);
 		lColumn.setWidth(MainUI.LColumnWidth);
@@ -100,4 +66,22 @@ public class DisplayReport {
 		return tree;
 	}
 
+	/**
+	 * Resizes the columns to fit all the currently displayed data
+	 * @param tree the tree which is to have its column widths adjusted
+	 */
+	public static void autoResizeColumn(final Tree tree) {
+		//Listener to automatically resize Student Report column widths.
+		Listener autoExpandStudentColumn = new Listener() {
+			public void handleEvent(Event event) {
+				tree.getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						for ( TreeColumn tc : tree.getColumns() ) tc.pack();
+					}
+				});
+			}
+		};
+		tree.addListener(SWT.Collapse, autoExpandStudentColumn);
+		tree.addListener(SWT.Expand, autoExpandStudentColumn);	//TODO: is the really needed? Just doing on expand would possibly do fine
+	}
 }

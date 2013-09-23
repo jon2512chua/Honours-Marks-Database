@@ -13,7 +13,6 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
@@ -91,7 +90,7 @@ public class DisplayTools_PopulateBackupSchedule {
 		combo.add("days");
 		combo.add("weeks");
 
-		Composite buttonsComposite = new Composite(radioButtonComposite, SWT.NONE);
+		/*Composite buttonsComposite = new Composite(radioButtonComposite, SWT.NONE);
 		buttonsComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
 		buttonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true, 2, 1));
 
@@ -100,6 +99,8 @@ public class DisplayTools_PopulateBackupSchedule {
 
 		Button btnDiscardChanges = new Button(buttonsComposite, SWT.NONE);
 		btnDiscardChanges.setText("Discard Changes");
+		*/
+		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(radioButtonComposite);
 
 		//Displays previously saved settings
 		try {
@@ -138,7 +139,7 @@ public class DisplayTools_PopulateBackupSchedule {
 				saveSettings();
 			}
 		};
-		btnSaveChanges.addListener(SWT.Selection, btnSaveChangesListener);
+		btnSaveDiscard[0].addListener(SWT.Selection, btnSaveChangesListener);
 
 	}
 

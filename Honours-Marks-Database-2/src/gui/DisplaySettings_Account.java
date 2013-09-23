@@ -5,7 +5,6 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -83,16 +82,9 @@ public class DisplaySettings_Account {
 		GridData gd_currentPasswordText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_currentPasswordText.widthHint = 350;
 		currentPasswordText.setLayoutData(gd_currentPasswordText);
-		
-		Composite buttonsComposite = new Composite(accountSettingsComposite, SWT.NONE);
-		buttonsComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
-		buttonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true, 2, 1));
 
-		Button btnSaveChanges = new Button(buttonsComposite, SWT.NONE);
-		btnSaveChanges.setText("Save Changes");
-
-		Button btnDiscardChanges = new Button(buttonsComposite, SWT.NONE);
-		btnDiscardChanges.setText("Discard Changes");
+		@SuppressWarnings("unused")
+		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(accountSettingsComposite);
 		
 	}
 

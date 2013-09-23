@@ -12,7 +12,6 @@ import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -125,15 +124,8 @@ public class DisplayCE_PopulateEditStudent {
 			supervisor.setText(new String[] {Data.StaffNumber[sn], Data.StaffNameTitle[sn] + " " + Data.StaffNameFirst[sn].charAt(0) + ". " + Data.StaffNameLast[sn]});
 		}
 
-		Composite buttonsComposite = new Composite(rComposite, SWT.NONE);
-		buttonsComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
-		buttonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true, 2, 1));
-
-		Button btnSaveChanges = new Button(buttonsComposite, SWT.NONE);
-		btnSaveChanges.setText("Save Changes");
-
-		Button btnDiscardChanges = new Button(buttonsComposite, SWT.NONE);
-		btnDiscardChanges.setText("Discard Changes");
+		@SuppressWarnings("unused")
+		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
 
 
 		//Auto Fit Columns

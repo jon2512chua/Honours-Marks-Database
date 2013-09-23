@@ -1,4 +1,4 @@
-/**CREATE SCHEMA HONOURS**/
+/**This is the sql script that sets up the schema for a semester's marks database**/
 
 CREATE TABLE Staff
 	(
@@ -75,7 +75,7 @@ CREATE TABLE SubAssessment
 		FOREIGN KEY (AssessmentID) REFERENCES Assessment (AssessmentID)
 	);
 	
-CREATE TABLE SubAssesmentMark
+CREATE TABLE SubAssessmentMark
 	(
 		MarkID INT NOT NULL,
 		Mark INT NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE SubAssesmentMark
 		FOREIGN KEY (SubAssessmentID) REFERENCES SubAssessment (SubAssessmentID)
 	);
 	
-CREATE TABLE AssesmentMark
+CREATE TABLE AssessmentMark
 	(
 		MarkID INT NOT NULL,
 		Mark INT NOT NULL,
@@ -98,7 +98,6 @@ CREATE TABLE AssesmentMark
 		AssessmentID INT NOT NULL,
 		
 		PRIMARY KEY (MarkID),
-		FOREIGN KEY (MarkerID) REFERENCES Staff (StaffID),
 		FOREIGN KEY (StudentID) REFERENCES Student (StudentID),
 		FOREIGN KEY (AssessmentID) REFERENCES Assessment (AssessmentID)
 	);
@@ -112,7 +111,20 @@ CREATE TABLE UnitMark
 		UnitCode VARCHAR(8) NOT NULL,
 		
 		PRIMARY KEY (MarkID),
-		FOREIGN KEY (MarkerID) REFERENCES Staff (StaffID),
 		FOREIGN KEY (StudentID) REFERENCES Student (StudentID),
 		FOREIGN KEY (UnitCode) REFERENCES Unit (UnitCode)
+	);
+	
+CREATE TABLE Information
+	(	
+		Lock CHAR(1) NOT NULL DEFAULT 'X',
+		Period INT NOT NULL,
+		LastBackup TIMESTAMP,
+		AutoBackupSchedule CHAR NOT NULL,
+		AutoBackupDue TIMESTAMP,
+		LastRestoreDate TIMESTAMP,
+		LastRestoreFrom VARCHAR(25),
+		VersionSuperseded VARCHAR(25),
+		constraint PK_T1 PRIMARY KEY (Lock),
+		constraint CK_T1_Locked CHECK (Lock='X')
 	);

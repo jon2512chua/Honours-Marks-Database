@@ -65,3 +65,16 @@ Mark is the integer value of the mark given.
 Grade is the corresponding grade for that mark (ie. C for 60-69, D for 70-79, etc.)
 StudentID is the StudentID of the student that recieved this mark.
 UnitCode is the unit that this mark was given for.
+
+The "Information" table"
+It is a table to hold information about the database itself.
+Lock is a variable, defaulting to 'X', that is held to ensure only one row is kept in the 'Information' table.
+Period holds the semester and year (ie. 20131 for semester 1 2013) that the database is relevant to. It is
+also the name of the database, for archiving purposes.
+LastBackup holds the timestamp that the last backup was saved.
+AutoBackupSchedule holds 1 character to represent the current backup scheduel;'n' for never, 'd' for daily,
+or 'w' for weekly.
+AutoBackupDue holds the timestamp at which the next autobackup is set to occur.
+LastRestoreDate holds the timestamp for the last time a backup was used to restore the database.
+LastRestoreFrom holds the name of the backup database that was last used to restore the database.
+VersionSuperseded is the name of a copy of the database that was replaced the last time a restore occurred.

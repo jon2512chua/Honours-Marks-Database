@@ -7,8 +7,8 @@ public class BaseAssessment {
     private String name;
     private Unit parentUnit;
     private int mark;
-    private int unitPercent;
-    private int coursePercent;
+    private double unitPercent;
+    private double coursePercent;
     private List<SubAssessment> subAssessments;
     
     public BaseAssessment() {
@@ -47,19 +47,19 @@ public class BaseAssessment {
         this.mark = mark;
     }
     
-    public int getUnitPercent() {
+    public double getUnitPercent() {
         return unitPercent;
     }
     
-    public void setUnitPercent(int unitPercent) {
+    public void setUnitPercent(double unitPercent) {
         this.unitPercent = unitPercent;
     }
     
-    public int getCoursePercent() {
+    public double getCoursePercent() {
         return coursePercent;
     }
     
-    public void setCoursePercent(int coursePercent) {
+    public void setCoursePercent(double coursePercent) {
         this.coursePercent = coursePercent;
     }
     

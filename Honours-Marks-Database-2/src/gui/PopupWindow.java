@@ -87,7 +87,7 @@ public class PopupWindow {
 		final String imageFileName = "splash.png";
 		final Shell shell = new Shell(parentShell, SWT.TITLE);
 		//Disables controls while the logon screen is displayed
-		for ( Control ctrl : shell.getChildren() ) ctrl.setEnabled(false);
+		for ( Control ctrl : parentShell.getChildren() ) ctrl.setEnabled(false);
 
 		// Set the Window Title
 		shell.setText("Log On to the HMD System");

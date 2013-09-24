@@ -3,7 +3,7 @@ package orm;
 import java.util.PriorityQueue;
 
 public class BaseStaff {
-    private String staffId;
+    private int staffId;
     private String name;
     private int numberMarks;
     private PriorityQueue<Mark> marks;
@@ -12,11 +12,11 @@ public class BaseStaff {
         // Get DB connection.
     }
     
-    public String getStaffId() {
+    public int getStaffId() {
         return staffId;
     }
     
-    public void setStaffId(String staffId) {
+    public void setStaffId(int staffId) {
         this.staffId = staffId;
     }
     

@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.graphics.Image;
 
 
 /**
@@ -26,6 +27,7 @@ public class MainUI {
 	private final static int DefaultWidth = 900;
 	public final static int LColumnWidth = 200;	//TODO: calculate dynamically
 	public final static int RColumnWidth = 500;
+	private static final String iconFileName = "icon.png";
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -36,6 +38,8 @@ public class MainUI {
 		Display display = new Display();
 		final Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(2, false));
+		Image icon = new Image(display,iconFileName);
+	    shell.setImage(icon); 
 
 		//Left Display
 		//TODO: fix button widths

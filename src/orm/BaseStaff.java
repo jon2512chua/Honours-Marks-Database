@@ -5,7 +5,6 @@ import java.util.PriorityQueue;
 public class BaseStaff {
     private int staffId;
     private String name;
-    private int numberMarks;
     private PriorityQueue<Mark> marks;
     
     public BaseStaff() {
@@ -26,14 +25,6 @@ public class BaseStaff {
     
     public void setName(String name) {
         this.name = name;
-    }
-    
-    public int getNumberMarks() {
-        return numberMarks;
-    }
-    
-    public void setNumberMarks(int numberMarks) {
-        this.numberMarks = numberMarks;
     }
     
     public PriorityQueue<Mark> getMarks() {

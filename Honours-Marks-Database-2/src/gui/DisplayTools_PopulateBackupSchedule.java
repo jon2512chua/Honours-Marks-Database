@@ -90,16 +90,6 @@ public class DisplayTools_PopulateBackupSchedule {
 		combo.add("days");
 		combo.add("weeks");
 
-		/*Composite buttonsComposite = new Composite(radioButtonComposite, SWT.NONE);
-		buttonsComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
-		buttonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true, 2, 1));
-
-		Button btnSaveChanges = new Button(buttonsComposite, SWT.NONE);
-		btnSaveChanges.setText("Save Changes");
-
-		Button btnDiscardChanges = new Button(buttonsComposite, SWT.NONE);
-		btnDiscardChanges.setText("Discard Changes");
-		*/
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(radioButtonComposite);
 
 		//Displays previously saved settings

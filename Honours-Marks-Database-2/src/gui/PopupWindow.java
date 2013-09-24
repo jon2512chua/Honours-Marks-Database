@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -148,6 +149,22 @@ public class PopupWindow {
 		gd_passwordText.widthHint = 350;
 		passwordText.setLayoutData(gd_passwordText);
 		new Label(shell, SWT.NONE);
+		
+		Label lblCohortToLoad = new Label(shell, SWT.NONE);
+		GridData gd_lblCohortToLoad = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_lblCohortToLoad.horizontalIndent = 10;
+		lblCohortToLoad.setLayoutData(gd_lblCohortToLoad);
+		lblCohortToLoad.setText("Cohort to Load:");
+		final Combo combo = new Combo(shell, SWT.READ_ONLY);
+		GridData gd_combo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_combo.widthHint = 337;
+		gd_combo.horizontalIndent = 20;
+		combo.setLayoutData(gd_combo);
+		combo.add("2013 - Semester 2");
+		combo.add("2013 - Semester 1");
+		combo.add("2012 - Semester 2");
+		combo.add("2012 - Semester 1");
+		combo.select(0);
 
 		Composite buttonsComposite = new Composite(shell, SWT.NONE);
 		GridData gd_buttonsComposite = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1);

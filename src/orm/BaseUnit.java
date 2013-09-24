@@ -6,7 +6,7 @@ public class BaseUnit {
     private String code;
     private String name;
     private int points;
-    private int mark;
+    private double mark;
     private List<Assessment> assessments;
     
     public BaseUnit() {
@@ -37,11 +37,11 @@ public class BaseUnit {
         this.points = points;
     }
     
-    public int getMark() {
+    public double getMark() {
         return mark;
     }
     
-    public void setMark(int mark) {
+    public void setMark(double mark) {
         this.mark = mark;
     }
     

@@ -6,7 +6,7 @@ public class BaseAssessment {
     private String assessmentId;
     private String name;
     private Unit parentUnit;
-    private int mark;
+    private double mark;
     private double unitPercent;
     private double coursePercent;
     private List<SubAssessment> subAssessments;
@@ -39,11 +39,11 @@ public class BaseAssessment {
         this.parentUnit = parentUnit;
     }
     
-    public int getMark() {
+    public double getMark() {
         return mark;
     }
     
-    public void setMark(int mark) {
+    public void setMark(double mark) {
         this.mark = mark;
     }
     

@@ -1,5 +1,7 @@
 package sessionControl;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.sql.*;
 
 /**
@@ -22,7 +24,8 @@ public class Session {
     //public static final String dbUser = "Admin";
     //public static final String dbPassword = "teamA2013";
     
-    public static final String dbDir = "db/";
+    public static final String dbDir = "/Users/nickos/SkyDrive/UWA2/CITS3200/Honours-Marks-Database/db/";
+    //public static final String dbDir = "db/";
     public static final String backupDir = "db/backups/";
     /**
      * Cohort under consideration 
@@ -51,13 +54,14 @@ public class Session {
      * @todo finish - will need to tie to GUI methods and DB connection 
      */
     public static boolean login(String username, String password, String cohort) {
-        
+        dbConnect();
         if(username.equals(un) && ((pwHash.equals("initial") && password.equals(pwHash)) || BCrypt.checkpw(password, pwHash))) {
             loggedIn = true;
             currentFocus = cohort; 
             pwHash = "";
             user = un;
-            System.out.println("logged in");
+            System.out.println("logged in to view " + cohort);
+            //@todo getchohortdata operation
             return true; 
         }
         else 
@@ -89,7 +93,7 @@ public class Session {
     //@todo implement this method
     public void changeFocus(){}
     
-    public static void dbConnect(String username, String pw)
+    public static void dbConnect()
    {
       
    // define the Derby connection URL to use 
@@ -133,7 +137,6 @@ public class Session {
             
             un = u;
             pwHash = p;
-            login(username, pw, "20132");
             
             s.close();
             conn.close();						
@@ -168,7 +171,18 @@ public class Session {
          System.out.println("Getting Started With Derby JDBC program ending.");
     }
     
+// @todo http://stackoverflow.com/questions/5125242/list-only-subdirectory-from-directory-not-files
+	public static String[] getCohorts() {
+		File file = new File(dbDir);
+		String[] directories = file.list(new FilenameFilter() {
+		  @Override
+		  public boolean accept(File dir, String name) {
+		    return (new File(dir, name).isDirectory() && name.matches("\\d{5}"));
+		  }
+		});
+		if(directories == null) return new String[]{"No cohorts could be found"};
+		return directories;
+	}
 }
-    
 
     

@@ -16,7 +16,7 @@ public class LoginTest {
         //Session.login("HM", "124", null);
         //Session.changePassword("123", "124");
         //Session.changePassword("123", "125");
-        Session.dbConnect("Heather", "initial");
+        Session.dbConnect();
         
     }
     

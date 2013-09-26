@@ -4,17 +4,21 @@
  */
 package nicksTests;
 
+import sessionControl.Session;
+
 /**
  *
  * @author nickos
  */
 public class XStuff {
     public static void main(String[] args) {
-        String str = "20132.xls";
-        String[] strs = str.split("\\.");
-        System.out.println("Hello!");
-        for (String s : strs) {
-            System.out.println(s);
+//        String str = "20132.xls";
+//        String[] strs = str.split("\\.");
+//        System.out.println("Hello!");
+//        for (String s : strs) {
+//            System.out.println(s);
+    	String[] str = Session.getCohorts();
+    	for (String d: str) if (d.matches("\\d{5}")) System.out.println(d);
         }
-    }
 }
+

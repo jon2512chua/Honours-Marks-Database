@@ -20,6 +20,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
 
+import sessionControl.Session;
+
 /**
  * Popup Windows
  * @author Tim Lander
@@ -160,10 +162,11 @@ public class PopupWindow {
 		gd_combo.widthHint = 337;
 		gd_combo.horizontalIndent = 20;
 		combo.setLayoutData(gd_combo);
-		combo.add("2013 - Semester 2");
-		combo.add("2013 - Semester 1");
-		combo.add("2012 - Semester 2");
-		combo.add("2012 - Semester 1");
+		String[] cohorts = Session.getCohorts();
+		// error handling?
+		for (String c : cohorts) {
+			combo.add(c.substring(0, 4) + " - Semester " + c.substring(4));
+		}	
 		combo.select(0);
 
 		Composite buttonsComposite = new Composite(shell, SWT.NONE);
@@ -191,8 +194,11 @@ public class PopupWindow {
 			@SuppressWarnings("unused")			///TODO: delete after validation is added in
 			public void handleEvent(Event event) {
 				//TODO: username/password validation
-				if (true) {
-					//Enables controls
+				String selectedCohort = combo.getItems()[combo.getSelectionIndex()];
+				int sem = selectedCohort.length();
+				selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem); 
+				if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) {
+					//Enables controls				
 					for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
 					shell.dispose();
 				} else popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");

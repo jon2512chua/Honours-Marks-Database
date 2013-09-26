@@ -17,48 +17,19 @@ public class Session {
      * System database information
      */
     public static final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
-    public static final String systemDB = "DatabaseFiles/System";
+    public static final String systemDB = "config/System";
     //public static final String dbUser = "Admin";
     //public static final String dbPassword = "teamA2013";
     
+    public static final String dbDir = "db/";
+    public static final String backupDir = "db/backups/";
     /**
      * Cohort under consideration 
      */
     public static String currentFocus = "";
-    public static String cohortDB = "DatabaseFiles/" + currentFocus;
+    public static String cohortDB = dbDir + currentFocus;
     //public static final String dbUser = "Admin";
     //public static final String dbPassword = "teamA2013";
-    
-    
-    // Relative paths for windows instance
-    private static final String winDbDir = "DatabaseFiles\\";
-    private static final String winArchDir = "DatabaseFiles\\Archive\\"; 
-    // Relative paths for mac instance
-    private static final String macDbDir = "DatabaseFiles/";
-    private static final String macArchDir = "DatabaseFiles/Archive/";
-    // Get the current OS
-    private final static String OS = System.getProperty("os.name").toLowerCase();
-    /**
-     * Path for database files
-     */
-    public static String dbDir = "";
-    /**
-     * Path for archive files
-     */
-    public static String archDir = "";
-    // Sets paths based on OS
-    static {
-        if (OS.indexOf("win") >= 0) {
-			dbDir = winDbDir;
-            archDir = winArchDir;
-		} else if (OS.indexOf("mac") >= 0) {
-            dbDir = macDbDir;
-            archDir = macArchDir;
-        }
-    }
-    
-    // Database file extension
-    public static final String extension = ".xls";
     
     private static boolean loggedIn = false;
     private static String user = "";

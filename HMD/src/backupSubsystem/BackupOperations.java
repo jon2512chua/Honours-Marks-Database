@@ -30,7 +30,7 @@ public class BackupOperations {
         Date date = new java.util.Date();
         String reportDate = df.format(date);
         
-        String destZip = Session.archDir + sourceName + " " + reportDate; 
+        String destZip = Session.backupDir + sourceName + " " + reportDate; 
         if(restore) {destZip += " (depr)";}
         destZip += ".zip";
         
@@ -68,7 +68,7 @@ public class BackupOperations {
                 }
             }
             // Step 3: restore archive           
-            ZipUtility.unZipIt(Session.archDir + archiveName, Session.dbDir + Session.currentFocus);
+            ZipUtility.unZipIt(Session.backupDir + archiveName, Session.dbDir + Session.currentFocus);
             return true;
         }
     }

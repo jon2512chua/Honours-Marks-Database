@@ -12,6 +12,8 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * This class has been closely adapted off of http://www.journaldev.com/957/java-zip-example-to-zip-single-file-and-a-directory-recursively
+ * @author Nicholas Abbey 20522805
+ * @version 24/09/13
  * @todo cleanup, annotation, passing errors 
  */
 

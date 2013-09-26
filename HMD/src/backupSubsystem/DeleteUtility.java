@@ -4,7 +4,8 @@ import java.io.IOException;
  
 /**
  * http://www.mkyong.com/java/how-to-delete-directory-in-java/
- * @author nickos
+ * @author Nicholas Abbey 20522805
+ * @version 24/09/13
  * @todo exceptions, cleanup, doc
  */
 

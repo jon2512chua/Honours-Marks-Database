@@ -18,7 +18,6 @@ public class XStuff {
 //        for (String s : strs) {
 //            System.out.println(s);
     	String[] str = Session.getCohorts();
-    	for (String d: str) if (d.matches("\\d{5}")) System.out.println(d);
         }
 }
 

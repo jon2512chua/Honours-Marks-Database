@@ -12,17 +12,19 @@ import java.sql.*;
 public class Session {
     
     //@todo remove these lines
-    private static String un = "";       
-    private static String pwHash = "";
+    
+    public static Connection conn = null;
+    public static Statement query;
+    public static ResultSet users;
     
     /**
      * System database information
      */
     public static final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
     //public static final String systemDB = "config/System"; @todo fix relative paths
-    public static final String systemDB = "/Users/nickos/SkyDrive/UWA2/CITS3200/Honours-Marks-Database/config/System";
+    public static final String systemDb = "/Users/nickos/SkyDrive/UWA2/CITS3200/Honours-Marks-Database/config/System";
     //public static final String dbUser = "Admin";
-    //public static final String dbPassword = "teamA2013";
+    //public static final String dbPassword = "teamA2013";    
     
     public static final String dbDir = "/Users/nickos/SkyDrive/UWA2/CITS3200/Honours-Marks-Database/db/";
     //public static final String dbDir = "db/";
@@ -54,55 +56,63 @@ public class Session {
      * @todo finish - will need to tie to GUI methods and DB connection 
      */
     public static boolean login(String username, String password, String cohort) {
-        dbConnect();
-        if(username.equals(un) && ((pwHash.equals("initial") && password.equals(pwHash)) || BCrypt.checkpw(password, pwHash))) {
-            loggedIn = true;
-            currentFocus = cohort; 
-            pwHash = "";
-            user = un;
-            System.out.println("logged in to view " + cohort);
-            //@todo getchohortdata operation
-            return true; 
-        }
-        else 
-        {
-            un = "";
-            pwHash = "";
-            System.out.println("not logged in...");
-            return false;
-        }
+        dbConnect(systemDb);
+        
+        try {
+			query = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			String SQL = "SELECT * FROM System";
+	        ResultSet rs = query.executeQuery( SQL );
+	        rs.first();
+	        
+	        String u = rs.getString("username");
+	        String p = rs.getString("password");
+	        if(username.equals(u) && ((p.equals("initial") && password.equals(p)) || BCrypt.checkpw(password, u))) {
+	            loggedIn = true;
+	            currentFocus = cohort; 
+	            
+	            System.out.println("logged in to view " + cohort);
+	            //@todo getchohortdata operation
+	            dbDisconnect();
+	            return true;	            
+	            }
+	            else 
+	            {
+	                System.out.println("not logged in...");
+	                dbDisconnect();
+	                return false;
+	            }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
     }
     
     /**
      * Change password 
      * @todo the validation of newp should occur in UI
      */
-    public static boolean changePassword(String oldp, String newp) {
-        if(BCrypt.checkpw(oldp, pwHash)) {
-            pwHash = BCrypt.hashpw(newp, BCrypt.gensalt()); 
-            System.out.println("success");
-            return true; 
-        }
-        else {
-            System.out.println("failure");
-            return false;
-        } 
-            
-    }
+//    public static boolean changePassword(String oldp, String newp) {
+//        if(BCrypt.checkpw(oldp, pwHash)) {
+//            pwHash = BCrypt.hashpw(newp, BCrypt.gensalt()); 
+//            System.out.println("success");
+//            return true; 
+//        }
+//        else {
+//            System.out.println("failure");
+//            return false;
+//        } 
+//            
+//    }
     
     //@todo implement this method
     public void changeFocus(){}
-    
-    public static void dbConnect()
+    /**
+     * Connect to the system database
+     */
+    public static void dbConnect(String db)
    {
-      
-   // define the Derby connection URL to use 
-      String connectionURL = "jdbc:derby:" + systemDB + ";";
-
-      Connection conn = null;
-      Statement s;
-      ResultSet users;
-      
+    	String connectionURL = "jdbc:derby:" + db + ";";
       //   Beginning of JDBC code sections   
       //   ## LOAD DRIVER SECTION ##
       try	        {
@@ -123,44 +133,8 @@ public class Session {
      try {
             // Create (if needed) and connect to the database
             conn = DriverManager.getConnection(connectionURL);	// @todo add username, password	 
-            System.out.println("Connected to database " + systemDB);
-            
-            //   ## INITIAL SQL SECTION ## 
-            //   Create a statement to issue simple commands.  
-            s = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String SQL = "SELECT * FROM System";
-            ResultSet rs = s.executeQuery( SQL );
-            rs.first();
-            
-            String u = rs.getString("username");
-            String p = rs.getString("password");
-            
-            un = u;
-            pwHash = p;
-            
-            s.close();
-            conn.close();						
-            System.out.println("Closed connection");
+            System.out.println("Connected to database " + systemDb);
 
-            //   ## DATABASE SHUTDOWN SECTION ## 
-            /*** In embedded mode, an application should shut down Derby.
-               Shutdown throws the XJ015 exception to confirm success. ***/			
-            if (driver.equals("org.apache.derby.jdbc.EmbeddedDriver")) {
-               boolean gotSQLExc = false;
-               try {
-                  DriverManager.getConnection("jdbc:derby:;shutdown=true");
-               } catch (SQLException se)  {	
-                  if ( se.getSQLState().equals("XJ015") ) {		
-                     gotSQLExc = true;
-                  }
-               }
-               if (!gotSQLExc) {
-               	  System.out.println("Database did not shut down normally");
-               }  else  {
-                  System.out.println("Database shut down normally");	
-               }  
-            }
-            
          //  Beginning of the primary catch block: uses errorPrint method
          }  catch (Throwable e)  {   
             /*       Catch all exceptions and pass them to 
@@ -168,10 +142,43 @@ public class Session {
             System.out.println(" . . . exception thrown:");
             
          }
-         System.out.println("Getting Started With Derby JDBC program ending.");
     }
-    
-// @todo http://stackoverflow.com/questions/5125242/list-only-subdirectory-from-directory-not-files
+
+    public static void dbDisconnect() {
+    try {
+		query.close();
+		conn.close();
+		System.out.println("Getting Started With Derby JDBC program ending.");
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+ 					
+
+    //   ## DATABASE SHUTDOWN SECTION ## 
+    /*** In embedded mode, an application should shut down Derby.
+       Shutdown throws the XJ015 exception to confirm success. ***/			
+    if (driver.equals("org.apache.derby.jdbc.EmbeddedDriver")) {
+       boolean gotSQLExc = false;
+       try {
+          DriverManager.getConnection("jdbc:derby:;shutdown=true");
+       } catch (SQLException se)  {	
+          if ( se.getSQLState().equals("XJ015") ) {		
+             gotSQLExc = true;
+          }
+       }
+       if (!gotSQLExc) {
+       	  System.out.println("Database did not shut down normally");
+       }  else  {
+          System.out.println("Database shut down normally");	
+       }  
+    }
+    }
+/**
+ * Helper method for populating the list of databases on the login screen
+ * @return a list of the available databases
+ * @todo http://stackoverflow.com/questions/5125242/list-only-subdirectory-from-directory-not-files, error handling
+ */
 	public static String[] getCohorts() {
 		File file = new File(dbDir);
 		String[] directories = file.list(new FilenameFilter() {
@@ -180,8 +187,8 @@ public class Session {
 		    return (new File(dir, name).isDirectory() && name.matches("\\d{5}"));
 		  }
 		});
-		if(directories == null) return new String[]{"No cohorts could be found"};
-		return directories;
+		if(directories.length == 0) return (new String[]{"-1"});
+		else return directories;
 	}
 }
 

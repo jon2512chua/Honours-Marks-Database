@@ -15,7 +15,7 @@ import sessionControl.Session;
  */
 public class BackupOperations {
     /**
-     * Method saves a copy of the currently open cohort data to the Archive 
+     * Method saves a copy of the currently open cohort data to the 'backups' 
      * directory
      * @param sourceName the filename to be copied (without directory)
      * @param restore true only if called from a restore call
@@ -40,37 +40,44 @@ public class BackupOperations {
         return true;
     }
     /**
-     * Method restores database from an archive copy
-     * @param archiveName the record to be instantiated
+     * Method restores database from a backup copy
+     * @param backupName the record to be instantiated
      * @return true if operation succeeds
      */
-    public static boolean restore(String archiveName) {
-        if(!archiveName.startsWith(Session.currentFocus)) {
+    public static boolean restore(String backupName) {
+        if(!(backupName.startsWith(Session.currentFocus) || Session.currentFocus.equals(""))) {
             return false;
         }
         
-        // Step 1: backup current state
-        boolean check = backup(Session.currentFocus, true);
-        if(!check) {return false;}
-        else {
+        // Step 1: backup current state (if one is loaded)
+        if(!Session.currentFocus.equals("")) {
+        	boolean check = backup(Session.currentFocus, true);
+            if(!check) {return false;}
+              
             File directory = new File(Session.dbDir + Session.currentFocus);
-            
-            // Step 2: delete current state
-            if(!directory.exists()){
-               return false;
-            } 
-            else {
-                try {
-                   DeleteUtility.delete(directory);
-                }
-                catch(IOException e){
-                   return false;
-                }
-            }
-            // Step 3: restore archive           
-            ZipUtility.unZipIt(Session.backupDir + archiveName, Session.dbDir + Session.currentFocus);
-            return true;
+        
+	        // Step 2: delete current state (if one is loaded)
+	        if(!directory.exists()){
+	           return false;
+	        } 
+	        else {
+	        	try {
+	        		DeleteUtility.delete(directory);
+	        	}
+	        	catch(IOException e){
+	        		return false;
+	        	}
+	        }
         }
+        
+        // Step 3: restore backup
+        if(Session.currentFocus.equals("")) Session.currentFocus = backupName.substring(0, 5);
+        
+        ZipUtility.unZipIt(Session.backupDir + backupName, Session.dbDir + Session.currentFocus);
+        return true;
+        
+        //@todo add disconnect and reconnect to DB
+        
     }
     
 }

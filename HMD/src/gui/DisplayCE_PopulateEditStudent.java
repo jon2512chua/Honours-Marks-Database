@@ -175,7 +175,7 @@ public class DisplayCE_PopulateEditStudent {
 		lastName.setText(Data.StudentNameLast[index]);
 		firstName.setText(Data.StudentNameFirst[index]);
 		dissertationTitle.setText(Data.StudentDissTitle[index]);
-
+		//TODO: supervisor/s
 	}
 
 	private static void populateSelectedData() {

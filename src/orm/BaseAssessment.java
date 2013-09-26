@@ -3,7 +3,7 @@ package orm;
 import java.util.List;
 
 public class BaseAssessment {
-    private String assessmentId;
+    private String assessmentID;
     private String name;
     private Unit parentUnit;
     private double mark;
@@ -15,12 +15,12 @@ public class BaseAssessment {
         // Get DB connection.
     }
     
-    public String getAssessmentId() {
-        return assessmentId;
+    public String getAssessmentID() {
+        return assessmentID;
     }
     
-    public void setAssessmentId(String assessmentId) {
-        this.assessmentId = assessmentId;
+    public void setAssessmentID(String assessmentID) {
+        this.assessmentID = assessmentID;
     }
     
     public String getName() {

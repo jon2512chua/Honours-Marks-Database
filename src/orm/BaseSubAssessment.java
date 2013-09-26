@@ -3,7 +3,7 @@ package orm;
 import java.util.PriorityQueue;
 
 public class BaseSubAssessment {
-    private String subAssessmentId;
+    private String subAssessmentID;
     private String name;
     private Assessment parentAssessment;
     private int maxMark;
@@ -13,12 +13,12 @@ public class BaseSubAssessment {
         // Get DB connection.
     }
     
-    public String getSubAssessmentId() {
-        return subAssessmentId;
+    public String getSubAssessmentID() {
+        return subAssessmentID;
     }
     
-    public void setSubAssessmentId(String subAssessmentId) {
-        this.subAssessmentId = subAssessmentId;
+    public void setSubAssessmentID(String subAssessmentID) {
+        this.subAssessmentID = subAssessmentID;
     }
     
     public String getName() {

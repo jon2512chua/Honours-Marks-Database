@@ -1,7 +1,7 @@
 package orm;
 
 public class BaseMark {
-    private String markId;
+    private String markID;
     private int value;
     private Staff marker;
     private String report;
@@ -10,12 +10,12 @@ public class BaseMark {
         // Get DB Connection.
     }
     
-    public String getMarkId() {
-        return markId;
+    public String getMarkID() {
+        return markID;
     }
     
-    public void setMarkId(String markId) {
-        this.markId = markId;
+    public void setMarkID(String markID) {
+        this.markID = markID;
     }
     
     public int getValue() {

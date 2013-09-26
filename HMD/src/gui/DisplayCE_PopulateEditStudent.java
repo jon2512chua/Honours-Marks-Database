@@ -138,19 +138,12 @@ public class DisplayCE_PopulateEditStudent {
 			public void widgetSelected(SelectionEvent e) {
 				if (studentTree.getSelectionCount() == 1)  {
 					TreeItem item = studentTree.getSelection()[0];
-					switch(item.getText()) {
-					case "20355999": populateSelectedData(0);
-					break;
-					case "20199654": populateSelectedData(1);
-					break;
-					case "10965484": populateSelectedData(2);
-					break;
-					case "20698762": populateSelectedData(3);
-					break;
-					case "10779849": populateSelectedData(4);
-					break;
-					default: populateSelectedData();
-					break;
+					try {
+						int sn=0;
+						while (item.getText() != Data.StudentNumber[sn]) sn++;
+						populateSelectedData(sn);
+					} catch (java.lang.ArrayIndexOutOfBoundsException arrayError) {
+						populateSelectedData();
 					}
 				}
 			}

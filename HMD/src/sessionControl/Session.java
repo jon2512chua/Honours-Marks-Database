@@ -17,7 +17,8 @@ public class Session {
      * System database information
      */
     public static final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
-    public static final String systemDB = "config/System";
+    //public static final String systemDB = "config/System"; @todo fix relative paths
+    public static final String systemDB = "/Users/nickos/SkyDrive/UWA2/CITS3200/Honours-Marks-Database/config/System";
     //public static final String dbUser = "Admin";
     //public static final String dbPassword = "teamA2013";
     

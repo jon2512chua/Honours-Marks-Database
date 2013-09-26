@@ -1,6 +1,9 @@
 package gui;
 
+import java.io.File;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -38,8 +41,13 @@ public class MainUI {
 		Display display = new Display();
 		final Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(2, false));
-		Image icon = new Image(display,iconFileName);
-	    shell.setImage(icon); 
+		try {
+			Image icon = new Image(display,iconFileName);
+			shell.setImage(icon); 
+		} catch (SWTException e) {
+			System.err.println("Warning: The file " + (new File(iconFileName)).toURI() + " was unable to be located.");
+		}
+
 
 		//Left Display
 		//TODO: fix button widths
@@ -65,11 +73,11 @@ public class MainUI {
 		Button btnMarkerReport = new Button(grpReports, SWT.NONE);
 		btnMarkerReport.setAlignment(SWT.LEFT);
 		btnMarkerReport.setText("Marker Report");
-		
+
 		Button btnUnitReport = new Button(grpReports, SWT.NONE);
 		btnUnitReport.setAlignment(SWT.LEFT);
 		btnUnitReport.setText("Unit Report");
-		
+
 		Button btnCohortReport = new Button(grpReports, SWT.NONE);
 		btnCohortReport.setAlignment(SWT.LEFT);
 		btnCohortReport.setText("Cohort Report");
@@ -88,15 +96,15 @@ public class MainUI {
 		Button btnEditStaff = new Button(grpEditing, SWT.NONE);
 		btnEditStaff.setAlignment(SWT.LEFT);
 		btnEditStaff.setText("Edit Staff");
-		
+
 		Button btnEditCourse = new Button(grpEditing, SWT.NONE);
 		btnEditCourse.setAlignment(SWT.LEFT);
 		btnEditCourse.setText("Edit Course");
-		
+
 		Button btnEditUnit = new Button(grpEditing, SWT.NONE);
 		btnEditUnit.setAlignment(SWT.LEFT);
 		btnEditUnit.setText("Edit Unit");
-		
+
 		Button btnEditAssessment = new Button(grpEditing, SWT.NONE);
 		btnEditAssessment.setAlignment(SWT.LEFT);
 		btnEditAssessment.setText("Edit Assessment");
@@ -111,7 +119,7 @@ public class MainUI {
 		Button btnBackup = new Button(grpTools, SWT.NONE);
 		btnBackup.setAlignment(SWT.LEFT);
 		btnBackup.setText("Schedule Backup");
-		
+
 		Button btnImport = new Button(grpTools, SWT.NONE);
 		btnImport.setAlignment(SWT.LEFT);
 		btnImport.setText("Import Data");
@@ -119,24 +127,24 @@ public class MainUI {
 		Button btnExport = new Button(grpTools, SWT.NONE);
 		btnExport.setAlignment(SWT.LEFT);
 		btnExport.setText("Export Data");
-		
+
 		Group grpSettings = new Group(menuComposite, SWT.NONE);
 		grpSettings.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		grpSettings.setText("Settings");
 		RowLayout rl_grpSettings = new RowLayout(SWT.VERTICAL);
 		rl_grpSettings.fill = true;
 		grpSettings.setLayout(rl_grpSettings);
-		
+
 		Button btnAccountSettings = new Button(grpSettings, SWT.NONE);
 		btnAccountSettings.setAlignment(SWT.LEFT);
 		btnAccountSettings.setText("Account Settings");
-		
+
 
 		final Composite displayComposite = new Composite(shell, SWT.NONE);
 		displayComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		final StackLayout sl_displayComposite = new StackLayout();
 		displayComposite.setLayout(sl_displayComposite);
-		
+
 		//Generate the Reports Screen
 		final CTabFolder reportTabFolder = DisplayReport.display(displayComposite);
 
@@ -145,7 +153,7 @@ public class MainUI {
 
 		//Generate the Tools Screen
 		final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);
-		
+
 		//Generate the Settings Screen
 		final CTabFolder settingsTabFolder = DisplaySettings.display(displayComposite);
 
@@ -164,14 +172,14 @@ public class MainUI {
 			}
 		};
 		btnMarkerReport.addListener(SWT.Selection, btnMarkerReportListener);
-		
+
 		Listener btnUnitReportListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(reportTabFolder, sl_displayComposite, 2, "Reports");
 			}
 		};
 		btnUnitReport.addListener(SWT.Selection, btnUnitReportListener);
-		
+
 		Listener btnCohortReportListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(reportTabFolder, sl_displayComposite, 3, "Reports");
@@ -192,21 +200,21 @@ public class MainUI {
 			}
 		};
 		btnEditStaff.addListener(SWT.Selection, btnEditStaffListener);
-		
+
 		Listener btnEditCourseListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(CETabFolder, sl_displayComposite, 2, "Creation/Editing");
 			}
 		};
 		btnEditCourse.addListener(SWT.Selection, btnEditCourseListener);
-		
+
 		Listener btnEditUnitListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(CETabFolder, sl_displayComposite, 3, "Creation/Editing");
 			}
 		};
 		btnEditUnit.addListener(SWT.Selection, btnEditUnitListener);
-		
+
 		Listener btnEditAssessmentListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(CETabFolder, sl_displayComposite, 4, "Creation/Editing");
@@ -220,21 +228,21 @@ public class MainUI {
 			}
 		};
 		btnBackup.addListener(SWT.Selection, btnBackupListener);
-		
+
 		Listener btnImportListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(toolsTabFolder, sl_displayComposite, 1, "Tools");
 			}
 		};
 		btnImport.addListener(SWT.Selection, btnImportListener);
-		
+
 		Listener btnExportListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(toolsTabFolder, sl_displayComposite, 2, "Tools");
 			}
 		};
 		btnExport.addListener(SWT.Selection, btnExportListener);
-		
+
 		Listener btnAccountSettingsListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(settingsTabFolder, sl_displayComposite, 0, "Settings");
@@ -251,7 +259,7 @@ public class MainUI {
 		//Sets window initial size, and window position to middle of screen
 		shell.setSize(DefaultWidth, DefaultHeight);
 		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 80);
-		
+
 		//Displays Log On screen
 		PopupWindow.popupLogon(shell);
 
@@ -276,7 +284,7 @@ public class MainUI {
 		showTabFolder.getParent().getParent().layout();
 		showTabFolder.getShell().setText(title);
 	}
-	
+
 	//TODO: Tree *should* update automatically. If not, try this:
 	/*public static void refresh(TreeItem ctrl, Tree tree) {
 		//tree.getItems()	//list of all children

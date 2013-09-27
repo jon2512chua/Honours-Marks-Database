@@ -151,7 +151,7 @@ public class PopupWindow {
 		gd_passwordText.widthHint = 350;
 		passwordText.setLayoutData(gd_passwordText);
 		new Label(shell, SWT.NONE);
-		
+
 		Label lblCohortToLoad = new Label(shell, SWT.NONE);
 		GridData gd_lblCohortToLoad = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_lblCohortToLoad.horizontalIndent = 10;
@@ -191,7 +191,6 @@ public class PopupWindow {
 
 		//Button listener to deal with the OK button being pressed
 		Listener btnOKListener = new Listener() {
-			@SuppressWarnings("unused")			///TODO: delete after validation is added in
 			public void handleEvent(Event event) {
 				//TODO: username/password validation
 				String selectedCohort = combo.getItems()[combo.getSelectionIndex()];

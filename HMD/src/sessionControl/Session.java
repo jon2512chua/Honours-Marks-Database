@@ -19,7 +19,7 @@ public class Session {
 	 * System database information
 	 */
 	public static final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
-	//public static final String systemDB = "config/System"; @todo fix relative paths
+	//public static final String systemDB = "config/System"; TODO: -urgent- fix relative paths
 	public static final String systemDB = "/Users/nickos/SkyDrive/UWA2/CITS3200/Honours-Marks-Database/config/System";
 	//public static final String dbUser = "Admin";
 	//public static final String dbPassword = "teamA2013";
@@ -65,9 +65,7 @@ public class Session {
 			System.out.println("logged in to view " + cohort);
 			//@todo getchohortdata operation
 			return true; 
-		}
-		else 
-		{
+		} else {
 			un = "";
 			pwHash = "";
 			System.out.println("not logged in...");
@@ -84,8 +82,7 @@ public class Session {
 			pwHash = BCrypt.hashpw(newp, BCrypt.gensalt()); 
 			System.out.println("success");
 			return true; 
-		}
-		else {
+		} else {
 			System.out.println("failure");
 			return false;
 		} 
@@ -95,8 +92,7 @@ public class Session {
 	//@todo implement this method
 	public void changeFocus(){}
 
-	public static void dbConnect()
-	{
+	public static void dbConnect() {
 
 		// define the Derby connection URL to use 
 		String connectionURL = "jdbc:derby:" + systemDB + ";";
@@ -108,7 +104,7 @@ public class Session {
 
 		//   Beginning of JDBC code sections   
 		//   ## LOAD DRIVER SECTION ##
-		try	        {
+		try	{
 			/*
 			 **  Load the Derby driver. 
 			 **     When the embedded Driver is used this action start the Derby engine.
@@ -119,7 +115,7 @@ public class Session {
 		} catch(java.lang.ClassNotFoundException e)     {
 			System.err.print("ClassNotFoundException: ");
 			System.err.println(e.getMessage());
-			System.out.println("\n    >>> Please check your CLASSPATH variable   <<<\n");
+			System.out.println("\n    >>> Please check your CLASSPATH variable   <<<\n");	//TODO: change to a more professional message
 		}
 		//  Beginning of Primary DB access section
 		//   ## BOOT DATABASE SECTION ##
@@ -165,11 +161,11 @@ public class Session {
 			}
 
 			//  Beginning of the primary catch block: uses errorPrint method
-		}  catch (Throwable e)  {   
+		} catch (Throwable e)  {   
 			/*       Catch all exceptions and pass them to 
 			 **       the exception reporting method             */
-			System.out.println(" . . . exception thrown:");
-
+			System.out.println(" . . . exception thrown:");	//TODO: more professional error output
+			e.printStackTrace();
 		}
 		System.out.println("Getting Started With Derby JDBC program ending.");
 	}

@@ -70,8 +70,7 @@ public class CohortImporter {
 						//System.out.print(error);
 						continue;
 					}
-				}
-				else {
+				} else {
 					String error = "ERROR: invalid discipline in row " + index + ". Student not added.\n";
 					importErrors.append(error);
 					//System.out.print(error);
@@ -92,21 +91,18 @@ public class CohortImporter {
 						supId = (int) cell.getNumericCellValue();
 						if((supId > 99999999 && supId < 199999999) || (supId > 199 && supId < 299)) {
 							supers.add(supId + "");
-						}
-						else {
+						} else {
 							String error = "ERROR: invalid supervisor number in row " + index + ", column " + i + ". Student added, but supervisor not.\n";
 							importErrors.append(error);
 							//System.out.print(error);
 						}
-					}
-					else if (cell.getCellType() == 3) {
+					} else if (cell.getCellType() == 3) {
 						supId = -1;
-					}
-					else {
+					} else {
 						String error = "ERROR: invalid supervisor number in row " + index + ", column " + i + ". Student added, but supervisor not.\n";
 						importErrors.append(error);
 						//System.out.print(error);
-					}	
+					}
 					i++;
 				} while (supId != -1);
 

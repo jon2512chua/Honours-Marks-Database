@@ -192,15 +192,18 @@ public class PopupWindow {
 		//Button listener to deal with the OK button being pressed
 		Listener btnOKListener = new Listener() {
 			public void handleEvent(Event event) {
-				//TODO: username/password validation
 				String selectedCohort = combo.getItems()[combo.getSelectionIndex()];
 				int sem = selectedCohort.length();
-				selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem); 
-				if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) {
-					//Enables controls				
-					for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
-					shell.dispose();
-				} else popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
+				try {
+					selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem); 
+					if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) {
+						//Enables controls				
+						for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
+						shell.dispose();
+					} else popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
+				} catch (java.lang.StringIndexOutOfBoundsException e) {
+					popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
+				}
 			}
 		};
 		btnOK.addListener(SWT.Selection, btnOKListener);

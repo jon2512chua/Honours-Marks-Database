@@ -19,8 +19,10 @@ public class Session {
 	 * System database information
 	 */
 	public static final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
-	//public static final String systemDB = "config/System"; TODO: -urgent- fix relative paths
-	public static final String systemDB = "/Users/nickos/SkyDrive/UWA2/CITS3200/Honours-Marks-Database/config/System";
+	public static final String systemDBRel = "config/System";
+	public static String systemAbs = (new File(systemDBRel)).toURI().getPath().toString();	//Convert relative path to absolute path
+	public static final String systemDB = systemAbs;
+	//public static final String systemDB = "/Users/nickos/SkyDrive/UWA2/CITS3200/Honours-Marks-Database/config/System";
 	//public static final String dbUser = "Admin";
 	//public static final String dbPassword = "teamA2013";
 
@@ -94,8 +96,8 @@ public class Session {
 
 	public static void dbConnect() {
 
-		// define the Derby connection URL to use 
-		String connectionURL = "jdbc:derby:" + systemDB + ";";
+		// define the Derby connection URL to use
+		String connectionURL = "jdbc:derby:" + systemAbs.substring(1);
 
 		Connection conn = null;
 		Statement s;
@@ -112,7 +114,7 @@ public class Session {
 			 */
 			Class.forName(driver); 
 			System.out.println(driver + " loaded. ");
-		} catch(java.lang.ClassNotFoundException e)     {
+		} catch(java.lang.ClassNotFoundException e) {	//TODO: more professional error handling
 			System.err.print("ClassNotFoundException: ");
 			System.err.println(e.getMessage());
 			System.out.println("\n    >>> Please check your CLASSPATH variable   <<<\n");	//TODO: change to a more professional message
@@ -122,7 +124,7 @@ public class Session {
 		try {
 			// Create (if needed) and connect to the database
 			conn = DriverManager.getConnection(connectionURL);	// @todo add username, password	 
-			System.out.println("Connected to database " + systemDB);
+			System.out.println("Connected to database " + systemDBRel);
 
 			//   ## INITIAL SQL SECTION ## 
 			//   Create a statement to issue simple commands.  
@@ -161,10 +163,10 @@ public class Session {
 			}
 
 			//  Beginning of the primary catch block: uses errorPrint method
-		} catch (Throwable e)  {   
+		} catch (java.sql.SQLException e)  {   
 			/*       Catch all exceptions and pass them to 
 			 **       the exception reporting method             */
-			System.out.println(" . . . exception thrown:");	//TODO: more professional error output
+			System.err.println("Error: The database " + connectionURL.substring(11) + " was unable to be located");	//TODO: fix when using relative paths
 			e.printStackTrace();
 		}
 		System.out.println("Getting Started With Derby JDBC program ending.");

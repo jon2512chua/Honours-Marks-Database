@@ -118,7 +118,7 @@ public class PopupWindow {
 			Image splashImage = new Image(parentShell.getDisplay(), imageFileName);
 			canvas.setBackgroundImage(splashImage);
 		} catch (SWTException e) {
-			System.err.println("Warning: The file " + (new File(imageFileName)).toURI() + " was unable to be located.");
+			System.err.println("Warning: The file " + (new File(imageFileName)).toURI().getPath() + " was unable to be located.");
 		}
 
 		Label seperator = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -162,12 +162,15 @@ public class PopupWindow {
 		gd_combo.widthHint = 337;
 		gd_combo.horizontalIndent = 20;
 		combo.setLayoutData(gd_combo);
-		String[] cohorts = Session.getCohorts();
-		// error handling?
-		for (String c : cohorts) {
-			combo.add(c.substring(0, 4) + " - Semester " + c.substring(4));
-		}	
-		combo.select(0);
+		try {
+			String[] cohorts = Session.getCohorts();
+			for (String c : cohorts) {
+				combo.add(c.substring(0, 4) + " - Semester " + c.substring(4));
+			}	
+			combo.select(0);
+		} catch (java.lang.NullPointerException e) {	//TODO: better error handling
+			e.printStackTrace();
+		}
 
 		Composite buttonsComposite = new Composite(shell, SWT.NONE);
 		GridData gd_buttonsComposite = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1);

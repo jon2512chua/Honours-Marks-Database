@@ -45,7 +45,7 @@ public class MainUI {
 			Image icon = new Image(display,iconFileName);
 			shell.setImage(icon); 
 		} catch (SWTException e) {
-			System.err.println("Warning: The file " + (new File(iconFileName)).toURI() + " was unable to be located.");
+			System.err.println("Warning: The file " + (new File(iconFileName)).toURI().getPath() + " was unable to be located.");
 		}
 
 

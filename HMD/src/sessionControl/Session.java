@@ -9,6 +9,9 @@ import java.sql.*;
  * 
  * @author Nicholas Abbey 20522805
  * @version 22/09/13
+ * 
+ * PASSWORD CURRENTLY SET TO DEFAULT!!
+ * 
  */
 public class Session {
 
@@ -21,7 +24,7 @@ public class Session {
 	 */
 	public static ConnectionWrapper dbConn = new ConnectionWrapper();
 
-	// do we need systemDB un/pw installed?
+	// do we need systemDB username/password installed?
 
 	/**
 	 * Cohort currently under consideration
@@ -59,27 +62,25 @@ public class Session {
 			query = sysConn.getConnection()
 					.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 							ResultSet.CONCUR_UPDATABLE);
-			String SQL = "SELECT * FROM System";
+			String SQL = "SELECT * FROM System where username = '" + username + "'";
 
 			ResultSet rs = query.executeQuery(SQL);
-
-			rs.first();
+			
+			if(!rs.next()) {
+				return false;
+			}
 
 			String u = rs.getString("username");
 			String p = rs.getString("password");
-			if (username.equals(u)
-					&& ((p.equals("initial") && password.equals(p)) || BCrypt
-							.checkpw(password, u))) {
+			if (username.equals(u) && BCrypt.checkpw(password, p)) {
 				loggedIn = true;
 				currentFocus = cohort;
+				user = username;
 
-				System.out.println("logged in to view " + cohort);
-				// TODO get data operation
 				DerbyUtils.dbDisconnect(sysConn);
 				query.close();
 				return true;
 			} else {
-				System.out.println("not logged in...");
 				DerbyUtils.dbDisconnect(sysConn);
 				query.close();
 				return false;
@@ -105,18 +106,42 @@ public class Session {
 	 * 
 	 * TODO the validation of newp should occur in UI
 	 */
-	// public static boolean changePassword(String oldp, String newp) {
-	// if(BCrypt.checkpw(oldp, pwHash)) {
-	// pwHash = BCrypt.hashpw(newp, BCrypt.gensalt());
-	// System.out.println("success");
-	// return true;
-	// }
-	// else {
-	// System.out.println("failure");
-	// return false;
-	// }
-	//
-	// }
+	 public static boolean changePassword(String oldp, String newp) {
+		 
+		 boolean check = DerbyUtils.dbConnect(Directories.systemDb);
+			if (!check)
+				return false;
+
+			Statement query;
+
+			try {
+				query = sysConn.getConnection()
+						.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+								ResultSet.CONCUR_UPDATABLE);
+				String SQL = "SELECT * FROM System WHERE username = '" + Session.user + "'";
+				ResultSet rs = query.executeQuery(SQL);
+
+				rs.next();
+
+				String p = rs.getString("password");
+				
+				if ((BCrypt.checkpw(oldp, p))) { 						
+					String update = "UPDATE System SET password = '" + BCrypt.hashpw(newp, BCrypt.gensalt()) + "' WHERE username = " + "'admin'";
+					query.execute(update);
+					query.close();
+					rs.close();
+					DerbyUtils.dbDisconnect(sysConn);
+					return true;
+				} else {
+					DerbyUtils.dbDisconnect(sysConn);
+					query.close();
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+	}
 
 	/**
 	 * change the GUI's focus to a different cohort TODO implement changeFocus

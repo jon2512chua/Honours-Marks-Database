@@ -9,7 +9,6 @@ import java.sql.SQLException;
  * @author Nicholas Abbey 20522805
  * @version 28/9/13
  */
-
 public class DerbyUtils {
 
 	/**

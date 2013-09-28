@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class database {
 
 	/**
-	 * @param args
+	 * Nick's class for testing some database operations...
 	 */
 	public static void main(String[] args) {
 		loadDriver();

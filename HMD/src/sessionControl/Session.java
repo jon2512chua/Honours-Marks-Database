@@ -105,7 +105,7 @@ public class Session {
 //            
 //    }
     
-    //@todo implement this method
+    //TODO implement this method
     public void changeFocus(){}
     /**
      * Connect to the system database
@@ -179,7 +179,6 @@ public class Session {
  * @return a list of the available databases
  * @todo http://stackoverflow.com/questions/5125242/list-only-subdirectory-from-directory-not-files, error handling
  */
-
 	public static String[] getCohorts() {
 		File file = new File(dbDir);
 		String[] directories = file.list(new FilenameFilter() {

@@ -162,7 +162,7 @@ public class PopupWindow {
 		gd_combo.widthHint = 337;
 		gd_combo.horizontalIndent = 20;
 		combo.setLayoutData(gd_combo);
-<<<<<<< HEAD
+
 		String[] cohorts = Session.getCohorts();
 		if (cohorts[0].equals("-1")) {
 			combo.add("Error: no databases found");
@@ -173,17 +173,6 @@ public class PopupWindow {
 			}
 		}
 		combo.select(0); //@todo find the last used one from the system DB
-=======
-		try {
-			String[] cohorts = Session.getCohorts();
-			for (String c : cohorts) {
-				combo.add(c.substring(0, 4) + " - Semester " + c.substring(4));
-			}	
-			combo.select(0);
-		} catch (java.lang.NullPointerException e) {	//TODO: better error handling
-			e.printStackTrace();
-		}
->>>>>>> 2311399ee7554d12e6cdd8326788994ce22af85c
 
 		Composite buttonsComposite = new Composite(shell, SWT.NONE);
 		GridData gd_buttonsComposite = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1);

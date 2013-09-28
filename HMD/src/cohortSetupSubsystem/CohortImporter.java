@@ -1,4 +1,4 @@
-package importer;
+package cohortSetupSubsystem;
 
 import java.io.FileInputStream;
 import java.io.File;
@@ -16,7 +16,7 @@ import org.apache.poi.ss.usermodel.Row;
 /**
  * This class imports students in bulk from a prefilled template spreadsheet
  * @author Nicholas Abbey 20522805
- * @version 22/9/13
+ * @version 28/9/13
  * @todo needs to have write to DB method!
  */
 public class CohortImporter {	 
@@ -41,7 +41,8 @@ public class CohortImporter {
 			HSSFSheet sheet = workbook.getSheetAt(0);
 			Iterator<Row> rowIterator = sheet.iterator();
 
-			if (rowIterator.hasNext()) rowIterator.next(); //This is to dodge the first row, which has headings in it
+			//Dodge the first row of the Template, which has headings in it
+			if (rowIterator.hasNext()) rowIterator.next(); 
 			else {return null;}
 
 			int index = 1;
@@ -77,14 +78,15 @@ public class CohortImporter {
 					continue;
 				}
 
-				String ln = row.getCell(2,org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK).getStringCellValue();
-				String fn = row.getCell(3, org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK).getStringCellValue();
-				String dissTit = row.getCell(4, org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+				String title = row.getCell(2,org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+				String ln = row.getCell(3,org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+				String fn = row.getCell(4, org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+				String dissTit = row.getCell(5, org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 
 				List<String> supers = new LinkedList<String>();
 
 				int supId = -1;
-				int i = 5;
+				int i = 6;
 				do {
 					cell = row.getCell(i, org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK);
 					if(cell.getCellType() == 0) {

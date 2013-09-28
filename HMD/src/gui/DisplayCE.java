@@ -31,7 +31,7 @@ public class DisplayCE {
 		DisplayCE_PopulateEditStudent.populate(CETabFolder, "Edit Student");
 		
 		//Staff Tab
-		DisplayCE_PopulateEditSfaff.populate(CETabFolder, "Edit Staff");
+		DisplayCE_PopulateEditStaff.populate(CETabFolder, "Edit Staff");
 
 		//Course Tab
 		DisplayCE_PopulateEditCourse.populate(CETabFolder, "Edit Course");

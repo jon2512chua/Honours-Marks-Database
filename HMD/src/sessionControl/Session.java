@@ -10,7 +10,7 @@ import java.sql.*;
  * @author Nicholas Abbey 20522805
  * @version 22/09/13
  * 
- * PASSWORD CURRENTLY SET TO DEFAULT!!
+ *          PASSWORD CURRENTLY SET TO DEFAULT!! users are either Heather or admin
  * 
  */
 public class Session {
@@ -38,7 +38,8 @@ public class Session {
 	/**
 	 * true when login successful
 	 */
-	private static boolean loggedIn = false;
+	private static boolean loggedIn = false; // is this necessary??? TODO
+												// depends on logout protocol
 	/**
 	 * Stores name of current user
 	 */
@@ -47,8 +48,7 @@ public class Session {
 	// --------------------------------------------------------------------------------
 
 	/**
-	 * Set loggedIn to true if credentials validated TODO finish - will need to
-	 * tie to GUI methods and DB connection
+	 * Set loggedIn to true if credentials validated
 	 */
 	public static boolean login(String username, String password, String cohort) {
 
@@ -62,11 +62,12 @@ public class Session {
 			query = sysConn.getConnection()
 					.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 							ResultSet.CONCUR_UPDATABLE);
-			String SQL = "SELECT * FROM System where username = '" + username + "'";
+			String SQL = "SELECT * FROM System where username = '" + username
+					+ "'";
 
 			ResultSet rs = query.executeQuery(SQL);
-			
-			if(!rs.next()) {
+
+			if (!rs.next()) {
 				return false;
 			}
 
@@ -106,47 +107,57 @@ public class Session {
 	 * 
 	 * TODO the validation of newp should occur in UI
 	 */
-	 public static boolean changePassword(String oldp, String newp) {
-		 
-		 boolean check = DerbyUtils.dbConnect(Directories.systemDb);
-			if (!check)
-				return false;
+	public static boolean changePassword(String oldp, String newp) {
 
-			Statement query;
+		boolean check = DerbyUtils.dbConnect(Directories.systemDb);
+		if (!check)
+			return false;
 
-			try {
-				query = sysConn.getConnection()
-						.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-								ResultSet.CONCUR_UPDATABLE);
-				String SQL = "SELECT * FROM System WHERE username = '" + Session.user + "'";
-				ResultSet rs = query.executeQuery(SQL);
+		Statement query;
 
-				rs.next();
+		try {
+			query = sysConn.getConnection()
+					.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+							ResultSet.CONCUR_UPDATABLE);
+			String SQL = "SELECT * FROM System WHERE username = '"
+					+ Session.user + "'";
+			ResultSet rs = query.executeQuery(SQL);
 
-				String p = rs.getString("password");
-				
-				if ((BCrypt.checkpw(oldp, p))) { 						
-					String update = "UPDATE System SET password = '" + BCrypt.hashpw(newp, BCrypt.gensalt()) + "' WHERE username = " + "'admin'";
-					query.execute(update);
-					query.close();
-					rs.close();
-					DerbyUtils.dbDisconnect(sysConn);
-					return true;
-				} else {
-					DerbyUtils.dbDisconnect(sysConn);
-					query.close();
-					return false;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			rs.next();
+
+			String p = rs.getString("password");
+
+			if ((BCrypt.checkpw(oldp, p))) {
+				String update = "UPDATE System SET password = '"
+						+ BCrypt.hashpw(newp, BCrypt.gensalt())
+						+ "' WHERE username = " + "'admin'";
+				query.execute(update);
+				query.close();
+				rs.close();
+				DerbyUtils.dbDisconnect(sysConn);
+				return true;
+			} else {
+				DerbyUtils.dbDisconnect(sysConn);
+				query.close();
 				return false;
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
-	 * change the GUI's focus to a different cohort TODO implement changeFocus
+	 * Change the GUI's focus to a different cohort TODO implement changeFocus
 	 */
-	public void changeFocus() {
+	public boolean changeFocus(String newFocus) {
+		dbConn.closeConnection();
+		if(DerbyUtils.dbConnect(newFocus)) {
+			currentFocus = newFocus;
+			//TODO load data!
+			return true;
+			}
+		else return false;
 	}
 
 	/**
@@ -166,9 +177,7 @@ public class Session {
 						.matches("\\d{5}"));
 			}
 		});
-		if (directories.length == 0)
-			return (new String[] { "-1" });
-		else
-			return directories;
+
+		return directories;
 	}
 }

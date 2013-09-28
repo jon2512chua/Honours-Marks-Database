@@ -21,6 +21,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
 
 import sessionControl.Session;
+import sessionControl.Errors;
 
 /**
  * Popup Windows
@@ -166,8 +167,8 @@ public class PopupWindow {
 		combo.setLayoutData(gd_combo);
 
 		String[] cohorts = Session.getCohorts();
-		if (cohorts[0].equals("-1")) {
-			combo.add("Error: no databases found");
+		if (cohorts.length == 0) {
+			combo.add(Errors.noDatabaseError);
 		}
 		else {
 			for (String c : cohorts) {
@@ -202,9 +203,10 @@ public class PopupWindow {
 				String selectedCohort = combo.getItems()[combo.getSelectionIndex()];
 				int sem = selectedCohort.length();
 				try {
-					selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem); 
+					if(selectedCohort.equals(Errors.noDatabaseError)) {selectedCohort = "";}
+					else {selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem);} 
 					if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) { // && TODO load data
-						//Enables controls				
+						//Enables controls	
 						for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
 						shell.dispose();
 					} else popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");

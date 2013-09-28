@@ -4,7 +4,7 @@
  */
 package nicksTests;
 
-import sessionControl.Session;
+import backupSubsystem.BackupUtils;
 
 /**
  *
@@ -17,7 +17,20 @@ public class XStuff {
 //        System.out.println("Hello!");
 //        for (String s : strs) {
 //            System.out.println(s);
-    	String[] str = Session.getCohorts();
+    	//Session.getCohorts();
+    	
+    	//String s = "20132 20130923 224723.zip";
+    	//System.out.println(s.matches("\\d{5} \\d{8} \\d{6}.zip"));
+    	
+    	String[] b = BackupUtils.getBackupsList();
+    	if(b.length > 0) {
+    		for (String a : b) {
+        		System.out.println(a);
+        	}
+    	}
+    	else System.out.println("no backups");
+    	
+    	
         }
 }
 

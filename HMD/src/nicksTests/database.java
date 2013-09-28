@@ -43,8 +43,7 @@ public class database {
 	      String connectionURL = "jdbc:derby:config/System;";
 
 	      Connection conn = null;
-	      Statement s;
-	      ResultSet users;
+	      Statement s;	      
 	      
 	      //   Beginning of JDBC code sections   
 	      //   ## LOAD DRIVER SECTION ##

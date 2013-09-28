@@ -28,6 +28,15 @@ public class ConnectionWrapper {
 	// public void setConnection(Connection c) {dock = c;}
 
 	/**
+	 * Check connection is active
+	 * 
+	 * @return true if connected
+	 */
+	public boolean isConnected() {
+		return !disconnected;
+	}
+
+	/**
 	 * Get connection for querying
 	 * 
 	 * @return the connection

@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Button;
  * Edit Staff Section
  * @author Tim Lander
  */
-public class DisplayCE_PopulateEditSfaff {
+public class DisplayCE_PopulateEditStaff {
 	
 	/**
 	 * Populates the Edit Staff Tab

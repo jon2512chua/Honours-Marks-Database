@@ -1,7 +1,7 @@
 package nicksTests;
 
-import importer.CohortImporter;
-import importer.Student;
+import cohortSetupSubsystem.CohortImporter;
+import cohortSetupSubsystem.Student;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

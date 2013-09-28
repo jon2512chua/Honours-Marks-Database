@@ -6,6 +6,7 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import sessionControl.Directories;
 import sessionControl.Session;
 
 /**
@@ -24,13 +25,13 @@ public class BackupOperations {
      * @todo Heaps of error checking, DISCONNECT FROM DATABASE BEFORE THIS!
      */
     public static boolean backup(String sourceName, boolean restore) {
-        String sourcePath = Session.dbDir + sourceName;
+        String sourcePath = Directories.dbDir + sourceName;
         
         DateFormat df = new SimpleDateFormat("yyyyMMdd HHmmss");
         Date date = new java.util.Date();
         String reportDate = df.format(date);
         
-        String destZip = Session.backupDir + sourceName + " " + reportDate; 
+        String destZip = Directories.backupDir + sourceName + " " + reportDate; 
         if(restore) {destZip += " (depr)";}
         destZip += ".zip";
         
@@ -54,7 +55,7 @@ public class BackupOperations {
         	boolean check = backup(Session.currentFocus, true);
             if(!check) {return false;}
               
-            File directory = new File(Session.dbDir + Session.currentFocus);
+            File directory = new File(Directories.dbDir + Session.currentFocus);
         
 	        // Step 2: delete current state (if one is loaded)
 	        if(!directory.exists()){
@@ -73,7 +74,7 @@ public class BackupOperations {
         // Step 3: restore backup
         if(Session.currentFocus.equals("")) Session.currentFocus = backupName.substring(0, 5);
         
-        ZipUtility.unZipIt(Session.backupDir + backupName, Session.dbDir + Session.currentFocus);
+        ZipUtility.unZipIt(Directories.backupDir + backupName, Directories.dbDir + Session.currentFocus);
         return true;
         
         //@todo add disconnect and reconnect to DB

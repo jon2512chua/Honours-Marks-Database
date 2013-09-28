@@ -1,5 +1,7 @@
 package gui;
 
+import sessionControl.DerbyUtils;
+
 /**
  * Main class. Acts as a preloader for MainUI.
  * @author Tim Lander
@@ -10,10 +12,11 @@ public class MainLoader {
 		
 		//Load correct SWT.jar
 		SWTLoader.loadSwtJar();
-
-		//Begin program execution
-		MainUI.main2();
 		
+		//Load database drivers
+		DerbyUtils.loadDriver();
+		
+		//Begin program execution
+		MainUI.main2();	
 	}
-
 }

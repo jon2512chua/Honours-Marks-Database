@@ -37,7 +37,7 @@ public class DisplayCE_PopulateEditStudent {
 	 * @wbp.parser.entryPoint
 	 */
 	public static void populate(final CTabFolder CETabFolder, String tabName) {
-		
+
 		CTabItem tbtmEditStudent = new CTabItem(CETabFolder, SWT.NONE);
 		tbtmEditStudent.setText(tabName);
 
@@ -124,7 +124,7 @@ public class DisplayCE_PopulateEditStudent {
 			supervisor.setText(new String[] {Data.StaffNumber[sn], Data.StaffNameTitle[sn] + " " + Data.StaffNameFirst[sn].charAt(0) + ". " + Data.StaffNameLast[sn]});
 		}
 
-		@SuppressWarnings("unused")
+		@SuppressWarnings("unused")	//TODO: remove later
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
 
 

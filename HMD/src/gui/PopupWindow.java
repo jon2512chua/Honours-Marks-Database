@@ -118,7 +118,7 @@ public class PopupWindow {
 			Image splashImage = new Image(parentShell.getDisplay(), imageFileName);
 			canvas.setBackgroundImage(splashImage);
 		} catch (SWTException e) {
-			System.err.println("Warning: The file " + (new File(imageFileName)).toURI() + " was unable to be located.");
+			System.err.println("Warning: The file " + (new File(imageFileName)).toURI().getPath() + " was unable to be located.");
 		}
 
 		Label seperator = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -151,7 +151,7 @@ public class PopupWindow {
 		gd_passwordText.widthHint = 350;
 		passwordText.setLayoutData(gd_passwordText);
 		new Label(shell, SWT.NONE);
-		
+
 		Label lblCohortToLoad = new Label(shell, SWT.NONE);
 		GridData gd_lblCohortToLoad = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_lblCohortToLoad.horizontalIndent = 10;
@@ -162,6 +162,7 @@ public class PopupWindow {
 		gd_combo.widthHint = 337;
 		gd_combo.horizontalIndent = 20;
 		combo.setLayoutData(gd_combo);
+<<<<<<< HEAD
 		String[] cohorts = Session.getCohorts();
 		if (cohorts[0].equals("-1")) {
 			combo.add("Error: no databases found");
@@ -172,6 +173,17 @@ public class PopupWindow {
 			}
 		}
 		combo.select(0); //@todo find the last used one from the system DB
+=======
+		try {
+			String[] cohorts = Session.getCohorts();
+			for (String c : cohorts) {
+				combo.add(c.substring(0, 4) + " - Semester " + c.substring(4));
+			}	
+			combo.select(0);
+		} catch (java.lang.NullPointerException e) {	//TODO: better error handling
+			e.printStackTrace();
+		}
+>>>>>>> 2311399ee7554d12e6cdd8326788994ce22af85c
 
 		Composite buttonsComposite = new Composite(shell, SWT.NONE);
 		GridData gd_buttonsComposite = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1);
@@ -195,17 +207,19 @@ public class PopupWindow {
 
 		//Button listener to deal with the OK button being pressed
 		Listener btnOKListener = new Listener() {
-			@SuppressWarnings("unused")			///TODO: delete after validation is added in
 			public void handleEvent(Event event) {
-				//TODO: username/password validation
 				String selectedCohort = combo.getItems()[combo.getSelectionIndex()];
 				int sem = selectedCohort.length();
-				selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem); 
-				if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) {
-					//Enables controls				
-					for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
-					shell.dispose();
-				} else popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
+				try {
+					selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem); 
+					if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) {
+						//Enables controls				
+						for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
+						shell.dispose();
+					} else popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
+				} catch (java.lang.StringIndexOutOfBoundsException e) {
+					popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
+				}
 			}
 		};
 		btnOK.addListener(SWT.Selection, btnOKListener);

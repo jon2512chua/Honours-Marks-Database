@@ -6,21 +6,21 @@ import java.util.List;
 import java.util.Map;
 
 public class Student {
-	
+
 	public final static Map<String, String> discKeys;
 	static
 	{
 		discKeys = new HashMap<String, String>();
-        discKeys.put("a", "ANHB");
-        discKeys.put("p", "PHYL");
-        discKeys.put("n", "NEURO");
-        discKeys.put("b", "BIOMS");
-        discKeys.put("ANHB", "ANHB");
-        discKeys.put("PHYL", "PHYL");
-        discKeys.put("NEURO", "NEURO");
-        discKeys.put("BIOMS", "BIOMS"); 
+		discKeys.put("a", "ANHB");
+		discKeys.put("p", "PHYL");
+		discKeys.put("n", "NEURO");
+		discKeys.put("b", "BIOMS");
+		discKeys.put("ANHB", "ANHB");
+		discKeys.put("PHYL", "PHYL");
+		discKeys.put("NEURO", "NEURO");
+		discKeys.put("BIOMS", "BIOMS"); 
 	}
-	
+
 	public int studentId;
 	public String discipline;
 	public String lastName;
@@ -29,8 +29,9 @@ public class Student {
 	public List<String> supervisors;	// Will be Staff type
 	public int cumulativeMark;			// 
 	public int range;
+	@SuppressWarnings("unused")			//TODO: remove later
 	private String[] units;				// Will be Unit[]
-	
+
 	/**
 	 * Constructor for initial instantiation of student object - either from form entry or mass entry
 	 * @param sId
@@ -49,7 +50,7 @@ public class Student {
 		cumulativeMark = 0;
 		units = null; // have a method in discipline to initialise this properly. getUnits(cohort, discipline)
 	}
-	
+
 	public void toStdOut() {
 		if(dissTitle.equals("")) dissTitle = "<no topic>";
 		String sup = "";
@@ -58,7 +59,7 @@ public class Student {
 		if(sup.equals("")) sup = "<no supervisors>";
 		System.out.println(studentId + " " + " " + discipline + " " + lastName + " " + firstName + " " + dissTitle + " " + sup);
 	}
-    
-    public String toSQL(){return "";}
-	
+
+	public String toSQL(){return "";}
+
 }

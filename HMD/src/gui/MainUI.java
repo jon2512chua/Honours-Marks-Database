@@ -125,7 +125,7 @@ public class MainUI {
 
 		Button btnBackup = new Button(grpTools, SWT.NONE);
 		btnBackup.setAlignment(SWT.LEFT);
-		btnBackup.setText("Schedule Backup");
+		btnBackup.setText("Backup");
 
 		Button btnImport = new Button(grpTools, SWT.NONE);
 		btnImport.setAlignment(SWT.LEFT);

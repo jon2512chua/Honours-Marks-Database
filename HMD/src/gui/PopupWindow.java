@@ -205,7 +205,8 @@ public class PopupWindow {
 				try {
 					if(selectedCohort.equals(Errors.noDatabaseError)) {selectedCohort = "";}
 					else {selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem);} 
-					if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) { // && TODO load data
+					if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) { 
+						// && TODO load data
 						//Enables controls	
 						for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
 						shell.dispose();

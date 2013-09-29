@@ -17,6 +17,11 @@ import sessionControl.Session;
  * @version 22/09/13
  */
 public class BackupOperations {
+	
+	public static boolean backup() {
+		return backup(Session.currentFocus, false);
+	}
+	
 	/**
 	 * Method saves a copy of the currently open cohort data to the 'backups'
 	 * directory

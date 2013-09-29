@@ -4,6 +4,6 @@ import sessionControl.Session;
 
 public class pwchange {
 	public static void main(String[] args) {
-		Session.changePassword("initial", "default");
+		Session.changePassword("default", "initial");
 	}
 }

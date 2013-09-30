@@ -135,8 +135,8 @@ public class DisplayTools_PopulateBackupSchedule {
 		Listener btnBackupNowListener = new Listener() {	//TODO: test 
 			@SuppressWarnings("unused")	//TODO: remove
 			public void handleEvent(Event event) {
-				if (true/*BackupOperations.backup()*/) {//TODO: uncomment out
-					PopupWindow.popupMessage(toolsTabFolder.getShell(), "Backup Successfull.", "Backup");
+				if (BackupOperations.backup()) {//TODO: uncomment out
+					PopupWindow.popupMessage(toolsTabFolder.getShell(), "Backup Successful.", "Backup");
 				} else {
 					PopupWindow.popupMessage(toolsTabFolder.getShell(), "Backup Failed.", "Backup");
 				}

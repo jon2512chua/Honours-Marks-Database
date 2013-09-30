@@ -1,0 +1,19 @@
+----------------------------------------------------------------
+Sun Sep 29 13:14:53 WST 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0141-6824-04e1-00000476b738 
+on database directory /Users/nickos/SkyDrive/UWA2/CITS3200/Honours-Marks-Database/HMD/config/System with class loader sun.misc.Launcher$AppClassLoader@1729854 
+Loaded from file:/Users/nickos/SkyDrive/Derby/lib/derby.jar
+java.vendor=Apple Inc.
+java.runtime.version=1.6.0_51-b11-457-11M4509
+user.dir=/Users/nickos/SkyDrive/UWA2/CITS3200/Honours-Marks-Database/HMD/config
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.8.5
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Sun Sep 29 13:26:04 WST 2013: Shutting down Derby engine
+----------------------------------------------------------------
+Sun Sep 29 13:26:04 WST 2013:
+Shutting down instance a816c00e-0141-6824-04e1-00000476b738 on database directory /Users/nickos/SkyDrive/UWA2/CITS3200/Honours-Marks-Database/HMD/config/System with class loader sun.misc.Launcher$AppClassLoader@1729854 
+----------------------------------------------------------------

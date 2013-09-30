@@ -35,9 +35,11 @@ public class PopupWindow {
 	 * @param parentShell the display currently in use
 	 * @param text the text the popup displays 
 	 * @param title the title to display
+	 * @wbp.parser.entryPoint
 	 */
 	public static void popupMessage(Shell parentShell, String text, String title) {
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
+		shell.setImage(parentShell.getImage());
 
 		// Set the Window Title
 		shell.setText(title);
@@ -85,7 +87,6 @@ public class PopupWindow {
 	/**
 	 * Popups a log on screen. Controls are disabled until a account is accepted.
 	 * @param parentShell
-	 * @wbp.parser.entryPoint
 	 */
 	public static void popupLogon(Shell parentShell) {		//TODO: perhaps add a forgotten password button?
 		final String imageFileName = "splash.png";

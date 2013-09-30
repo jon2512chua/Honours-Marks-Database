@@ -52,15 +52,15 @@ public class MainUI {
 			System.err.println("Warning: The file " + (new File(iconFileName)).toURI().getPath() + " was unable to be located.");
 		}
 
-		Composite composite = new Composite(shell, SWT.BORDER);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		composite.setLayout(new GridLayout(1, false));
+		Composite nowViewingComposite = new Composite(shell, SWT.BORDER);
+		nowViewingComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		nowViewingComposite.setLayout(new GridLayout(1, false));
 
-		Label lblNowViewing = new Label(composite, SWT.NONE);
+		Label lblNowViewing = new Label(nowViewingComposite, SWT.NONE);
 		lblNowViewing.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		lblNowViewing.setText("Now Viewing:");
 
-		Label lblSemester = new Label(composite, SWT.NONE);
+		Label lblSemester = new Label(nowViewingComposite, SWT.NONE);
 		lblSemester.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		lblSemester.setText("2013 Semester 1");	//TODO: make dynamic
 
@@ -127,14 +127,14 @@ public class MainUI {
 		btnSettings.setAlignment(SWT.LEFT);
 		btnSettings.setText("Settings");
 		
-		Composite composite_1 = new Composite(shell, SWT.BORDER);
-		GridLayout gl_composite_1 = new GridLayout(1, false);
-		gl_composite_1.marginWidth = 1;
-		gl_composite_1.marginHeight = 1;
-		composite_1.setLayout(gl_composite_1);
-		composite_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		Composite exitComposite = new Composite(shell, SWT.BORDER);
+		GridLayout gl_exitComposite = new GridLayout(1, false);
+		gl_exitComposite.marginWidth = 1;
+		gl_exitComposite.marginHeight = 1;
+		exitComposite.setLayout(gl_exitComposite);
+		exitComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
-		Button btnExit = new Button(composite_1, SWT.NONE);
+		Button btnExit = new Button(exitComposite, SWT.NONE);
 		GridData gd_btnExit = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_btnExit.heightHint = 30;
 		btnExit.setLayoutData(gd_btnExit);

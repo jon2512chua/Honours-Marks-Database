@@ -18,7 +18,8 @@ public class DisplaySettings_Account {
 	private static Text usernameText;
 	private static Text newPasswordText;
 	private static Text retypeNewPasswordtext;
-	private static Text emailText;
+	private static Text secretQText;
+	private static Text secretAText;
 	private static Text currentPasswordText;
 
 	/**
@@ -44,14 +45,31 @@ public class DisplaySettings_Account {
 		gd_usernameText.widthHint = 350;
 		usernameText.setLayoutData(gd_usernameText);
 
-		Label lblEmailAddress = new Label(accountSettingsComposite, SWT.NONE);
-		lblEmailAddress.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblEmailAddress.setText("Email Address:");
+		//Padding - TODO: make this better
+		new Label(accountSettingsComposite, SWT.NONE);
+		new Label(accountSettingsComposite, SWT.NONE);
 
-		emailText = new Text(accountSettingsComposite, SWT.BORDER);
-		GridData gd_emailText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_emailText.widthHint = 350;
-		emailText.setLayoutData(gd_emailText);
+		Label lblSecretQ = new Label(accountSettingsComposite, SWT.NONE);
+		lblSecretQ.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblSecretQ.setText("Secret Question:");
+
+		secretQText = new Text(accountSettingsComposite, SWT.BORDER);
+		GridData gd_secretQText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_secretQText.widthHint = 350;
+		secretQText.setLayoutData(gd_secretQText);
+
+		Label lblSecretA = new Label(accountSettingsComposite, SWT.NONE);
+		lblSecretA.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblSecretA.setText("Secret Answer:");
+
+		secretAText = new Text(accountSettingsComposite, SWT.BORDER);
+		GridData gd_secretAText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_secretAText.widthHint = 350;
+		secretAText.setLayoutData(gd_secretAText);
+
+		//Padding - TODO: make this better
+		new Label(accountSettingsComposite, SWT.NONE);
+		new Label(accountSettingsComposite, SWT.NONE);
 
 		Label lblNewPassword = new Label(accountSettingsComposite, SWT.NONE);
 		lblNewPassword.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));

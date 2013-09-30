@@ -5,6 +5,7 @@ import java.io.File;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -16,7 +17,11 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
+
+import sessionControl.DerbyUtils;
 
 
 /**
@@ -51,10 +56,12 @@ public class MainUI {
 
 		//Left Display
 		//TODO: fix button widths
-		final Composite menuComposite = new Composite(shell, SWT.BORDER);
-		GridData gd_menuComposite = new GridData(SWT.LEFT, SWT.FILL, false, true);
-		gd_menuComposite.heightHint = shell.getDisplay().getBounds().height;
-		menuComposite.setLayoutData(gd_menuComposite);
+		ScrolledComposite scrolledComposite = new ScrolledComposite(shell, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+
+		final Composite menuComposite = new Composite(scrolledComposite, SWT.BORDER);
 		GridLayout gl_menuComposite = new GridLayout(1, false);
 		gl_menuComposite.verticalSpacing = 20;
 		menuComposite.setLayout(gl_menuComposite);
@@ -118,7 +125,7 @@ public class MainUI {
 
 		Button btnBackup = new Button(grpTools, SWT.NONE);
 		btnBackup.setAlignment(SWT.LEFT);
-		btnBackup.setText("Schedule Backup");
+		btnBackup.setText("Backup");
 
 		Button btnImport = new Button(grpTools, SWT.NONE);
 		btnImport.setAlignment(SWT.LEFT);
@@ -138,6 +145,9 @@ public class MainUI {
 		Button btnAccountSettings = new Button(grpSettings, SWT.NONE);
 		btnAccountSettings.setAlignment(SWT.LEFT);
 		btnAccountSettings.setText("Account Settings");
+
+		scrolledComposite.setContent(menuComposite);
+		scrolledComposite.setMinSize(menuComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 
 		final Composite displayComposite = new Composite(shell, SWT.NONE);
@@ -249,6 +259,13 @@ public class MainUI {
 			}
 		};
 		btnAccountSettings.addListener(SWT.Selection, btnAccountSettingsListener);
+
+		//Actions to perform when program is closed.
+		shell.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent event) {
+				DerbyUtils.shutdownDriver();
+			}
+		});
 
 		//Set Initial Screen
 		shell.setText("CITS3200 Program");

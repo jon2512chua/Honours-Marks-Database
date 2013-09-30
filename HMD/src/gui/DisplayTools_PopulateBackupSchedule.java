@@ -23,6 +23,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.layout.GridData;
+
+import backupSubsystem.BackupOperations;
 
 /**
  * Schedule Backup Section
@@ -51,10 +54,19 @@ public class DisplayTools_PopulateBackupSchedule {
 		//Create Backup Data
 		final Composite radioButtonComposite = new Composite(toolsTabFolder, SWT.NONE);
 		tbtmbackupSchedule.setControl(radioButtonComposite);
-		radioButtonComposite.setLayout(new GridLayout(1, false));
+		radioButtonComposite.setLayout(new GridLayout(2, false));
 
 		final Button btnBackupNever = new Button(radioButtonComposite, SWT.RADIO);
 		btnBackupNever.setText("Never");
+		
+		Composite composite = new Composite(radioButtonComposite, SWT.NONE);
+		GridData gd_composite = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 7);
+		gd_composite.horizontalIndent = 10;
+		composite.setLayoutData(gd_composite);
+		
+		Button btnBackupNow = new Button(composite, SWT.NONE);
+		btnBackupNow.setBounds(0, 0, 75, 25);
+		btnBackupNow.setText("Backup Now");
 
 		final Button btnBackupStartup = new Button(radioButtonComposite, SWT.RADIO);
 		btnBackupStartup.setText("On Startup");
@@ -118,6 +130,19 @@ public class DisplayTools_PopulateBackupSchedule {
 		};
 		btnBackupCustom.addSelectionListener(btnBackupCustomListene);
 		btnBackupCustom.notifyListeners(SWT.Selection, new Event());	//Sets listener to check once on startup
+		
+		//Backup Now button listner
+		Listener btnBackupNowListener = new Listener() {	//TODO: test 
+			@SuppressWarnings("unused")	//TODO: remove
+			public void handleEvent(Event event) {
+				if (true/*BackupOperations.backup()*/) {//TODO: uncomment out
+					PopupWindow.popupMessage(toolsTabFolder.getShell(), "Backup Successfull.", "Backup");
+				} else {
+					PopupWindow.popupMessage(toolsTabFolder.getShell(), "Backup Failed.", "Backup");
+				}
+			}
+		};
+		btnBackupNow.addListener(SWT.Selection, btnBackupNowListener);
 
 
 		//Save button Listener
@@ -171,5 +196,4 @@ public class DisplayTools_PopulateBackupSchedule {
 		radioSelection = new Integer(props.getProperty("radioSelection", "4"));
 		comboSelection = new Integer(props.getProperty("comboSelection", "0"));
 	}
-
 }

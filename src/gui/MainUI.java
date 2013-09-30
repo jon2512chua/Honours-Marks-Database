@@ -28,7 +28,7 @@ import sessionControl.DerbyUtils;
  * Main UI class
  * @author Tim Lander
  */
-public class MainUI {
+public class MainUI {	//TODO: get test (remove me)
 
 	//Constants
 	private final static int DefaultHeight = 600;

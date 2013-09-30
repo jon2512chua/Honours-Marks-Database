@@ -173,7 +173,7 @@ public class MainUI {
 
 		Listener btnExitListener = new Listener() {
 			public void handleEvent(Event event) {
-				shell.dispose();
+				shell.close();
 			}
 		};
 

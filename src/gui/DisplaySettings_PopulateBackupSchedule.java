@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridData;
 
 import backupSubsystem.BackupOperations;
+import org.eclipse.swt.widgets.Label;
 
 /**
  * Schedule Backup Section
@@ -41,32 +42,33 @@ public class DisplaySettings_PopulateBackupSchedule {
 
 	/**
 	 * Populates the Schedule Backup Tab
-	 * @param toolsTabFolder the folder to put the tab in
+	 * @param settingsTabFolder the folder to put the tab in
 	 * @param tabName the name of the tab
 	 * @wbp.parser.entryPoint
 	 */
-	public static void populate(final CTabFolder toolsTabFolder, String tabName) {
+	public static void populate(final CTabFolder settingsTabFolder, String tabName) {
 		restoreSettings();
 
-		CTabItem tbtmbackupSchedule = new CTabItem(toolsTabFolder, SWT.NONE);
+		CTabItem tbtmbackupSchedule = new CTabItem(settingsTabFolder, SWT.NONE);
 		tbtmbackupSchedule.setText(tabName);
 
 		//Create Backup Data
-		final Composite radioButtonComposite = new Composite(toolsTabFolder, SWT.NONE);
+		final Composite radioButtonComposite = new Composite(settingsTabFolder, SWT.NONE);
 		tbtmbackupSchedule.setControl(radioButtonComposite);
 		radioButtonComposite.setLayout(new GridLayout(2, false));
+		new Label(radioButtonComposite, SWT.NONE);
+		
+		Composite backupNowComposite = new Composite(radioButtonComposite, SWT.NONE);
+		GridData gd_backupNowComposite = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 8);
+		gd_backupNowComposite.horizontalIndent = 10;
+		backupNowComposite.setLayoutData(gd_backupNowComposite);
+		
+		Button btnBackupNow = new Button(backupNowComposite, SWT.NONE);
+		btnBackupNow.setBounds(0, 0, 75, 25);
+		btnBackupNow.setText("Backup Now");
 
 		final Button btnBackupNever = new Button(radioButtonComposite, SWT.RADIO);
 		btnBackupNever.setText("Never");
-		
-		Composite composite = new Composite(radioButtonComposite, SWT.NONE);
-		GridData gd_composite = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 7);
-		gd_composite.horizontalIndent = 10;
-		composite.setLayoutData(gd_composite);
-		
-		Button btnBackupNow = new Button(composite, SWT.NONE);
-		btnBackupNow.setBounds(0, 0, 75, 25);
-		btnBackupNow.setText("Backup Now");
 
 		final Button btnBackupStartup = new Button(radioButtonComposite, SWT.RADIO);
 		btnBackupStartup.setText("On Startup");
@@ -106,13 +108,13 @@ public class DisplaySettings_PopulateBackupSchedule {
 
 		//Displays previously saved settings
 		try {
-			((Button) radioButtonComposite.getChildren()[radioSelection]).setSelection(true);
+			((Button) radioButtonComposite.getChildren()[radioSelection+2]).setSelection(true);
 			combo.select(comboSelection);
 		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
 			System.err.println("Warning: Invalid settings file. Default values have been loaded.");
 			radioSelection = 5;
-			comboSelection = 0;
-			((Button) radioButtonComposite.getChildren()[radioSelection]).setSelection(true);
+			comboSelection = 1;
+			((Button) radioButtonComposite.getChildren()[radioSelection+2]).setSelection(true);	//TODO: ensure this is correct, even if UI changes
 			combo.select(comboSelection);
 		}
 
@@ -136,9 +138,9 @@ public class DisplaySettings_PopulateBackupSchedule {
 			@SuppressWarnings("unused")	//TODO: remove
 			public void handleEvent(Event event) {
 				if (true/*BackupOperations.backup()*/) {//TODO: uncomment out
-					PopupWindow.popupMessage(toolsTabFolder.getShell(), "Backup Successfull.", "Backup");
+					PopupWindow.popupMessage(settingsTabFolder.getShell(), "Backup Successfull.", "Backup");
 				} else {
-					PopupWindow.popupMessage(toolsTabFolder.getShell(), "Backup Failed.", "Backup");
+					PopupWindow.popupMessage(settingsTabFolder.getShell(), "Backup Failed.", "Backup");
 				}
 			}
 		};
@@ -150,7 +152,8 @@ public class DisplaySettings_PopulateBackupSchedule {
 			public void handleEvent(Event event) {
 				comboSelection = combo.getSelectionIndex();
 				radioSelection = 0;
-				while (((Button) radioButtonComposite.getChildren()[radioSelection]).getSelection() == false && radioSelection<100) radioSelection++;
+				//TODO: ensure this is correct, even if UI changes
+				while (((Button) radioButtonComposite.getChildren()[radioSelection+2]).getSelection() == false /*&& radioSelection<100*/) radioSelection++;
 				saveSettings();
 			}
 		};

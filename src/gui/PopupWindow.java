@@ -10,6 +10,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
@@ -35,7 +37,6 @@ public class PopupWindow {
 	 * @param parentShell the display currently in use
 	 * @param text the text the popup displays 
 	 * @param title the title to display
-	 * @wbp.parser.entryPoint
 	 */
 	public static void popupMessage(Shell parentShell, String text, String title) {
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
@@ -65,24 +66,113 @@ public class PopupWindow {
 		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
 
 		//Button listener to deal with the button being pressed
-		Listener btnBackupListener = new Listener() {
+		Listener btnOKListener = new Listener() {
 			public void handleEvent(Event event) {
-				shell.dispose();
+				shell.close();
 			}
 		};
-		btnOk.addListener(SWT.Selection, btnBackupListener);
+		btnOk.addListener(SWT.Selection, btnOKListener);
 
-
-
-		//TODO: check if needed. I'm  pretty sure it's not
-		/*shell.addListener(SWT.Close, new Listener() {
-			@Override
+		shell.addListener(SWT.Close, new Listener() {
 			public void handleEvent(Event event) {
 				shell.dispose();
 			}
-		});*/
+		});
 	}
 
+	
+	/**
+	 * Popups a message, with yes/no buttons. No line wrapping currently implemented.
+	 * @param parentShell the display currently in use
+	 * @param text the text the popup displays 
+	 * @param title the title to display
+	 * @wbp.parser.entryPoint
+	 */
+	private static boolean returnVal = false;
+	public static boolean popupYessNo(Shell parentShell, String text, String title) {	//TODO: test
+		
+		final Shell shell = new Shell(parentShell, SWT.TITLE);
+		shell.setImage(parentShell.getImage());
+
+		// Set the Window Title
+		shell.setText(title);
+		RowLayout rl_shell = new RowLayout(SWT.VERTICAL);
+		rl_shell.marginTop = 8;
+		rl_shell.marginRight = 10;
+		rl_shell.marginLeft = 10;
+		rl_shell.marginBottom = 10;
+		rl_shell.spacing = 25;
+		rl_shell.center = true;
+		shell.setLayout(rl_shell);
+
+		// Create a Label in the Shell
+		Label label = new Label(shell, SWT.WRAP);
+		label.setText(text);
+		
+		Composite composite = new Composite(shell, SWT.NONE);
+		GridLayout gl_composite = new GridLayout(2, false);
+		gl_composite.horizontalSpacing = 10;
+		composite.setLayout(gl_composite);
+
+		Button btnYes = new Button(composite, SWT.CENTER);
+		GridData gd_btnYes = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_btnYes.widthHint = 75;
+		btnYes.setLayoutData(gd_btnYes);
+		btnYes.setText("Yes");
+		
+		Button btnNo = new Button(composite, SWT.NONE);
+		GridData gd_btnNo = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_btnNo.widthHint = 75;
+		btnNo.setLayoutData(gd_btnNo);
+		btnNo.setText("No");
+
+	    shell.setDefaultButton(btnYes);
+
+		shell.pack();
+		shell.open();
+		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
+
+		//Button listener to deal with the YES button being pressed
+		Listener btnYesListener = new Listener() {
+			public void handleEvent(Event event) {
+				returnVal = true;
+				shell.close();
+			}
+		};
+		btnYes.addListener(SWT.Selection, btnYesListener);
+		
+		//Button listener to deal with the NO button being pressed
+		Listener btnNoListener = new Listener() {
+			public void handleEvent(Event event) {
+				returnVal = false;
+				shell.close();
+			}
+		};
+		btnNo.addListener(SWT.Selection, btnNoListener);
+		
+		//Actions to perform when program is closed.
+		shell.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent event) {
+				//return returnVal;
+			}
+		});
+
+		
+		shell.addListener(SWT.Close, new Listener() {
+			public void handleEvent(Event event) {
+				shell.dispose();
+			}
+		});
+		
+		while (!shell.isDisposed()) {
+			if (!shell.getDisplay().readAndDispatch()) {
+				shell.getDisplay().sleep();
+			}
+		}
+		
+		return returnVal;
+	}
+	
 
 	/**
 	 * Popups a log on screen. Controls are disabled until a account is accepted.
@@ -209,7 +299,7 @@ public class PopupWindow {
 					if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) { // && TODO load data
 						//Enables controls	
 						for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
-						shell.dispose();
+						shell.close();
 					} else popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
 				} catch (java.lang.StringIndexOutOfBoundsException e) {
 					popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");

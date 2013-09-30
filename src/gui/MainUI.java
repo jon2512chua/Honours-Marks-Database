@@ -67,13 +67,16 @@ public class MainUI {
 
 		final Composite displayComposite = new Composite(shell, SWT.NONE);
 		GridData gd_displayComposite = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gd_displayComposite.verticalSpan = 2;
+		gd_displayComposite.verticalSpan = 3;
 		displayComposite.setLayoutData(gd_displayComposite);
 		final StackLayout sl_displayComposite = new StackLayout();
 		displayComposite.setLayout(sl_displayComposite);
 
 		//Generate the Reports Screen
 		final CTabFolder reportTabFolder = DisplayReport.display(displayComposite);
+
+		//Generate the Tools Screen
+		/*final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);*/
 
 		//Generate the Creation/Editing screen
 		final CTabFolder manageCohortTabFolder = DisplayCE.display(displayComposite);
@@ -84,13 +87,15 @@ public class MainUI {
 
 		//Left Display
 		//TODO: fix button widths
-		ScrolledComposite scrolledComposite = new ScrolledComposite(shell, SWT.H_SCROLL | SWT.V_SCROLL);
+		ScrolledComposite scrolledComposite = new ScrolledComposite(shell, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
 
-		final Composite menuComposite = new Composite(scrolledComposite, SWT.BORDER);
+		final Composite menuComposite = new Composite(scrolledComposite, SWT.NONE);
 		GridLayout gl_menuComposite = new GridLayout(1, false);
+		gl_menuComposite.marginHeight = 1;
+		gl_menuComposite.marginWidth = 1;
 		gl_menuComposite.verticalSpacing = 20;
 		menuComposite.setLayout(gl_menuComposite);
 
@@ -121,20 +126,23 @@ public class MainUI {
 		btnSettings.setLayoutData(gd_btnSettings);
 		btnSettings.setAlignment(SWT.LEFT);
 		btnSettings.setText("Settings");
+		
+		Composite composite_1 = new Composite(shell, SWT.BORDER);
+		GridLayout gl_composite_1 = new GridLayout(1, false);
+		gl_composite_1.marginWidth = 1;
+		gl_composite_1.marginHeight = 1;
+		composite_1.setLayout(gl_composite_1);
+		composite_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
-		Button btnExit = new Button(menuComposite, SWT.NONE);
+		Button btnExit = new Button(composite_1, SWT.NONE);
 		GridData gd_btnExit = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnExit.verticalIndent = 100;
 		gd_btnExit.heightHint = 30;
 		btnExit.setLayoutData(gd_btnExit);
 		btnExit.setAlignment(SWT.LEFT);
 		btnExit.setText("Exit");
+		
 		scrolledComposite.setContent(menuComposite);
 		scrolledComposite.setMinSize(menuComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-
-		//Generate the Tools Screen
-		/*final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);*/
-
 
 		//Button Listeners
 		Listener btnReportsListener = new Listener() {

@@ -8,12 +8,10 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.StackLayout;
@@ -22,13 +20,14 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
 
 import sessionControl.DerbyUtils;
+import org.eclipse.swt.widgets.Label;
 
 
 /**
  * Main UI class
  * @author Tim Lander
  */
-public class MainUI {	//TODO: get test (remove me)
+public class MainUI {
 
 	//Constants
 	private final static int DefaultHeight = 600;
@@ -53,6 +52,35 @@ public class MainUI {	//TODO: get test (remove me)
 			System.err.println("Warning: The file " + (new File(iconFileName)).toURI().getPath() + " was unable to be located.");
 		}
 
+		Composite composite = new Composite(shell, SWT.BORDER);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		composite.setLayout(new GridLayout(1, false));
+
+		Label lblNowViewing = new Label(composite, SWT.NONE);
+		lblNowViewing.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		lblNowViewing.setText("Now Viewing:");
+
+		Label lblSemester = new Label(composite, SWT.NONE);
+		lblSemester.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		lblSemester.setText("2013 Semester 1");	//TODO: make dynamic
+
+
+		final Composite displayComposite = new Composite(shell, SWT.NONE);
+		GridData gd_displayComposite = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd_displayComposite.verticalSpan = 2;
+		displayComposite.setLayoutData(gd_displayComposite);
+		final StackLayout sl_displayComposite = new StackLayout();
+		displayComposite.setLayout(sl_displayComposite);
+
+		//Generate the Reports Screen
+		final CTabFolder reportTabFolder = DisplayReport.display(displayComposite);
+
+		//Generate the Creation/Editing screen
+		final CTabFolder manageCohortTabFolder = DisplayCE.display(displayComposite);
+
+		//Generate the Settings Screen
+		final CTabFolder settingsTabFolder = DisplaySettings.display(displayComposite);
+
 
 		//Left Display
 		//TODO: fix button widths
@@ -66,199 +94,85 @@ public class MainUI {	//TODO: get test (remove me)
 		gl_menuComposite.verticalSpacing = 20;
 		menuComposite.setLayout(gl_menuComposite);
 
-		Group grpReports = new Group(menuComposite, SWT.NONE);
-		grpReports.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		grpReports.setText("Reports");
-		RowLayout rl_grpReports = new RowLayout(SWT.VERTICAL);
-		rl_grpReports.fill = true;
-		grpReports.setLayout(rl_grpReports);
+		Button btnReports = new Button(menuComposite, SWT.NONE);
+		GridData gd_btnReports = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_btnReports.heightHint = 30;
+		btnReports.setLayoutData(gd_btnReports);
+		btnReports.setAlignment(SWT.LEFT);
+		btnReports.setText("Reports");
 
-		Button btnStudentReport = new Button(grpReports, SWT.NONE);
-		btnStudentReport.setAlignment(SWT.LEFT);
-		btnStudentReport.setText("Student Report");
+		Button btnEnterMarks = new Button(menuComposite, SWT.NONE);
+		GridData gd_btnEnterMarks = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_btnEnterMarks.heightHint = 30;
+		btnEnterMarks.setLayoutData(gd_btnEnterMarks);
+		btnEnterMarks.setAlignment(SWT.LEFT);
+		btnEnterMarks.setText("Enter Marks");
 
-		Button btnMarkerReport = new Button(grpReports, SWT.NONE);
-		btnMarkerReport.setAlignment(SWT.LEFT);
-		btnMarkerReport.setText("Marker Report");
+		Button btnManageCohort = new Button(menuComposite, SWT.NONE);
+		GridData gd_btnManageCohort = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_btnManageCohort.heightHint = 30;
+		btnManageCohort.setLayoutData(gd_btnManageCohort);
+		btnManageCohort.setAlignment(SWT.LEFT);
+		btnManageCohort.setText("Manage Cohort");
 
-		Button btnUnitReport = new Button(grpReports, SWT.NONE);
-		btnUnitReport.setAlignment(SWT.LEFT);
-		btnUnitReport.setText("Unit Report");
+		Button btnSettings = new Button(menuComposite, SWT.NONE);
+		GridData gd_btnSettings = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_btnSettings.heightHint = 30;
+		btnSettings.setLayoutData(gd_btnSettings);
+		btnSettings.setAlignment(SWT.LEFT);
+		btnSettings.setText("Settings");
 
-		Button btnCohortReport = new Button(grpReports, SWT.NONE);
-		btnCohortReport.setAlignment(SWT.LEFT);
-		btnCohortReport.setText("Cohort Report");
-
-		Group grpEditing = new Group(menuComposite, SWT.NONE);
-		grpEditing.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		grpEditing.setText("Creation/Editing");
-		RowLayout rl_grpEditing = new RowLayout(SWT.VERTICAL);
-		rl_grpEditing.fill = true;
-		grpEditing.setLayout(rl_grpEditing);
-
-		Button btnEditStudent = new Button(grpEditing, SWT.NONE);
-		btnEditStudent.setAlignment(SWT.LEFT);
-		btnEditStudent.setText("Edit Student");
-
-		Button btnEditStaff = new Button(grpEditing, SWT.NONE);
-		btnEditStaff.setAlignment(SWT.LEFT);
-		btnEditStaff.setText("Edit Staff");
-
-		Button btnEditCourse = new Button(grpEditing, SWT.NONE);
-		btnEditCourse.setAlignment(SWT.LEFT);
-		btnEditCourse.setText("Edit Course");
-
-		Button btnEditUnit = new Button(grpEditing, SWT.NONE);
-		btnEditUnit.setAlignment(SWT.LEFT);
-		btnEditUnit.setText("Edit Unit");
-
-		Button btnEditAssessment = new Button(grpEditing, SWT.NONE);
-		btnEditAssessment.setAlignment(SWT.LEFT);
-		btnEditAssessment.setText("Edit Assessment");
-
-		Group grpTools = new Group(menuComposite, SWT.NONE);
-		grpTools.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		grpTools.setText("Tools");
-		RowLayout rl_grpTools = new RowLayout(SWT.VERTICAL);
-		rl_grpTools.fill = true;
-		grpTools.setLayout(rl_grpTools);
-
-		Button btnBackup = new Button(grpTools, SWT.NONE);
-		btnBackup.setAlignment(SWT.LEFT);
-		btnBackup.setText("Backup");
-
-		Button btnImport = new Button(grpTools, SWT.NONE);
-		btnImport.setAlignment(SWT.LEFT);
-		btnImport.setText("Import Data");
-
-		Button btnExport = new Button(grpTools, SWT.NONE);
-		btnExport.setAlignment(SWT.LEFT);
-		btnExport.setText("Export Data");
-
-		Group grpSettings = new Group(menuComposite, SWT.NONE);
-		grpSettings.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		grpSettings.setText("Settings");
-		RowLayout rl_grpSettings = new RowLayout(SWT.VERTICAL);
-		rl_grpSettings.fill = true;
-		grpSettings.setLayout(rl_grpSettings);
-
-		Button btnAccountSettings = new Button(grpSettings, SWT.NONE);
-		btnAccountSettings.setAlignment(SWT.LEFT);
-		btnAccountSettings.setText("Account Settings");
-
+		Button btnExit = new Button(menuComposite, SWT.NONE);
+		GridData gd_btnExit = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_btnExit.verticalIndent = 100;
+		gd_btnExit.heightHint = 30;
+		btnExit.setLayoutData(gd_btnExit);
+		btnExit.setAlignment(SWT.LEFT);
+		btnExit.setText("Exit");
 		scrolledComposite.setContent(menuComposite);
 		scrolledComposite.setMinSize(menuComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
-
-		final Composite displayComposite = new Composite(shell, SWT.NONE);
-		displayComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		final StackLayout sl_displayComposite = new StackLayout();
-		displayComposite.setLayout(sl_displayComposite);
-
-		//Generate the Reports Screen
-		final CTabFolder reportTabFolder = DisplayReport.display(displayComposite);
-
-		//Generate the Creation/Editing screen
-		final CTabFolder CETabFolder = DisplayCE.display(displayComposite);
-
 		//Generate the Tools Screen
-		final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);
-
-		//Generate the Settings Screen
-		final CTabFolder settingsTabFolder = DisplaySettings.display(displayComposite);
+		/*final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);*/
 
 
 		//Button Listeners
-		Listener btnStudentReportListener = new Listener() {
+		Listener btnReportsListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(reportTabFolder, sl_displayComposite, 0, "Reports");
 			}
 		};
-		btnStudentReport.addListener(SWT.Selection, btnStudentReportListener);
 
-		Listener btnMarkerReportListener = new Listener() {
+		Listener btnManageCohortListener = new Listener() {
 			public void handleEvent(Event event) {
-				showScreen(reportTabFolder, sl_displayComposite, 1, "Reports");
+				showScreen(manageCohortTabFolder, sl_displayComposite, 0, "Manage Cohort");
 			}
 		};
-		btnMarkerReport.addListener(SWT.Selection, btnMarkerReportListener);
 
-		Listener btnUnitReportListener = new Listener() {
-			public void handleEvent(Event event) {
-				showScreen(reportTabFolder, sl_displayComposite, 2, "Reports");
-			}
-		};
-		btnUnitReport.addListener(SWT.Selection, btnUnitReportListener);
-
-		Listener btnCohortReportListener = new Listener() {
-			public void handleEvent(Event event) {
-				showScreen(reportTabFolder, sl_displayComposite, 3, "Reports");
-			}
-		};
-		btnCohortReport.addListener(SWT.Selection, btnCohortReportListener);
-
-		Listener btnEditStudentListener = new Listener() {
-			public void handleEvent(Event event) {
-				showScreen(CETabFolder, sl_displayComposite, 0, "Creation/Editing");
-			}
-		};
-		btnEditStudent.addListener(SWT.Selection, btnEditStudentListener);
-
-		Listener btnEditStaffListener = new Listener() {
-			public void handleEvent(Event event) {
-				showScreen(CETabFolder, sl_displayComposite, 1, "Creation/Editing");
-			}
-		};
-		btnEditStaff.addListener(SWT.Selection, btnEditStaffListener);
-
-		Listener btnEditCourseListener = new Listener() {
-			public void handleEvent(Event event) {
-				showScreen(CETabFolder, sl_displayComposite, 2, "Creation/Editing");
-			}
-		};
-		btnEditCourse.addListener(SWT.Selection, btnEditCourseListener);
-
-		Listener btnEditUnitListener = new Listener() {
-			public void handleEvent(Event event) {
-				showScreen(CETabFolder, sl_displayComposite, 3, "Creation/Editing");
-			}
-		};
-		btnEditUnit.addListener(SWT.Selection, btnEditUnitListener);
-
-		Listener btnEditAssessmentListener = new Listener() {
-			public void handleEvent(Event event) {
-				showScreen(CETabFolder, sl_displayComposite, 4, "Creation/Editing");
-			}
-		};
-		btnEditAssessment.addListener(SWT.Selection, btnEditAssessmentListener);
-
-		Listener btnBackupListener = new Listener() {
+		//TODO: link to btnEnterMarks
+		/*Listener btnSettingsListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(toolsTabFolder, sl_displayComposite, 0, "Tools");
 			}
 		};
-		btnBackup.addListener(SWT.Selection, btnBackupListener);
+		btnSettings.addListener(SWT.Selection, btnSettingsListener);*/
 
-		Listener btnImportListener = new Listener() {
-			public void handleEvent(Event event) {
-				showScreen(toolsTabFolder, sl_displayComposite, 1, "Tools");
-			}
-		};
-		btnImport.addListener(SWT.Selection, btnImportListener);
-
-		Listener btnExportListener = new Listener() {
-			public void handleEvent(Event event) {
-				showScreen(toolsTabFolder, sl_displayComposite, 2, "Tools");
-			}
-		};
-		btnExport.addListener(SWT.Selection, btnExportListener);
-
-		Listener btnAccountSettingsListener = new Listener() {
+		Listener btnSettingsListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(settingsTabFolder, sl_displayComposite, 0, "Settings");
 			}
 		};
-		btnAccountSettings.addListener(SWT.Selection, btnAccountSettingsListener);
+
+		Listener btnExitListener = new Listener() {
+			public void handleEvent(Event event) {
+				shell.dispose();
+			}
+		};
+
+		btnReports.addListener(SWT.Selection, btnReportsListener);
+		btnManageCohort.addListener(SWT.Selection, btnManageCohortListener);
+		btnSettings.addListener(SWT.Selection, btnSettingsListener);
+		btnExit.addListener(SWT.Selection, btnExitListener);
 
 		//Actions to perform when program is closed.
 		shell.addDisposeListener(new DisposeListener() {

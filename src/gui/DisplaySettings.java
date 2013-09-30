@@ -25,6 +25,10 @@ public class DisplaySettings {
 		//Set up tabs
 		final CTabFolder settingsTabFolder = new CTabFolder(displayComposite, SWT.NONE);
 		settingsTabFolder.setSelectionBackground(Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
+		
+
+		//Schedule Backup tab
+		DisplaySettings_PopulateBackupSchedule.populate(settingsTabFolder, "Backup");
 
 		//Account Settings tab
 		DisplaySettings_Account.populate(settingsTabFolder, "Account Settings");

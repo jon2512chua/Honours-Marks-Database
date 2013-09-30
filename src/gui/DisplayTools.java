@@ -29,9 +29,6 @@ public class DisplayTools {
 		final CTabFolder toolsTabFolder = new CTabFolder(displayComposite, SWT.NONE);
 		toolsTabFolder.setSelectionBackground(Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 
-		//Schedule Backup tab
-		DisplayTools_PopulateBackupSchedule.populate(toolsTabFolder, "Backup");
-
 		//Import Data tab
 		DisplayTools_PopulateImportData.populate(toolsTabFolder, "Import Data");
 		

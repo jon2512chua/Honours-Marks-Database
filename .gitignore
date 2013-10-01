@@ -11,3 +11,10 @@ nbproject/
 
 # Miscellaeneous Files #
 .DS_Store
+
+# Database Files #
+db/
+
+# Build and Deployment Files #
+/build/
+/dist/

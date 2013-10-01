@@ -45,8 +45,10 @@ public class DisplaySettings_PopulateBackupRestore {
 			public void handleEvent(Event event) {
 				String comboSelection = combo.getItem(combo.getSelectionIndex());
 				if (!comboSelection.startsWith("No")) {	//TODO: test following
-					if (PopupWindow.popupYessNo(settingsTabFolder.getShell(), "Are you sure you want to restore the database to the baskup taken on " + comboSelection + "?", "Restore backup")) {
-						if (backupSubsystem.BackupOperations.restore(comboSelection)) {
+					if (PopupWindow.popupYessNo(settingsTabFolder.getShell(), "Are you sure you want to restore the database to the backup " + comboSelection + "?", "Restore backup")) {
+						String selection = comboSelection;
+						selection = selection.substring(0, 4) + selection.charAt(5) + " 20" + selection.substring(14, 16) + selection.substring(11, 13) + selection.substring(8, 10) + selection.substring(17, 20) + selection.substring(21, 23) + selection.substring(24, 26) + ".zip";
+						if (backupSubsystem.BackupOperations.restore(selection)) {
 							PopupWindow.popupMessage(settingsTabFolder.getShell(), "The database has been restored to: " + comboSelection + ".", "Restoration Successful");
 						} else {
 							PopupWindow.popupMessage(settingsTabFolder.getShell(), "The database " + comboSelection + " could not be restored.", "Restoration Unsuccessful");

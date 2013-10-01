@@ -29,6 +29,11 @@ public class BackupUtils {
 							.matches("\\d{5} \\d{8} \\d{6}.zip"));
 				}
 			});
+			int i = 0;
+			for (String s : backups) {
+				backups [i] = s.substring(0, 4) + "/" + s.substring(4, 6) + "(" + s.substring(12, 14) + "/" + s.substring(10, 12) + "/" + s.substring(8, 10) + ", " + s.substring(15, 17) + ":" + s.substring(17, 19) + ":" + s.substring(19, 21) + ")";
+				i++;
+			}
 			return backups;
 		}
 	}

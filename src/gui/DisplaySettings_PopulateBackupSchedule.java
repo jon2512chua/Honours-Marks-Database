@@ -138,7 +138,7 @@ public class DisplaySettings_PopulateBackupSchedule {
 			@SuppressWarnings("unused")	//TODO: remove
 			public void handleEvent(Event event) {
 				if (BackupOperations.backup()) {//TODO: uncomment out
-					PopupWindow.popupMessage(toolsTabFolder.getShell(), "Backup Successful.", "Backup");DisplaySettings_PopulateBackupSchedule.java
+					PopupWindow.popupMessage(settingsTabFolder.getShell(), "Backup Successful.", "Backup");
 				} else {
 					PopupWindow.popupMessage(settingsTabFolder.getShell(), "Backup Failed.", "Backup");
 				}

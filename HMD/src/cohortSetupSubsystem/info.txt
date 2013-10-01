@@ -1,6 +1,0 @@
-CELL_TYPE_BLANK     Blank Cell type (3)
-CELL_TYPE_BOOLEAN   Boolean Cell type (4)
-CELL_TYPE_ERROR     Error Cell type (5)
-CELL_TYPE_FORMULA   Formula Cell type (2)
-CELL_TYPE_NUMERIC   Numeric Cell type (0)
-CELL_TYPE_STRING    String Cell type (1)

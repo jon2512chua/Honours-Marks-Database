@@ -2,7 +2,7 @@ package orm;
 
 public class BaseMark {
     private String markID;
-    private int value;
+    private double value;
     
     /**
      * An indicator to check whether the mark is within the two standard deviation
@@ -27,11 +27,11 @@ public class BaseMark {
         this.markID = markID;
     }
     
-    public int getValue() {
+    public double getValue() {
         return value;
     }
     
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
     

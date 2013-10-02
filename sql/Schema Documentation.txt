@@ -11,8 +11,14 @@ It is a table to hold information about students.
 StudentID holds the student's unique student number.
 FirstName and LastName hold the first and last name of the student.
 DissTitle is the title of that student's dissertation.
-Discipline is the discipline being studied by that student; one of ANHB, PHYL, NEURO, or BIOMS
-Supervisors1-4 are the StaffIDs corresponding to that student's supervisor
+Discipline is the discipline being studied by that student; one of ANHB, PHYL, NEURO, or BIOMS.
+Mark is the student's overall mark for all of their units.
+Grade is the student's overall grade for all of their units.
+
+The "Supervises" table:
+It is a table to hold information about student's supervisors.
+StudentID holds a student's unique student number.
+StaffID holds the StaffID of one of that student's supervisors.
 
 The "Unit" table:
 It is a table to hold information about units.
@@ -68,7 +74,6 @@ UnitCode is the unit that this mark was given for.
 
 The "Information" table"
 It is a table to hold information about the database itself.
-Lock is a variable, defaulting to 'X', that is held to ensure only one row is kept in the 'Information' table.
 Period holds the semester and year (ie. 20131 for semester 1 2013) that the database is relevant to. It is
 also the name of the database, for archiving purposes.
 LastBackup holds the timestamp that the last backup was saved.

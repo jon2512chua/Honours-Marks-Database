@@ -56,7 +56,7 @@ public class DisplayReport_PopulateStudent {
 					TreeItem assessment = new TreeItem(unit, SWT.NONE);
 					assessment.setText(new String[] {Data.Assessment[assessments]});
 					TreeItem studentAssessmentMark = new TreeItem(assessment, SWT.NONE);
-					studentAssessmentMark.setText(new String[] {"Student Assessment Mark", "100%"});
+					studentAssessmentMark.setText(new String[] {"Student Assessment Mark", (10*Data.marks[sn*5+units*4+assessments])+"%"});
 					TreeItem AssessmentPercentUnit = new TreeItem(assessment, SWT.NONE);
 					AssessmentPercentUnit.setText(new String[] {"Percent of Unit", "22%"});
 					TreeItem AssessmentPercentFinalGrade = new TreeItem(assessment, SWT.NONE);

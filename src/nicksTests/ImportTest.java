@@ -1,6 +1,5 @@
 package nicksTests;
 
-import cohortSetupSubsystem.CohortImporter;
 import cohortSetupSubsystem.Student;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
 import java.util.List;
+
+import newCohort.CohortImporter;
 
 public class ImportTest {
 

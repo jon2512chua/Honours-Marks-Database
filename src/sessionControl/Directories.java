@@ -21,5 +21,9 @@ public class Directories {
 	 * Relative path of directory holding backup files
 	 */
 	public static final String backupDir = "db/backups/";
+	/**
+	 * Relative path of Cohort Creation SQL file
+	 */
+	public static final String newCohortSql = "sql/schema.sql";
 
 }

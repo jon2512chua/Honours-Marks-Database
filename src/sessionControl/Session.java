@@ -10,7 +10,8 @@ import java.sql.*;
  * @author Nicholas Abbey 20522805
  * @version 22/09/13
  * 
- *          PASSWORD CURRENTLY SET TO DEFAULT!! users are either Heather or admin
+ *          PASSWORD CURRENTLY SET TO DEFAULT!! users are either Heather or
+ *          admin
  * 
  */
 public class Session {
@@ -52,10 +53,6 @@ public class Session {
 	 */
 	public static boolean login(String username, String password, String cohort) {
 
-		boolean check = DerbyUtils.dbConnect(Directories.systemDb);
-		if (!check)
-			return false;
-
 		Statement query;
 
 		try {
@@ -78,11 +75,9 @@ public class Session {
 				currentFocus = cohort;
 				user = username;
 
-				DerbyUtils.dbDisconnect(sysConn);
 				query.close();
 				return true;
 			} else {
-				DerbyUtils.dbDisconnect(sysConn);
 				query.close();
 				return false;
 			}
@@ -152,12 +147,12 @@ public class Session {
 	 */
 	public boolean changeFocus(String newFocus) {
 		dbConn.closeConnection();
-		if(DerbyUtils.dbConnect(newFocus)) {
+		if (DerbyUtils.dbConnect(newFocus)) {
 			currentFocus = newFocus;
-			//TODO load data!
+			// TODO load data!
 			return true;
-			}
-		else return false;
+		} else
+			return false;
 	}
 
 	/**

@@ -22,7 +22,7 @@ public class ConnectionWrapper {
 	 */
 	public ConnectionWrapper() {
 		dock = null;
-		disconnected = false;
+		disconnected = true;
 	}
 
 	// public void setConnection(Connection c) {dock = c;}
@@ -56,11 +56,16 @@ public class ConnectionWrapper {
 		if (disconnected) {
 			dock = null;
 		}
+		
+		if(!db.contains("true")) {
+			db += ";";
+		}
 
-		String connectionURL = "jdbc:derby:" + db + ";";
+		String connectionURL = "jdbc:derby:" + db;// + ";"; TODO
 
 		try {
 			dock = DriverManager.getConnection(connectionURL);
+			disconnected = false;
 		} catch (Throwable e) {
 			return false;
 		}

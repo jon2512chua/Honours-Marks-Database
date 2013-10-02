@@ -1,6 +1,7 @@
 package gui;
 
 import sessionControl.DerbyUtils;
+import sessionControl.Directories;
 
 /**
  * Main class. Acts as a preloader for MainUI.
@@ -16,7 +17,13 @@ public class MainLoader {
 		//Load database drivers
 		DerbyUtils.loadDriver();
 		
-		//Begin program execution
-		MainUI.main2();	
+		//Connect to System Database
+		boolean check = DerbyUtils.dbConnect(Directories.systemDb);
+		
+		if (!check) ;//TODO if can't connect to system then show a pop-up with error message and don't open.
+		else {
+			//Begin program execution
+			MainUI.main2();
+		}	
 	}
 }

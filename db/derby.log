@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Wed Oct 02 14:53:45 WST 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0141-77f1-9ea3-00001deb9190 
+on database directory C:\Users\& A\Documents\CITS3200 Project\GitRepo\Honours-Marks-Database\databases\20132 with class loader sun.misc.Launcher$AppClassLoader@28b6e768 
+Loaded from file:/C:/Apache/db-derby-10.10.1.1-bin/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_40-b43
+user.dir=C:\Users\& A\Documents\CITS3200 Project\GitRepo\Honours-Marks-Database\databases
+os.name=Windows 8
+os.arch=amd64
+os.version=6.2
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

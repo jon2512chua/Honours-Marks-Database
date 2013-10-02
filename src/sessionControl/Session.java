@@ -38,6 +38,7 @@ public class Session {
 	/**
 	 * true when login successful
 	 */
+	@SuppressWarnings("unused")	//TODO remove
 	private static boolean loggedIn = false; // is this necessary??? TODO
 												// depends on logout protocol
 	/**

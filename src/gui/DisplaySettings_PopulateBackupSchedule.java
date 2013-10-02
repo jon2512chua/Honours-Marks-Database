@@ -134,10 +134,9 @@ public class DisplaySettings_PopulateBackupSchedule {
 		btnBackupCustom.notifyListeners(SWT.Selection, new Event());	//Sets listener to check once on startup
 		
 		//Backup Now button listner
-		Listener btnBackupNowListener = new Listener() {	//TODO: test 
-			@SuppressWarnings("unused")	//TODO: remove
+		Listener btnBackupNowListener = new Listener() {	//TODO: test
 			public void handleEvent(Event event) {
-				if (BackupOperations.backup()) {//TODO: uncomment out
+				if (BackupOperations.backup()) {
 					PopupWindow.popupMessage(settingsTabFolder.getShell(), "Backup Successful.", "Backup");
 				} else {
 					PopupWindow.popupMessage(settingsTabFolder.getShell(), "Backup Failed.", "Backup");

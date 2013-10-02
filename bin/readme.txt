@@ -1,1 +1,0 @@
-Compiled class files and other binaries will come here. To be set up later when we create our ant/maven script.

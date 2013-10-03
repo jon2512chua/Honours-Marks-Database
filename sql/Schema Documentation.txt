@@ -10,6 +10,7 @@ The "Student" table:
 It is a table to hold information about students.
 StudentID holds the student's unique student number.
 FirstName and LastName hold the first and last name of the student.
+Title is the students title, eg. Mr or Ms.
 DissTitle is the title of that student's dissertation.
 Discipline is the discipline being studied by that student; one of ANHB, PHYL, NEURO, or BIOMS.
 Mark is the student's overall mark for all of their units.

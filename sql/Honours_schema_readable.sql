@@ -14,6 +14,7 @@ CREATE TABLE Student
 		StudentID INT NOT NULL,
 		FirstName VARCHAR(30) NOT NULL,
 		LastName VARCHAR(30) NOT NULL,
+		Title VARCHAR(6),
 		DissTitle VARCHAR(300),
 		Discipline VARCHAR(5),
 		Mark DECIMAL,

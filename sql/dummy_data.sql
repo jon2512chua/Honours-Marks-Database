@@ -9,9 +9,9 @@ INSERT INTO Discipline VALUES
 	('BIOMS', 'ANHB4000', 'NEUR4000', 'BIOM4000', null);
 	
 INSERT INTO Student VALUES 
-	(20001234,'Bob', 'Jones', 'How to succeed in business without really trying', 'ANHB', 0, null),
-	(20005678,'Harry', 'Smith', 'The cultural effect of the paradigm of mental health in modern society', 'ANHB', 0, null),
-	(20112233,'Lisa', 'George', 'How to make sick people better', 'BIOMS', 0, null);
+	(20001234,'Bob', 'Jones', 'Mr', 'How to succeed in business without really trying', 'ANHB', 0, null),
+	(20005678,'Harry', 'Smith', 'Mr', 'The cultural effect of the paradigm of mental health in modern society', 'ANHB', 0, null),
+	(20112233,'Lisa', 'George', 'Ms', 'How to make sick people better', 'BIOMS', 0, null);
 			
 INSERT INTO Staff VALUES
 	(100012345,'Lee', 'Black'),

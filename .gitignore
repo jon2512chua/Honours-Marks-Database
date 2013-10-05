@@ -1,0 +1,30 @@
+*.class
+*.properties
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# IDE Files #
+nbproject/
+
+# Miscellaeneous Files #
+.DS_Store
+
+# Database Files #
+db/
+derby.log
+
+# Build and Deployment Files #
+/build/
+/dist/
+
+#  Tim's Changes #
+/bin
+.classpath
+.project
+.settings
+/bin
+settings
+HMD

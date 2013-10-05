@@ -55,7 +55,7 @@ public class DisplaySettings_PopulateBackupRestore {
 					}
 				} else {
 					System.err.println("Warning: Cannot restore backup if no backups are found.");
-					PopupWindow.popupMessage(settingsTabFolder.getShell(), "No backups found to restore. \nBackup opperation not completed.", "Cannot Restore Backup");
+					PopupWindow.popupMessage(settingsTabFolder.getShell(), "No backups found to restore. \nBackup operation not completed.", "Cannot Restore Backup");
 				}
 			}
 		};

@@ -32,6 +32,7 @@ public class DerbyUtils {
 			Class.forName(driver);
 			return true;
 		} catch (java.lang.ClassNotFoundException e) {
+			System.err.println("ERROR: Could not load the database driver, please contact System Administration.");
 			return false;
 		}
 	}
@@ -53,6 +54,7 @@ public class DerbyUtils {
 			}
 		}
 		if (!gotSQLExc) {
+			System.err.println("ERROR: Derby Driver did non shutdown correctly.");
 			return false;
 		} else {
 			return true;
@@ -105,7 +107,7 @@ public class DerbyUtils {
 				line = reader.readLine();
 			}
 		} catch (IOException x) {
-			System.err.format("IOException: %s%n", x); //TODO fix exception
+			System.err.println("ERROR: Database schema could not be found at " + Directories.newCohortSql); //TODO fix exception
 		}
 
 		return commands;

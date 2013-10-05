@@ -12,5 +12,9 @@ public class Errors {
 	 * Occurs when no marks databases found in database directory
 	 * 		CLASS: gui.PopupWindow 
 	 */
-	public static final String noDatabaseError = "No databases found.";
+	public static final String noDatabaseFound = "No databases found.";
+	
+	public static final String noDatabaseFolder = "No databases folder.";
+	
+	public static final String noBackupsFolder = "No backups folder.";
 }

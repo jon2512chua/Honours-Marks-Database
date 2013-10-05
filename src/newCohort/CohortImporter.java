@@ -58,7 +58,7 @@ public class CohortImporter {
 				int sID;
 				if(cell.getCellType() == 0) {sID = (int) cell.getNumericCellValue();}
 				else {
-					String error = "ERROR: no Student ID in row " + index + ". Student not added.\n";
+					String error = "Row: " + index + ": no Student ID - Student not added.\n";
 					importErrors.append(error);
 					//System.out.print(error);
 					continue;
@@ -69,13 +69,13 @@ public class CohortImporter {
 				if(cell.getCellType() == 1) {
 					disc = cell.getStringCellValue().toLowerCase();
 					if(!(disc.equals("a") || disc.equals("n") || disc.equals("p") || disc.equals("b"))) {
-						String error = "ERROR: invalid discipline in row " + index + ". Student not added.\n";
+						String error = "Row: " + index + ": invalid Discipline in row - Student not added.\n";
 						importErrors.append(error);
 						//System.out.print(error);
 						continue;
 					}
 				} else {
-					String error = "ERROR: invalid discipline in row " + index + ". Student not added.\n";
+					String error = "Row: " + index + ": invalid Discipline in row - Student not added.\n";
 					importErrors.append(error);
 					//System.out.print(error);
 					continue;
@@ -98,14 +98,14 @@ public class CohortImporter {
 						if((supId > 99999999 && supId < 199999999) || (supId > 199 && supId < 299)) {
 							supers.add(supId + "");
 						} else {
-							String error = "ERROR: invalid supervisor number in row " + index + ", column " + i + ". Student added, but supervisor not.\n";
+							String error = "Row " + index + " : invalid supervisor number in column " + i + ". Student added, but supervisor not.\n";
 							importErrors.append(error);
 							//System.out.print(error);
 						}
 					} else if (cell.getCellType() == 3) {
 						supId = -1;
 					} else {
-						String error = "ERROR: invalid supervisor number in row " + index + ", column " + i + ". Student added, but supervisor not.\n";
+						String error = "Row " + index + " : invalid supervisor number in column " + i + ". Student added, but supervisor not.\n";
 						importErrors.append(error);
 						//System.out.print(error);
 					}
@@ -117,8 +117,10 @@ public class CohortImporter {
 			file.close();
 			return students;
 		} catch (FileNotFoundException e) {
+			System.err.println("ERROR: Selected Excel import file could not be found.");
 			return null;
 		} catch (IOException e) {
+			System.err.println("ERROR: An error occurred while importing from Excel. Please check your data in case of partial effects.");
 			return null;
 		}	
 	}

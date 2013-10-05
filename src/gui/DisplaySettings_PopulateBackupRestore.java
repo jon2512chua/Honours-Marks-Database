@@ -10,6 +10,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 
+import sessionControl.Errors;
+
 public class DisplaySettings_PopulateBackupRestore {
 
 	/**
@@ -27,12 +29,11 @@ public class DisplaySettings_PopulateBackupRestore {
 
 		final Combo combo = new Combo(composite, SWT.READ_ONLY);
 
-		try {
-			String[] backupList = backupSubsystem.BackupUtils.getBackupsList();
-			for (String c : backupList) combo.add(c);
-		} catch (java.lang.NullPointerException e) {
-			combo.add("No Backups Found");
-		}
+		String[] backupList = backupSubsystem.BackupUtils.getBackupsList();
+		if (backupList.length == 0) combo.add("No Backups Found");
+		else if (backupList[0].equals(Errors.noBackupsFolder)) combo.add("ERROR: " + Errors.noBackupsFolder);
+		else for (String c : backupList) combo.add(c);
+		
 		combo.select(0);
 
 		Button btnRestoreBackup = new Button(composite, SWT.NONE);

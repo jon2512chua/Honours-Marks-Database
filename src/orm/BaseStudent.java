@@ -6,6 +6,7 @@ public class BaseStudent {
     private int studentID;
     private String firstName;
     private String lastName;
+    private String title;
     private String dissTitle;
     private List<Staff> supervisors;
     private double courseMark;
@@ -39,6 +40,14 @@ public class BaseStudent {
     
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    
+    public String getTitle() {
+        return title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
     }
     
     public String getDissTitle() {

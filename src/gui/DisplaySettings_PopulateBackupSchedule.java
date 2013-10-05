@@ -26,7 +26,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridData;
 
 import backupSubsystem.BackupOperations;
-import org.eclipse.swt.widgets.Label;
 
 /**
  * Schedule Backup Section
@@ -53,41 +52,36 @@ public class DisplaySettings_PopulateBackupSchedule {
 		tbtmbackupSchedule.setText(tabName);
 
 		//Create Backup Data
-		final Composite radioButtonComposite = new Composite(settingsTabFolder, SWT.NONE);
-		tbtmbackupSchedule.setControl(radioButtonComposite);
-		radioButtonComposite.setLayout(new GridLayout(2, false));
-		new Label(radioButtonComposite, SWT.NONE);
-		
-		Composite backupNowComposite = new Composite(radioButtonComposite, SWT.NONE);
-		GridData gd_backupNowComposite = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 8);
-		gd_backupNowComposite.horizontalIndent = 10;
-		backupNowComposite.setLayoutData(gd_backupNowComposite);
-		
-		Button btnBackupNow = new Button(backupNowComposite, SWT.NONE);
-		btnBackupNow.setBounds(0, 0, 75, 25);
-		btnBackupNow.setText("Backup Now");
+		final Composite backupComposite = new Composite(settingsTabFolder, SWT.NONE);
+		tbtmbackupSchedule.setControl(backupComposite);
+		backupComposite.setLayout(new GridLayout(2, false));
 
-		final Button btnBackupNever = new Button(radioButtonComposite, SWT.RADIO);
+		final Composite radioButtoncomposite = new Composite(backupComposite, SWT.NONE);
+		radioButtoncomposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1));
+		radioButtoncomposite.setLayout(new GridLayout(1, false));
+
+		final Button btnBackupNever = new Button(radioButtoncomposite, SWT.RADIO);
 		btnBackupNever.setText("Never");
 
-		final Button btnBackupStartup = new Button(radioButtonComposite, SWT.RADIO);
+		final Button btnBackupStartup = new Button(radioButtoncomposite, SWT.RADIO);
 		btnBackupStartup.setText("On Startup");
 
-		final Button btnBackupDaily = new Button(radioButtonComposite, SWT.RADIO);
+		final Button btnBackupDaily = new Button(radioButtoncomposite, SWT.RADIO);
 		btnBackupDaily.setText("Daily Startup");
 
-		final Button btnBackupWeekly = new Button(radioButtonComposite, SWT.RADIO);
+		final Button btnBackupWeekly = new Button(radioButtoncomposite, SWT.RADIO);
 		btnBackupWeekly.setText("Weekly Startup");
 
-		final Button btnBackupMonthly = new Button(radioButtonComposite, SWT.RADIO);
+		final Button btnBackupMonthly = new Button(radioButtoncomposite, SWT.RADIO);
 		btnBackupMonthly.setText("Monthly Startup");
 
-		final Button btnBackupCustom = new Button(radioButtonComposite, SWT.RADIO);
+		final Button btnBackupCustom = new Button(radioButtoncomposite, SWT.RADIO);
 		btnBackupCustom.setText("Custom");
 
-		final Composite custombackupComposite = new Composite(radioButtonComposite, SWT.NONE);
+		final Composite custombackupComposite = new Composite(radioButtoncomposite, SWT.NONE);
 		RowLayout rl_custombackupComposite = new RowLayout(SWT.HORIZONTAL);
-		rl_custombackupComposite.center = true;
+		rl_custombackupComposite.marginTop = 0;
+		rl_custombackupComposite.marginLeft = 10;
 		custombackupComposite.setLayout(rl_custombackupComposite);
 
 		CLabel lblNewLabel = new CLabel(custombackupComposite, SWT.NONE);
@@ -103,23 +97,32 @@ public class DisplaySettings_PopulateBackupSchedule {
 		combo.add("hours");
 		combo.add("days");
 		combo.add("weeks");
+		combo.select(comboSelection);
 
-		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(radioButtonComposite);
+		Composite backupNowComposite = new Composite(backupComposite, SWT.NONE);
+		GridData gd_backupNowComposite = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
+		gd_backupNowComposite.horizontalIndent = 10;
+		backupNowComposite.setLayoutData(gd_backupNowComposite);
+
+		Button btnBackupNow = new Button(backupNowComposite, SWT.NONE);
+		btnBackupNow.setBounds(0, 0, 75, 30);
+		btnBackupNow.setText("Backup Now");
+
+		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(backupComposite);
 
 		//Displays previously saved settings
 		try {
-			((Button) radioButtonComposite.getChildren()[radioSelection+2]).setSelection(true);
-			combo.select(comboSelection);
+			((Button) radioButtoncomposite.getChildren()[radioSelection]).setSelection(true);
 		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
 			System.err.println("Warning: Invalid settings file. Default values have been loaded.");
 			radioSelection = 5;
 			comboSelection = 1;
-			((Button) radioButtonComposite.getChildren()[radioSelection+2]).setSelection(true);	//TODO: ensure this is correct, even if UI changes
+			((Button) radioButtoncomposite.getChildren()[radioSelection]).setSelection(true);	//TODO: ensure this is correct, even if UI changes
 			combo.select(comboSelection);
 		}
 
 		//Disables some controls when the custom button is not selected
-		SelectionListener btnBackupCustomListene = new SelectionListener() {
+		SelectionListener btnBackupCustomListener = new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			public void widgetSelected(SelectionEvent e) {
@@ -130,10 +133,9 @@ public class DisplaySettings_PopulateBackupSchedule {
 				}
 			}
 		};
-		btnBackupCustom.addSelectionListener(btnBackupCustomListene);
-		btnBackupCustom.notifyListeners(SWT.Selection, new Event());	//Sets listener to check once on startup
-		
-		//Backup Now button listner
+		btnBackupCustom.addSelectionListener(btnBackupCustomListener);
+
+		//Backup Now button listener
 		Listener btnBackupNowListener = new Listener() {	//TODO: test
 			public void handleEvent(Event event) {
 				if (BackupOperations.backup()) {
@@ -144,6 +146,7 @@ public class DisplaySettings_PopulateBackupSchedule {
 			}
 		};
 		btnBackupNow.addListener(SWT.Selection, btnBackupNowListener);
+		btnBackupCustom.notifyListeners(SWT.Selection, new Event());	//Sets listener to check once on startup
 
 
 		//Save button Listener
@@ -152,7 +155,7 @@ public class DisplaySettings_PopulateBackupSchedule {
 				comboSelection = combo.getSelectionIndex();
 				radioSelection = 0;
 				//TODO: ensure this is correct, even if UI changes
-				while (((Button) radioButtonComposite.getChildren()[radioSelection+2]).getSelection() == false /*&& radioSelection<100*/) radioSelection++;
+				while (((Button) radioButtoncomposite.getChildren()[radioSelection]).getSelection() == false /*&& radioSelection<100*/) radioSelection++;
 				saveSettings();
 			}
 		};

@@ -1,6 +1,9 @@
 package orm;
 
-import java.util.List;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
+import sessionControl.*;
 
 public class BaseStudent {
     private int studentID;
@@ -13,9 +16,25 @@ public class BaseStudent {
     private String grade;
     private List<Unit> discipline;
     
-    public BaseStudent() {
-        //Initialise database connection and fill up the variables.
-        //What if we're creating a new one?
+    public BaseStudent(int studentID) {
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet studentRS = s.executeQuery("SELECT * FROM Student WHERE StudentID='" + studentID + "'")) {
+            
+            // There will only be one student returned as studentID is unique.
+            studentRS.first();
+            
+            this.studentID = studentID;
+            this.firstName = studentRS.getString("FirstName");
+            this.lastName = studentRS.getString("LastName");
+            this.title = studentRS.getString("Title");
+            this.dissTitle = studentRS.getString("DissTitle");
+            this.supervisors = getStaffList(studentID);
+            this.courseMark = studentRS.getDouble("Mark");
+            this.grade = studentRS.getString("Grade");
+            this.discipline = getUnitsList(studentID);
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public int getStudentID() {
@@ -88,5 +107,37 @@ public class BaseStudent {
     
     public void setDiscipline(List<Unit> discipline) {
         this.discipline = discipline;
+    }
+    
+    private List<Staff> getStaffList(int studentID) {
+        List<Staff> staffList = new ArrayList<>();
+        
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet staffRS = s.executeQuery("SELECT * FROM Supervises WHERE StudentID='" + studentID + "'")) {
+            
+            while (staffRS.next()) {
+                staffList.add(new Staff(staffRS.getInt("StaffID")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return staffList;
+    }
+    
+    private List<Unit> getUnitsList(int studentID) {
+        List<Unit> unitsList = new ArrayList<>();
+        
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet unitsRS = s.executeQuery("SELECT * FROM Student AS s JOIN Discipline AS d ON s.Discipline=d.DisciplineName WHERE s.StudentID='" + studentID + "'")) {
+            
+            while (unitsRS.next()) {
+                unitsList.add(new Unit(unitsRS.getString("UnitCode")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return unitsList;
     }
 }

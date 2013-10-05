@@ -1,13 +1,13 @@
 package orm;
 
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class BaseSubAssessment {
     private String subAssessmentID;
     private String name;
     private Assessment parentAssessment;
     private int maxMark;
-    private PriorityQueue<Mark> marks;
+    private List<Mark> marks;
     
     public BaseSubAssessment() {
         // Get DB connection.
@@ -45,11 +45,11 @@ public class BaseSubAssessment {
         this.maxMark = maxMark;
     }
     
-    public PriorityQueue<Mark> getMarks() {
+    public List<Mark> getMarks() {
         return marks;
     }
     
-    public void setMarks(PriorityQueue<Mark> marks) {
+    public void setMarks(List<Mark> marks) {
         this.marks = marks;
     }
 }

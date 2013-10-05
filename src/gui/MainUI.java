@@ -71,7 +71,7 @@ public class MainUI {
 
 		Label lblSemester = new Label(nowViewingComposite, SWT.NONE);
 		lblSemester.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		lblSemester.setText(sessionControl.Session.currentFocus);	//TODO: make dynamic
+		lblSemester.setText(sessionControl.Session.currentFocus.substring(0, 4) + " - Semester " + sessionControl.Session.currentFocus.substring(4));
 
 
 		final Composite displayComposite = new Composite(shell, SWT.NONE);

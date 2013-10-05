@@ -66,7 +66,7 @@ public class PopupWindow {
 
 		shell.pack();
 		shell.open();
-		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
+		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
 
 		//Button listener to deal with the button being pressed
 		Listener btnOKListener = new Listener() {
@@ -136,7 +136,7 @@ public class PopupWindow {
 
 		shell.pack();
 		shell.open();
-		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
+		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
 
 		//Button listener to deal with the YES button being pressed
 		Listener btnYesListener = new Listener() {
@@ -335,7 +335,7 @@ public class PopupWindow {
 		btnQuit.addListener(SWT.Selection, btnQuitListener);
 
 		shell.pack();
-		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 150);
+		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 150);
 		shell.open();
 		
 		return shell;
@@ -410,7 +410,7 @@ public class PopupWindow {
 
 
 		shell.pack();
-		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 200);
+		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);
 		shell.open();
 		
 		shell.addListener(SWT.Close, new Listener() {

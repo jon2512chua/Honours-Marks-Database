@@ -81,18 +81,6 @@ public class MainUI {
 		final StackLayout sl_displayComposite = new StackLayout();
 		displayComposite.setLayout(sl_displayComposite);
 
-		//Generate the Reports Screen
-		final CTabFolder reportTabFolder = DisplayReport.display(displayComposite);
-
-		//Generate the Tools Screen
-		/*final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);*/
-
-		//Generate the Creation/Editing screen
-		final CTabFolder manageCohortTabFolder = DisplayCE.display(displayComposite);
-
-		//Generate the Settings Screen
-		final CTabFolder settingsTabFolder = DisplaySettings.display(displayComposite);
-
 
 		//Left Display
 		//TODO: fix button widths
@@ -153,18 +141,34 @@ public class MainUI {
 		scrolledComposite.setContent(menuComposite);
 		scrolledComposite.setMinSize(menuComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
+		//Generate the Reports Screen
+		final CTabFolder reportTabFolder = DisplayReport.display(displayComposite);
+
+		//Generate the Tools Screen
+		/*final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);*/
+
+		//Generate the Creation/Editing screen
+		final CTabFolder manageCohortTabFolder = DisplayCE.display(displayComposite);
+
+		//Generate the Settings Screen
+		final CTabFolder settingsTabFolder = DisplaySettings.display(displayComposite);
+
+
+		
 		//Button Listeners
 		Listener btnReportsListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(reportTabFolder, sl_displayComposite, 0, "Reports");
 			}
 		};
+		btnReports.addListener(SWT.Selection, btnReportsListener);
 
 		Listener btnManageCohortListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(manageCohortTabFolder, sl_displayComposite, 0, "Manage Cohort");
 			}
 		};
+		btnManageCohort.addListener(SWT.Selection, btnManageCohortListener);
 
 		//TODO: link to btnEnterMarks
 		/*Listener btnSettingsListener = new Listener() {
@@ -179,16 +183,13 @@ public class MainUI {
 				showScreen(settingsTabFolder, sl_displayComposite, 0, "Settings");
 			}
 		};
+		btnSettings.addListener(SWT.Selection, btnSettingsListener);
 
 		Listener btnExitListener = new Listener() {
 			public void handleEvent(Event event) {
 				shell.close();
 			}
 		};
-
-		btnReports.addListener(SWT.Selection, btnReportsListener);
-		btnManageCohort.addListener(SWT.Selection, btnManageCohortListener);
-		btnSettings.addListener(SWT.Selection, btnSettingsListener);
 		btnExit.addListener(SWT.Selection, btnExitListener);
 
 		//Set Initial Screen
@@ -197,7 +198,7 @@ public class MainUI {
 		//Sets window initial size, and window position to middle of screen
 		shell.pack();
 		shell.setSize(DefaultWidth, DefaultHeight);
-		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 80);
+		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 80);
 		shell.open();
 
 

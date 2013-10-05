@@ -7,7 +7,7 @@ public class BaseStaff {
     private String name;
     private PriorityQueue<Mark> marks;
     
-    public BaseStaff() {
+    public BaseStaff(int staffID) {
         // Get DB connection.
     }
     

@@ -3,7 +3,7 @@ package orm;
 import java.util.List;
 
 public class BaseUnit {
-    private String code;
+    private String unitCode;
     private String name;
     private int points;
     private double mark;
@@ -13,12 +13,12 @@ public class BaseUnit {
         // Get DB connection.
     }
     
-    public String getCode() {
-        return code;
+    public String getUnitCode() {
+        return unitCode;
     }
     
-    public void setCode(String code) {
-        this.code = code;
+    public void setUnitCode(String unitCode) {
+        this.unitCode = unitCode;
     }
     
     public String getName() {

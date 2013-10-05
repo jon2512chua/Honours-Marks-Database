@@ -9,7 +9,7 @@ public class BaseUnit {
     private double mark;
     private List<Assessment> assessments;
     
-    public BaseUnit() {
+    public BaseUnit(String unitCode) {
         // Get DB connection.
     }
     

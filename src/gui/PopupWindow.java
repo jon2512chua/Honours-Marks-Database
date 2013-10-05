@@ -329,6 +329,7 @@ public class PopupWindow {
 		Listener btnQuitListener = new Listener() {
 			public void handleEvent(Event event) {
 				shell.getShell().close();
+				System.exit(0);	//Gracefully exit system.
 			}
 		};
 		btnQuit.addListener(SWT.Selection, btnQuitListener);

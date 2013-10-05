@@ -260,7 +260,7 @@ public class PopupWindow {
 
 		String[] cohorts = Session.getCohorts();
 		if (cohorts.length == 0) {
-			combo.add(Errors.noDatabaseError);
+			combo.add(Errors.noDatabaseFound);
 		}
 		else {
 			for (String c : cohorts) {

@@ -36,9 +36,9 @@ public class CohortCreator {
 		}
 		if (unique) {
 			newCohort = new Cohort(cohort);
-			installSchema();
-			return true;
+			return installSchema(Directories.newCohortSql);
 		} else
+			System.err.println("WARNING: Cannot create cohort " + cohort.substring(0, 4) + " Sem " + cohort.substring(4) + " because it already exists.");
 			return false;
 	}
 
@@ -58,21 +58,18 @@ public class CohortCreator {
 	}
 
 	// Helper method to install schema from an SQL file
-	private static boolean installSchema() {
-		List<String> sql = DerbyUtils.getSqlFromFile(Directories.newCohortSql);
+	private static boolean installSchema(String sql) {
+		List<String> commands = DerbyUtils.getSqlFromFile(sql);
 		try {
 			Statement s = CohortCreator.newCohort.newConn.getConnection()
 					.createStatement();
-			for (String c : sql) {
-				// System.out.println(c);
+			for (String c : commands) {
 				s.execute(c);
 			}
 			return true;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("error");
+			System.err.println("ERROR reading from sql file " + sql); // TODO elaborate 
 			return false;
 		}
 	}

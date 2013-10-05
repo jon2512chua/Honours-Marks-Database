@@ -258,8 +258,12 @@ public class PopupWindow {
 		combo.setLayoutData(gd_combo);
 
 		String[] cohorts = Session.getCohorts();
-		if (cohorts.length == 0) {
-			combo.add(Errors.noDatabaseError);
+		if (cohorts[0].equals(Errors.noDatabaseFolder)) {
+			System.err.println("Error: Database folder was not found.");
+			combo.add("Error: Database folder was not found.");
+		}
+		else if (cohorts.length == 0) {
+			combo.add(Errors.noDatabaseFound);
 		}
 		else {
 			for (String c : cohorts) {
@@ -294,7 +298,7 @@ public class PopupWindow {
 				String selectedCohort = combo.getItems()[combo.getSelectionIndex()];
 				int sem = selectedCohort.length();
 				try {
-					if(selectedCohort.equals(Errors.noDatabaseError)) {selectedCohort = "";}
+					if(selectedCohort.equals(Errors.noDatabaseFound)) {selectedCohort = "";}
 					else {selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem);} 
 					if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) { 
 						// && TODO load data

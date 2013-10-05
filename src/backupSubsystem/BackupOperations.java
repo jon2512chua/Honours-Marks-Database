@@ -63,6 +63,7 @@ public class BackupOperations {
 	public static boolean restore(String backupName) {
 		if (!(backupName.startsWith(Session.currentFocus) || Session.currentFocus
 				.equals(""))) {
+			System.err.println("WARNING: Cannot overwrite a data");
 			return false;
 		} // TODO get rid of this, instead, only display on the list of backups
 			// the ones applicable to the situation
@@ -70,14 +71,15 @@ public class BackupOperations {
 		String cohort = Session.currentFocus;
 		// Step 1: backup current state (if one is loaded)
 		if (!cohort.equals("")) {
-			boolean check = backup(cohort, true);
-			if (!check) {
+			if (!backup(cohort, true)) {
+				System.err.println("ERROR: Could not backup the current database " + Session.currentFocus + ", refer to manual.");
 				return false;
 			}
 		} else {
 			cohort = backupName.substring(0, 5);
 		}
 
+		String dir = Directories.dbDir + cohort;
 		File directory = new File(Directories.dbDir + cohort);
 
 		if (Session.dbConn.isConnected())
@@ -88,6 +90,7 @@ public class BackupOperations {
 			try {
 				DeleteUtility.delete(directory);
 			} catch (IOException e) {
+				System.err.println("ERROR 21: Could not free up current database folder " + dir);
 				return false;
 			}
 		}

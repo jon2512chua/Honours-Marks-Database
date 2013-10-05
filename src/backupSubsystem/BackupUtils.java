@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 import sessionControl.Directories;
+import sessionControl.Errors;
 
 /**
  * A class for minor utilities used in the backup subsystem
@@ -22,19 +23,25 @@ public class BackupUtils {
 	public static String[] getBackupsList() {
 		{
 			File file = new File(Directories.backupDir);
-			String[] backups = file.list(new FilenameFilter() {
-				@Override
-				public boolean accept(File dir, String name) {
-					return (new File(dir, name).exists() && name
-							.matches("\\d{5} \\d{8} \\d{6}.zip"));
+			if(file.exists()) {
+				String[] backups = file.list(new FilenameFilter() {
+					@Override
+					public boolean accept(File dir, String name) {
+						return (new File(dir, name).exists() && name
+								.matches("\\d{5} \\d{8} \\d{6}.zip"));
+					}
+				});
+				int i = 0;
+				for (String s : backups) {
+					backups [i] = s.substring(0, 4) + "/" + s.substring(4, 6) + "(" + s.substring(12, 14) + "/" + s.substring(10, 12) + "/" + s.substring(8, 10) + ", " + s.substring(15, 17) + ":" + s.substring(17, 19) + ":" + s.substring(19, 21) + ")";
+					i++;
 				}
-			});
-			int i = 0;
-			for (String s : backups) {
-				backups [i] = s.substring(0, 4) + "/" + s.substring(4, 6) + "(" + s.substring(12, 14) + "/" + s.substring(10, 12) + "/" + s.substring(8, 10) + ", " + s.substring(15, 17) + ":" + s.substring(17, 19) + ":" + s.substring(19, 21) + ")";
-				i++;
+				return backups;
 			}
-			return backups;
+			else {
+				System.err.println("ERROR: The backups directory '" + Directories.backupDir + "' could not be found.");
+				return new String[]{Errors.noBackupsFolder};
+			}
 		}
 	}
 

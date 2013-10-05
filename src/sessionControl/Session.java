@@ -75,14 +75,16 @@ public class Session {
 				loggedIn = true;
 				currentFocus = cohort;
 				user = username;
-
+				rs.close();
 				query.close();
 				return true;
 			} else {
+				rs.close();
 				query.close();
 				return false;
 			}
 		} catch (SQLException e) {
+			System.err.println("ERROR: There was an error connecting to the System database: could not attempt logon.");
 			e.printStackTrace();
 			return false;
 		}
@@ -166,14 +168,20 @@ public class Session {
 	 */
 	public static String[] getCohorts() {
 		File file = new File(Directories.dbDir);
-		String[] directories = file.list(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return (new File(dir, name).isDirectory() && name
-						.matches("\\d{5}"));
-			}
-		});
-
-		return directories;
+		if(file.exists()) {
+			String[] directories = file.list(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return (new File(dir, name).isDirectory() && name
+							.matches("\\d{5}"));
+				}
+			});
+			System.out.println(directories.length);
+			return directories;
+		}
+		else {
+			System.err.println("ERROR: The database directory '" + Directories.dbDir + "' could not be found.");
+			return new String[]{Errors.noDatabaseFolder};
+		} 		
 	}
 }

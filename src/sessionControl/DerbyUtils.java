@@ -71,7 +71,7 @@ public class DerbyUtils {
 		if (db.equals(Directories.systemDb)) {
 			return Session.sysConn.openConnection(db);
 		} else
-			return Session.dbConn.openConnection(db);
+			return Session.dbConn.openConnection(Directories.dbDir + db);
 	}
 
 	/**

@@ -8,7 +8,7 @@ public class BaseStudent {
     private String lastName;
     private String dissTitle;
     private List<Staff> supervisors;
-    private int courseMark;
+    private double courseMark;
     private String grade;
     private List<Unit> discipline;
     
@@ -57,11 +57,11 @@ public class BaseStudent {
         this.supervisors = supervisors;
     }
     
-    public int getCourseMark() {
+    public double getCourseMark() {
         return courseMark;
     }
     
-    public void setCourseMarks(int courseMark) {
+    public void setCourseMarks(double courseMark) {
         this.courseMark = courseMark;
     }
     

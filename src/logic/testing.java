@@ -1,7 +1,7 @@
-import java.util.List;
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Queue;
+package logic;
+
+import java.util.*;
+import orm.*;
 
 /**
  * Class that handles the automatic calculation of subassessment, assessment, and unit marks, from the

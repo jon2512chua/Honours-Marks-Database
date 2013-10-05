@@ -22,7 +22,7 @@ public class CommonButtons {
 	public static Button[] addSaveDiscardChangesButton(Composite parent) {
 		Composite buttonsComposite = new Composite(parent, SWT.NONE);
 		buttonsComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
-		buttonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true, 2, 1));
+		buttonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false, 2, 1));
 
 		Button btnSaveChanges = new Button(buttonsComposite, SWT.NONE);
 		btnSaveChanges.setText("Save Changes");

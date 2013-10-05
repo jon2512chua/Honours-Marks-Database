@@ -1,5 +1,8 @@
+package logic;
+
 import java.util.List;
 import java.lang.Math.*;
+import orm.*;
 
 /**
  * Class that handles the automatic calculation of subassessment, assessment, and unit marks, from the

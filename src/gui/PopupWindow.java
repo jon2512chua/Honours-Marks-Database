@@ -22,6 +22,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
 
+import sessionControl.DerbyUtils;
 import sessionControl.Session;
 import sessionControl.Errors;
 
@@ -178,7 +179,7 @@ public class PopupWindow {
 	 * Popups a log on screen. Controls are disabled until a account is accepted.
 	 * @param parentShell
 	 */
-	public static void popupLogon(Shell parentShell) {		//TODO: perhaps add a forgotten password button?
+	public static Shell popupLogon(Shell parentShell) {		//TODO: perhaps add a forgotten password button?
 		final String imageFileName = "splash.png";
 		final Shell shell = new Shell(parentShell, SWT.TITLE);
 		//Disables controls while the logon screen is displayed
@@ -258,12 +259,8 @@ public class PopupWindow {
 		combo.setLayoutData(gd_combo);
 
 		String[] cohorts = Session.getCohorts();
-		if (cohorts[0].equals(Errors.noDatabaseFolder)) {
-			System.err.println("Error: Database folder was not found.");
-			combo.add("Error: Database folder was not found.");
-		}
-		else if (cohorts.length == 0) {
-			combo.add(Errors.noDatabaseFound);
+		if (cohorts.length == 0) {
+			combo.add(Errors.noDatabaseError);
 		}
 		else {
 			for (String c : cohorts) {
@@ -325,7 +322,7 @@ public class PopupWindow {
 		//Button listener to deal with the Quit button being pressed
 		Listener btnQuitListener = new Listener() {
 			public void handleEvent(Event event) {
-				shell.getParent().dispose();
+				shell.getShell().close();
 			}
 		};
 		btnQuit.addListener(SWT.Selection, btnQuitListener);
@@ -333,6 +330,7 @@ public class PopupWindow {
 		shell.pack();
 		shell.open();
 		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 150);
+		return shell;
 
 	}
 }

@@ -52,6 +52,15 @@ public class MainUI {
 			System.err.println("Warning: The file " + (new File(iconFileName)).toURI().getPath() + " was unable to be located.");
 		}
 
+		//Displays Log On screen
+		Shell logon = PopupWindow.popupLogon(shell);
+		while (!logon.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+
+
 		Composite nowViewingComposite = new Composite(shell, SWT.BORDER);
 		nowViewingComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		nowViewingComposite.setLayout(new GridLayout(1, false));
@@ -126,7 +135,7 @@ public class MainUI {
 		btnSettings.setLayoutData(gd_btnSettings);
 		btnSettings.setAlignment(SWT.LEFT);
 		btnSettings.setText("Settings");
-		
+
 		Composite exitComposite = new Composite(shell, SWT.BORDER);
 		GridLayout gl_exitComposite = new GridLayout(1, false);
 		gl_exitComposite.marginWidth = 1;
@@ -140,7 +149,7 @@ public class MainUI {
 		btnExit.setLayoutData(gd_btnExit);
 		btnExit.setAlignment(SWT.LEFT);
 		btnExit.setText("Exit");
-		
+
 		scrolledComposite.setContent(menuComposite);
 		scrolledComposite.setMinSize(menuComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
@@ -182,28 +191,27 @@ public class MainUI {
 		btnSettings.addListener(SWT.Selection, btnSettingsListener);
 		btnExit.addListener(SWT.Selection, btnExitListener);
 
+		//Set Initial Screen
+		shell.setText("CITS3200 Program");
+
+		//Sets window initial size, and window position to middle of screen
+		shell.pack();
+		shell.setSize(DefaultWidth, DefaultHeight);
+		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 80);
+		shell.open();
+
+
 		//Actions to perform when program is closed.
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent event) {
-                //TODO add close connection methods
+				//TODO add close connection methods
 				if(sessionControl.Session.sysConn.isConnected()) DerbyUtils.dbDisconnect(sessionControl.Session.sysConn);
 				if(sessionControl.Session.dbConn.isConnected()) DerbyUtils.dbDisconnect(sessionControl.Session.dbConn);
 				DerbyUtils.shutdownDriver();
 			}
 		});
 
-		//Set Initial Screen
-		shell.setText("CITS3200 Program");
 
-
-		shell.pack();
-		shell.open();
-		//Sets window initial size, and window position to middle of screen
-		shell.setSize(DefaultWidth, DefaultHeight);
-		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 80);
-
-		//Displays Log On screen
-		PopupWindow.popupLogon(shell);
 
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -212,6 +220,7 @@ public class MainUI {
 		}
 		display.dispose();
 	}
+
 
 	/**
 	 * Controls the selection of different screens

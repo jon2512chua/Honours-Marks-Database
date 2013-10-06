@@ -91,8 +91,7 @@ public class Session {
 	}
 
 	/**
-	 * Sets loggedIn to false. In conjunction with GUI structure TODO finish
-	 * this method - will need to tie to GUI methods and DB connection
+	 * Sets loggedIn to false. 
 	 */
 	public static void logout() {
 		loggedIn = false;

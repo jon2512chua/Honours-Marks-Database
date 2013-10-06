@@ -11,7 +11,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 
 import sessionControl.Errors;
-
+// TODO Tim - the dropdown menu here doesn't refresh itself 
 public class DisplaySettings_PopulateBackupRestore {
 
 	/**

@@ -27,8 +27,14 @@ public class BackupUtils {
 				String[] backups = file.list(new FilenameFilter() {
 					@Override
 					public boolean accept(File dir, String name) {
-						return (new File(dir, name).exists() && name
-								.matches("\\d{5} \\d{8} \\d{6}.zip"));
+						if(sessionControl.Session.currentFocus.equals("")) {
+							return (new File(dir, name).exists() && name
+									.matches("\\d{5} \\d{8} \\d{6}.zip"));
+						}
+						else {
+							return (new File(dir, name).exists() && name
+									.matches("\\d{5} \\d{8} \\d{6}.zip")) && name.startsWith(sessionControl.Session.currentFocus);
+						}
 					}
 				});
 				int i = 0;

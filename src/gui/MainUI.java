@@ -62,7 +62,7 @@ public class MainUI {
 
 		Label lblSemester = new Label(nowViewingComposite, SWT.NONE);
 		lblSemester.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		lblSemester.setText("2013 Semester 1");	//TODO: make dynamic
+		lblSemester.setText("2013 Semester 1 - FIX");	//TODO: make dynamic
 
 
 		final Composite displayComposite = new Composite(shell, SWT.NONE);
@@ -185,7 +185,6 @@ public class MainUI {
 		//Actions to perform when program is closed.
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent event) {
-                //TODO add close connection methods
 				if(sessionControl.Session.sysConn.isConnected()) DerbyUtils.dbDisconnect(sessionControl.Session.sysConn);
 				if(sessionControl.Session.dbConn.isConnected()) DerbyUtils.dbDisconnect(sessionControl.Session.dbConn);
 				DerbyUtils.shutdownDriver();

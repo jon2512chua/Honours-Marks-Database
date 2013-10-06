@@ -18,11 +18,12 @@ public class MainLoader {
 		//Load database drivers
 		if(!DerbyUtils.loadDriver()) {
 			//TODO gui.PopupWindow.popupMessage(parentShell, text, title)
-			//TODO exit
+			System.exit(0);
 		}
 		//Connect to System Database
 		else if(!DerbyUtils.dbConnect(Directories.systemDb)) {
-			//TODO if can't connect to system then show a pop-up with error message and don't open.;
+			//TODO show a pop-up with error message
+			System.exit(0);
 		}
 		else {
 			//Begin program execution

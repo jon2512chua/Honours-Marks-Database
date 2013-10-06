@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -107,10 +108,27 @@ public class DerbyUtils {
 				line = reader.readLine();
 			}
 		} catch (IOException x) {
-			System.err.println("ERROR: Database schema could not be found at " + Directories.newCohortSql); //TODO fix exception
+			System.err.println("ERROR: Database schema could not be found at " + filepath);
 		}
 
 		return commands;
+	}
+
+	// Helper method to install schema from an SQL file
+	public static boolean runSqlFromFile(String sql, ConnectionWrapper conn) {
+		List<String> commands = getSqlFromFile(sql);
+		try {
+			Statement s = conn.getConnection()
+					.createStatement();
+			for (String c : commands) {
+				s.execute(c);
+			}
+			return true;
+	
+		} catch (SQLException e) {
+			System.err.println("ERROR reading from sql file " + sql + ".\nProgram reports: " + e); //TODO add this to all? also, timestamp?
+			return false;
+		}
 	}
 
 }

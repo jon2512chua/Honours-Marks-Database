@@ -14,7 +14,25 @@ nbproject/
 
 # Database Files #
 db/
+<<<<<<< HEAD
 
 # Build and Deployment Files #
 /build/
 /dist/
+=======
+derby.log
+
+# Build and Deployment Files #
+/build/
+/dist/
+
+#  Tim's Changes #
+/bin
+.classpath
+.project
+.settings
+/bin
+settings
+HMD
+/bin
+>>>>>>> branch 'gui' of https://github.com/jon2512chua/Honours-Marks-Database.git

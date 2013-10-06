@@ -1,7 +1,9 @@
+package logic;
+
 import java.util.List;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Queue;
+
+import orm.*;
 
 /**
  * Class that handles the automatic calculation of subassessment, assessment, and unit marks, from the
@@ -176,9 +178,9 @@ public class testing
         statSub1.setMaxMark(100);
         statSub2.setMaxMark(100);
         statSub3.setMaxMark(100);
-        statSub1.setSubAssessmentId(1);
-        statSub2.setSubAssessmentId(1);
-        statSub3.setSubAssessmentId(2);
+        statSub1.setSubAssessmentID("1");
+        statSub2.setSubAssessmentID("1");
+        statSub3.setSubAssessmentID("2");
         
         statSub1.setParentAssessment(statAssess1);
         statSub2.setParentAssessment(statAssess1);
@@ -194,9 +196,9 @@ public class testing
         statAssess1.setMark(60);
         statAssess2.setMark(70);
         statAssess3.setMark(80);
-        statAssess1.setAssessmentId(1);
-        statAssess2.setAssessmentId(1);
-        statAssess3.setAssessmentId(2);
+        statAssess1.setAssessmentID("1");
+        statAssess2.setAssessmentID("1");
+        statAssess3.setAssessmentID("2");
         
         List<SubAssessment> subListA = new ArrayList<SubAssessment>();
         List<SubAssessment> subListB = new ArrayList<SubAssessment>();

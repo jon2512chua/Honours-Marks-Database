@@ -1,8 +1,8 @@
- 
+package logic;
 
 import java.util.*;
-import java.lang.Math.*;
-//import orm.*;
+
+import orm.*;
 
 /**
  * Class that handles the automatic calculation of the statistics of CohortData marks, such as CohortData

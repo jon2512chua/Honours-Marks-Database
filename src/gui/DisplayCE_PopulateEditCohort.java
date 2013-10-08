@@ -112,7 +112,6 @@ public class DisplayCE_PopulateEditCohort {
 		lblImportStaffFrom.setText("Import the following staff from the previous semester:");
 
 
-
 		final Tree staffTree = new Tree(compositeChooseImportStaff, SWT.BORDER | SWT.CHECK | SWT.FULL_SELECTION);
 		staffTree.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 2));
 		staffTree.setHeaderVisible(true);
@@ -172,8 +171,8 @@ public class DisplayCE_PopulateEditCohort {
 		compositeSpacer.setLayout(new GridLayout(1, false));
 		compositeSpacer.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
 		
-		CommonButtons.addCreateDiscardChangesButton(editCohortComposite);
+		@SuppressWarnings("unused")	//TODO: remove later
+		Button[] btnCreateDiscard = CommonButtons.addCreateDiscardChangesButton(editCohortComposite);
 		
-
 	}
 }

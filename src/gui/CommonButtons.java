@@ -40,7 +40,7 @@ public class CommonButtons {
 	 * Creates two buttons , and places them in the bottom right corner.</br>
 	 * The buttons are 'Create Now' and 'Discard Changes'
 	 * @param parent the composite to put the buttons in
-	 * @return the created buttons, in the order {Save Changes, Discard Changes}
+	 * @return the created buttons, in the order {Create Now, Discard Changes}
 	 */
 	public static Button[] addCreateDiscardChangesButton(Composite parent) {
 		Composite buttonsComposite = new Composite(parent, SWT.NONE);

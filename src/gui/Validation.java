@@ -38,7 +38,7 @@ public class Validation {
 	public static void validateDouble(Text text) {
 		text.addVerifyListener(new VerifyListener() {
 			public void verifyText(VerifyEvent e) {		//Check if the value entered is an integer
-				if (e.character != '\u0008' && e.character != '\u007F' && e.character != '\uFF0E' && e.character != '\u0000') {	//Allows backspace/delete/.(TODO: check.)
+				if (e.character != '\u0008' && e.character != '\u007F' && e.character != '\u002E' && e.character != '\u0000') {	//Allows backspace/delete/.
 					try {
 						Double.parseDouble(e.text);	//TODO:check
 					} catch (final NumberFormatException numberFormatException) {

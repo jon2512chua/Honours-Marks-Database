@@ -134,9 +134,10 @@ public class DisplaySettings_PopulateBackupSchedule {
 			}
 		};
 		btnBackupCustom.addSelectionListener(btnBackupCustomListener);
+		btnBackupCustom.notifyListeners(SWT.Selection, new Event());	//Sets listener to check once on startup
 
 		//Backup Now button listener
-		Listener btnBackupNowListener = new Listener() {	//TODO: test
+		Listener btnBackupNowListener = new Listener() {
 			public void handleEvent(Event event) {
 				btnBackupNow.setEnabled(false);
 				if (BackupOperations.backup()) {
@@ -148,7 +149,6 @@ public class DisplaySettings_PopulateBackupSchedule {
 			}
 		};
 		btnBackupNow.addListener(SWT.Selection, btnBackupNowListener);
-		btnBackupCustom.notifyListeners(SWT.Selection, new Event());	//Sets listener to check once on startup
 
 
 		//Save button Listener

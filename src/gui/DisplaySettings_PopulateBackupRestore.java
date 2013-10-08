@@ -3,6 +3,10 @@ package gui;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -21,7 +25,7 @@ public class DisplaySettings_PopulateBackupRestore {
 	 * @wbp.parser.entryPoint
 	 */
 	public static void populate(final CTabFolder settingsTabFolder, String tabName) {
-		CTabItem tbtmbackupRestore = new CTabItem(settingsTabFolder, SWT.NONE);
+		final CTabItem tbtmbackupRestore = new CTabItem(settingsTabFolder, SWT.NONE);
 		tbtmbackupRestore.setText(tabName);
 		final Composite composite = new Composite(settingsTabFolder, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
@@ -29,12 +33,23 @@ public class DisplaySettings_PopulateBackupRestore {
 
 		final Combo combo = new Combo(composite, SWT.READ_ONLY);
 
-		String[] backupList = backupSubsystem.BackupUtils.getBackupsList();
-		if (backupList.length == 0) combo.add("No Backups Found");
-		else if (backupList[0].equals(Errors.noBackupsFolder)) combo.add("ERROR: " + Errors.noBackupsFolder);
-		else for (String c : backupList) combo.add(c);
-		
-		combo.select(0);
+
+		settingsTabFolder.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				if (event.item == tbtmbackupRestore) {
+					combo.removeAll();
+					String[] backupList = backupSubsystem.BackupUtils.getBackupsList();
+					if (backupList.length == 0) combo.add("No Backups Found");
+					else if (backupList[0].equals(Errors.noBackupsFolder)) combo.add("ERROR: " + Errors.noBackupsFolder);
+					else for (String c : backupList) combo.add(c);
+					combo.select(0);
+					composite.pack();
+				}
+			}
+		});
+		settingsTabFolder.notifyListeners(SWT.FocusIn, new Event());
+
+
 
 		Button btnRestoreBackup = new Button(composite, SWT.NONE);
 		btnRestoreBackup.setText("Restore Backup");

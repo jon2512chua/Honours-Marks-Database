@@ -104,7 +104,7 @@ public class DisplaySettings_PopulateBackupSchedule {
 		gd_backupNowComposite.horizontalIndent = 10;
 		backupNowComposite.setLayoutData(gd_backupNowComposite);
 
-		Button btnBackupNow = new Button(backupNowComposite, SWT.NONE);
+		final Button btnBackupNow = new Button(backupNowComposite, SWT.NONE);
 		btnBackupNow.setBounds(0, 0, 75, 30);
 		btnBackupNow.setText("Backup Now");
 
@@ -138,11 +138,13 @@ public class DisplaySettings_PopulateBackupSchedule {
 		//Backup Now button listener
 		Listener btnBackupNowListener = new Listener() {	//TODO: test
 			public void handleEvent(Event event) {
+				btnBackupNow.setEnabled(false);
 				if (BackupOperations.backup()) {
 					PopupWindow.popupMessage(settingsTabFolder.getShell(), "Backup Successful.", "Backup");
 				} else {
 					PopupWindow.popupMessage(settingsTabFolder.getShell(), "Backup Failed.", "Backup");
 				}
+				btnBackupNow.setEnabled(true);
 			}
 		};
 		btnBackupNow.addListener(SWT.Selection, btnBackupNowListener);

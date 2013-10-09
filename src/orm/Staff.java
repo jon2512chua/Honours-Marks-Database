@@ -5,6 +5,10 @@ public class Staff extends BaseStaff {
         super(staffID);
     }
     
+    public String getFullName() {
+        return this.getFistName() + " " + this.getLastName();
+    }
+    
     public int getNumMarks() {
         return getMarks().size();
     }

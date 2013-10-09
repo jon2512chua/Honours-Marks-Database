@@ -1,12 +1,5 @@
 package gui;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Properties;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.CTabFolder;
@@ -31,13 +24,11 @@ import backupSubsystem.BackupOperations;
  * Schedule Backup Section
  * @author Tim Lander
  */
-public class DisplaySettings_PopulateBackupSchedule {
+public class DisplaySettings_PopulateBackup {
 	private static Text text;
 	private static String setText;
 	private static int radioSelection;
 	private static int comboSelection;
-
-	private static final String settingsFileName = "settings";
 
 	/**
 	 * Populates the Schedule Backup Tab
@@ -46,7 +37,7 @@ public class DisplaySettings_PopulateBackupSchedule {
 	 * @wbp.parser.entryPoint
 	 */
 	public static void populate(final CTabFolder settingsTabFolder, String tabName) {
-		restoreSettings();
+		restoreBackupSettings();
 
 		CTabItem tbtmbackupSchedule = new CTabItem(settingsTabFolder, SWT.NONE);
 		tbtmbackupSchedule.setText(tabName);
@@ -158,7 +149,7 @@ public class DisplaySettings_PopulateBackupSchedule {
 				radioSelection = 0;
 				//TODO: ensure this is correct, even if UI changes
 				while (((Button) radioButtoncomposite.getChildren()[radioSelection]).getSelection() == false /*&& radioSelection<100*/) radioSelection++;
-				saveSettings();
+				saveBackupSettings();
 			}
 		};
 		btnSaveDiscard[0].addListener(SWT.Selection, btnSaveChangesListener);
@@ -168,39 +159,22 @@ public class DisplaySettings_PopulateBackupSchedule {
 	/**
 	 * Save settings
 	 */
-	private static final void saveSettings() {
-		try {
-			Properties props = new Properties();
-			props.setProperty("text", text.getText());
-			props.setProperty("radioSelection", ""+radioSelection);
-			props.setProperty("comboSelection", ""+comboSelection);
-
-			OutputStream out = new FileOutputStream(new File(settingsFileName));
-			props.store(out, "HMD Settings File");
-			PopupWindow.popupMessage(text.getShell(), "Backup settings saved.", "Saved");
+	private static void saveBackupSettings() {
+		String keys[] = {"text", "radioSelection", "comboSelection"};
+		String values[] = new String[] {text.getText(), radioSelection+"", comboSelection+""};
+		if (Settings.saveSettings(keys, values)) {
+			PopupWindow.popupMessage(text.getShell(), "Backup settings have been saved.", "Saved");
+		} else {
+			PopupWindow.popupMessage(text.getShell(), "Backup settings were unable to be saved.", "Error");
 		}
-		catch (Exception e ) {
-			e.printStackTrace();
-		}
-
 	}
 
 	/**
 	 * Restore settings
 	 */
-	private static final void restoreSettings() {
-		Properties props = new Properties();
-		InputStream is = null;
-
-		// Try loading from the current directory
-		try {
-			is = new FileInputStream( new File(settingsFileName) );
-			// Try loading properties from the file (if found)
-			props.load( is );
-		} catch (Exception e) {is = null;}
-
-		setText = new String(props.getProperty("text", ""));
-		radioSelection = new Integer(props.getProperty("radioSelection", "4"));
-		comboSelection = new Integer(props.getProperty("comboSelection", "0"));
+	private static void restoreBackupSettings() {
+		setText = Settings.loadSettings("text", "");
+		radioSelection = new Integer(Settings.loadSettings("radioSelection", "4"));
+		comboSelection = new Integer(Settings.loadSettings("comboSelection", "0"));
 	}
 }

@@ -20,6 +20,7 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
 
 import sessionControl.DerbyUtils;
+
 import org.eclipse.swt.widgets.Label;
 
 
@@ -199,13 +200,14 @@ public class MainUI {
 		shell.pack();
 		shell.setSize(DefaultWidth, DefaultHeight);
 		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 80);
+		shell.setMaximized(Boolean.valueOf(Settings.loadSettings("maximized", "false")));					//restores the maximized state
 		shell.open();
 
 
 		//Actions to perform when program is closed.
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent event) {
-				//TODO add close connection methods
+				Settings.saveSettings(new String[]{"maximized"}, new String[] {shell.getMaximized()+""});		//saves the maximized state
 				if(sessionControl.Session.sysConn.isConnected()) DerbyUtils.dbDisconnect(sessionControl.Session.sysConn);
 				if(sessionControl.Session.dbConn.isConnected()) DerbyUtils.dbDisconnect(sessionControl.Session.dbConn);
 				DerbyUtils.shutdownDriver();

@@ -1,10 +1,14 @@
 package gui;
 
+import java.util.*;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+
+import orm.Student;
 
 /**
  * Student Report
@@ -24,10 +28,24 @@ public class DisplayReport_PopulateStudent {
 
 		Tree studentTree = DisplayReport.createReportTree(reportTabFolder, "Selection", "Data");
 		tbtmReport.setControl(studentTree);
+		
+		List<Student> allStudents = Student.getAllStudents();
+        for (Student s : allStudents) {
+            TreeItem student = new TreeItem(studentTree, SWT.NONE);
+			student.setText(new String[] {String.valueOf(s.getStudentID())});
+            TreeItem studentNameTitle = new TreeItem(student, SWT.NONE);
+			studentNameTitle.setText(new String[] {"Title", s.getTitle()});
+			TreeItem studentNameLast = new TreeItem(student, SWT.NONE);
+			studentNameLast.setText(new String[] {"Last Name", s.getLastName()});
+			TreeItem studentNameFirst = new TreeItem(student, SWT.NONE);
+			studentNameFirst.setText(new String[] {"First Name", s.getFirstName()});
+			TreeItem studentDissTitle = new TreeItem(student, SWT.NONE);
+			studentDissTitle.setText(new String[] {"Dissertation Title", s.getDissTitle()});TreeItem studentSuper = new TreeItem(student, SWT.NONE);
+			studentSuper.setText(new String[] { "Supervisor", s.getCommaSeparatedSupervisorString()});
+        }
 
-		for (int sn=0; sn<5; sn++) {
+		/*for (int sn=0; sn<5; sn++) {
 			TreeItem student = new TreeItem(studentTree, SWT.NONE);
-
 			student.setText(new String[] {Data.StudentNumber[sn]});
 			TreeItem studentNameTitle = new TreeItem(student, SWT.NONE);		//TODO: in theory these could be combined into one row
 			studentNameTitle.setText(new String[] {"Title", Data.StudentNameTitle[sn]});
@@ -67,7 +85,7 @@ public class DisplayReport_PopulateStudent {
 			}
 
 			//student.setExpanded(true);		//TODO:Perhaps add an expand all button?
-		}
+		}*/
 
 		//Listener to automatically resize Student Report column widths.
 		DisplayReport.autoResizeColumn(studentTree);

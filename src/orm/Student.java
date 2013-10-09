@@ -27,6 +27,20 @@ public class Student extends BaseStudent {
         return allStudents;
     }
     
+    public String getCommaSeparatedSupervisorString() {
+        String csSupervisorStr = "";
+        
+        for (Staff supervisor : getSupervisors()) {
+            csSupervisorStr += supervisor.getFullName() + ", ";
+        }
+        
+        csSupervisorStr.trim();
+        // TODO: Doing it this way temporarily to get things to show. Might want to revise.
+        csSupervisorStr = csSupervisorStr.substring(0, csSupervisorStr.length() - 2);
+        
+        return csSupervisorStr;
+    }
+    
     public String getFullName() {
         String fullName = getFirstName() + getLastName();
         

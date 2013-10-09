@@ -4,7 +4,8 @@ import java.util.PriorityQueue;
 
 public class BaseStaff {
     private int staffID;
-    private String name;
+    private String firstName;
+    private String lastName;
     private PriorityQueue<Mark> marks;
     
     public BaseStaff(int staffID) {
@@ -19,12 +20,20 @@ public class BaseStaff {
         this.staffID = staffID;
     }
     
-    public String getName() {
-        return name;
+    public String getFistName() {
+        return firstName;
     }
     
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    
+    public String getLastName() {
+        return lastName;
+    }
+    
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
     
     public PriorityQueue<Mark> getMarks() {

@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
+import sessionControl.DerbyUtils;
+import sessionControl.Directories;
 
 import sessionControl.Session;
 import sessionControl.Errors;
@@ -303,7 +305,8 @@ public class PopupWindow {
 				try {
 					if(selectedCohort.equals(Errors.noDatabaseFound)) {selectedCohort = "";}
 					else {selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem);} 
-					if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) { 
+					if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) {
+                        DerbyUtils.dbConnect(selectedCohort);
 						// && TODO load data
 						//Enables controls	
 						for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);

@@ -1,6 +1,10 @@
 package orm;
 
-import java.util.PriorityQueue;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
+import java.util.*;
+import sessionControl.Session;
 
 public class BaseStaff {
     private int staffID;
@@ -9,7 +13,19 @@ public class BaseStaff {
     private PriorityQueue<Mark> marks;
     
     public BaseStaff(int staffID) {
-        // Get DB connection.
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet staffRS = s.executeQuery("SELECT * FROM Staff WHERE StaffID=" + staffID)) {
+            
+            // There will only be one staff returned as staffID is unique.
+            staffRS.first();
+            
+            this.staffID = staffID;
+            this.firstName = staffRS.getString("FirstName");
+            this.lastName = staffRS.getString("LastName");
+            // TODO: Figure out what the marks represent.
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public int getStaffID() {

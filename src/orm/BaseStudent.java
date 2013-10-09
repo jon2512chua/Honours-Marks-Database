@@ -18,7 +18,7 @@ public class BaseStudent {
     
     public BaseStudent(int studentID) {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet studentRS = s.executeQuery("SELECT * FROM Student WHERE StudentID='" + studentID + "'")) {
+                ResultSet studentRS = s.executeQuery("SELECT * FROM Student WHERE StudentID=" + studentID)) {
             
             // There will only be one student returned as studentID is unique.
             studentRS.first();
@@ -113,7 +113,7 @@ public class BaseStudent {
         List<Staff> staffList = new ArrayList<>();
         
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet staffRS = s.executeQuery("SELECT * FROM Supervises WHERE StudentID='" + studentID + "'")) {
+                ResultSet staffRS = s.executeQuery("SELECT * FROM Supervises WHERE StudentID=" + studentID)) {
             
             while (staffRS.next()) {
                 staffList.add(new Staff(staffRS.getInt("StaffID")));
@@ -129,7 +129,7 @@ public class BaseStudent {
         List<Unit> unitsList = new ArrayList<>();
         
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet unitsRS = s.executeQuery("SELECT * FROM Student AS s JOIN Discipline AS d ON s.Discipline=d.DisciplineName WHERE s.StudentID='" + studentID + "'")) {
+                ResultSet unitsRS = s.executeQuery("SELECT * FROM Student AS s JOIN Discipline AS d ON s.Discipline=d.DisciplineName WHERE s.StudentID=" + studentID)) {
             
             while (unitsRS.next()) {
                 unitsList.add(new Unit(unitsRS.getString("UnitCode")));

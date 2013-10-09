@@ -37,7 +37,6 @@ public class DisplayCE_PopulateEditStudent {
 	 * @wbp.parser.entryPoint
 	 */
 	public static void populate(final CTabFolder CETabFolder, String tabName) {
-
 		CTabItem tbtmEditStudent = new CTabItem(CETabFolder, SWT.NONE);
 		tbtmEditStudent.setText(tabName);
 

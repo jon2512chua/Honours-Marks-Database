@@ -57,7 +57,7 @@ public class SWTLoader {
 	        
 	    }
 	    catch(Exception e) {
-	        System.out.println("Unable to add the swt jar to the class path: "+swtFileName);
+	        System.err.println("ERROR: Unable to add the swt jar to the class path: "+swtFileName); 
 	        e.printStackTrace();
 	    }
 	}

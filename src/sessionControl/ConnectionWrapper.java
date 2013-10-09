@@ -67,6 +67,7 @@ public class ConnectionWrapper {
 			dock = DriverManager.getConnection(connectionURL);
 			disconnected = false;
 		} catch (Throwable e) {
+			System.err.println("ERROR: Could not connect to database in directory " + db);
 			return false;
 		}
 		return true;
@@ -83,6 +84,7 @@ public class ConnectionWrapper {
 			disconnected = true;
 			return true;
 		} catch (SQLException e) {
+			System.err.println("ERROR: Disconnect from database unsuccessful.");
 			return false;
 		}
 	}

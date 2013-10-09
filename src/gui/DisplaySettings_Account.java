@@ -33,8 +33,9 @@ public class DisplaySettings_Account {
 		tbtmAccountSettings.setText(tabName);
 
 		final Composite accountSettingsComposite = new Composite(settingsTabFolder, SWT.NONE);
-		tbtmAccountSettings.setControl(accountSettingsComposite);
+		accountSettingsComposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1));
 		accountSettingsComposite.setLayout(new GridLayout(2, false));
+		tbtmAccountSettings.setControl(accountSettingsComposite);
 
 		Label lblUsername = new Label(accountSettingsComposite, SWT.NONE);
 		lblUsername.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -100,6 +101,9 @@ public class DisplaySettings_Account {
 		GridData gd_currentPasswordText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_currentPasswordText.widthHint = 350;
 		currentPasswordText.setLayoutData(gd_currentPasswordText);
+		
+		Composite spacerComposite = new Composite(accountSettingsComposite, SWT.NONE);
+		spacerComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true, 2, 1));
 
 		@SuppressWarnings("unused")	//TODO: remove later
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(accountSettingsComposite);

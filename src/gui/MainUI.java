@@ -20,6 +20,7 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
 
 import sessionControl.DerbyUtils;
+
 import org.eclipse.swt.widgets.Label;
 
 
@@ -52,6 +53,15 @@ public class MainUI {
 			System.err.println("Warning: The file " + (new File(iconFileName)).toURI().getPath() + " was unable to be located.");
 		}
 
+		//Displays Log On screen
+		Shell logon = PopupWindow.popupLogon(shell);
+		while (!logon.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+
+
 		Composite nowViewingComposite = new Composite(shell, SWT.BORDER);
 		nowViewingComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		nowViewingComposite.setLayout(new GridLayout(1, false));
@@ -62,7 +72,7 @@ public class MainUI {
 
 		Label lblSemester = new Label(nowViewingComposite, SWT.NONE);
 		lblSemester.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		lblSemester.setText("2013 Semester 1");	//TODO: make dynamic
+		lblSemester.setText(sessionControl.Session.currentFocus.substring(0, 4) + " - Semester " + sessionControl.Session.currentFocus.substring(4));
 
 
 		final Composite displayComposite = new Composite(shell, SWT.NONE);
@@ -71,18 +81,6 @@ public class MainUI {
 		displayComposite.setLayoutData(gd_displayComposite);
 		final StackLayout sl_displayComposite = new StackLayout();
 		displayComposite.setLayout(sl_displayComposite);
-
-		//Generate the Reports Screen
-		final CTabFolder reportTabFolder = DisplayReport.display(displayComposite);
-
-		//Generate the Tools Screen
-		/*final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);*/
-
-		//Generate the Creation/Editing screen
-		final CTabFolder manageCohortTabFolder = DisplayCE.display(displayComposite);
-
-		//Generate the Settings Screen
-		final CTabFolder settingsTabFolder = DisplaySettings.display(displayComposite);
 
 
 		//Left Display
@@ -126,7 +124,7 @@ public class MainUI {
 		btnSettings.setLayoutData(gd_btnSettings);
 		btnSettings.setAlignment(SWT.LEFT);
 		btnSettings.setText("Settings");
-		
+
 		Composite exitComposite = new Composite(shell, SWT.BORDER);
 		GridLayout gl_exitComposite = new GridLayout(1, false);
 		gl_exitComposite.marginWidth = 1;
@@ -140,22 +138,38 @@ public class MainUI {
 		btnExit.setLayoutData(gd_btnExit);
 		btnExit.setAlignment(SWT.LEFT);
 		btnExit.setText("Exit");
-		
+
 		scrolledComposite.setContent(menuComposite);
 		scrolledComposite.setMinSize(menuComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
+		//Generate the Reports Screen
+		final CTabFolder reportTabFolder = DisplayReport.display(displayComposite);
+
+		//Generate the Tools Screen
+		/*final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);*/
+
+		//Generate the Creation/Editing screen
+		final CTabFolder manageCohortTabFolder = DisplayCE.display(displayComposite);
+
+		//Generate the Settings Screen
+		final CTabFolder settingsTabFolder = DisplaySettings.display(displayComposite);
+
+
+		
 		//Button Listeners
 		Listener btnReportsListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(reportTabFolder, sl_displayComposite, 0, "Reports");
 			}
 		};
+		btnReports.addListener(SWT.Selection, btnReportsListener);
 
 		Listener btnManageCohortListener = new Listener() {
 			public void handleEvent(Event event) {
 				showScreen(manageCohortTabFolder, sl_displayComposite, 0, "Manage Cohort");
 			}
 		};
+		btnManageCohort.addListener(SWT.Selection, btnManageCohortListener);
 
 		//TODO: link to btnEnterMarks
 		/*Listener btnSettingsListener = new Listener() {
@@ -170,40 +184,37 @@ public class MainUI {
 				showScreen(settingsTabFolder, sl_displayComposite, 0, "Settings");
 			}
 		};
+		btnSettings.addListener(SWT.Selection, btnSettingsListener);
 
 		Listener btnExitListener = new Listener() {
 			public void handleEvent(Event event) {
 				shell.close();
 			}
 		};
-
-		btnReports.addListener(SWT.Selection, btnReportsListener);
-		btnManageCohort.addListener(SWT.Selection, btnManageCohortListener);
-		btnSettings.addListener(SWT.Selection, btnSettingsListener);
 		btnExit.addListener(SWT.Selection, btnExitListener);
+
+		//Set Initial Screen
+		shell.setText("CITS3200 Program");
+
+		//Sets window initial size, and window position to middle of screen
+		shell.pack();
+		shell.setSize(DefaultWidth, DefaultHeight);
+		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 80);
+		shell.setMaximized(Boolean.valueOf(Settings.loadSettings("maximized", "false")));					//restores the maximized state
+		shell.open();
+
 
 		//Actions to perform when program is closed.
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent event) {
-                //TODO add close connection methods
+				Settings.saveSettings(new String[]{"maximized"}, new String[] {shell.getMaximized()+""});		//saves the maximized state
 				if(sessionControl.Session.sysConn.isConnected()) DerbyUtils.dbDisconnect(sessionControl.Session.sysConn);
 				if(sessionControl.Session.dbConn.isConnected()) DerbyUtils.dbDisconnect(sessionControl.Session.dbConn);
 				DerbyUtils.shutdownDriver();
 			}
 		});
 
-		//Set Initial Screen
-		shell.setText("CITS3200 Program");
 
-
-		shell.pack();
-		shell.open();
-		//Sets window initial size, and window position to middle of screen
-		shell.setSize(DefaultWidth, DefaultHeight);
-		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 80);
-
-		//Displays Log On screen
-		PopupWindow.popupLogon(shell);
 
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -212,6 +223,7 @@ public class MainUI {
 		}
 		display.dispose();
 	}
+
 
 	/**
 	 * Controls the selection of different screens

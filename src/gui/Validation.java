@@ -35,15 +35,18 @@ public class Validation {
 	 * Ensures only doubles can be entered.
 	 * @param text the text to validate
 	 */
-	public static void validateDouble(Text text) {
+	public static void validateDouble(Text text) { //TODO: test
 		text.addVerifyListener(new VerifyListener() {
-			public void verifyText(VerifyEvent e) {		//Check if the value entered is an integer
-				if (e.character != '\u0008' && e.character != '\u007F' && e.character != '\uFF0E' && e.character != '\u0000') {	//Allows backspace/delete/.(TODO: check.)
+			public void verifyText(VerifyEvent e) {		//Check if the value entered is a double
+				if (e.character != '\u0008' && e.character != '\u007F' && e.character != '\u0000') {	//Allows backspace/delete/.
 					try {
-						Double.parseDouble(e.text);	//TODO:check
+						Integer.parseInt(e.text);
 					} catch (final NumberFormatException numberFormatException) {
 						e.doit = false;
 					}
+				//} else if (e.character == '\u002E' && text.toString().contains("\u002E")) {
+				} else if (e.character == '\u002E' && e.getSource().toString().contains("\u002E")) {
+					e.doit = false;
 				}
 			}
 		});

@@ -1,6 +1,8 @@
 package logic;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+
 import orm.*;
 
 /**
@@ -37,6 +39,21 @@ public class testing
     public List<Unit> testDisc1;
     
     public Student testStud1;
+    
+    //
+    
+    public Unit statUnit1;
+    public Unit statUnit2;
+    public Unit statUnit3;
+    
+    public Assessment statAssess1;
+    public Assessment statAssess2;
+    public Assessment statAssess3;
+    
+    public SubAssessment statSub1;
+    public SubAssessment statSub2;
+    public SubAssessment statSub3;
+    
     
     /**
      * Initialising objects for testing purposes
@@ -105,46 +122,108 @@ public class testing
         
         testUnit1.setAssessments(assessList1);
         testUnit2.setAssessments(assessList2);
-        
+        testUnit1.setPoints(6);
+        testUnit2.setPoints(6);
+
         testDisc1.add(testUnit1);
         testDisc1.add(testUnit2);
         
         testStud1.setDiscipline(testDisc1);
+        
+        //
+        
+        
     }
     
     /**
-        THIS METHOD WORKS ON ASSESSMENTS, NOW CHANGED, KEEPING THIS IN CASE
-        I WANT TO USE IT AS A REFERENCE, WHEN ITERATING THROUGH ASSESSMENTS I GUESS????
-    
-    public double[] subAssessAverage(int x) {
-        List<SubAssessment> curSubAssessmentsList;
-        if (x==1){        
-            curSubAssessmentsList = testAss1.getSubAssessments();
-        } else{
-            curSubAssessmentsList = testAss2.getSubAssessments();
-        }
+     * Initialising objects for statistic generation testing
+     */
+    public void initStatObjects(){
+        CohortData.units = new ArrayList<Unit>();
         
-        if (curSubAssessmentsList == null) {
-            return null;
-         }
-        int subAssessNum = curSubAssessmentsList.size();
+        CohortData.assessments = new ArrayList<Assessment>();
         
-        int[] size = new int[subAssessNum];
+        statUnit1 = new Unit();
+        statUnit2 = new Unit();
+        statUnit3 = new Unit();
         
-        for (int i = 0; i < subAssessNum; i++){
-             size[i] = curSubAssessmentsList.get(i).getMarks().size();
-        }
+        statAssess1 = new Assessment();
+        statAssess2 = new Assessment();
+        statAssess3 = new Assessment();
         
-        double[] subAssessAves = new double[subAssessNum];
-        for (int i = 0; i < subAssessNum; i++){
-            for (int j = 0; j < size[i]; j++) {
-                subAssessAves[i] += curSubAssessmentsList.get(i).getMarks().get(j).getValue();
-            }
-            subAssessAves[i] = subAssessAves[i]/size[i];
-        }
+        statSub1 = new SubAssessment();
+        statSub2 = new SubAssessment();
+        statSub3 = new SubAssessment();
         
-        return subAssessAves;
+        Mark mark7 = new Mark();
+        Mark mark8 = new Mark();
+        Mark mark9 = new Mark();
+        mark7.setValue(55);
+        mark8.setValue(65);
+        mark9.setValue(70);
+        mark7.setInsideRange(true);
+        mark8.setInsideRange(true);
+        mark9.setInsideRange(true);
+        
+        List<Mark> markSet4 = new ArrayList<Mark>();
+        List<Mark> markSet5 = new ArrayList<Mark>();
+        List<Mark> markSet6 = new ArrayList<Mark>();
+        markSet4.add(mark7);
+        markSet5.add(mark8);
+        markSet6.add(mark9);
+        
+        statSub1.setMarks(markSet4);
+        statSub2.setMarks(markSet5);
+        statSub3.setMarks(markSet6);
+        statSub1.setMaxMark(100);
+        statSub2.setMaxMark(100);
+        statSub3.setMaxMark(100);
+        statSub1.setSubAssessmentID("1");
+        statSub2.setSubAssessmentID("1");
+        statSub3.setSubAssessmentID("2");
+        
+        statSub1.setParentAssessment(statAssess1);
+        statSub2.setParentAssessment(statAssess1);
+        statSub3.setParentAssessment(statAssess2);
+        
+        statUnit1.setMark(60);
+        statUnit2.setMark(70);
+        statUnit3.setMark(80);
+        statUnit1.setCode("aaaa");
+        statUnit2.setCode("aaaa");
+        statUnit3.setCode("bbbb");
+        
+        statAssess1.setMark(60);
+        statAssess2.setMark(70);
+        statAssess3.setMark(80);
+        statAssess1.setAssessmentID("1");
+        statAssess2.setAssessmentID("1");
+        statAssess3.setAssessmentID("2");
+        
+        List<SubAssessment> subListA = new ArrayList<SubAssessment>();
+        List<SubAssessment> subListB = new ArrayList<SubAssessment>();
+        List<SubAssessment> subListC = new ArrayList<SubAssessment>();
+        subListA.add(statSub1);
+        subListA.add(statSub2);
+        subListA.add(statSub3);
+        statAssess1.setSubAssessments(subListA);
+        statAssess2.setSubAssessments(subListB);
+        statAssess3.setSubAssessments(subListC);
+        
+        
+        CohortData.units.add(statUnit1);
+        CohortData.units.add(statUnit2);
+        CohortData.units.add(statUnit3);
+        
+        CohortData.assessments.add(statAssess1);
+        CohortData.assessments.add(statAssess2);
+        CohortData.assessments.add(statAssess3);
+        
+        
+        CohortData.numUnits = 3;
+        CohortData.numAssessments = 3;
+        
+        
     }
-    **/
     
 }

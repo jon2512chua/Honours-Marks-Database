@@ -1,0 +1,10 @@
+BUILD
+- The software is delivered built
+
+INSTALL
+- The software is delivered installed
+
+RUN
+- The software can be run by executing 'marks.exe'
+- The default username is 'Heather', and the default password is 'default'
+- We recommend that the user changes these (can be done under the 'settings' tab) upon running the program the first time

@@ -1,7 +1,5 @@
 package logic;
 
-import java.util.List;
-import java.lang.Math.*;
 import orm.*;
 
 /**

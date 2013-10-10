@@ -1,5 +1,7 @@
 package gui;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -17,6 +19,9 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+
+import orm.Staff;
+import orm.Student;
 
 /**
  * Edit Students Section
@@ -62,10 +67,17 @@ public class DisplayCE_PopulateEditStudent {
 
 		TreeItem newStudent = new TreeItem(studentTree, SWT.NONE);
 		newStudent.setText(new String[] {"+", "Add New Student"});
-		for (int sn=0; sn<5; sn++) {
+		
+		//TODO: delete
+		/*for (int sn=0; sn<5; sn++) {
 			TreeItem student = new TreeItem(studentTree, SWT.NONE);
 			student.setText(new String[] {Data.StudentNumber[sn], Data.StudentNameTitle[sn] + " " + Data.StudentNameFirst[sn].charAt(0) + ". " + Data.StudentNameLast[sn]});
-		}
+		}*/
+		List<Student> allStudents = Student.getAllStudents();
+        for (Student s : allStudents) {
+        	TreeItem student = new TreeItem(studentTree, SWT.NONE);
+        	student.setText(new String[] {String.valueOf(s.getStudentID()), String.valueOf(s.getFullName())});
+        }
 
 
 
@@ -118,10 +130,17 @@ public class DisplayCE_PopulateEditStudent {
 		supervisorTree_staffNumber.setText("Staff Number");
 		TreeColumn supervisorTree_staffName = new TreeColumn(supervisorTree, SWT.LEFT);
 		supervisorTree_staffName.setText("Staff Name");
-		for (int sn=0; sn<5; sn++) {
+		
+		//TODO: delete
+		/*for (int sn=0; sn<5; sn++) {
 			TreeItem supervisor = new TreeItem(supervisorTree, SWT.NONE);
 			supervisor.setText(new String[] {Data.StaffNumber[sn], Data.StaffNameTitle[sn] + " " + Data.StaffNameFirst[sn].charAt(0) + ". " + Data.StaffNameLast[sn]});
-		}
+		}*/
+		List<Staff> allStaff = Staff.getAllStaff();
+        for (Staff s : allStaff) {
+        	TreeItem supervisor = new TreeItem(supervisorTree, SWT.NONE);
+        	supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});
+        }
 
 		@SuppressWarnings("unused")	//TODO: remove later
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
@@ -139,7 +158,7 @@ public class DisplayCE_PopulateEditStudent {
 					TreeItem item = studentTree.getSelection()[0];
 					try {
 						int sn=0;
-						while (item.getText() != Data.StudentNumber[sn]) sn++;
+						while (item.getText() != Data.StudentNumber[sn]) sn++;		//TODO: get data better
 						populateSelectedData(sn);
 					} catch (java.lang.ArrayIndexOutOfBoundsException arrayError) {
 						populateSelectedData();

@@ -8,7 +8,9 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.swt.widgets.Tree;
@@ -34,6 +36,7 @@ public class DisplayCE_PopulateEditStudent {
 	public static Text lastName;
 	public static Text firstName;
 	public static Text dissertationTitle;
+	public static Tree supervisorTree;
 
 	/**
 	 * Populates the Edit Students Tab
@@ -123,7 +126,7 @@ public class DisplayCE_PopulateEditStudent {
 		Label lblSupervisors = new Label(rComposite, SWT.NONE);
 		lblSupervisors.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
 		lblSupervisors.setText("Supervisor(s):");
-		Tree supervisorTree = new Tree(rComposite, SWT.BORDER | SWT.CHECK | SWT.FULL_SELECTION);
+		supervisorTree = new Tree(rComposite, SWT.BORDER | SWT.CHECK | SWT.FULL_SELECTION);
 		supervisorTree.setHeaderVisible(true);
 		supervisorTree.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1));
 		TreeColumn supervisorTree_staffNumber= new TreeColumn(supervisorTree, SWT.LEFT);
@@ -142,8 +145,15 @@ public class DisplayCE_PopulateEditStudent {
 			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});
 		}
 
-		@SuppressWarnings("unused")	//TODO: remove later
+
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
+
+		btnSaveDiscard[0].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				TreeItem item = studentTree.getSelection()[0];
+				saveData(Student.getStudentByID(item.getText()));
+			}
+		});
 
 
 		//Auto Fit Columns
@@ -189,12 +199,40 @@ public class DisplayCE_PopulateEditStudent {
 			firstName.setText(student.getFirstName()+"");
 			dissertationTitle.setText(student.getDissTitle()+"");
 			//TODO: supervisor/s
+			for (TreeItem ti : supervisorTree.getItems()) {
+				ti.setChecked(false);
+				List<Staff> supervisors = student.getSupervisors();
+				for (Staff s : supervisors) {
+					if ( ti.getText() == s.getStaffID()+"" ) {
+						ti.setChecked(true);
+					}
+				}
+			}
+
 		} catch (java.lang.NullPointerException e) {				//Default values
 			studentNumber.setText("");
 			title.setText("");
 			lastName.setText("");
 			firstName.setText("");
 			dissertationTitle.setText("");
+			for (TreeItem ti : supervisorTree.getItems()) {
+				ti.setChecked(false);
+			}
+		}
+	}
+
+	private static void saveData(Student student) {
+		try {														//Found values
+			//student.setStudentID(Integer.parseInt(studentNumber.getText()));		//may be causing issues?
+			student.setTitle(title.getText());
+			student.setLastName(lastName.getText());
+			student.setFirstName(firstName.getText());
+			student.setDissTitle(dissertationTitle.getText());
+			//TODO: supervisor/s
+			System.out.println("success?");
+		} catch (java.lang.NullPointerException e) {				//Default values
+			Student newStudent = new Student(Integer.parseInt(studentNumber.getText()));
+			saveData(newStudent);
 		}
 	}
 

@@ -8,14 +8,14 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import orm.Student;
+import orm.*;
 
 /**
  * Student Report
  * @author Tim Lander
  */
 public class DisplayReport_PopulateStudent {
-	
+
 	/**
 	 * Populates the Student Report
 	 * @param reportTabFolder the folder to put the tab in
@@ -28,21 +28,49 @@ public class DisplayReport_PopulateStudent {
 
 		Tree studentTree = DisplayReport.createReportTree(reportTabFolder, "Selection", "Data");
 		tbtmReport.setControl(studentTree);
-		
-		List<Student> allStudents = Student.getAllStudents();
-        for (Student s : allStudents) {
-            TreeItem student = new TreeItem(studentTree, SWT.NONE);
-			student.setText(new String[] {String.valueOf(s.getStudentID())});
-            TreeItem studentNameTitle = new TreeItem(student, SWT.NONE);
-			studentNameTitle.setText(new String[] {"Title", s.getTitle()});
-			TreeItem studentNameLast = new TreeItem(student, SWT.NONE);
-			studentNameLast.setText(new String[] {"Last Name", s.getLastName()});
-			TreeItem studentNameFirst = new TreeItem(student, SWT.NONE);
-			studentNameFirst.setText(new String[] {"First Name", s.getFirstName()});
-			TreeItem studentDissTitle = new TreeItem(student, SWT.NONE);
-			studentDissTitle.setText(new String[] {"Dissertation Title", s.getDissTitle()});TreeItem studentSuper = new TreeItem(student, SWT.NONE);
-			studentSuper.setText(new String[] { "Supervisor", s.getCommaSeparatedSupervisorString()});
-        }
+
+		try {	//TODO: better error handling
+
+			List<Student> allStudents = Student.getAllStudents();
+			for (Student s : allStudents) {
+				TreeItem student = new TreeItem(studentTree, SWT.NONE);
+				student.setText(new String[] {String.valueOf(s.getStudentID())});
+				TreeItem studentNameTitle = new TreeItem(student, SWT.NONE);
+				studentNameTitle.setText(new String[] {"Title", s.getTitle()});
+				TreeItem studentNameLast = new TreeItem(student, SWT.NONE);
+				studentNameLast.setText(new String[] {"Last Name", s.getLastName()});
+				TreeItem studentNameFirst = new TreeItem(student, SWT.NONE);
+				studentNameFirst.setText(new String[] {"First Name", s.getFirstName()});
+				TreeItem studentDissTitle = new TreeItem(student, SWT.NONE);
+				studentDissTitle.setText(new String[] {"Dissertation Title", s.getDissTitle()});TreeItem studentSuper = new TreeItem(student, SWT.NONE);
+				studentSuper.setText(new String[] { "Supervisor", s.getCommaSeparatedSupervisorString()});
+
+				List<Unit> units = s.getDiscipline();
+				for (Unit u : units) {
+					TreeItem unit = new TreeItem(student, SWT.NONE);
+					unit.setText(new String[] {u.getUnitCode()});
+					TreeItem unitName = new TreeItem(unit, SWT.NONE);
+					unitName.setText(new String[] {"Unit Name", u.getName()});
+					TreeItem unitPoints = new TreeItem(unit, SWT.NONE);
+					unitPoints.setText(new String[] {"Unit Points", u.getPoints()+""});
+					TreeItem unitMarks = new TreeItem(unit, SWT.NONE);
+					unitMarks.setText(new String[] {"Unit Mark", u.getMark()+""});
+
+
+					List<Assessment> assessments = u.getAssessments();
+					for (Assessment a : assessments) {
+						TreeItem assessment = new TreeItem(unit, SWT.NONE);
+						assessment.setText(new String[] {a.getAssessmentID()});
+					}
+				}
+
+			}
+
+
+		} catch (java.lang.NullPointerException e) {
+			System.out.println("Whoops, null pointer exception");
+			e.printStackTrace();
+		}
 
 		/*for (int sn=0; sn<5; sn++) {
 			TreeItem student = new TreeItem(studentTree, SWT.NONE);

@@ -20,7 +20,7 @@ public class Student extends BaseStudent {
             while (studentsRS.next()) {
                 allStudents.add(new Student(studentsRS.getInt("StudentID")));
             }
-        } catch (SQLException ex) {
+        } catch (java.lang.NullPointerException | SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
         

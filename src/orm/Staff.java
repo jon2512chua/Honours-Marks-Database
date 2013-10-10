@@ -33,7 +33,7 @@ public class Staff extends BaseStaff {
 			while (staffsRS.next()) {
 				allStaff.add(new Staff(staffsRS.getInt("StaffID")));
 			}
-		} catch (SQLException ex) {
+		} catch (java.lang.NullPointerException | SQLException ex) {
 			Logger.getLogger(BaseStaff.class.getName()).log(Level.SEVERE, null, ex);
 		}
 

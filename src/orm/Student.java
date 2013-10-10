@@ -3,6 +3,7 @@ package orm;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import sessionControl.*;
 
 public class Student extends BaseStudent { 
@@ -42,8 +43,17 @@ public class Student extends BaseStudent {
     }
     
     public String getFullName() {
-        String fullName = getFirstName() + getLastName();
+        String fullName = getFirstName() + " " + getLastName();
         
         return fullName;
+    }
+    
+    public static Student getStudentByID (String ID) {
+    	for (Student s : Student.getAllStudents()) {
+    		try {
+			if (Integer.parseInt(ID) == s.getStudentID()) return s;
+    		} catch (java.lang.NumberFormatException e) {}
+		}
+    	return null;
     }
 }

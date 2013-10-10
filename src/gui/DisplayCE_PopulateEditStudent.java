@@ -37,6 +37,7 @@ public class DisplayCE_PopulateEditStudent {
 	public static Text firstName;
 	public static Text dissertationTitle;
 	public static Tree supervisorTree;
+	public static Tree studentTree;
 
 	/**
 	 * Populates the Edit Students Tab
@@ -59,7 +60,7 @@ public class DisplayCE_PopulateEditStudent {
 		gl_editStudentComposite.marginHeight = 0;
 		editStudentComposite.setLayout(gl_editStudentComposite);
 
-		final Tree studentTree = new Tree(editStudentComposite, SWT.BORDER | SWT.FULL_SELECTION);
+		studentTree = new Tree(editStudentComposite, SWT.BORDER | SWT.FULL_SELECTION);
 		studentTree.setHeaderVisible(true);
 		studentTree.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
 
@@ -148,10 +149,19 @@ public class DisplayCE_PopulateEditStudent {
 
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
 
+		//Action to perform when the save button is pressed
 		btnSaveDiscard[0].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				TreeItem item = studentTree.getSelection()[0];
-				saveData(Student.getStudentByID(item.getText()));
+				if (studentNumber.getText().length() != 8) {
+					PopupWindow.popupMessage(CETabFolder.getShell(), "Student number must be 8 digits long. \nStudent has not been saved", "Error");
+				} else {
+					try {
+						TreeItem item = studentTree.getSelection()[0];
+						saveData(Student.getStudentByID(item.getText()));
+					} catch (java.lang.ArrayIndexOutOfBoundsException e) {
+						saveData(null);
+					}
+				}
 			}
 		});
 
@@ -222,18 +232,27 @@ public class DisplayCE_PopulateEditStudent {
 	}
 
 	private static void saveData(Student student) {
-		try {														//Found values
+		try {														//Entered values
 			//student.setStudentID(Integer.parseInt(studentNumber.getText()));		//may be causing issues?
 			student.setTitle(title.getText());
 			student.setLastName(lastName.getText());
 			student.setFirstName(firstName.getText());
 			student.setDissTitle(dissertationTitle.getText());
 			//TODO: supervisor/s
-			System.out.println("success?");
+			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
 		} catch (java.lang.NullPointerException e) {				//Default values
 			Student newStudent = new Student(Integer.parseInt(studentNumber.getText()));
 			saveData(newStudent);
+
+			//create new student on the tree
+			TreeItem studentTreeItem = new TreeItem(studentTree, SWT.NONE);
+			studentTreeItem.setText(new String[] {studentNumber.getText(), firstName.getText() + " " + lastName.getText()});
+			studentTree.setSelection(studentTreeItem);
 		}
+	}
+
+	public static void refreshData() {
+
 	}
 
 }

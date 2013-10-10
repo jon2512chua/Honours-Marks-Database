@@ -72,7 +72,11 @@ public class MainUI {
 
 		Label lblSemester = new Label(nowViewingComposite, SWT.NONE);
 		lblSemester.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		lblSemester.setText(sessionControl.Session.currentFocus.substring(0, 4) + " - Semester " + sessionControl.Session.currentFocus.substring(4));
+		try {
+			lblSemester.setText(sessionControl.Session.currentFocus.substring(0, 4) + " - Semester " + sessionControl.Session.currentFocus.substring(4));
+		} catch (java.lang.StringIndexOutOfBoundsException e) {
+			lblSemester.setText("No Cohort Loaded");
+		}
 
 
 		final Composite displayComposite = new Composite(shell, SWT.NONE);

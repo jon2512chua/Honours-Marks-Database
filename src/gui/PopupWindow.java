@@ -25,7 +25,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
 import sessionControl.DerbyUtils;
-import sessionControl.Directories;
 
 import sessionControl.Session;
 import sessionControl.Errors;

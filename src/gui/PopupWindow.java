@@ -10,6 +10,9 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
@@ -331,4 +334,85 @@ public class PopupWindow {
 		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 150);
 
 	}
+	/**
+	 * Popups a message, to add sub assessment
+	 * @param parentShell the display currently in use
+	 * @param text the text the popup displays 
+	 * @param title the title to display
+	 * @wbp.parser.entryPoint
+	 */
+	private static Text assessmentName;
+	private static Text maximumMark;
+	private static Text assessmentPercentage;
+	public static void popupAddSubAssessment(Shell parentShell, String text, String title, final Tree tree) {
+		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
+		shell.setImage(parentShell.getImage());
+
+		// Set the Window Title
+		shell.setText(title);
+		shell.setLayout(new GridLayout(2, false));
+
+		// Create a Label in the Shell
+		Label label = new Label(shell, SWT.WRAP);
+		label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
+		label.setText(text);
+		
+		Label lblAssessmentName = new Label(shell, SWT.NONE);
+		lblAssessmentName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblAssessmentName.setText("Assessment Name:");
+		
+		assessmentName = new Text(shell, SWT.BORDER);
+		GridData gd_assessmentName = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_assessmentName.widthHint = 180;
+		assessmentName.setLayoutData(gd_assessmentName);
+		
+		Label lblMaximumMark = new Label(shell, SWT.NONE);
+		lblMaximumMark.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblMaximumMark.setText("Maximum Mark:");
+		
+		maximumMark = new Text(shell, SWT.BORDER);
+		maximumMark.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblAssessmentPercentage = new Label(shell, SWT.NONE);
+		lblAssessmentPercentage.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblAssessmentPercentage.setText("Assessment Percentage:");
+		
+		assessmentPercentage = new Text(shell, SWT.BORDER);
+		assessmentPercentage.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false, 2, 1));
+		composite.setLayout(new GridLayout(2, false));
+		
+				//Button listener to deal with the button being pressed
+				Listener btnOKListener = new Listener() {
+					public void handleEvent(Event event) {
+						TreeItem data = new TreeItem(tree, SWT.NONE);
+						data.setText(new String[] {assessmentName.getText(), maximumMark.getText(), assessmentPercentage.getText()});
+						for (TreeColumn tc : tree.getColumns()) tc.pack();
+						shell.close();
+					}
+				};
+		
+				Button btnOk = new Button(composite, SWT.CENTER);
+				btnOk.setText("OK");
+				btnOk.addListener(SWT.Selection, btnOKListener);
+				
+				Button btnCancel = new Button(composite, SWT.NONE);
+				btnCancel.setText("Cancel");
+				
+				shell.setDefaultButton(btnOk);
+
+		shell.pack();
+		shell.setLocation((shell.getDisplay().getBounds().width-(shell.getSize().x))/2, 200);
+		shell.open();
+		
+		shell.addListener(SWT.Close, new Listener() {
+			public void handleEvent(Event event) {
+				shell.dispose();
+			}
+		});
+		
+	}
+
 }

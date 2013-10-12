@@ -16,7 +16,7 @@ public class Student extends BaseStudent {
         
         try {
             Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet studentsRS = s.executeQuery("SELECT * FROM Student");
+            ResultSet studentsRS = s.executeQuery("SELECT StudentID FROM Student");
             
             while (studentsRS.next()) {
                 allStudents.add(new Student(studentsRS.getInt("StudentID")));
@@ -51,7 +51,7 @@ public class Student extends BaseStudent {
     public static Student getStudentByID (String ID) {
     	for (Student s : Student.getAllStudents()) {
     		try {
-			if (Integer.parseInt(ID) == s.getStudentID()) return s;
+			if (Integer.parseInt(ID) == Integer.parseInt(s.getStudentID()+"")) return s;
     		} catch (java.lang.NumberFormatException e) {}
 		}
     	return null;

@@ -110,7 +110,7 @@ public class CohortImporter {
 					i++;
 				} while (supId != -1);
 
-				students.add(new BaseStudent(sID, disc, ln, fn, dissTit, supers)); // make a wrapper method to ensure student successfully added??
+				//students.add(new BaseStudent(sID, disc, ln, fn, dissTit, supers)); // make a wrapper method to ensure student successfully added??
 			}
 			file.close();
 			return students;

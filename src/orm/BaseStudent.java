@@ -7,15 +7,15 @@ import sessionControl.*;
 
 public class BaseStudent {
 	
-    public StringBuffer studentID;
-    public StringBuffer firstName;
-    public StringBuffer lastName;
-    public StringBuffer title;
-    public StringBuffer dissTitle;
+    public StringBuffer studentID = new StringBuffer (30);
+    public StringBuffer firstName = new StringBuffer (30);
+    public StringBuffer lastName = new StringBuffer (30);
+    public StringBuffer title = new StringBuffer (30);
+    public StringBuffer dissTitle = new StringBuffer (30);
     public List<Staff> supervisors;
-    public StringBuffer courseMark;
-    public StringBuffer grade;
-    public StringBuffer disciplineName;
+    public StringBuffer courseMark = new StringBuffer (30);
+    public StringBuffer grade = new StringBuffer (30);
+    public StringBuffer disciplineName = new StringBuffer (30);
     public List<Unit> discipline;
     
     public BaseStudent(int studentID) {
@@ -126,7 +126,12 @@ public class BaseStudent {
     }
     
     public void setGrade(String grade) {
-    	this.grade.replace(0, this.grade.length(), grade);
+    	try {
+    		this.grade.replace(0, this.grade.length(), grade);
+    	} catch (java.lang.NullPointerException e) {
+    		this.grade.replace(0, this.grade.length(), "0");
+    		System.out.println("grade is null. defulated to 0. should be made not null in db.");
+    	}
     }
     
     public StringBuffer getDisciplineName() {

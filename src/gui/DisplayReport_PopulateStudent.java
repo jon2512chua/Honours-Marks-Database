@@ -15,6 +15,7 @@ import orm.*;
  * @author Tim Lander
  */
 public class DisplayReport_PopulateStudent {
+	static Map<TreeItem, StringBuffer> TreeItemMap = new HashMap<TreeItem, StringBuffer>();
 
 	/**
 	 * Populates the Student Report
@@ -34,18 +35,26 @@ public class DisplayReport_PopulateStudent {
 			List<Student> allStudents = Student.getAllStudents();
 			for (Student s : allStudents) {
 				TreeItem student = new TreeItem(studentTree, SWT.NONE);
-				student.setText(new String[] {String.valueOf(s.getStudentID())});
+				TreeItemMap.put(student, s.studentID);
 				TreeItem studentNameTitle = new TreeItem(student, SWT.NONE);
-				studentNameTitle.setText(new String[] {"Title", s.getTitle()});
+				TreeItemMap.put(studentNameTitle, s.title);
+				studentNameTitle.setText(0, "Title");
 				TreeItem studentNameLast = new TreeItem(student, SWT.NONE);
-				studentNameLast.setText(new String[] {"Last Name", s.getLastName()});
+				TreeItemMap.put(studentNameTitle, s.lastName);
+				studentNameLast.setText(0, "Last Name");
 				TreeItem studentNameFirst = new TreeItem(student, SWT.NONE);
-				studentNameFirst.setText(new String[] {"First Name", s.getFirstName()});
+				TreeItemMap.put(studentNameTitle, s.firstName);
+				studentNameFirst.setText(0, "First Name");
 				TreeItem studentDissTitle = new TreeItem(student, SWT.NONE);
-				studentDissTitle.setText(new String[] {"Dissertation Title", s.getDissTitle()});TreeItem studentSuper = new TreeItem(student, SWT.NONE);
-				studentSuper.setText(new String[] { "Supervisor", s.getCommaSeparatedSupervisorString()});
+				TreeItemMap.put(studentNameTitle, s.dissTitle);
+				studentDissTitle.setText(0, "Dissertation Title");
 
-				List<Unit> units = s.getDiscipline();
+				/*for (Staff supervisor : s.supervisors) {
+					TreeItem studentSuper = new TreeItem(student, SWT.NONE);
+					TreeItemMap.put(studentSuper, new StringBuffer ("TODO:stringbuffer staff"));
+				}*/
+
+				/*List<Unit> units = s.getDiscipline();
 				for (Unit u : units) {
 					TreeItem unit = new TreeItem(student, SWT.NONE);
 					unit.setText(new String[] {u.getUnitCode()});
@@ -62,7 +71,7 @@ public class DisplayReport_PopulateStudent {
 						TreeItem assessment = new TreeItem(unit, SWT.NONE);
 						assessment.setText(new String[] {a.getAssessmentID()});
 					}
-				}
+				}*/
 
 			}
 
@@ -115,8 +124,21 @@ public class DisplayReport_PopulateStudent {
 			//student.setExpanded(true);		//TODO:Perhaps add an expand all button?
 		}*/
 
+		refreshAll(studentTree);
+		
 		//Listener to automatically resize Student Report column widths.
 		DisplayReport.autoResizeColumn(studentTree);
 
 	}
+
+	public static void refreshAll(Tree tree) {
+		for ( TreeItem ti : tree.getItems() ) {
+			ti.setText(TreeItemMap.get(ti).toString());
+			
+			for ( TreeItem ti2 : ti.getItems() ) {
+				ti.setText(1, TreeItemMap.get(ti2).toString());
+			}
+		}
+	}
+
 }

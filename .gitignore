@@ -19,3 +19,4 @@ derby.log
 # Build and Deployment Files #
 /build/
 /dist/
+/bin

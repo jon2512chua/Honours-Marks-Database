@@ -9,10 +9,10 @@ import java.util.logging.Logger;
 import sessionControl.Session;
 
 public class BaseMark {
-    public StringBuffer value;    
-    public StringBuffer report;
-    public StringBuffer markerID;
-    public StringBuffer studentID;
+    public StringBuffer value = new StringBuffer (30);    
+    public StringBuffer report = new StringBuffer (30);
+    public StringBuffer markerID = new StringBuffer (30);
+    public StringBuffer studentID = new StringBuffer (30);
     public SubAssessment parentSubAssessment;
     
     /**

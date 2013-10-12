@@ -12,10 +12,10 @@ import sessionControl.Session;
 public class BaseSubAssessment {
 
 	private int subAssessmentID;
-	public StringBuffer name;
+	public StringBuffer name = new StringBuffer (30);
     private Assessment parentAssessment;
-    public StringBuffer maxMark;
-    public StringBuffer assessmentPercent;
+    public StringBuffer maxMark = new StringBuffer (30);
+    public StringBuffer assessmentPercent = new StringBuffer (30);
     private List<Mark> marks;
     // Maybe add average mark for this subassessment over all marks
     

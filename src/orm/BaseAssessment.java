@@ -7,10 +7,10 @@ import sessionControl.Session;
 
 public class BaseAssessment {
 	private int assessmentID;
-    public StringBuffer name;
+    public StringBuffer name = new StringBuffer (30);
     private Unit parentUnit;
-    public StringBuffer mark;
-    public StringBuffer unitPercent;
+    public StringBuffer mark = new StringBuffer (30);
+    public StringBuffer unitPercent = new StringBuffer (30);
     private List<SubAssessment> subAssessments;
     
     public BaseAssessment(int assessmentID) {

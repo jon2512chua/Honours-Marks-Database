@@ -11,11 +11,18 @@ nbproject/
 
 # Miscellaeneous Files #
 .DS_Store
+icon.png
+.classpath
+.project
 
 # Database Files #
-db/
+db/*
 derby.log
+config/*
 
 # Build and Deployment Files #
 /build/
 /dist/
+bin/*
+
+.gitignore

@@ -18,13 +18,13 @@ public class CohortCreator {
 	public static Cohort newCohort = null;
 
 	/**
-	 * Create a new Cohort Database
+	 * Create a new Cohort Database and install schema
 	 * 
 	 * @param cohort
 	 *            - eg for 2014 semester 1 -> use 20141
 	 * @return true if successful
 	 */
-	public static boolean create(String cohort) {
+	public static boolean create(String cohort) throws Exception {
 		if(newCohort == null) {
 			//Check that cohort doesn't already exist
 			boolean unique = true;
@@ -35,12 +35,10 @@ public class CohortCreator {
 				newCohort = new Cohort(cohort);
 				return DerbyUtils.runSqlFromFile(Directories.newCohortSql, newCohort.newConn);
 			} else
-				System.err.println("WARNING: Cannot create cohort " + cohort.substring(0, 4) + " Sem " + cohort.substring(4) + " because it already exists.");
-				return false;
+				throw new Exception("WARNING: Cannot create cohort " + cohort.substring(0, 4) + " Sem " + cohort.substring(4) + " due to an error.");
 		}
 		else {
-			System.err.println("WARNING: a new cohort is already open - could not instantiate another.");
-			return false;
+			throw new Exception("WARNING: a new cohort is already open - could not instantiate another.");
 		}
 	}
 
@@ -53,6 +51,7 @@ public class CohortCreator {
 	public static void finaliseSetup(boolean useNow) {
 		if (useNow) {
 			// TODO swap to this cohort
+			newCohort = null;
 		} else {
 			newCohort = null; // clear the newCohort, as it has already been
 								// saved.

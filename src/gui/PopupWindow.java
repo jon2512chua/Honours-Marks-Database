@@ -37,6 +37,7 @@ import sessionControl.DerbyUtils;
 public class PopupWindow {
 	private static Text userNameText;
 	private static Text passwordText;
+
 	/**
 	 * Popups a message. No line wrapping currently implemented.
 	 * @param parentShell the display currently in use
@@ -67,8 +68,8 @@ public class PopupWindow {
 		btnOk.setText("OK");
 
 		shell.pack();
-		shell.open();
 		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
+		shell.open();
 
 		//Button listener to deal with the button being pressed
 		Listener btnOKListener = new Listener() {

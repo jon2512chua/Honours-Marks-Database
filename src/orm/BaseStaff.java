@@ -35,7 +35,7 @@ public class BaseStaff {
         this.staffID = staffID;
     }
     
-    public String getFistName() {
+    public String getFirstName() {
         return firstName;
     }
     

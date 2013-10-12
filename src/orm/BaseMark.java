@@ -26,8 +26,8 @@ public class BaseMark {
     
     public BaseMark(int subAssessmentID, int studentID, int markerID, SubAssessment subAssessment) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet markRS = s.executeQuery("SELECT * FROM SubAssessmentMark WHERE SubAssessment=" + subAssessmentID +
-                									"&& StudentID ="+ studentID + "&& MarkerID =" + markerID)) {
+                ResultSet markRS = s.executeQuery("SELECT * FROM SubAssessmentMark WHERE SubAssessmentID=" + subAssessmentID +
+                									"AND StudentID ="+ studentID + "AND MarkerID =" + markerID)) {
             
             // There will only be one mark returned as each (subAssessmentID, studentID, markerID) tuple is unique
     		markRS.first();

@@ -62,7 +62,7 @@ public class BaseAssessment {
         }
     	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet assessmarkRS = s.executeQuery("SELECT * FROM AssessmentMark WHERE AssessmentID=" + assessmentID + " && StudentID=" + studentID)) {
+                ResultSet assessmarkRS = s.executeQuery("SELECT * FROM AssessmentMark WHERE AssessmentID=" + assessmentID + " AND StudentID=" + studentID)) {
             
             // Next, gets the unique AssessmentMark entry for this student-unit combination
     		assessmarkRS.first();

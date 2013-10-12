@@ -62,7 +62,7 @@ public class BaseUnit {
         }
     	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet unitmarkRS = s.executeQuery("SELECT * FROM UnitMark WHERE UnitCode='" + unitCode + "' && StudentID=" + studentID)) {
+                ResultSet unitmarkRS = s.executeQuery("SELECT * FROM UnitMark WHERE UnitCode='" + unitCode + "' AND StudentID=" + studentID)) {
             
             // Next, gets the unique UnitMark entry for this student-unit combination
             unitmarkRS.first();

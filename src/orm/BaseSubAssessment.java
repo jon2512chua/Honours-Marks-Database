@@ -41,6 +41,8 @@ public class BaseSubAssessment {
     }
     
     public BaseSubAssessment(int subAssessmentID, int studentID, Assessment assessment) {
+    	this.marks = new ArrayList<>();
+    	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet subassessmentRS = s.executeQuery("SELECT * FROM SubAssessment WHERE SubAssessmentID=" + subAssessmentID)) {
             

@@ -3,6 +3,7 @@ package orm;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,6 +48,8 @@ public class BaseUnit {
     }
     
     public BaseUnit(String unitCode, int studentID) {
+    	this.assessments = new ArrayList<>();
+    	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet unitRS = s.executeQuery("SELECT * FROM Unit WHERE UnitCode='" + unitCode + "'")) {
             

@@ -3,6 +3,7 @@ package orm;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import sessionControl.Session;
 
 public class BaseAssessment {
@@ -45,6 +46,8 @@ public class BaseAssessment {
     }
     
     public BaseAssessment(int assessmentID, int studentID, Unit unit) {
+    	this.subAssessments = new ArrayList<>();
+    	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE AssessmentID=" + assessmentID)) {
             

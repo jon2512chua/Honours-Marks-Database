@@ -1,6 +1,5 @@
 package nicksTests;
 
-import cohortSetupSubsystem.Student;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -8,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
 import java.util.List;
+
+import orm.BaseStudent;
 
 import newCohort.CohortImporter;
 
@@ -25,13 +26,13 @@ public class ImportTest {
             String password = "123jazz";
             Connection con = DriverManager.getConnection( host, username, password );
             
-            List<Student> cohort = CohortImporter.importFromFile(EXCEL_PATH);
+            List<BaseStudent> cohort = CohortImporter.importFromFile(EXCEL_PATH);
 
-            Iterator<Student> cohortIterator = cohort.iterator();
+            Iterator<BaseStudent> cohortIterator = cohort.iterator();
 
             while (cohortIterator.hasNext()) {
-                Student aStudent = (Student) cohortIterator.next();
-                aStudent.toStdOut();
+                BaseStudent aStudent = (BaseStudent) cohortIterator.next();
+                //aStudent.toStdOut();
                 
                 
                 Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -39,11 +40,11 @@ public class ImportTest {
                 ResultSet rs = stmt.executeQuery( SQL );
                 
                 rs.moveToInsertRow( );
-                rs.updateInt("studentId", aStudent.studentId);
-                rs.updateString("discipline", aStudent.discipline); 
-                rs.updateString("lastName", aStudent.lastName);
-                rs.updateString("firstName", aStudent.firstName);
-                rs.updateString("dissTitle", aStudent.dissTitle);
+                rs.updateInt("studentId", aStudent.getStudentID());
+                //rs.updateString("discipline", aStudent.discipline); 
+                //rs.updateString("lastName", aStudent.lastName);
+                //rs.updateString("firstName", aStudent.firstName);
+                //rs.updateString("dissTitle", aStudent.dissTitle);
                 rs.insertRow( );
                 stmt.close( );
                 rs.close( );

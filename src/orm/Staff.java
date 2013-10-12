@@ -16,7 +16,7 @@ public class Staff extends BaseStaff {
 	}
 
 	public String getFullName() {
-		return this.getFistName() + " " + this.getLastName();
+		return this.getFirstName() + " " + this.getLastName();
 	}
 
 	public int getNumMarks() {
@@ -39,4 +39,13 @@ public class Staff extends BaseStaff {
 
 		return allStaff;
 	}
+	
+    public static Staff getStaffByID (String ID) {
+	    for (Staff s : Staff.getAllStaff()) {
+	    	try {
+				if (Integer.parseInt(ID) == Integer.parseInt(s.getStaffID()+"")) return s;
+			} catch (java.lang.NumberFormatException e) {}
+		}
+	    return null;
+    }
 }

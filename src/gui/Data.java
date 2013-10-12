@@ -24,6 +24,7 @@ public class Data {
 	public static String UnitPoints[] = {"6, 6, 6, 6"};
 	public static String Assessment[] = {"Essay", "Report", "Oral Presenation", "Assignment"};
 	public static String SubAssessment[] = {"Sub-assessment 1", "Sub-assessment 2", "Sub-assessment 3", "Sub-assessment 4", "Sub-assessment 5"};
+
 	public static int marks[] = {1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,0, 1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,0, 1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,0, 1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,0};
 
 }

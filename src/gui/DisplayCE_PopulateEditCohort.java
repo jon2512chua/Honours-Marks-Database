@@ -1,6 +1,11 @@
 package gui;
 
 import java.util.Calendar;
+import java.util.List;
+
+import logic.CohortData;
+
+import newCohort.CohortCreator;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -19,6 +24,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
+
+import orm.Assessment;
+import orm.Staff;
+import orm.SubAssessment;
+import orm.Unit;
 
 /**
  * Edit Cohort Section
@@ -48,14 +58,14 @@ public class DisplayCE_PopulateEditCohort {
 		Label lblNewCohort = new Label(compositeChooseSemester, SWT.NONE);
 		lblNewCohort.setText("New Cohort:");
 
-		Spinner spinnerYear = new Spinner(compositeChooseSemester, SWT.BORDER);
+		final Spinner spinnerYear = new Spinner(compositeChooseSemester, SWT.BORDER);
 		spinnerYear.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
 		spinnerYear.setMaximum(2100);
 		spinnerYear.setMinimum(2000);
 		spinnerYear.setTextLimit(4);
 		spinnerYear.setSelection(Calendar.getInstance().get(Calendar.YEAR));	//Defaults to current year
 
-		Combo comboSemester = new Combo(compositeChooseSemester, SWT.READ_ONLY);
+		final Combo comboSemester = new Combo(compositeChooseSemester, SWT.READ_ONLY);
 		comboSemester.add("Semester 1");
 		comboSemester.add("Semester 2");
 		comboSemester.select(1);
@@ -74,13 +84,13 @@ public class DisplayCE_PopulateEditCohort {
 		gl_compositeChkList.verticalSpacing = 0;
 		compositeChkList.setLayout(gl_compositeChkList);
 
-		Button btnUnits = new Button(compositeChkList, SWT.CHECK);
+		final Button btnUnits = new Button(compositeChkList, SWT.CHECK);
 		btnUnits.setText("Units");
 
-		Button btnAssessments = new Button(compositeChkList, SWT.CHECK);
+		final Button btnAssessments = new Button(compositeChkList, SWT.CHECK);
 		btnAssessments.setText("Assessments");
 
-		Button btnSubassessments = new Button(compositeChkList, SWT.CHECK);
+		final Button btnSubassessments = new Button(compositeChkList, SWT.CHECK);
 		btnSubassessments.setText("SubAssessments");
 
 		Button btnDataSelectAll = new Button(compositeChooseImportData, SWT.NONE);
@@ -119,9 +129,10 @@ public class DisplayCE_PopulateEditCohort {
 		staffTree_staffNumber.setText("Staff Number");
 		TreeColumn staffTree_staffName = new TreeColumn(staffTree, SWT.LEFT);
 		staffTree_staffName.setText("Staff Name");
-		for (int sn=0; sn<5; sn++) {
+		List<Staff> allStaff = Staff.getAllStaff();
+		for (Staff s : allStaff) {
 			TreeItem supervisor = new TreeItem(staffTree, SWT.NONE);
-			supervisor.setText(new String[] {Data.StaffNumber[sn], Data.StaffNameTitle[sn] + " " + Data.StaffNameFirst[sn].charAt(0) + ". " + Data.StaffNameLast[sn]});
+			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});
 		}
 
 		for (TreeColumn tc : staffTree.getColumns()) tc.pack();
@@ -151,7 +162,9 @@ public class DisplayCE_PopulateEditCohort {
 		Composite compositeImportFromExecel = new Composite(editCohortComposite, SWT.BORDER);
 		compositeImportFromExecel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
 		compositeImportFromExecel.setLayout(new GridLayout(1, false));
-
+		
+		
+		//TODO move to edit sudent
 		final Button btnImportStudentsFrom = new Button(compositeImportFromExecel, SWT.NONE);
 		btnImportStudentsFrom.setText("Import Students from Excel");
 		btnImportStudentsFrom.addListener(SWT.Selection, new Listener() {
@@ -171,8 +184,60 @@ public class DisplayCE_PopulateEditCohort {
 		compositeSpacer.setLayout(new GridLayout(1, false));
 		compositeSpacer.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
 		
-		@SuppressWarnings("unused")	//TODO: remove later
+
 		Button[] btnCreateDiscard = CommonButtons.addCreateDiscardChangesButton(editCohortComposite);
+		
+		btnCreateDiscard[0].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				String[] cohorts = sessionControl.Session.getCohorts();
+				String newCohort = spinnerYear.getText() + (comboSemester.getSelectionIndex() + 1);
+				// Check unique
+				boolean existant = false;
+				for (String c : cohorts) {if(c.equals(newCohort)) existant = true;}
+				
+				// If the proposed cohort is unique...
+				if(!existant) {
+					try {
+						if(CohortCreator.create(newCohort))
+						{
+							if(btnUnits.getSelection()) {
+								for (Unit u : CohortData.units) {
+									CohortData.writeUnit(u, CohortCreator.newCohort.newConn.getConnection());
+								}
+							}
+							if(btnAssessments.getSelection()) {
+								for (Assessment a : CohortData.assessments) {
+									CohortData.writeAssessment(a, CohortCreator.newCohort.newConn.getConnection());
+								}
+							}
+							if(btnSubassessments.getSelection()) {
+								for (SubAssessment s : CohortData.subassessments) {
+									CohortData.writeSubassessment(s, CohortCreator.newCohort.newConn.getConnection());
+								}
+							}
+							for (TreeItem i : staffTree.getItems()) {
+								if (i.getChecked()) {
+									Staff s = Staff.getStaffByID(i.getText());
+									CohortData.writeStaff(s, CohortCreator.newCohort.newConn.getConnection());
+								}
+							}
+							
+							
+							CohortCreator.finaliseSetup(false); //TODO
+						}
+						else {
+							//TODO return 
+						}
+						
+					} catch (Exception e) {
+						System.err.print(e); // TODO
+					}
+				}
+				else {
+					PopupWindow.popupMessage(staffTree.getShell(), "Selected cohort was not created because it already exists.", "WARNING");
+				}
+			}
+		});
 		
 	}
 }

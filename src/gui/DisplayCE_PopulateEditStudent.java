@@ -239,6 +239,7 @@ public class DisplayCE_PopulateEditStudent {
 			student.setFirstName(firstName.getText());
 			student.setDissTitle(dissertationTitle.getText());
 			//TODO: supervisor/s
+			
 			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
 		} catch (java.lang.NullPointerException e) {				//Default values
 			Student newStudent = new Student(Integer.parseInt(studentNumber.getText()));

@@ -16,14 +16,11 @@ public class Staff {
 	private String name;
 	private String contact;
 	private int numberMarks;
-	private PriorityQueue<Mark> marks;
 
 	public Staff(int sID, String name, String contact) {
 		this.staffID = sID;
 		this.name = name;
-		this.contact = contact;
-		this.marks = null;
-		this.numberMarks = marks.size();                  
+		this.contact = contact;                  
 	}
 
 

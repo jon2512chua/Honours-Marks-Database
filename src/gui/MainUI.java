@@ -79,6 +79,7 @@ public class MainUI {
 		}
 
 
+
 		final Composite displayComposite = new Composite(shell, SWT.NONE);
 		GridData gd_displayComposite = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd_displayComposite.verticalSpan = 3;

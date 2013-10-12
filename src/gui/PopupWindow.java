@@ -353,7 +353,7 @@ public class PopupWindow {
 	private static Text assessmentName;
 	private static Text maximumMark;
 	private static Text assessmentPercentage;
-	public static void popupAddSubAssessment(Shell parentShell, String text, String title, final Tree tree) {
+	public static void popupAddSubAssessment(final Shell parentShell, String text, String title, final Tree tree) {
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 		shell.setImage(parentShell.getImage());
 
@@ -381,6 +381,8 @@ public class PopupWindow {
 		
 		maximumMark = new Text(shell, SWT.BORDER);
 		maximumMark.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		maximumMark.setTextLimit(3);
+		Validation.validateInt(maximumMark);
 		
 		Label lblAssessmentPercentage = new Label(shell, SWT.NONE);
 		lblAssessmentPercentage.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -388,6 +390,8 @@ public class PopupWindow {
 		
 		assessmentPercentage = new Text(shell, SWT.BORDER);
 		assessmentPercentage.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		assessmentPercentage.setTextLimit(5);
+		Validation.validateDouble(assessmentPercentage);
 		
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false, 2, 1));
@@ -396,9 +400,19 @@ public class PopupWindow {
 				//Button listener to deal with the button being pressed
 				Listener btnOKListener = new Listener() {
 					public void handleEvent(Event event) {
-						TreeItem data = new TreeItem(tree, SWT.NONE);
-						data.setText(new String[] {assessmentName.getText(), maximumMark.getText(), assessmentPercentage.getText()});
-						for (TreeColumn tc : tree.getColumns()) tc.pack();
+						if (!assessmentName.getText().isEmpty() && !maximumMark.getText().isEmpty() && !assessmentPercentage.getText().isEmpty()) {
+							TreeItem data = new TreeItem(tree, SWT.NONE);
+							data.setText(new String[] {assessmentName.getText(), maximumMark.getText(), assessmentPercentage.getText()});
+							for (TreeColumn tc : tree.getColumns()) tc.pack();
+							shell.close();
+						} else {
+							popupMessage(parentShell, "Null Value is not allowed.", "ERROR!");
+						}
+					}
+				};
+				
+				Listener btnCancelListener = new Listener() {
+					public void handleEvent(Event event) {
 						shell.close();
 					}
 				};
@@ -409,6 +423,7 @@ public class PopupWindow {
 				
 				Button btnCancel = new Button(composite, SWT.NONE);
 				btnCancel.setText("Cancel");
+				btnCancel.addListener(SWT.Selection, btnCancelListener);
 				
 				shell.setDefaultButton(btnOk);
 

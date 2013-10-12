@@ -66,8 +66,9 @@ public class DisplayCE_PopulateEditAssessment {
 		trclmnUnits.setText("Units");
 		
 		for (int i = 0; i < 5; i++) {
-			TreeItem unit = new TreeItem(unitTree, SWT.NONE);
+			TreeItem unit = new TreeItem(unitTree, SWT.NONE | SWT.NO_FOCUS);
 			unit.setText(new String[] {Data.Unit[i]});
+			unit.setGrayed(true);
 			for (int j = 0; j < 3; j++) {
 				TreeItem assessment = new TreeItem(unit, SWT.NONE);
 				assessment.setText(new String[] {Data.Assessment[j]});
@@ -77,7 +78,7 @@ public class DisplayCE_PopulateEditAssessment {
 		for (TreeItem ti : unitTree.getItems()) ti.setExpanded(true);
 		for (TreeColumn tc : unitTree.getColumns()) tc.pack();
 		unitTree.pack();
-		for (TreeItem ti : unitTree.getItems()) ti.setExpanded(false);
+		//for (TreeItem ti : unitTree.getItems()) ti.setExpanded(false);
 		
 		DisplayReport.autoResizeColumn(unitTree);
 		
@@ -88,9 +89,15 @@ public class DisplayCE_PopulateEditAssessment {
 		lblSubAssessment.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		lblSubAssessment.setText("Sub Assessment:");
 		
-		Button btnAddSubAssessment = new Button(rComposite, SWT.NONE);
-		btnAddSubAssessment.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		Composite composite = new Composite(rComposite, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 1));
+		composite.setLayout(new GridLayout(2, false));
+		
+		Button btnAddSubAssessment = new Button(composite, SWT.NONE);
 		btnAddSubAssessment.setText("Add Sub Assessment");
+		
+		Button btnRemoveSubAssessment = new Button(composite, SWT.NONE);
+		btnRemoveSubAssessment.setText("Remove Sub Assessment");
 		
 		
 		final Tree subAssessmentTree = new Tree(rComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -124,7 +131,20 @@ public class DisplayCE_PopulateEditAssessment {
 						"Please fill in the Sub Assessment Details", "Adding Sub Assessment", subAssessmentTree);
 			}
 		};
+
 		btnAddSubAssessment.addListener(SWT.Selection, LisAddSubAssessment);
+		
+		Listener LisRemoveSubAssessment = new Listener() {
+			public void handleEvent(Event event) {
+				subAssessmentTree.getSelection()[0].dispose();
+				/*
+				PopupWindow.popupAddSubAssessment(editAssessmentComposite.getShell(), 
+						"Please fill in the Sub Assessment Details", "Adding Sub Assessment", subAssessmentTree);
+						*/
+			}
+		};
+		btnRemoveSubAssessment.addListener(SWT.Selection, LisRemoveSubAssessment);
+		
 		@SuppressWarnings("unused")	//TODO: remove later
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
 		tbtmEditAssessment.setControl(editAssessmentComposite);

@@ -56,6 +56,9 @@ public class DisplayCE_PopulateEditUnit {
 		TreeColumn trclmnUnit = new TreeColumn(unitTree, SWT.NONE);
 		trclmnUnit.setWidth(100);
 		trclmnUnit.setText("Unit");
+		
+		TreeItem newUnit = new TreeItem(unitTree, SWT.NONE);
+		newUnit.setText(new String[] {"+  Add New Unit"});
 
 		Composite rComposite = new Composite(editUnitComposite, SWT.NONE);
 		rComposite.setLayout(new GridLayout(2, false));
@@ -88,6 +91,9 @@ public class DisplayCE_PopulateEditUnit {
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
 
 		tbtmEditUnit.setControl(editUnitComposite);
+		
+		for (TreeColumn tc : unitTree.getColumns()) tc.pack();
+		unitTree.pack();
 
 		//End replace
 

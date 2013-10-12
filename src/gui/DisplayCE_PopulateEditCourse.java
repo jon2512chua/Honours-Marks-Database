@@ -53,6 +53,9 @@ public class DisplayCE_PopulateEditCourse {
 		trclmnCourse.setWidth(100);
 		trclmnCourse.setText("Course");
 
+		TreeItem newCourse = new TreeItem(courseTree, SWT.NONE);
+		newCourse.setText(new String[] {"+  Add New Course"});
+
 		Composite rComposite = new Composite(editCourseComposite, SWT.NONE);
 		rComposite.setLayout(new GridLayout(2, false));
 		rComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -62,7 +65,7 @@ public class DisplayCE_PopulateEditCourse {
 		lblCourseCode.setText("Course Code:");
 		
 		courseCode = new Text(rComposite, SWT.BORDER);
-		courseCode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		courseCode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblCourseName = new Label(rComposite, SWT.NONE);
 		lblCourseName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -78,18 +81,25 @@ public class DisplayCE_PopulateEditCourse {
 		Label lblIncludedUnits = new Label(unitComposite, SWT.NONE);
 		lblIncludedUnits.setText("Included Units:");
 		
-		Tree includedUnitTree = new Tree(unitComposite, SWT.BORDER);
-		includedUnitTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
+		Tree includedUnitTree = new Tree(unitComposite, SWT.BORDER | SWT.CHECK );
+		includedUnitTree.setHeaderVisible(true);
+		includedUnitTree.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1));
 		
-		TreeColumn trclmnIncludedUnit = new TreeColumn(includedUnitTree, SWT.NONE);
-		trclmnIncludedUnit.setWidth(100);
-		trclmnIncludedUnit.setText("Included Unit");
+		TreeColumn trclmnUnitCode = new TreeColumn(includedUnitTree, SWT.NONE);
+		trclmnUnitCode.setWidth(100);
+		trclmnUnitCode.setText("Unit Code");
+		
+		TreeColumn trclmnUnitName = new TreeColumn(includedUnitTree, SWT.NONE);
+		trclmnUnitName.setWidth(100);
+		trclmnUnitName.setText("Unit Name");
 		
 		@SuppressWarnings("unused")
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
 
 		tbtmEditCourse.setControl(editCourseComposite);
 
+		for (TreeColumn tc : courseTree.getColumns()) tc.pack();
+		courseTree.pack();
 		//End replace
 
 	}

@@ -24,6 +24,12 @@ public class Directories {
 	/**
 	 * Relative path of Cohort Creation SQL file
 	 */
-	public static final String newCohortSql = "sql/schema.sql";
+	public static final String newCohortSql = "sql/Honours_schema.sql";
+	/**
+	 * Relative path of Dummy Data SQL file TODO remove
+	 */
+	public static final String dummyData = "sql/dummy_data.sql";
+	
+	
 
 }

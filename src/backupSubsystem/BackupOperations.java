@@ -90,7 +90,7 @@ public class BackupOperations {
 			try {
 				DeleteUtility.delete(directory);
 			} catch (IOException e) {
-				System.err.println("ERROR 21: Could not free up current database folder " + dir);
+				System.err.println("ERROR 21: Could not free up current database folder " + dir); // TODO error numbers?
 				return false;
 			}
 		}

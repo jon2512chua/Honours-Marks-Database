@@ -14,7 +14,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 
-import cohortSetupSubsystem.Student;
+import orm.BaseStudent;
 
 /**
  * This class imports students in bulk from a prefilled template spreadsheet
@@ -22,7 +22,8 @@ import cohortSetupSubsystem.Student;
  * @version 28/9/13
  * @todo needs to have write to DB method!
  */
-public class CohortImporter {	 
+public class CohortImporter {
+	
 	/**
 	 * holds log for reporting errors encountered when bulk-importing
 	 */
@@ -32,10 +33,10 @@ public class CohortImporter {
 	 * Import student records from excel template
 	 * @param filename
 	 * @param cohort
-	 * @return a List of Students or null if error
+	 * @return a List of BaseStudents or null if error
 	 */
-	public static List<Student> importFromFile(String filename) {	
-		List<Student> students = new LinkedList<Student>();
+	public static List<BaseStudent> importFromFile(String filename) {	
+		List<BaseStudent> students = new LinkedList<BaseStudent>();
 
 		try {
 
@@ -60,7 +61,6 @@ public class CohortImporter {
 				else {
 					String error = "Row: " + index + ": no Student ID - Student not added.\n";
 					importErrors.append(error);
-					//System.out.print(error);
 					continue;
 				}
 
@@ -71,13 +71,11 @@ public class CohortImporter {
 					if(!(disc.equals("a") || disc.equals("n") || disc.equals("p") || disc.equals("b"))) {
 						String error = "Row: " + index + ": invalid Discipline in row - Student not added.\n";
 						importErrors.append(error);
-						//System.out.print(error);
 						continue;
 					}
 				} else {
 					String error = "Row: " + index + ": invalid Discipline in row - Student not added.\n";
 					importErrors.append(error);
-					//System.out.print(error);
 					continue;
 				}
 
@@ -112,7 +110,7 @@ public class CohortImporter {
 					i++;
 				} while (supId != -1);
 
-				students.add(new Student(sID, disc, ln, fn, dissTit, supers)); // make a wrapper method to ensure student successfully added??
+				students.add(new BaseStudent(sID, disc, ln, fn, dissTit, supers)); // make a wrapper method to ensure student successfully added??
 			}
 			file.close();
 			return students;

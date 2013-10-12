@@ -1,9 +1,5 @@
 package newCohort;
 
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-
 import sessionControl.DerbyUtils;
 import sessionControl.Directories;
 
@@ -19,7 +15,7 @@ public class CohortCreator {
 	/**
 	 * Stores a Cohort object while it is being worked on
 	 */
-	public static Cohort newCohort;
+	public static Cohort newCohort = null;
 
 	/**
 	 * Create a new Cohort Database
@@ -29,17 +25,23 @@ public class CohortCreator {
 	 * @return true if successful
 	 */
 	public static boolean create(String cohort) {
-		boolean unique = true;
-		for (String s : sessionControl.Session.getCohorts()) {
-			System.out.println(s + "  " + cohort); // NLA
-			unique = !(s.equals(cohort));
+		if(newCohort == null) {
+			//Check that cohort doesn't already exist
+			boolean unique = true;
+			for (String s : sessionControl.Session.getCohorts()) {
+				unique = !(s.equals(cohort));
+			}
+			if (unique) {
+				newCohort = new Cohort(cohort);
+				return DerbyUtils.runSqlFromFile(Directories.newCohortSql, newCohort.newConn);
+			} else
+				System.err.println("WARNING: Cannot create cohort " + cohort.substring(0, 4) + " Sem " + cohort.substring(4) + " because it already exists.");
+				return false;
 		}
-		if (unique) {
-			newCohort = new Cohort(cohort);
-			return installSchema(Directories.newCohortSql);
-		} else
-			System.err.println("WARNING: Cannot create cohort " + cohort.substring(0, 4) + " Sem " + cohort.substring(4) + " because it already exists.");
+		else {
+			System.err.println("WARNING: a new cohort is already open - could not instantiate another.");
 			return false;
+		}
 	}
 
 	/**
@@ -56,22 +58,17 @@ public class CohortCreator {
 								// saved.
 		}
 	}
-
-	// Helper method to install schema from an SQL file
-	private static boolean installSchema(String sql) {
-		List<String> commands = DerbyUtils.getSqlFromFile(sql);
-		try {
-			Statement s = CohortCreator.newCohort.newConn.getConnection()
-					.createStatement();
-			for (String c : commands) {
-				s.execute(c);
-			}
-			return true;
-
-		} catch (SQLException e) {
-			System.err.println("ERROR reading from sql file " + sql); // TODO elaborate 
+	
+	/**
+	 * TODO
+	 * @return
+	 */
+	public static boolean installData() {
+		if (!(newCohort == null)) return DerbyUtils.runSqlFromFile(Directories.dummyData, newCohort.newConn);
+		else {
+			System.err.println("WARNING: could not add data as new cohort not created.");
 			return false;
 		}
 	}
-
+	
 }

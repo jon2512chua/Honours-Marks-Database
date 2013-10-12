@@ -1,34 +1,111 @@
 package orm;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import sessionControl.Session;
 
 public class BaseAssessment {
-    private String assessmentID;
-    private String name;
+	private int assessmentID;
+    public StringBuffer name;
     private Unit parentUnit;
-    private double mark;
-    private double unitPercent;
-    private double coursePercent;
+    public StringBuffer mark;
+    public StringBuffer unitPercent;
+    public StringBuffer coursePercent; // currently not implemented
     private List<SubAssessment> subAssessments;
     
-    public BaseAssessment() {
-        // Get DB connection.
+    public BaseAssessment(int assessmentID) {
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE AssessmentID=" + assessmentID)) {
+            
+            // There will only be one assessment returned as assessmentID is unique
+    		// Called with this constructor, no data about marks will exist
+    		assessmentRS.first();
+    		
+            setAssessmentID(assessmentID);
+            
+            setName(assessmentRS.getString("AssessmentName"));
+            setUnitPercent(assessmentRS.getInt("UnitPercent"));
+            //this.parentUnit = new Unit(assessmentRS.getString("UnitCode"));
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    	
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet subassessmentRS = s.executeQuery("SELECT * FROM SubAssessment WHERE AssessmentID=" + assessmentID)) {
+            
+            // Will be a list of subassessments returned, as many subassessments can belong to an assessment
+    		// We are adding all of them to the list
+            while (subassessmentRS.next()) {
+            	SubAssessment nextSubAssess = new SubAssessment(subassessmentRS.getInt("SubAssessmentID"));
+	            this.subAssessments.add(nextSubAssess);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public String getAssessmentID() {
+    public BaseAssessment(int assessmentID, int studentID, Unit unit) {
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE AssessmentID=" + assessmentID)) {
+            
+            // There will only be one assessment returned as assessmentID is unique
+    		// Called with this constructor, no data about marks will exist
+    		assessmentRS.first();
+            
+    		setAssessmentID(assessmentID);
+            
+            setName(assessmentRS.getString("AssessmentName"));
+            setUnitPercent(assessmentRS.getInt("UnitPercent"));
+            this.parentUnit = unit;
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    	
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet assessmarkRS = s.executeQuery("SELECT * FROM AssessmentMark WHERE AssessmentID=" + assessmentID + " && StudentID=" + studentID)) {
+            
+            // Next, gets the unique AssessmentMark entry for this student-unit combination
+    		assessmarkRS.first();
+            
+            setMark(assessmarkRS.getDouble("Mark"));
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    	
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet subassessmentRS = s.executeQuery("SELECT * FROM SubAssessment WHERE AssessmentID=" + assessmentID)) {
+            
+            // Will be a list of subassessments returned, as many subassessments can belong to an assessment
+    		// We are adding all of them to the list
+            while (subassessmentRS.next()) {
+            	SubAssessment nextSubAssess = new SubAssessment(subassessmentRS.getInt("SubAssessmentID"), studentID, (Assessment)this);
+	            this.subAssessments.add(nextSubAssess);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    public int getAssessmentID() {
         return assessmentID;
     }
     
-    public void setAssessmentID(String assessmentID) {
+    public void setAssessmentID(int assessmentID) {
         this.assessmentID = assessmentID;
     }
     
-    public String getName() {
+    public StringBuffer getName() {
         return name;
     }
     
     public void setName(String name) {
-        this.name = name;
+    	this.name.replace(0, this.name.length(), name);
     }
     
     public Unit getParentUnit() {
@@ -40,27 +117,27 @@ public class BaseAssessment {
     }
     
     public double getMark() {
-        return mark;
+    	return Double.parseDouble(mark+"");
     }
     
     public void setMark(double mark) {
-        this.mark = mark;
+    	this.mark.replace(0, this.mark.length(),  Double.toString(mark));
     }
     
     public double getUnitPercent() {
-        return unitPercent;
+    	return Integer.parseInt(unitPercent+"");
     }
     
-    public void setUnitPercent(double unitPercent) {
-        this.unitPercent = unitPercent;
+    public void setUnitPercent(int unitPercent) {
+    	this.unitPercent.replace(0, this.unitPercent.length(),  Integer.toString(unitPercent));
     }
     
     public double getCoursePercent() {
-        return coursePercent;
+    	return Integer.parseInt(coursePercent+"");
     }
     
-    public void setCoursePercent(double coursePercent) {
-        this.coursePercent = coursePercent;
+    public void setCoursePercent(int coursePercent) {
+    	this.coursePercent.replace(0, this.coursePercent.length(),  Integer.toString(coursePercent));
     }
     
     public List<SubAssessment> getSubAssessments() {

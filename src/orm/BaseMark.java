@@ -37,7 +37,7 @@ public class BaseMark {
             setParentSubAssessment(subAssessment);
             
             
-            setValue(markRS.getInt("Mark"));
+            setValue(markRS.getDouble("Mark"));
             setReport(markRS.getString("Report"));
             
         } catch (SQLException ex) {

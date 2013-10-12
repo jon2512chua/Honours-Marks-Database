@@ -15,7 +15,6 @@ public class BaseAssessment {
     private Unit parentUnit;
     public StringBuffer mark;
     public StringBuffer unitPercent;
-    public StringBuffer coursePercent; // currently not implemented
     private List<SubAssessment> subAssessments;
     
     public BaseAssessment(int assessmentID) {
@@ -130,14 +129,6 @@ public class BaseAssessment {
     
     public void setUnitPercent(int unitPercent) {
     	this.unitPercent.replace(0, this.unitPercent.length(),  Integer.toString(unitPercent));
-    }
-    
-    public double getCoursePercent() {
-    	return Integer.parseInt(coursePercent+"");
-    }
-    
-    public void setCoursePercent(int coursePercent) {
-    	this.coursePercent.replace(0, this.coursePercent.length(),  Integer.toString(coursePercent));
     }
     
     public List<SubAssessment> getSubAssessments() {

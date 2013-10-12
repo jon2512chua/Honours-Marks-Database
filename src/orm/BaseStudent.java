@@ -7,20 +7,6 @@ import sessionControl.*;
 
 public class BaseStudent {
 	
-	public final static Map<String, String> discKeys;
-	static
-	{
-		discKeys = new HashMap<String, String>();
-		discKeys.put("a", "ANHB");
-		discKeys.put("p", "PHYL");
-		discKeys.put("n", "NEURO");
-		discKeys.put("b", "BIOMS");
-		discKeys.put("ANHB", "ANHB");
-		discKeys.put("PHYL", "PHYL");
-		discKeys.put("NEURO", "NEURO");
-		discKeys.put("BIOMS", "BIOMS"); 
-	}
-	
     public StringBuffer studentID;
     public StringBuffer firstName;
     public StringBuffer lastName;
@@ -40,7 +26,6 @@ public class BaseStudent {
             studentRS.first();
             
             setStudentID(studentID);
-            
             setFirstName(studentRS.getString("FirstName"));
             setLastName(studentRS.getString("LastName"));
             setTitle(studentRS.getString("Title"));
@@ -54,18 +39,31 @@ public class BaseStudent {
         }
     }
     
-    /**
-    public BaseStudent(int sID, String disc, String ln, String fn, String dissTit, List<String> supers) {
-        //Initialise database connection and fill up the variables.
-        //What if we're creating a new one?
-    	studentID = sID;
-		discipline = getUnitsByDisc(discKeys.get(disc));
-		lastName = ln;
-		firstName = fn;
-		dissTitle = dissTit;
-		supervisors = getSupervisorsByID(supers);
+    public BaseStudent(int studentID, String firstName, String lastName, String title, String dissTitle, String disciplineName, double courseMark, String grade, List<Staff> supervisors) {
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+            s.execute("INSERT INTO Student VALUES (" + studentID + ", '" + firstName + "', '" + lastName + "', '" + title + "', '" + dissTitle + "', '" + disciplineName + "', " + courseMark + ", '" + grade + "')");
+            
+            ListIterator<Staff> iterator = supervisors.listIterator();
+            while (iterator.hasNext()) {
+                int staffID = iterator.next().getStaffID();
+                
+                s.execute("INSERT INTO Supervises VALUES (" + studentID + ", " + staffID + ")");
+            }
+            
+            setStudentID(studentID);
+            setFirstName(firstName);
+            setLastName(lastName);
+            setTitle(title);
+            setDissTitle(dissTitle);
+            setSupervisors(supervisors);
+            setCourseMarks(courseMark);
+            setGrade(grade);
+            setDisciplineName(disciplineName);
+            setDiscipline(getUnitListByDisciplineName(disciplineName));
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    **/
     
     public int getStudentID() {
         return Integer.parseInt(studentID+"");
@@ -171,6 +169,22 @@ public class BaseStudent {
             
             while (unitsRS.next()) {
                 unitsList.add(new Unit(unitsRS.getString("UnitCode"), studentID));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return unitsList;
+    }
+    
+    private List<Unit> getUnitListByDisciplineName(String disciplineName) {
+        List<Unit> unitsList = new ArrayList<>();
+        
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet unitsRS = s.executeQuery("SELECT * FROM Discipline WHERE DisciplineName='" + disciplineName + "'")) {
+            
+            while (unitsRS.next()) {
+                unitsList.add(new Unit(unitsRS.getString("UnitCode")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);

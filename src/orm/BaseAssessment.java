@@ -1,12 +1,8 @@
 package orm;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
 import sessionControl.Session;
 
 public class BaseAssessment {
@@ -90,6 +86,18 @@ public class BaseAssessment {
         }
     }
     
+    public BaseAssessment(int assessmentID, String name, Unit parentUnit, int unitPercent) {
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+            s.execute("INSERT INTO Assessment VALUES ('" + assessmentID + "', '" + name + "', '" + parentUnit.getUnitCode() + "', " + unitPercent + ")");
+            
+            setAssessmentID(assessmentID);
+            setName(name);
+            setParentUnit(parentUnit);
+            setUnitPercent(unitPercent);
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public int getAssessmentID() {
         return assessmentID;

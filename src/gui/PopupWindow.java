@@ -24,10 +24,11 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
-import sessionControl.DerbyUtils;
 
 import sessionControl.Session;
 import sessionControl.Errors;
+import sessionControl.DerbyUtils;
+
 
 /**
  * Popup Windows
@@ -83,7 +84,6 @@ public class PopupWindow {
 			}
 		});
 	}
-
 	
 	/**
 	 * Popups a message, with yes/no buttons. No line wrapping currently implemented.
@@ -93,10 +93,7 @@ public class PopupWindow {
 
 	 */
 	private static boolean returnVal = false;
-	private static Text assessmentName;
-	private static Text maximumMark;
-	private static Text assessmentPercentage;
-	public static boolean popupYessNo(Shell parentShell, String text, String title) {	//TODO: test
+	static boolean popupYessNo(Shell parentShell, String text, String title) {	//TODO: test
 		
 		final Shell shell = new Shell(parentShell, SWT.TITLE);
 		shell.setImage(parentShell.getImage());
@@ -180,7 +177,6 @@ public class PopupWindow {
 		return returnVal;
 	}
 	
-
 	/**
 	 * Popups a log on screen. Controls are disabled until a account is accepted.
 	 * @param parentShell
@@ -189,8 +185,6 @@ public class PopupWindow {
 	public static Shell popupLogon(Shell parentShell) {		//TODO: perhaps add a forgotten password button?
 		final String imageFileName = "splash.png";
 		final Shell shell = new Shell(parentShell, SWT.TITLE);
-		//Disables controls while the logon screen is displayed
-		//for ( Control ctrl : parentShell.getChildren() ) ctrl.setEnabled(false);	//TODO: undisable
 
 		// Set the Window Title
 		shell.setText("Log On to the HMD System");
@@ -266,7 +260,11 @@ public class PopupWindow {
 		combo.setLayoutData(gd_combo);
 
 		String[] cohorts = Session.getCohorts();
-		if (cohorts.length == 0) {
+		if (cohorts[0].equals(Errors.noDatabaseFolder)) {
+			System.err.println("Error: Database folder was not found.");
+			combo.add("Error: Database folder was not found.");
+		}
+		else if (cohorts.length == 0) {
 			combo.add(Errors.noDatabaseFound);
 		}
 		else {
@@ -351,6 +349,9 @@ public class PopupWindow {
 	 * @param title the title to display
 	 * @wbp.parser.entryPoint
 	 */
+	private static Text assessmentName;
+	private static Text maximumMark;
+	private static Text assessmentPercentage;
 	public static void popupAddSubAssessment(Shell parentShell, String text, String title, final Tree tree) {
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 		shell.setImage(parentShell.getImage());
@@ -410,7 +411,6 @@ public class PopupWindow {
 				
 				shell.setDefaultButton(btnOk);
 
-
 		shell.pack();
 		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);
 		shell.open();
@@ -422,4 +422,5 @@ public class PopupWindow {
 		});
 		
 	}
+
 }

@@ -12,7 +12,10 @@ public class newCohortTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CohortCreator.create("20192");
+		if(CohortCreator.create("20202")) {
+			CohortCreator.installData();
+		}
+		
 	}
 
 }

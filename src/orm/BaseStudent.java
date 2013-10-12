@@ -4,9 +4,31 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import sessionControl.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 
 public class BaseStudent {
-    private int studentID;
+	/**
+	 * These are keys for disciplines 
+	 */
+	public final static Map<String, String> discKeys;
+	static
+	{
+		discKeys = new HashMap<String, String>();
+		discKeys.put("a", "ANHB");
+		discKeys.put("p", "PHYL");
+		discKeys.put("n", "NEURO");
+		discKeys.put("b", "BIOMS");
+		discKeys.put("ANHB", "ANHB");
+		discKeys.put("PHYL", "PHYL");
+		discKeys.put("NEURO", "NEURO");
+		discKeys.put("BIOMS", "BIOMS"); 
+	}
+	
+	private int studentID;
     private String firstName;
     private String lastName;
     private String title;
@@ -35,6 +57,25 @@ public class BaseStudent {
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public BaseStudent() {
+        //Initialise database connection and fill up the variables.
+        //What if we're creating a new one?
+    }
+    
+    /**
+     * Constructor for initialising a new student from import
+     */
+    public BaseStudent(int sID, String disc, String ln, String fn, String dissTit, List<String> supers) {
+        //Initialise database connection and fill up the variables.
+        //What if we're creating a new one?
+    	studentID = sID;
+		discipline = getUnitsByDisc(discKeys.get(disc));
+		lastName = ln;
+		firstName = fn;
+		dissTitle = dissTit;
+		supervisors = getSupervisorsByID(supers);
     }
     
     public int getStudentID() {
@@ -139,5 +180,17 @@ public class BaseStudent {
         }
         
         return unitsList;
+    }
+    /**
+     * TODO implement findUnitsFromDisc
+     * @param disc
+     * @return
+     */
+    private List<Unit> getUnitsByDisc(String disc) {
+    	return new LinkedList<Unit>();
+    }
+    
+    private List<Staff> getSupervisorsByID(List<String> supers) {
+    	return new LinkedList<Staff>();
     }
 }

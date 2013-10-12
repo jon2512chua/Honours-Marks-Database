@@ -1,5 +1,6 @@
 package sessionControl;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -24,8 +25,6 @@ public class ConnectionWrapper {
 		dock = null;
 		disconnected = true;
 	}
-
-	// public void setConnection(Connection c) {dock = c;}
 
 	/**
 	 * Check connection is active
@@ -58,16 +57,21 @@ public class ConnectionWrapper {
 		}
 		
 		if(!db.contains("true")) {
+			File file = new File(db);
+			if(!file.exists()) {
+				System.err.println("ERROR: Database directory " + db + " does not exist.");
+				return false;
+			}
 			db += ";";
 		}
-
-		String connectionURL = "jdbc:derby:" + db;// + ";"; TODO
+		
+		String connectionURL = "jdbc:derby:" + db;
 
 		try {
 			dock = DriverManager.getConnection(connectionURL);
 			disconnected = false;
 		} catch (Throwable e) {
-			System.err.println("ERROR: Could not connect to database in directory " + db);
+			System.err.println("ERROR: Could not connect to database in directory " + db.substring(0, db.length() - 1));
 			return false;
 		}
 		return true;

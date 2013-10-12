@@ -33,7 +33,7 @@ public class BaseUnit {
         }
     	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE UnitCode=" + unitCode)) {
+                ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE UnitCode='" + unitCode + "'")) {
             
             // Will be a list of assessments returned, as many assessments can belong to a unit
     		// We are adding all of them to the list
@@ -48,7 +48,7 @@ public class BaseUnit {
     
     public BaseUnit(String unitCode, int studentID) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet unitRS = s.executeQuery("SELECT * FROM Unit WHERE UnitCode=" + unitCode)) {
+                ResultSet unitRS = s.executeQuery("SELECT * FROM Unit WHERE UnitCode='" + unitCode + "'")) {
             
             // There will only be one unit returned as unitCode is unique
             unitRS.first();
@@ -62,7 +62,7 @@ public class BaseUnit {
         }
     	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet unitmarkRS = s.executeQuery("SELECT * FROM UnitMark WHERE UnitCode=" + unitCode + " && StudentID=" + studentID)) {
+                ResultSet unitmarkRS = s.executeQuery("SELECT * FROM UnitMark WHERE UnitCode='" + unitCode + "' && StudentID=" + studentID)) {
             
             // Next, gets the unique UnitMark entry for this student-unit combination
             unitmarkRS.first();
@@ -73,7 +73,7 @@ public class BaseUnit {
         }
     	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE UnitCode=" + unitCode)) {
+                ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE UnitCode='" + unitCode + "'")) {
             
             // Will be a list of assessments returned, as many assessments can belong to a unit
     		// We are adding all of them to the list

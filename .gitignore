@@ -24,7 +24,6 @@ config/*
 /build/
 /dist/
 
+.gitignore
 /bin
 bin/*
-
-.gitignore

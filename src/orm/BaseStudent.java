@@ -33,7 +33,7 @@ public class BaseStudent {
             setSupervisors(getStaffList(studentID));
             setCourseMarks(studentRS.getDouble("Mark"));
             setGrade(studentRS.getString("Grade"));
-            this.discipline = getUnitsList(studentID);
+            setDiscipline(getUnitListByStudentID(studentID));
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -161,7 +161,7 @@ public class BaseStudent {
         return staffList;
     }
     
-    private List<Unit> getUnitsList(int studentID) {
+    private List<Unit> getUnitListByStudentID(int studentID) {
         List<Unit> unitsList = new ArrayList<>();
         
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

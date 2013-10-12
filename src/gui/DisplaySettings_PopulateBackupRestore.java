@@ -11,7 +11,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 
 import sessionControl.Errors;
-// TODO Tim - the dropdown menu here doesn't refresh itself 
+// TODO Tim - the dropdown menu here doesn't refresh itself : update: i think it might once you swap the order of popup and main window...?
 public class DisplaySettings_PopulateBackupRestore {
 
 	/**
@@ -28,7 +28,7 @@ public class DisplaySettings_PopulateBackupRestore {
 		tbtmbackupRestore.setControl(composite);
 
 		final Combo combo = new Combo(composite, SWT.READ_ONLY);
-
+		
 		String[] backupList = backupSubsystem.BackupUtils.getBackupsList();
 		if (backupList.length == 0) combo.add("No Backups Found");
 		else if (backupList[0].equals(Errors.noBackupsFolder)) combo.add("ERROR: " + Errors.noBackupsFolder);

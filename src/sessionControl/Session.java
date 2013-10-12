@@ -175,7 +175,6 @@ public class Session {
 							.matches("\\d{5}"));
 				}
 			});
-			System.out.println(directories.length);
 			return directories;
 		}
 		else {

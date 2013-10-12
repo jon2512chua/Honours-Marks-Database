@@ -1,9 +1,30 @@
 package orm;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class BaseStudent {
-    private int studentID;
+	/**
+	 * These are keys for disciplines 
+	 */
+	public final static Map<String, String> discKeys;
+	static
+	{
+		discKeys = new HashMap<String, String>();
+		discKeys.put("a", "ANHB");
+		discKeys.put("p", "PHYL");
+		discKeys.put("n", "NEURO");
+		discKeys.put("b", "BIOMS");
+		discKeys.put("ANHB", "ANHB");
+		discKeys.put("PHYL", "PHYL");
+		discKeys.put("NEURO", "NEURO");
+		discKeys.put("BIOMS", "BIOMS"); 
+	}
+	
+	
+	private int studentID;
     private int cohort;
     private String firstName;
     private String lastName;
@@ -16,6 +37,21 @@ public class BaseStudent {
     public BaseStudent() {
         //Initialise database connection and fill up the variables.
         //What if we're creating a new one?
+    }
+    
+    /**
+     * Constructor for initialising a new student from import
+     */
+    public BaseStudent(int sID, String disc, String ln, String fn, String dissTit, List<String> supers) {
+        //Initialise database connection and fill up the variables.
+        //What if we're creating a new one?
+    	studentID = sID;
+		discipline = getUnitsByDisc(discKeys.get(disc));
+		lastName = ln;
+		firstName = fn;
+		dissTitle = dissTit;
+		supervisors = getSupervisorsByID(supers);
+    	
     }
     
     public int getStudentID() {
@@ -89,4 +125,18 @@ public class BaseStudent {
     public void setDiscipline(List<Unit> discipline) {
         this.discipline = discipline;
     }
+    
+    /**
+     * TODO implement findUnitsFromDisc
+     * @param disc
+     * @return
+     */
+    private List<Unit> getUnitsByDisc(String disc) {
+    	return new LinkedList<Unit>();
+    }
+    
+    private List<Staff> getSupervisorsByID(List<String> supers) {
+    	return new LinkedList<Staff>();
+    }
+    
 }

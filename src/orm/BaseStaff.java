@@ -3,12 +3,13 @@ package orm;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import sessionControl.Session;
 
 public class BaseStaff {
-    private int staffID;
-    private String firstName;
-    private String lastName;
+    private StringBuffer staffID = new StringBuffer (30);
+    private StringBuffer firstName = new StringBuffer (30);
+    private StringBuffer lastName = new StringBuffer (30);
     private PriorityQueue<Mark> marks;
     
     public BaseStaff(int staffID) {
@@ -18,9 +19,9 @@ public class BaseStaff {
             // There will only be one staff returned as staffID is unique.
             staffRS.first();
             
-            this.staffID = staffID;
-            this.firstName = staffRS.getString("FirstName");
-            this.lastName = staffRS.getString("LastName");
+            setStaffID(staffID);
+            setFirstName(staffRS.getString("FirstName"));
+            setLastName(staffRS.getString("LastName"));
             // TODO: Figure out what the marks represent.
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
@@ -28,27 +29,27 @@ public class BaseStaff {
     }
     
     public int getStaffID() {
-        return staffID;
+        return Integer.parseInt(staffID+"");
     }
     
     public void setStaffID(int staffID) {
-        this.staffID = staffID;
+        this.staffID.replace(0, this.staffID.length(),  Integer.toString(staffID));
     }
     
-    public String getFirstName() {
+    public StringBuffer getFirstName() {
         return firstName;
     }
     
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    	this.firstName.replace(0, this.firstName.length(), firstName);
     }
     
-    public String getLastName() {
+    public StringBuffer getLastName() {
         return lastName;
     }
     
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+    	this.lastName.replace(0, this.lastName.length(), lastName);
     }
     
     public PriorityQueue<Mark> getMarks() {

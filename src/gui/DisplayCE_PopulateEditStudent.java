@@ -1,5 +1,6 @@
 package gui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ import orm.Student;
  */
 public class DisplayCE_PopulateEditStudent {
 	private static Map<TreeItem, StringBuffer[]> TreeItemMap = new HashMap<TreeItem, StringBuffer[]>();
-	
+
 	private static Text studentNumber;
 	private static Text title;
 	private static Text lastName;
@@ -80,7 +81,7 @@ public class DisplayCE_PopulateEditStudent {
 			TreeItem student = new TreeItem(studentTree, SWT.NONE);
 			TreeItemMap.put(student, new StringBuffer[]{s.studentID, s.firstName, s.lastName});
 		}
-		
+
 		refreshTree(studentTree);
 
 
@@ -138,8 +139,11 @@ public class DisplayCE_PopulateEditStudent {
 		List<Staff> allStaff = Staff.getAllStaff();
 		for (Staff s : allStaff) {
 			TreeItem supervisor = new TreeItem(supervisorTree, SWT.NONE);
-			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});	//TODO: stringbuffer
+			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});
+			TreeItemMap.put(supervisor, new StringBuffer[]{s.staffID, s.firstName, s.lastName});
 		}
+
+		refreshTree(supervisorTree);
 
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
 
@@ -212,6 +216,7 @@ public class DisplayCE_PopulateEditStudent {
 					}
 				}
 			}
+			studentNumber.setEditable(false);
 
 		} catch (java.lang.NullPointerException e) {				//Default values
 			studentNumber.setText("");
@@ -222,6 +227,7 @@ public class DisplayCE_PopulateEditStudent {
 			for (TreeItem ti : supervisorTree.getItems()) {
 				ti.setChecked(false);
 			}
+			studentNumber.setEditable(true);
 		}
 	}
 
@@ -232,11 +238,15 @@ public class DisplayCE_PopulateEditStudent {
 			student.setFirstName(firstName.getText());
 			student.setDissTitle(dissertationTitle.getText());
 			//TODO: supervisor/s
-			
+
 			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
 		} catch (java.lang.NullPointerException e) {				//Default values
-			Student newStudent = new Student(Integer.parseInt(studentNumber.getText()));
-			saveData(newStudent);
+			//Student newStudent = new Student(Integer.parseInt(studentNumber.getText()));
+			Student newStudent = new Student(
+					Integer.parseInt(studentNumber.getText()), 
+					firstName.getText(), lastName.getText(), title.getText(), dissertationTitle.getText(),
+					"", 0, "", new ArrayList<Staff>());
+			//saveData(newStudent);
 
 			//TODO: fix
 			//create new student on the tree
@@ -254,7 +264,7 @@ public class DisplayCE_PopulateEditStudent {
 	public static void refreshTree(Tree tree) {
 		for ( TreeItem ti : tree.getItems() ) {
 			try {
-			ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
+				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
 			} catch (java.lang.NullPointerException e) {}
 		}
 	}

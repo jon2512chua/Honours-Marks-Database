@@ -16,6 +16,17 @@ public class DisplayCE_PopulateEditAssessment {
 	private static Text assessmentName;
 	private static Text percentageUnit;
 
+	
+	public static void recursiveSetEnabled(Control ctrl, boolean enabled) {
+		if (ctrl instanceof Composite) {
+			Composite comp = (Composite) ctrl;
+			for (Control c : comp.getChildren()) {
+				recursiveSetEnabled(c, enabled);};
+			} else {
+				ctrl.setEnabled(enabled);
+			}
+	}
+	
 	/**
 	 * Populates the Edit Assessment Tab
 	 * @param CETabFolder the folder to put the tab in
@@ -40,7 +51,7 @@ public class DisplayCE_PopulateEditAssessment {
 		unitTree.setHeaderVisible(true);
 		unitTree.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
 		
-		Composite rComposite = new Composite(editAssessmentComposite, SWT.NONE);
+		final Composite rComposite = new Composite(editAssessmentComposite, SWT.NONE);
 		rComposite.setLayout(new GridLayout(2, false));
 		rComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
@@ -65,10 +76,15 @@ public class DisplayCE_PopulateEditAssessment {
 		TreeColumn trclmnUnits = new TreeColumn(unitTree, SWT.NONE);
 		trclmnUnits.setText("Units");
 		
+		Listener LisDiableUnitSelect = new Listener() {
+			public void handleEvent(Event event) {
+				rComposite.setEnabled(false);
+			}
+		};
+		
 		for (int i = 0; i < 5; i++) {
 			TreeItem unit = new TreeItem(unitTree, SWT.NONE | SWT.NO_FOCUS);
 			unit.setText(new String[] {Data.Unit[i]});
-			unit.setGrayed(true);
 			for (int j = 0; j < 3; j++) {
 				TreeItem assessment = new TreeItem(unit, SWT.NONE);
 				assessment.setText(new String[] {Data.Assessment[j]});
@@ -125,6 +141,17 @@ public class DisplayCE_PopulateEditAssessment {
 		unitTree.pack();
 
 		
+		unitTree.addListener(SWT.Selection,new Listener() {
+			public void handleEvent(Event event) {
+				if( unitTree.getSelection()[0].getParentItem() == null ) {
+					subAssessmentTree.setEnabled(false);
+					recursiveSetEnabled(rComposite, false);
+				} else {
+					recursiveSetEnabled(rComposite, true);
+				}
+			}
+		});
+		
 		Listener LisAddSubAssessment = new Listener() {
 			public void handleEvent(Event event) {
 				PopupWindow.popupAddSubAssessment(editAssessmentComposite.getShell(), 
@@ -137,10 +164,6 @@ public class DisplayCE_PopulateEditAssessment {
 		Listener LisRemoveSubAssessment = new Listener() {
 			public void handleEvent(Event event) {
 				subAssessmentTree.getSelection()[0].dispose();
-				/*
-				PopupWindow.popupAddSubAssessment(editAssessmentComposite.getShell(), 
-						"Please fill in the Sub Assessment Details", "Adding Sub Assessment", subAssessmentTree);
-						*/
 			}
 		};
 		btnRemoveSubAssessment.addListener(SWT.Selection, LisRemoveSubAssessment);

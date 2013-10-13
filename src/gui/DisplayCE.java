@@ -43,7 +43,7 @@ public class DisplayCE {
 		DisplayCE_PopulateEditAssessment.populate(CETabFolder, "Edit Assessment");
 		
 		//Cohort Tab
-		DisplayCE_PopulateEditCohort.populate(CETabFolder, "Edit Cohort");
+		DisplayCE_PopulateEditCohort.populate(CETabFolder, "New Cohort");
 
 		return CETabFolder;
 	}

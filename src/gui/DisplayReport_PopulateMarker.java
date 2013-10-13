@@ -3,8 +3,13 @@ package gui;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.FillLayout;
 
 /**
  * Marker Report
@@ -21,9 +26,23 @@ public class DisplayReport_PopulateMarker {
 	public static void populate(final CTabFolder reportTabFolder, String tabName) {
 		CTabItem tbtmReport = new CTabItem(reportTabFolder, SWT.NONE);
 		tbtmReport.setText(tabName);
+		
+		Composite mainComposite = new Composite(reportTabFolder, SWT.NONE);
+		GridLayout gl_mainComposite = new GridLayout(1, false);
+		gl_mainComposite.horizontalSpacing = 0;
+		gl_mainComposite.verticalSpacing = 0;
+		gl_mainComposite.marginWidth = 0;
+		gl_mainComposite.marginHeight = 0;
+		mainComposite.setLayout(gl_mainComposite);
+		
+		Button[] treeTop = CommonButtons.addReportTreeTop(mainComposite);
+		
+		Composite treeComposite = new Composite(mainComposite, SWT.NONE);
+		treeComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
+		treeComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		Tree markerTree = DisplayReport.createReportTree(reportTabFolder, "Selection", "Data");
-		tbtmReport.setControl(markerTree);
+		Tree markerTree = DisplayReport.createReportTree(treeComposite, "Selection", "Data");
+		tbtmReport.setControl(mainComposite);
 
 		for (int sn=0; sn<5; sn++) {
 			TreeItem marker = new TreeItem(markerTree, SWT.NONE);

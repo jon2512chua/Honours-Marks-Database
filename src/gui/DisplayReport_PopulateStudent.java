@@ -78,7 +78,7 @@ public class DisplayReport_PopulateStudent {
 
 				for (Staff supervisor : s.supervisors) {
 					TreeItem studentSuper = new TreeItem(student, SWT.NONE);
-					TreeItemMap.put(studentSuper, new StringBuffer (supervisor.getFullName()));	//TODO: fix for stringbuffer
+					TreeItemMap.put(studentSuper, supervisor.staffID);	//TODO: fix for stringbuffer
 					studentSuper.setText(0, "Supervisor");
 				}
 

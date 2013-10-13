@@ -12,6 +12,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
@@ -58,37 +59,33 @@ public class DisplayCE_PopulateEditStudent {
 		final Composite editStudentComposite = new Composite(CETabFolder, SWT.NONE);
 		editStudentComposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1));
 		GridLayout gl_editStudentComposite = new GridLayout(3, false);
-		gl_editStudentComposite.horizontalSpacing = -1;
 		gl_editStudentComposite.verticalSpacing = 0;
 		gl_editStudentComposite.marginWidth = 0;
 		gl_editStudentComposite.marginHeight = 0;
 		editStudentComposite.setLayout(gl_editStudentComposite);
 
-		studentTree = new Tree(editStudentComposite, SWT.BORDER | SWT.FULL_SELECTION);
-		studentTree.setHeaderVisible(true);
-		studentTree.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
+		//Import from Excel Button
+		final Button btnImportStudents = new Button(editStudentComposite, SWT.NONE);
+		btnImportStudents.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		btnImportStudents.setText("Import Students from Excel");
+		btnImportStudents.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				FileDialog fd = new FileDialog(btnImportStudents.getShell(), SWT.OPEN);
+				fd.setText("Import From Excel");
+				fd.setFilterPath(System.getProperty("user.home"));
+				fd.setFilterExtensions(new String[]{ "*.xlsx", "*.xls", "*.*" });
+				String selected = fd.open();
 
-		TreeColumn studentTree_studentNumber= new TreeColumn(studentTree, SWT.LEFT);
-		studentTree_studentNumber.setText("Student Number");
-		TreeColumn studentTree_studentName = new TreeColumn(studentTree, SWT.LEFT);
-		studentTree_studentName.setText("Student Name");
-
-		TreeItem newStudent = new TreeItem(studentTree, SWT.NONE);
-		newStudent.setText(new String[] {"+", "Add New Student"});
-
-		List<Student> allStudents = Student.getAllStudents();
-		for (Student s : allStudents) {
-			TreeItem student = new TreeItem(studentTree, SWT.NONE);
-			TreeItemMap.put(student, new StringBuffer[]{s.studentID, s.firstName, s.lastName});
-		}
-
-		refreshTree(studentTree);
+				//TODO: importing. Returns null if cancel is pressed
+				System.out.println(selected);	//TODO: delete me
+			}
+		});
 
 
 
 		Composite rComposite = new Composite(editStudentComposite, SWT.NONE);
 		rComposite.setLayout(new GridLayout(2, false));
-		rComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		rComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 2));
 
 		Label lblStudentNumber = new Label(rComposite, SWT.NONE);
 		lblStudentNumber.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -97,6 +94,7 @@ public class DisplayCE_PopulateEditStudent {
 		studentNumber.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		studentNumber.setTextLimit(8);
 		Validation.validateInt(studentNumber);
+
 
 		Label lblTitle = new Label(rComposite, SWT.NONE);
 		lblTitle.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -136,16 +134,42 @@ public class DisplayCE_PopulateEditStudent {
 		TreeColumn supervisorTree_staffName = new TreeColumn(supervisorTree, SWT.LEFT);
 		supervisorTree_staffName.setText("Staff Name");
 
+		refreshTree(supervisorTree);
+		supervisorTree.pack();
+
+
+		Composite composite = new Composite(rComposite, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 2, 1));
+
+		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
+
+
+		studentTree = new Tree(editStudentComposite, SWT.BORDER | SWT.FULL_SELECTION);
+		studentTree.setHeaderVisible(true);
+		studentTree.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
+
+		TreeColumn studentTree_studentNumber= new TreeColumn(studentTree, SWT.LEFT);
+		studentTree_studentNumber.setText("Student Number");
+		TreeColumn studentTree_studentName = new TreeColumn(studentTree, SWT.LEFT);
+		studentTree_studentName.setText("Student Name");
+
+		TreeItem newStudent = new TreeItem(studentTree, SWT.NONE);
+		newStudent.setText(new String[] {"+", "Add New Student"});
+
+		List<Student> allStudents = Student.getAllStudents();
+		for (Student s : allStudents) {
+			TreeItem student = new TreeItem(studentTree, SWT.NONE);
+			TreeItemMap.put(student, new StringBuffer[]{s.studentID, s.firstName, s.lastName});
+		}
+
+		refreshTree(studentTree);
+
 		List<Staff> allStaff = Staff.getAllStaff();
 		for (Staff s : allStaff) {
 			TreeItem supervisor = new TreeItem(supervisorTree, SWT.NONE);
 			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});
 			TreeItemMap.put(supervisor, new StringBuffer[]{s.staffID, s.firstName, s.lastName});
 		}
-
-		refreshTree(supervisorTree);
-
-		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
 
 		//Action to perform when the save button is pressed
 		btnSaveDiscard[0].addListener(SWT.Selection, new Listener() {
@@ -159,22 +183,6 @@ public class DisplayCE_PopulateEditStudent {
 					} catch (java.lang.ArrayIndexOutOfBoundsException e) {
 						saveData(null);
 					}
-				}
-			}
-		});
-
-
-		//Auto Fit Columns
-		for (TreeColumn tc : supervisorTree.getColumns()) tc.pack();
-		supervisorTree.pack();
-		for (TreeColumn tc : studentTree.getColumns()) tc.pack();
-		studentTree.pack();
-
-		studentTree.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if (studentTree.getSelectionCount() == 1)  {
-					TreeItem item = studentTree.getSelection()[0];
-					populateSelectedData(Student.getStudentByID(item.getText()));
 				}
 			}
 		});
@@ -193,6 +201,22 @@ public class DisplayCE_PopulateEditStudent {
 				tip.setVisible(true);
 			}
 		});
+
+
+		//Auto Fit Columns
+		for (TreeColumn tc : supervisorTree.getColumns()) tc.pack();
+		for (TreeColumn tc : studentTree.getColumns()) tc.pack();
+		studentTree.pack();
+
+		studentTree.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (studentTree.getSelectionCount() == 1)  {
+					TreeItem item = studentTree.getSelection()[0];
+					populateSelectedData(Student.getStudentByID(item.getText()));
+				}
+			}
+		});
+
 
 		tbtmEditStudent.setControl(editStudentComposite);
 
@@ -237,6 +261,7 @@ public class DisplayCE_PopulateEditStudent {
 			student.setLastName(lastName.getText());
 			student.setFirstName(firstName.getText());
 			student.setDissTitle(dissertationTitle.getText());
+			student.saveStudent();
 			//TODO: supervisor/s
 
 			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
@@ -245,12 +270,13 @@ public class DisplayCE_PopulateEditStudent {
 					Integer.parseInt(studentNumber.getText()), 
 					firstName.getText(), lastName.getText(), title.getText(), dissertationTitle.getText(),
 					"", 0, "", new ArrayList<Staff>());
-			
+
 			//TODO: fix
 			//create new student on the tree
 			TreeItem studentTreeItem = new TreeItem(studentTree, SWT.NONE);
 			TreeItemMap.put(studentTreeItem, new StringBuffer[]{newStudent.studentID, newStudent.firstName, newStudent.lastName});
 			studentTree.setSelection(studentTreeItem);	//TODO: does not seem to work properly
+			PopupWindow.popupMessage(studentTree.getShell(), "New student created successfully", "Save Successful");
 			refreshTree(studentTree);
 		}
 	}

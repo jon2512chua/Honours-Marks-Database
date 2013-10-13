@@ -15,7 +15,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
@@ -200,28 +199,6 @@ public class DisplayCE_PopulateEditCohort {
 		btnStaffSelectNone.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				for (TreeItem ti: staffTree.getItems()) ti.setChecked(false);
-			}
-		});
-
-
-		Composite compositeImportFromExecel = new Composite(editCohortComposite, SWT.BORDER);
-		compositeImportFromExecel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
-		compositeImportFromExecel.setLayout(new GridLayout(1, false));
-		
-		
-		//TODO move to edit sudent
-		final Button btnImportStudentsFrom = new Button(compositeImportFromExecel, SWT.NONE);
-		btnImportStudentsFrom.setText("Import Students from Excel");
-		btnImportStudentsFrom.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
-				FileDialog fd = new FileDialog(btnImportStudentsFrom.getShell(), SWT.OPEN);
-				fd.setText("Import From Excel");
-				fd.setFilterPath(System.getProperty("user.home"));	//TODO: test on mac
-				fd.setFilterExtensions(new String[]{ "*.xlsx", "*.xls", "*.*" });
-				String selected = fd.open();
-
-				//TODO: importing. Returns null if cancel is pressed
-				System.out.println(selected);	//TODO: delete me
 			}
 		});
 

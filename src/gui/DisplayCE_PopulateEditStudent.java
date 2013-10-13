@@ -241,18 +241,16 @@ public class DisplayCE_PopulateEditStudent {
 
 			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
 		} catch (java.lang.NullPointerException e) {				//Default values
-			//Student newStudent = new Student(Integer.parseInt(studentNumber.getText()));
 			Student newStudent = new Student(
 					Integer.parseInt(studentNumber.getText()), 
 					firstName.getText(), lastName.getText(), title.getText(), dissertationTitle.getText(),
 					"", 0, "", new ArrayList<Staff>());
-			//saveData(newStudent);
-
+			
 			//TODO: fix
 			//create new student on the tree
 			TreeItem studentTreeItem = new TreeItem(studentTree, SWT.NONE);
 			TreeItemMap.put(studentTreeItem, new StringBuffer[]{newStudent.studentID, newStudent.firstName, newStudent.lastName});
-			studentTree.setSelection(studentTreeItem);	//TODO: does not seem to work properally
+			studentTree.setSelection(studentTreeItem);	//TODO: does not seem to work properly
 			refreshTree(studentTree);
 		}
 	}

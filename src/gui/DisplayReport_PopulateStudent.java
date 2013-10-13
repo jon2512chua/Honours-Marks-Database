@@ -174,6 +174,7 @@ public class DisplayReport_PopulateStudent {
 	 * Refreshes all data displayed in the tree
 	 * @param tree the tree which is to be refreshed
 	 */
+	//TODO: currently does not add new treeItems
 	public static void refreshAll(Tree tree) {
 		for ( TreeItem ti : tree.getItems() ) {
 			ti.setText(TreeItemMap.get(ti).toString());

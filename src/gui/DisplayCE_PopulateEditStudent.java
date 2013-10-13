@@ -1,6 +1,8 @@
 package gui;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -30,14 +32,15 @@ import orm.Student;
  * @author Tim Lander
  */
 public class DisplayCE_PopulateEditStudent {
-	//TODO: getters/setters
-	public static Text studentNumber;
-	public static Text title;
-	public static Text lastName;
-	public static Text firstName;
-	public static Text dissertationTitle;
-	public static Tree supervisorTree;
-	public static Tree studentTree;
+	private static Map<TreeItem, StringBuffer[]> TreeItemMap = new HashMap<TreeItem, StringBuffer[]>();
+	
+	private static Text studentNumber;
+	private static Text title;
+	private static Text lastName;
+	private static Text firstName;
+	private static Text dissertationTitle;
+	private static Tree supervisorTree;
+	private static Tree studentTree;
 
 	/**
 	 * Populates the Edit Students Tab
@@ -72,16 +75,13 @@ public class DisplayCE_PopulateEditStudent {
 		TreeItem newStudent = new TreeItem(studentTree, SWT.NONE);
 		newStudent.setText(new String[] {"+", "Add New Student"});
 
-		//TODO: delete
-		/*for (int sn=0; sn<5; sn++) {
-			TreeItem student = new TreeItem(studentTree, SWT.NONE);
-			student.setText(new String[] {Data.StudentNumber[sn], Data.StudentNameTitle[sn] + " " + Data.StudentNameFirst[sn].charAt(0) + ". " + Data.StudentNameLast[sn]});
-		}*/
 		List<Student> allStudents = Student.getAllStudents();
 		for (Student s : allStudents) {
 			TreeItem student = new TreeItem(studentTree, SWT.NONE);
-			student.setText(new String[] {String.valueOf(s.getStudentID()), String.valueOf(s.getFullName())});
+			TreeItemMap.put(student, new StringBuffer[]{s.studentID, s.firstName, s.lastName});
 		}
+		
+		refreshTree(studentTree);
 
 
 
@@ -135,17 +135,11 @@ public class DisplayCE_PopulateEditStudent {
 		TreeColumn supervisorTree_staffName = new TreeColumn(supervisorTree, SWT.LEFT);
 		supervisorTree_staffName.setText("Staff Name");
 
-		//TODO: delete
-		/*for (int sn=0; sn<5; sn++) {
-			TreeItem supervisor = new TreeItem(supervisorTree, SWT.NONE);
-			supervisor.setText(new String[] {Data.StaffNumber[sn], Data.StaffNameTitle[sn] + " " + Data.StaffNameFirst[sn].charAt(0) + ". " + Data.StaffNameLast[sn]});
-		}*/
 		List<Staff> allStaff = Staff.getAllStaff();
 		for (Staff s : allStaff) {
 			TreeItem supervisor = new TreeItem(supervisorTree, SWT.NONE);
-			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});
+			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});	//TODO: stringbuffer
 		}
-
 
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
 
@@ -197,7 +191,6 @@ public class DisplayCE_PopulateEditStudent {
 		});
 
 		tbtmEditStudent.setControl(editStudentComposite);
-		//return editStudentComposite;
 
 	}
 
@@ -234,7 +227,6 @@ public class DisplayCE_PopulateEditStudent {
 
 	private static void saveData(Student student) {
 		try {														//Entered values
-			//student.setStudentID(Integer.parseInt(studentNumber.getText()));		//may be causing issues?
 			student.setTitle(title.getText());
 			student.setLastName(lastName.getText());
 			student.setFirstName(firstName.getText());
@@ -246,15 +238,25 @@ public class DisplayCE_PopulateEditStudent {
 			Student newStudent = new Student(Integer.parseInt(studentNumber.getText()));
 			saveData(newStudent);
 
+			//TODO: fix
 			//create new student on the tree
 			TreeItem studentTreeItem = new TreeItem(studentTree, SWT.NONE);
-			studentTreeItem.setText(new String[] {studentNumber.getText(), firstName.getText() + " " + lastName.getText()});
-			studentTree.setSelection(studentTreeItem);
+			TreeItemMap.put(studentTreeItem, new StringBuffer[]{newStudent.studentID, newStudent.firstName, newStudent.lastName});
+			studentTree.setSelection(studentTreeItem);	//TODO: does not seem to work properally
+			refreshTree(studentTree);
 		}
 	}
 
-	public static void refreshData() {
-
+	/**
+	 * Refreshes all data displayed in the tree
+	 * @param tree the tree which is to be refreshed
+	 */
+	public static void refreshTree(Tree tree) {
+		for ( TreeItem ti : tree.getItems() ) {
+			try {
+			ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
+			} catch (java.lang.NullPointerException e) {}
+		}
 	}
 
 }

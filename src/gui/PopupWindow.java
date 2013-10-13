@@ -134,8 +134,8 @@ public class PopupWindow {
 	    shell.setDefaultButton(btnYes);
 
 		shell.pack();
-		shell.open();
 		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
+		shell.open();
 
 		//Button listener to deal with the YES button being pressed
 		Listener btnYesListener = new Listener() {

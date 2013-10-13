@@ -6,6 +6,8 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.layout.GridLayout;
@@ -41,7 +43,7 @@ public class DisplayReport_PopulateMarker {
 		treeComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		treeComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-		Tree markerTree = DisplayReport.createReportTree(treeComposite, "Selection", "Data");
+		final Tree markerTree = DisplayReport.createReportTree(treeComposite, "Selection", "Data");
 		tbtmReport.setControl(mainComposite);
 
 		for (int sn=0; sn<5; sn++) {
@@ -73,6 +75,28 @@ public class DisplayReport_PopulateMarker {
 
 		}
 		
+		//Listener to automatically resize Student Report column widths.
 		DisplayReport.autoResizeColumn(markerTree);
+		
+		//Listener for + button
+		treeTop[0].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				for ( TreeItem ti : markerTree.getItems() ) ti.setExpanded(true);
+			}
+		});
+
+		//Listener for - button
+		treeTop[1].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				for ( TreeItem ti : markerTree.getItems() ) ti.setExpanded(false);
+			}
+		});
+
+		//Listener for Export button
+		treeTop[1].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				//TODO: export here
+			}
+		});
 	}
 }

@@ -5,6 +5,13 @@ import java.util.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -27,8 +34,22 @@ public class DisplayReport_PopulateStudent {
 		CTabItem tbtmReport = new CTabItem(reportTabFolder, SWT.NONE);
 		tbtmReport.setText(tabName);
 
-		Tree studentTree = DisplayReport.createReportTree(reportTabFolder, "Selection", "Data");
-		tbtmReport.setControl(studentTree);
+		Composite mainComposite = new Composite(reportTabFolder, SWT.NONE);
+		GridLayout gl_mainComposite = new GridLayout(1, false);
+		gl_mainComposite.horizontalSpacing = 0;
+		gl_mainComposite.verticalSpacing = 0;
+		gl_mainComposite.marginWidth = 0;
+		gl_mainComposite.marginHeight = 0;
+		mainComposite.setLayout(gl_mainComposite);
+
+		Button[] treeTop = CommonButtons.addReportTreeTop(mainComposite);
+
+		Composite treeComposite = new Composite(mainComposite, SWT.NONE);
+		treeComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
+		treeComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+
+		final Tree studentTree = DisplayReport.createReportTree(treeComposite, "Selection", "Data");
+		tbtmReport.setControl(mainComposite);
 
 		try {	//TODO: better error handling
 
@@ -125,16 +146,37 @@ public class DisplayReport_PopulateStudent {
 		}*/
 
 		refreshAll(studentTree);
-		
+
 		//Listener to automatically resize Student Report column widths.
 		DisplayReport.autoResizeColumn(studentTree);
+
+		//Listener for + button
+		treeTop[0].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				for ( TreeItem ti : studentTree.getItems() ) ti.setExpanded(true);
+			}
+		});
+
+		//Listener for - button
+		treeTop[1].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				for ( TreeItem ti : studentTree.getItems() ) ti.setExpanded(false);
+			}
+		});
+
+		//Listener for Export button
+		treeTop[1].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				//TODO: export here
+			}
+		});
 
 	}
 
 	public static void refreshAll(Tree tree) {
 		for ( TreeItem ti : tree.getItems() ) {
 			ti.setText(TreeItemMap.get(ti).toString());
-			
+
 			for ( TreeItem ti2 : ti.getItems() ) {
 				try {
 					ti.setText(1, TreeItemMap.get(ti2).toString());

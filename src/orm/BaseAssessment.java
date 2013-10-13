@@ -3,14 +3,15 @@ package orm;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import sessionControl.Session;
 
 public class BaseAssessment {
 	private int assessmentID;
-    public StringBuffer name;
+    public StringBuffer name = new StringBuffer (30);
     private Unit parentUnit;
-    public StringBuffer mark;
-    public StringBuffer unitPercent;
+    public StringBuffer mark = new StringBuffer (30);
+    public StringBuffer unitPercent = new StringBuffer (30);
     private List<SubAssessment> subAssessments;
     
     public BaseAssessment(int assessmentID) {
@@ -45,6 +46,8 @@ public class BaseAssessment {
     }
     
     public BaseAssessment(int assessmentID, int studentID, Unit unit) {
+    	this.subAssessments = new ArrayList<>();
+    	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE AssessmentID=" + assessmentID)) {
             
@@ -62,7 +65,7 @@ public class BaseAssessment {
         }
     	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet assessmarkRS = s.executeQuery("SELECT * FROM AssessmentMark WHERE AssessmentID=" + assessmentID + " && StudentID=" + studentID)) {
+                ResultSet assessmarkRS = s.executeQuery("SELECT * FROM AssessmentMark WHERE AssessmentID=" + assessmentID + " AND StudentID=" + studentID)) {
             
             // Next, gets the unique AssessmentMark entry for this student-unit combination
     		assessmarkRS.first();

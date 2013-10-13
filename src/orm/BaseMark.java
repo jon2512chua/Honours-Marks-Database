@@ -9,10 +9,10 @@ import java.util.logging.Logger;
 import sessionControl.Session;
 
 public class BaseMark {
-    public StringBuffer value;    
-    public StringBuffer report;
-    public StringBuffer markerID;
-    public StringBuffer studentID;
+    public StringBuffer value = new StringBuffer (30);    
+    public StringBuffer report = new StringBuffer (30);
+    public StringBuffer markerID = new StringBuffer (30);
+    public StringBuffer studentID = new StringBuffer (30);
     public SubAssessment parentSubAssessment;
     
     /**
@@ -26,8 +26,8 @@ public class BaseMark {
     
     public BaseMark(int subAssessmentID, int studentID, int markerID, SubAssessment subAssessment) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet markRS = s.executeQuery("SELECT * FROM SubAssessmentMark WHERE SubAssessment=" + subAssessmentID +
-                									"&& StudentID ="+ studentID + "&& MarkerID =" + markerID)) {
+                ResultSet markRS = s.executeQuery("SELECT * FROM SubAssessmentMark WHERE SubAssessmentID=" + subAssessmentID +
+                									"AND StudentID ="+ studentID + "AND MarkerID =" + markerID)) {
             
             // There will only be one mark returned as each (subAssessmentID, studentID, markerID) tuple is unique
     		markRS.first();
@@ -37,7 +37,7 @@ public class BaseMark {
             setParentSubAssessment(subAssessment);
             
             
-            setValue(markRS.getInt("Mark"));
+            setValue(markRS.getDouble("Mark"));
             setReport(markRS.getString("Report"));
             
         } catch (SQLException ex) {

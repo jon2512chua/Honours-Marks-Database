@@ -12,10 +12,10 @@ import sessionControl.Session;
 public class BaseSubAssessment {
 
 	private int subAssessmentID;
-	public StringBuffer name;
+	public StringBuffer name = new StringBuffer (30);
     private Assessment parentAssessment;
-    public StringBuffer maxMark;
-    public StringBuffer assessmentPercent;
+    public StringBuffer maxMark = new StringBuffer (30);
+    public StringBuffer assessmentPercent = new StringBuffer (30);
     private List<Mark> marks;
     // Maybe add average mark for this subassessment over all marks
     
@@ -41,6 +41,8 @@ public class BaseSubAssessment {
     }
     
     public BaseSubAssessment(int subAssessmentID, int studentID, Assessment assessment) {
+    	this.marks = new ArrayList<>();
+    	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet subassessmentRS = s.executeQuery("SELECT * FROM SubAssessment WHERE SubAssessmentID=" + subAssessmentID)) {
             

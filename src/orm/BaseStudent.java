@@ -65,6 +65,22 @@ public class BaseStudent {
         }
     }
     
+    public void saveStudent() {
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+            s.execute("UPDATE Student SET"
+            		+ " FirstName = '" + getFirstName().toString() + "',"
+            		+ " LastName = '" + getLastName().toString() + "',"
+            		+ " Title = '" + getTitle().toString() + "',"
+            		+ " DissTitle = '" + getDissTitle().toString() + "',"
+            		+ " Discipline = '" + getDisciplineName().toString() + "',"
+            		+ " Mark = " + getCourseMark()
+            		+ " Grade = '" + getGrade().toString() + "',"
+            		+ " WHERE StudentID=" + getStudentID());
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public int getStudentID() {
         return Integer.parseInt(studentID+"");
     }

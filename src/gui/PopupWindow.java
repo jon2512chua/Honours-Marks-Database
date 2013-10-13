@@ -348,9 +348,9 @@ public class PopupWindow {
 	 * @param parentShell the display currently in use
 	 * @param text the text the popup displays 
 	 * @param title the title to display
-	 * @wbp.parser.entryPoint
+
 	 */
-	private static Text assessmentName;
+	private static Text subAssessmentName;
 	private static Text maximumMark;
 	private static Text assessmentPercentage;
 	public static void popupAddSubAssessment(final Shell parentShell, String text, String title, final Tree tree) {
@@ -370,10 +370,10 @@ public class PopupWindow {
 		lblAssessmentName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblAssessmentName.setText("Assessment Name:");
 		
-		assessmentName = new Text(shell, SWT.BORDER);
+		subAssessmentName = new Text(shell, SWT.BORDER);
 		GridData gd_assessmentName = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_assessmentName.widthHint = 180;
-		assessmentName.setLayoutData(gd_assessmentName);
+		subAssessmentName.setLayoutData(gd_assessmentName);
 		
 		Label lblMaximumMark = new Label(shell, SWT.NONE);
 		lblMaximumMark.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -400,9 +400,9 @@ public class PopupWindow {
 				//Button listener to deal with the button being pressed
 				Listener btnOKListener = new Listener() {
 					public void handleEvent(Event event) {
-						if (!assessmentName.getText().isEmpty() && !maximumMark.getText().isEmpty() && !assessmentPercentage.getText().isEmpty()) {
+						if (!subAssessmentName.getText().isEmpty() && !maximumMark.getText().isEmpty() && !assessmentPercentage.getText().isEmpty()) {
 							TreeItem data = new TreeItem(tree, SWT.NONE);
-							data.setText(new String[] {assessmentName.getText(), maximumMark.getText(), assessmentPercentage.getText()});
+							data.setText(new String[] {subAssessmentName.getText(), maximumMark.getText(), assessmentPercentage.getText()});
 							for (TreeColumn tc : tree.getColumns()) tc.pack();
 							shell.close();
 						} else {
@@ -436,6 +436,100 @@ public class PopupWindow {
 				shell.dispose();
 			}
 		});
+		
+	}
+	
+	/**
+	 * Popups a message, to add sub assessment
+	 * @param parentShell the display currently in use
+	 * @param text the text the popup displays 
+	 * @param title the title to display
+	 * @param percentageUnit 
+	 * @wbp.parser.entryPoint
+	 */
+	public static boolean popupAddAssessment(final Shell parentShell, String text, String title, final Tree tree, final Text assessmentName, final Text percentageUnit) {
+		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
+		shell.setImage(parentShell.getImage());
+		
+		final boolean status = false;
+
+		// Set the Window Title
+		shell.setText(title);
+		shell.setLayout(new GridLayout(2, false));
+
+		// Create a Label in the Shell
+		Label label = new Label(shell, SWT.WRAP);
+		label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
+		label.setText(text);
+		
+		Label lblUnitName = new Label(shell, SWT.NONE);
+		lblUnitName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblUnitName.setText("Unit Name:");
+;
+		
+		final Combo unitName = new Combo(shell, SWT.READ_ONLY);
+		String[] unitNameString = new String[Data.Unit.length];
+		for (int i = 0; i < Data.UnitName.length; i++) {
+			unitNameString[i] = Data.Unit[i] + " " + Data.UnitName[i];
+		}
+		unitName.setItems(unitNameString);
+		unitName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false, 2, 1));
+		composite.setLayout(new GridLayout(2, false));
+		
+				//Button listener to deal with the button being pressed
+				Listener btnOKListener = new Listener() {
+					public void handleEvent(Event event) {
+						if (!unitName.getText().isEmpty()) {
+							int i = 0;
+							boolean added = false;
+							while (i < tree.getItemCount() && !added){
+								if (tree.getItem(i).getText().equals(unitName.getText().substring(0,8))) {
+									TreeItem data = new TreeItem(tree.getItem(i), SWT.NONE);
+									data.setText(assessmentName.getText());
+									for (TreeColumn tc : tree.getColumns()) tc.pack();
+									added = true;
+								}
+								i++;
+							}
+							assessmentName.setText("");
+							percentageUnit.setText("");
+							shell.close();
+						} else {
+							popupMessage(parentShell, "Null Value is not allowed.", "ERROR!");
+						}
+					}
+				};
+				
+				Listener btnCancelListener = new Listener() {
+					public void handleEvent(Event event) {
+						shell.close();
+					}
+				};
+		
+				Button btnOk = new Button(composite, SWT.CENTER);
+				btnOk.setText("OK");
+				btnOk.addListener(SWT.Selection, btnOKListener);
+				
+				Button btnCancel = new Button(composite, SWT.NONE);
+				btnCancel.setText("Cancel");
+				btnCancel.addListener(SWT.Selection, btnCancelListener);
+				
+				shell.setDefaultButton(btnOk);
+		
+
+				shell.pack();
+				shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);
+				shell.open();
+				
+		shell.addListener(SWT.Close, new Listener() {
+			public void handleEvent(Event event) {
+				shell.dispose();
+			}
+		});
+		return status;
 		
 	}
 

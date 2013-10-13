@@ -16,7 +16,12 @@ public class DisplayCE_PopulateEditAssessment {
 	private static Text assessmentName;
 	private static Text percentageUnit;
 
-	
+	/**
+	 * helper class to disable and grayed out anything in the composite
+	 * that is not subclass of composite, therefore doesn't work with tree etc.
+	 * @param ctrl the composite that needs to be disabled
+	 * @param enabled true as to enable false otherwise
+	 */
 	public static void recursiveSetEnabled(Control ctrl, boolean enabled) {
 		if (ctrl instanceof Composite) {
 			Composite comp = (Composite) ctrl;
@@ -72,17 +77,13 @@ public class DisplayCE_PopulateEditAssessment {
 		
 		percentageUnit = new Text(rComposite, SWT.BORDER);
 		percentageUnit.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		percentageUnit.setTextLimit(4);
+		Validation.validateDouble(percentageUnit);
 		
 		TreeColumn trclmnUnits = new TreeColumn(unitTree, SWT.NONE);
 		trclmnUnits.setText("Units");
 		
-		Listener LisDiableUnitSelect = new Listener() {
-			public void handleEvent(Event event) {
-				rComposite.setEnabled(false);
-			}
-		};
-		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < Data.Unit.length; i++) {
 			TreeItem unit = new TreeItem(unitTree, SWT.NONE | SWT.NO_FOCUS);
 			unit.setText(new String[] {Data.Unit[i]});
 			for (int j = 0; j < 3; j++) {
@@ -97,6 +98,17 @@ public class DisplayCE_PopulateEditAssessment {
 		//for (TreeItem ti : unitTree.getItems()) ti.setExpanded(false);
 		
 		DisplayReport.autoResizeColumn(unitTree);
+		new Label(rComposite, SWT.NONE);
+		
+		Composite addReAssessComposite = new Composite(rComposite, SWT.NONE);
+		addReAssessComposite.setLayout(new GridLayout(2, false));
+		addReAssessComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		
+		Button btnAddAssessment = new Button(addReAssessComposite, SWT.NONE);
+		btnAddAssessment.setText("Add Assessment");
+		
+		Button btnRemoveAssessment = new Button(addReAssessComposite, SWT.NONE);
+		btnRemoveAssessment.setText("Remove Assessment");
 		
 		Label label = new Label(rComposite, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
@@ -105,14 +117,14 @@ public class DisplayCE_PopulateEditAssessment {
 		lblSubAssessment.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		lblSubAssessment.setText("Sub Assessment:");
 		
-		Composite composite = new Composite(rComposite, SWT.NONE);
-		composite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 1));
-		composite.setLayout(new GridLayout(2, false));
+		Composite addReSubACompposite = new Composite(rComposite, SWT.NONE);
+		addReSubACompposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 1));
+		addReSubACompposite.setLayout(new GridLayout(2, false));
 		
-		Button btnAddSubAssessment = new Button(composite, SWT.NONE);
+		Button btnAddSubAssessment = new Button(addReSubACompposite, SWT.NONE);
 		btnAddSubAssessment.setText("Add Sub Assessment");
 		
-		Button btnRemoveSubAssessment = new Button(composite, SWT.NONE);
+		Button btnRemoveSubAssessment = new Button(addReSubACompposite, SWT.NONE);
 		btnRemoveSubAssessment.setText("Remove Sub Assessment");
 		
 		
@@ -143,14 +155,47 @@ public class DisplayCE_PopulateEditAssessment {
 		
 		unitTree.addListener(SWT.Selection,new Listener() {
 			public void handleEvent(Event event) {
-				if( unitTree.getSelection()[0].getParentItem() == null ) {
-					subAssessmentTree.setEnabled(false);
-					recursiveSetEnabled(rComposite, false);
-				} else {
-					recursiveSetEnabled(rComposite, true);
+				TreeItem[] selected = unitTree.getSelection();
+				if (selected.length != 0) {
+					if(selected[0].getParentItem() == null) {
+						subAssessmentTree.setEnabled(false);
+						recursiveSetEnabled(rComposite, false);
+					} else {
+						subAssessmentTree.setEnabled(true);
+						recursiveSetEnabled(rComposite, true);
+					}
 				}
 			}
 		});
+		
+		Listener LisAddAssessment = new Listener() {
+			public void handleEvent(Event event) {
+				if (!assessmentName.getText().isEmpty() && !percentageUnit.getText().isEmpty()) {
+					int oriTreeCount = unitTree.getItemCount();
+					PopupWindow.popupAddAssessment(editAssessmentComposite.getShell(), 
+							"Please choose the unit that the Assessment will be added to", 
+							"Adding Assessment", unitTree, assessmentName, percentageUnit);
+					/*if (unitTree.getItemCount() > oriTreeCount) {
+						assessmentName.setText("");
+						percentageUnit.setText("");
+					}*/
+				} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Null Value is not allowed.", "ERROR!");
+			}
+		};
+
+		btnAddAssessment.addListener(SWT.Selection, LisAddAssessment);
+		
+		Listener LisRemoveAssessment = new Listener() {
+			public void handleEvent(Event event) {
+				if (unitTree.isFocusControl() && PopupWindow.popupYessNo(editAssessmentComposite.getShell(),
+						"Are you sure you want to REMOVE \"" + unitTree.getSelection()[0].getText()
+						+ "\" from the database", "WARNING!"))
+					unitTree.getSelection()[0].dispose(); //TODO proper delete from database
+				else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select an Assessment to be Removed.", "ERROR!");
+			}
+		};
+		
+		btnRemoveAssessment.addListener(SWT.Selection, LisRemoveAssessment);
 		
 		Listener LisAddSubAssessment = new Listener() {
 			public void handleEvent(Event event) {
@@ -163,7 +208,11 @@ public class DisplayCE_PopulateEditAssessment {
 		
 		Listener LisRemoveSubAssessment = new Listener() {
 			public void handleEvent(Event event) {
-				subAssessmentTree.getSelection()[0].dispose();
+				if (subAssessmentTree.isFocusControl() && PopupWindow.popupYessNo(editAssessmentComposite.getShell(),
+						"Are you sure you want to REMOVE \"" + subAssessmentTree.getSelection()[0].getText()
+						+ "\" from the database", "WARNING!"))
+					subAssessmentTree.getSelection()[0].dispose();
+				else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select a Sub Assessment to be Removed.", "ERROR!");
 			}
 		};
 		btnRemoveSubAssessment.addListener(SWT.Selection, LisRemoveSubAssessment);

@@ -15,11 +15,6 @@ public class Cohort {
 	 * Connection to the new database TODO make private?
 	 */
 	public ConnectionWrapper newConn;
-	
-	/**
-	 * Have a variable for holding lists corresponding to each table
-	 */
-	//public static List<Student> Students; etc... 
 
 	/**
 	 * Constructor

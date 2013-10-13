@@ -86,12 +86,57 @@ public class DisplayCE_PopulateEditCohort {
 
 		final Button btnUnits = new Button(compositeChkList, SWT.CHECK);
 		btnUnits.setText("Units");
+		
+		// Have added listeners below: because of the schema of DB we can't add sub without assess, can't add assess without unit
+		
+		// When units unchecked, should uncheck other boxes
+		btnUnits.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				if(!btnUnits.getSelection()) {
+					for (Control button : compositeChkList.getChildren()) {
+						Button b = ((Button) button); 
+						if(b.getText().equals("Assessments") || b.getText().equals("Subassessments")) b.setSelection(false);
+					}
+				}
+			}
+		});
 
 		final Button btnAssessments = new Button(compositeChkList, SWT.CHECK);
 		btnAssessments.setText("Assessments");
 
+		// When assessment unchecked, should uncheck subassessment
+		// When assessment checked, should check unit
+		btnAssessments.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				if(!btnAssessments.getSelection()) {
+					for (Control button : compositeChkList.getChildren()) {
+						Button b = ((Button) button); 
+						if(b.getText().equals("Subassessments")) b.setSelection(false);
+					}
+				}
+				else {
+					for (Control button : compositeChkList.getChildren()) {
+						Button b = ((Button) button); 
+						if(b.getText().equals("Units")) b.setSelection(true);
+					}
+				}
+			}
+		});
+		
 		final Button btnSubassessments = new Button(compositeChkList, SWT.CHECK);
-		btnSubassessments.setText("SubAssessments");
+		btnSubassessments.setText("Subassessments");
+		
+		// When subassessment checked, should check unit, assessment
+		btnSubassessments.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				if(btnSubassessments.getSelection()) {
+					for (Control button : compositeChkList.getChildren()) {
+						Button b = ((Button) button); 
+						if(b.getText().equals("Assessments") || b.getText().equals("Units")) b.setSelection(true);
+					}
+				}
+			}
+		});		
 
 		Button btnDataSelectAll = new Button(compositeChooseImportData, SWT.NONE);
 		btnDataSelectAll.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
@@ -200,37 +245,74 @@ public class DisplayCE_PopulateEditCohort {
 					try {
 						if(CohortCreator.create(newCohort))
 						{
-							if(btnUnits.getSelection()) {
-								for (Unit u : CohortData.units) {
-									CohortData.writeUnit(u, CohortCreator.newCohort.newConn.getConnection());
+							try {
+								Boolean pureSuccess = true;
+								String feedback = "Congratulations, " + newCohort + " added successfully!\n" +
+										"Please quit and log back in to open the new cohort.";
+								if(!(CohortData.units == null) && !CohortData.units.isEmpty()) {
+									if(btnUnits.getSelection()) {
+										for (Unit u : CohortData.units) {
+											CohortData.writeUnit(u, CohortCreator.newCohort.newConn.getConnection());
+										}
+									}
+									if(!(CohortData.assessments == null) && !CohortData.assessments.isEmpty()) {
+										if(btnAssessments.getSelection()) {
+											for (Assessment a : CohortData.assessments) {
+												CohortData.writeAssessment(a, CohortCreator.newCohort.newConn.getConnection());
+											}
+										}
+										if(!(CohortData.subassessments == null) && !CohortData.subassessments.isEmpty()) {
+											if(btnSubassessments.getSelection()) {
+												for (SubAssessment s : CohortData.subassessments) {
+													CohortData.writeSubassessment(s, CohortCreator.newCohort.newConn.getConnection());
+												}
+											}
+										}
+										else {
+											feedback = "Cohort has been created, but no subassessments were available.\nPlease exit and log back in to set up the new cohort.";
+											pureSuccess = false;
+										}
+									}
+									else {
+										feedback = "Cohort has been created, but no assessments were available.\nPlease exit and log back in to set up the new cohort.";
+										pureSuccess = false;
+									}
 								}
-							}
-							if(btnAssessments.getSelection()) {
-								for (Assessment a : CohortData.assessments) {
-									CohortData.writeAssessment(a, CohortCreator.newCohort.newConn.getConnection());
+								else {
+									feedback = "Cohort has been created, but no units were available.\nPlease exit and log back in to set up the new cohort.";
+									pureSuccess = false;
 								}
-							}
-							if(btnSubassessments.getSelection()) {
-								for (SubAssessment s : CohortData.subassessments) {
-									CohortData.writeSubassessment(s, CohortCreator.newCohort.newConn.getConnection());
+								
+								for (TreeItem i : staffTree.getItems()) {
+									if (i.getChecked()) {
+										Staff s = Staff.getStaffByID(i.getText());
+										CohortData.writeStaff(s, CohortCreator.newCohort.newConn.getConnection());
+									}
 								}
+								CohortCreator.finaliseSetup();
+								String label; 
+								if (pureSuccess) label = "COHORT CREATED";
+								else label = "CAUTION";
+								PopupWindow.popupMessage(staffTree.getShell(), feedback, label);
+								
+							} catch (Exception e) {
+								PopupWindow.popupMessage(staffTree.getShell(), "There was an error creating the new cohort." +
+										"\nPlease delete the " + newCohort + " directory (if it exists) and try again.\n" + e, "WARNING");
+								System.err.print(e);
+								CohortCreator.finaliseSetup();
 							}
-							for (TreeItem i : staffTree.getItems()) {
-								if (i.getChecked()) {
-									Staff s = Staff.getStaffByID(i.getText());
-									CohortData.writeStaff(s, CohortCreator.newCohort.newConn.getConnection());
-								}
-							}
-							
-							
-							CohortCreator.finaliseSetup(false); //TODO
 						}
 						else {
-							//TODO return 
+							PopupWindow.popupMessage(staffTree.getShell(), "There was an error creating the new cohort." +
+									"\nPlease delete the " + newCohort + " directory (if it exists) and try again.", "WARNING");
+							CohortCreator.finaliseSetup();
 						}
 						
 					} catch (Exception e) {
-						System.err.print(e); // TODO
+						PopupWindow.popupMessage(staffTree.getShell(), "There was an error creating the new cohort." +
+								"\nPlease delete the " + newCohort + " directory (if it exists) and try again.\n" + e, "WARNING");
+						System.err.print(e);
+						CohortCreator.finaliseSetup();
 					}
 				}
 				else {

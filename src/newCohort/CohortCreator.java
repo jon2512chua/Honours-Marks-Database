@@ -1,5 +1,6 @@
 package newCohort;
 
+import gui.PopupWindow;
 import sessionControl.DerbyUtils;
 import sessionControl.Directories;
 
@@ -46,16 +47,11 @@ public class CohortCreator {
 	 * This method is called once the setup of the new cohort is finalised
 	 * 
 	 * @param useNow
-	 *            - true if the user wants to swap to this database immediately
+	 *            - if setup was successful
 	 */
-	public static void finaliseSetup(boolean useNow) {
-		if (useNow) {
-			// TODO swap to this cohort
-			newCohort = null;
-		} else {
-			newCohort = null; // clear the newCohort, as it has already been
-								// saved.
-		}
+	public static void finaliseSetup() {
+			newCohort = null; 
+			// TODO maybe make this more thorough
 	}
 	
 	/**

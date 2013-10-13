@@ -7,10 +7,10 @@ import java.util.logging.*;
 import sessionControl.Session;
 
 public class BaseStaff {
-    private StringBuffer staffID = new StringBuffer (30);
-    private StringBuffer firstName = new StringBuffer (30);
-    private StringBuffer lastName = new StringBuffer (30);
-    private PriorityQueue<Mark> marks;
+    public StringBuffer staffID = new StringBuffer (30);
+    public StringBuffer firstName = new StringBuffer (30);
+    public StringBuffer lastName = new StringBuffer (30);
+    public PriorityQueue<Mark> marks;
     
     public BaseStaff(int staffID) {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

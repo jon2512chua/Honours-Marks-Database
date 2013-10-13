@@ -136,7 +136,11 @@ public class DisplayReport_PopulateStudent {
 			ti.setText(TreeItemMap.get(ti).toString());
 			
 			for ( TreeItem ti2 : ti.getItems() ) {
-				ti.setText(1, TreeItemMap.get(ti2).toString());
+				try {
+					ti.setText(1, TreeItemMap.get(ti2).toString());
+				} catch (java.lang.NullPointerException e) {
+					ti.setText(1, "");
+				}
 			}
 		}
 	}

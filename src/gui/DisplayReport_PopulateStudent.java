@@ -5,6 +5,8 @@ import java.util.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -134,8 +136,6 @@ public class DisplayReport_PopulateStudent {
 			e.printStackTrace();
 		}
 
-		refreshAll(studentTree);
-
 		//Listener to automatically resize Student Report column widths.
 		DisplayReport.autoResizeColumn(studentTree);
 
@@ -159,6 +159,14 @@ public class DisplayReport_PopulateStudent {
 				//TODO: export here
 			}
 		});
+		
+		//Listener to auto-update displayed data (currently untested)
+		refreshAll(studentTree);
+		reportTabFolder.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				refreshAll(studentTree);
+			}
+		});
 
 	}
 
@@ -176,7 +184,7 @@ public class DisplayReport_PopulateStudent {
 	
 	/**
 	 * Called recursively by refreshAll(), to refresh groups of data
-	 * @param parent the TreeItem whose shilder are to be refreshed.
+	 * @param parent the TreeItem whose children are to be refreshed.
 	 */
 	private static void refreshLevel(TreeItem parent) {
 		for ( TreeItem ti : parent.getItems() ) {

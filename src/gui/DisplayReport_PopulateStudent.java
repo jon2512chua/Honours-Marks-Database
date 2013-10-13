@@ -101,6 +101,28 @@ public class DisplayReport_PopulateStudent {
 					for (Assessment a : assessments) {
 						TreeItem assessment = new TreeItem(unit, SWT.NONE);
 						TreeItemMap.put(assessment, a.name);
+						
+						TreeItem assessmentPercentUnit = new TreeItem(assessment, SWT.NONE);
+						TreeItemMap.put(assessmentPercentUnit, a.unitPercent);
+						assessmentPercentUnit.setText(0, "Precent of Unit");
+						
+						TreeItem assessmentMark = new TreeItem(assessment, SWT.NONE);
+						TreeItemMap.put(assessmentMark, a.mark);
+						assessmentMark.setText(0, "Mark");
+						
+						List<SubAssessment> subAssessments = a.getSubAssessments();
+						for (SubAssessment sa : subAssessments) {
+							TreeItem subAssessment = new TreeItem(assessment, SWT.NONE);
+							TreeItemMap.put(subAssessment, sa.name);
+							
+							TreeItem subAssessmentsPercentAssessment = new TreeItem(subAssessment, SWT.NONE);
+							TreeItemMap.put(subAssessmentsPercentAssessment, sa.assessmentPercent);
+							subAssessmentsPercentAssessment.setText(0, "Precent of Assessment");
+							
+							TreeItem subAssessmentMaxMark = new TreeItem(subAssessment, SWT.NONE);
+							TreeItemMap.put(subAssessmentMaxMark, sa.maxMark);
+							subAssessmentMaxMark.setText(0, "Maximum Mark");
+						}
 					}
 				}
 
@@ -140,33 +162,22 @@ public class DisplayReport_PopulateStudent {
 
 	}
 
+	/**
+	 * Refreshes all data displayed in the tree
+	 * @param tree the tree which is to be refreshed
+	 */
 	public static void refreshAll(Tree tree) {
 		for ( TreeItem ti : tree.getItems() ) {
 			ti.setText(TreeItemMap.get(ti).toString());
 			
 			refreshLevel(ti);
-
-			/*for ( TreeItem ti2 : ti.getItems() ) {
-				try {
-					if (ti2.getText(0).length() > 2)
-						ti2.setText(1, TreeItemMap.get(ti2).toString());
-					else ti2.setText(0, TreeItemMap.get(ti2).toString());
-				} catch (java.lang.NullPointerException e) {
-					ti2.setText(1, "");
-				}
-				for ( TreeItem ti3 : ti2.getItems() ) {
-					try {
-						if (ti3.getText(0).length() > 2)
-							ti3.setText(1, TreeItemMap.get(ti3).toString());
-						else ti3.setText(0, TreeItemMap.get(ti3).toString());
-					} catch (java.lang.NullPointerException e) {
-						ti3.setText(1, "");
-					}
-				}
-			}*/
 		}
 	}
 	
+	/**
+	 * Called recursively by refreshAll(), to refresh groups of data
+	 * @param parent the TreeItem whose shilder are to be refreshed.
+	 */
 	private static void refreshLevel(TreeItem parent) {
 		for ( TreeItem ti : parent.getItems() ) {
 			try {

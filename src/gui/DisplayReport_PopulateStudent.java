@@ -24,7 +24,7 @@ import orm.*;
  * @author Tim Lander
  */
 public class DisplayReport_PopulateStudent {
-	static Map<TreeItem, StringBuffer> TreeItemMap = new HashMap<TreeItem, StringBuffer>();
+	private static Map<TreeItem, StringBuffer> TreeItemMap = new HashMap<TreeItem, StringBuffer>();
 
 	/**
 	 * Populates the Student Report

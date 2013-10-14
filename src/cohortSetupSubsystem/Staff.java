@@ -7,8 +7,8 @@ package cohortSetupSubsystem;
 import java.util.PriorityQueue;
 
 /**
- *
- * @author nickos
+ * THIS CLASS IS NOT IN USE -> IT WAS FROM AN EARLIER PROTOTYPING VERSION
+ * @author Nicholas Abbey
  */
 @SuppressWarnings("unused")	//TODO: remove later
 public class Staff {

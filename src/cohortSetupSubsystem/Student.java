@@ -2,7 +2,10 @@ package cohortSetupSubsystem;
 
 import java.util.Iterator;
 import java.util.List;
-
+/**
+ * THIS CLASS IS NOT IN USE -> IT WAS FROM AN EARLIER PROTOTYPING VERSION
+ * @author Nicholas Abbey
+ */
 public class Student {
 
 

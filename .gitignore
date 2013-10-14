@@ -1,3 +1,5 @@
+.settings/
+
 *.class
 *.properties
 
@@ -14,10 +16,12 @@ nbproject/
 icon.png
 .classpath
 .project
+sampleCohortData.xls
 
 # Database Files #
 db/*
 derby.log
+config/*
 
 # Build and Deployment Files #
 /build/

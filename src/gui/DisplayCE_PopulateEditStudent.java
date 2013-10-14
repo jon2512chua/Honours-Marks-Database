@@ -1,9 +1,12 @@
 package gui;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import logic.CohortData;
 
 import newCohort.CohortImporter;
 
@@ -161,16 +164,16 @@ public class DisplayCE_PopulateEditStudent {
 		TreeItem newStudent = new TreeItem(studentTree, SWT.NONE);
 		newStudent.setText(new String[] {"+", "Add New Student"});
 
-		List<Student> allStudents = Student.getAllStudents();
-		for (Student s : allStudents) {
+//		List<Student> allStudents = Student.getAllStudents();
+		for (Student s : CohortData.students) {
 			TreeItem student = new TreeItem(studentTree, SWT.NONE);
 			TreeItemMap.put(student, new StringBuffer[]{s.studentID, s.firstName, s.lastName});
 		}
 
 		refreshTree(studentTree);
 
-		List<Staff> allStaff = Staff.getAllStaff();
-		for (Staff s : allStaff) {
+//		List<Staff> allStaff = Staff.getAllStaff();
+		for (Staff s : CohortData.staff) {
 			TreeItem supervisor = new TreeItem(supervisorTree, SWT.NONE);
 			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});
 			TreeItemMap.put(supervisor, new StringBuffer[]{s.staffID, s.firstName, s.lastName});
@@ -218,6 +221,7 @@ public class DisplayCE_PopulateEditStudent {
 				if (studentTree.getSelectionCount() == 1)  {
 					TreeItem item = studentTree.getSelection()[0];
 					populateSelectedData(Student.getStudentByID(item.getText()));
+					// TODO lock student number 
 				}
 			}
 		});
@@ -235,7 +239,7 @@ public class DisplayCE_PopulateEditStudent {
 			lastName.setText(student.getLastName()+"");
 			firstName.setText(student.getFirstName()+"");
 			dissertationTitle.setText(student.getDissTitle()+"");
-			//TODO: supervisor/s
+			//TODO: supervisor/s NLA!
 			for (TreeItem ti : supervisorTree.getItems()) {
 				ti.setChecked(false);
 				List<Staff> supervisors = student.getSupervisors();
@@ -261,13 +265,15 @@ public class DisplayCE_PopulateEditStudent {
 	}
 
 	private static void saveData(Student student) {
-		try {														//Entered values
+		try {									
 			student.setTitle(title.getText());
 			student.setLastName(lastName.getText());
 			student.setFirstName(firstName.getText());
 			student.setDissTitle(dissertationTitle.getText());
 			student.saveStudent();
-			//TODO: supervisor/s
+			//TODO Supervisors
+			student.updateRow();
+			refreshTree(studentTree); //TODO is this needed?
 
 			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
 		} catch (java.lang.NullPointerException e) {				//Default values
@@ -283,6 +289,8 @@ public class DisplayCE_PopulateEditStudent {
 			studentTree.setSelection(studentTreeItem);	//TODO: does not seem to work properly
 			PopupWindow.popupMessage(studentTree.getShell(), "New student created successfully", "Save Successful");
 			refreshTree(studentTree);
+		} catch (SQLException e) {			
+			e.printStackTrace(); //TODO fix and remove
 		}
 	}
 

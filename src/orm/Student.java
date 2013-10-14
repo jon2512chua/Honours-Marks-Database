@@ -15,6 +15,19 @@ public class Student extends BaseStudent {
         super(studentID, firstName, lastName, title, dissTitle, disciplineName, courseMark, grade, supervisors);
     }
     
+    /**
+     * A method for updating a single row of the Student table - this is called when the save changes button is hit.
+     * Note that student number is omitted so that it can never be changed 
+     * @throws SQLException 
+     */
+    public void updateRow() throws SQLException {
+    	Session.dbConn.getConnection().createStatement().execute("" +
+    			"UPDATE Student SET FirstName = '"+this.getFirstName().toString()+"', LastName = '"+this.getLastName().toString()+"', Title = '"+this.getTitle().toString()+"', DissTitle = '"+this.getDissTitle().toString()+"', Discipline = '"+this.getDisciplineName().toString()+"', Mark = "+this.getCourseMark()+", Grade = '"+this.getGrade().toString()+"' WHERE StudentID = " + this.getStudentID());	   
+    }
+    
+ 
+    
+    
     public static List<Student> getAllStudents() {
         List<Student> allStudents = new ArrayList<>();
         

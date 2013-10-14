@@ -91,7 +91,7 @@ public class BaseAssessment {
     
     public BaseAssessment(int assessmentID, String name, Unit parentUnit, int unitPercent) {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-            s.execute("INSERT INTO Assessment VALUES ('" + assessmentID + "', '" + name + "', '" + parentUnit.getUnitCode() + "', " + unitPercent + ")");
+            s.execute("INSERT INTO Assessment(AssessmentName, UnitCode, UnitPercent) VALUES ('" + name + "', '" + parentUnit.getUnitCode() + "', " + unitPercent + ")");
             
             setAssessmentID(assessmentID);
             setName(name);

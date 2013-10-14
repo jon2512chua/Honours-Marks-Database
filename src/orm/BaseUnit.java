@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import sessionControl.Session;
 
 public class BaseUnit {
-	public StringBuffer unitCode = new StringBuffer (30);
+    public StringBuffer unitCode = new StringBuffer (30);
     public StringBuffer name = new StringBuffer (30);
     public StringBuffer points = new StringBuffer (30);
     public StringBuffer mark = new StringBuffer (30);

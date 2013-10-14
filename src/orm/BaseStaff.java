@@ -22,7 +22,7 @@ public class BaseStaff {
             setStaffID(staffID);
             setFirstName(staffRS.getString("FirstName"));
             setLastName(staffRS.getString("LastName"));
-            // TODO: Figure out what the marks represent.
+            setMarks(getSortedMarks(staffID));
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -58,5 +58,20 @@ public class BaseStaff {
     
     public void setMarks(PriorityQueue<Mark> marks) {
         this.marks = marks;
+    }
+    
+    private PriorityQueue<Mark> getSortedMarks(int staffID) {
+        PriorityQueue<Mark> marksQueue = new PriorityQueue<>();
+        
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet markRS = s.executeQuery("SELECT * FROM SubAssessmentMark WHERE MarkerID=" + staffID)) {
+            while (markRS.next()) {
+                marksQueue.add(new Mark(markRS.getInt("SubAssessmentID"), markRS.getInt("StudentID"), staffID, new SubAssessment(markRS.getInt("SubAssessmentID"))));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return marksQueue;
     }
 }

@@ -3,6 +3,8 @@ package orm;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,6 +47,26 @@ public class BaseMark {
         }
     }
     
+    public BaseMark(double value, String report, boolean insideRange, int markerID, int studentID, SubAssessment parentSubAssessment) {
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+            s.execute("INSERT INTO SubAssessmentMark VALUES ("
+                    + value + ", "
+                    + markerID + ", "
+                    + studentID + ", "
+                    + parentSubAssessment.getSubAssessmentID() + ", '"
+                    + (getInsideRange() ? 1 : 0) +"', '"
+                    + report + "')");
+            
+            setValue(value);
+            setReport(report);
+            setInsideRange(insideRange);
+            setMarkerID(markerID);
+            setStudentID(studentID);
+            setParentSubAssessment(parentSubAssessment);
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public double getValue() {
     	return Double.parseDouble(value+"");

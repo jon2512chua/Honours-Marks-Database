@@ -92,6 +92,22 @@ public class BaseUnit {
         }
     }
     
+    public BaseUnit(String unitCode, String name, int points) throws SQLException {
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+            s.execute("INSERT INTO Unit VALUES ('"
+                    + unitCode + "', '"
+                    + name + "', "
+                    + points + ")");
+            
+            setUnitCode(unitCode);
+            setName(name);
+            setPoints(points);
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+    }
+    
     public StringBuffer getUnitCode() {
         return unitCode;
     }

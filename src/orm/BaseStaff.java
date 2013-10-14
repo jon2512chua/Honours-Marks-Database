@@ -28,6 +28,22 @@ public class BaseStaff {
         }
     }
     
+    public BaseStaff(int staffID, String firstName, String lastName) {
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+            s.execute("INSERT INTO Staff VALUES ("
+                    + staffID + ", '"
+                    + firstName + "', '"
+                    + lastName + "')");
+            
+            setStaffID(staffID);
+            setFirstName(firstName);
+            setLastName(lastName);
+            setMarks(new PriorityQueue<Mark>());
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public int getStaffID() {
         return Integer.parseInt(staffID+"");
     }

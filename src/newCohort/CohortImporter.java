@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Iterator;
 
+import logic.CohortData;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -119,9 +121,13 @@ public class CohortImporter {
 					}
 					i++;
 				} while (supID != -1);
-
-				new BaseStudent(sID, fn, ln, title, dissTit, disc, 0, "N/A", supers); // TODO create wrapper
-				//BaseStudent(int studentID, String firstName, String lastName, String title, String dissTitle, String disciplineName, double courseMark, String grade, List<Staff> supervisors) {
+				System.out.println(fn + ln); //TODO rem
+				try {
+					Student s = new Student(sID, fn, ln, title, dissTit, disc, 0, "NA", supers);
+					CohortData.students.add(s); // TODO what should initial grade be?
+				} catch (Exception e) {
+					System.out.println(e);
+				}
 			}
 			file.close();
 			return importErrors;

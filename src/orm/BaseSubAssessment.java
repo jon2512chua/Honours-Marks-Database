@@ -11,8 +11,8 @@ import sessionControl.Session;
 
 public class BaseSubAssessment {
 
-	private int subAssessmentID;
-	public StringBuffer name = new StringBuffer (30);
+    private int subAssessmentID;
+    public StringBuffer name = new StringBuffer (30);
     private Assessment parentAssessment;
     public StringBuffer maxMark = new StringBuffer (30);
     public StringBuffer assessmentPercent = new StringBuffer (30);

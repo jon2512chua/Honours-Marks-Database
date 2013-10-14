@@ -89,7 +89,7 @@ public class BaseAssessment {
         }
     }
     
-    public BaseAssessment(int assessmentID, String name, Unit parentUnit, int unitPercent) {
+    public BaseAssessment(int assessmentID, String name, Unit parentUnit, int unitPercent) throws SQLException {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
             s.execute("INSERT INTO Assessment(AssessmentName, UnitCode, UnitPercent) VALUES ('" + name + "', '" + parentUnit.getUnitCode() + "', " + unitPercent + ")");
             
@@ -100,6 +100,7 @@ public class BaseAssessment {
             setUnitPercent(unitPercent);
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
         }
     }
     

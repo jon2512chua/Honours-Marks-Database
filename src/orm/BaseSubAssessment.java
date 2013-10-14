@@ -74,7 +74,7 @@ public class BaseSubAssessment {
         }
     }
     
-    public BaseSubAssessment(String name, Assessment parentAssessment, int assessmentPercent, int maxMark) {
+    public BaseSubAssessment(String name, Assessment parentAssessment, int assessmentPercent, int maxMark) throws SQLException {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
             s.execute("INSERT INTO SubAssessment(SubAssessmentName, AssessmentID, AssessmentPercent, MaxMarks) VALUES ('"
                     + name + "', "
@@ -91,6 +91,7 @@ public class BaseSubAssessment {
             setMarks(null);
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
         }
     }
     

@@ -28,7 +28,7 @@ public class BaseStaff {
         }
     }
     
-    public BaseStaff(int staffID, String firstName, String lastName) {
+    public BaseStaff(int staffID, String firstName, String lastName) throws SQLException {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
             s.execute("INSERT INTO Staff VALUES ("
                     + staffID + ", '"
@@ -41,6 +41,7 @@ public class BaseStaff {
             setMarks(new PriorityQueue<Mark>());
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
         }
     }
     

@@ -47,7 +47,7 @@ public class BaseUnit {
         }
     }
     
-    public BaseUnit(String unitCode, int studentID) {
+    public BaseUnit(String unitCode, int studentID) throws SQLException {
     	this.assessments = new ArrayList<>();
     	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -62,6 +62,7 @@ public class BaseUnit {
             setPoints(unitRS.getInt("Points"));
         } catch (SQLException ex) {
             Logger.getLogger(BaseUnit.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
         }
     	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -73,6 +74,7 @@ public class BaseUnit {
             setMark(unitmarkRS.getDouble("Mark"));
         } catch (SQLException ex) {
             Logger.getLogger(BaseUnit.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
         }
     	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -86,6 +88,7 @@ public class BaseUnit {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BaseUnit.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
         }
     }
     

@@ -14,20 +14,7 @@ public class Student extends BaseStudent {
     public Student(int studentID, String firstName, String lastName, String title, String dissTitle, String disciplineName, double courseMark, String grade, List<Staff> supervisors) {
         super(studentID, firstName, lastName, title, dissTitle, disciplineName, courseMark, grade, supervisors);
     }
-    
-    /**
-     * A method for updating a single row of the Student table - this is called when the save changes button is hit.
-     * Note that student number is omitted so that it can never be changed 
-     * @throws SQLException 
-     */
-    public void updateRow() throws SQLException {
-    	Session.dbConn.getConnection().createStatement().execute("" +
-    			"UPDATE Student SET FirstName = '"+this.getFirstName().toString()+"', LastName = '"+this.getLastName().toString()+"', Title = '"+this.getTitle().toString()+"', DissTitle = '"+this.getDissTitle().toString()+"', Discipline = '"+this.getDisciplineName().toString()+"', Mark = "+this.getCourseMark()+", Grade = '"+this.getGrade().toString()+"' WHERE StudentID = " + this.getStudentID());	   
-    }
-    
- 
-    
-    
+        
     public static List<Student> getAllStudents() {
         List<Student> allStudents = new ArrayList<>();
         
@@ -73,4 +60,51 @@ public class Student extends BaseStudent {
 		}
     	return null;
     }
+    
+    /**
+     * Check if a Student is supervised by a certain staff member
+     * @author Nicholas Abbey
+     * @param supID the id of a supervisor to be found
+     * @return
+     */
+    public boolean hasSupervisor (int supID) {
+    	for (Staff s : this.supervisors) {
+    		if(s.getStaffID() == supID) return true;
+    	}
+    	return false;
+    }
+    /**
+     * Add a supervisor to this student
+     * @param s
+     * @throws SQLException 
+     */
+    public void addSupervisor(Staff s) throws SQLException {
+    	this.supervisors.add(s);
+    	String sql = "Insert into Supervises values (" + this.getStudentID() + " , " + s.getStaffID() + ")";
+    	System.out.println("ROW INSERT: " + sql); //TODO delete
+    	Session.dbConn.getConnection().createStatement().execute(sql);
+    }
+    /**
+     * Delete a supervisor to this student
+     * @param s
+     * @throws SQLException 
+     */
+    public void deleteSupervisor(Staff s) throws SQLException {
+    	this.supervisors.remove(s);
+    	String sql = "Delete from Supervises WHERE StudentID = " + this.getStudentID() + " and StaffID = " + s.getStaffID() + ")";
+    	System.out.println("ROW DELETE: " + sql); //TODO delete
+    	Session.dbConn.getConnection().createStatement().execute(sql);
+    }
+    
+    /**
+     * A method for updating a single row of the Student table - this is called when the save changes button is hit.
+     * Note that student number is omitted so that it can never be changed 
+     * @throws SQLException 
+     */
+    public void updateRow() throws SQLException {
+    	String sql = "UPDATE Student SET FirstName = '"+this.getFirstName().toString()+"', LastName = '"+this.getLastName().toString()+"', Title = '"+this.getTitle().toString()+"', DissTitle = '"+this.getDissTitle().toString()+"', Discipline = '"+this.getDisciplineName().toString()+"', Mark = "+this.getCourseMark()+", Grade = '"+this.getGrade().toString()+"' WHERE StudentID = " + this.getStudentID();
+    	System.out.println("ROW UPDATE: " + sql); //TODO delete
+    	Session.dbConn.getConnection().createStatement().execute(sql);	   
+    }
+    
 }

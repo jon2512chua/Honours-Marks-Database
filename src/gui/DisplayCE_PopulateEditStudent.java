@@ -11,6 +11,7 @@ import logic.CohortData;
 import newCohort.CohortImporter;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
@@ -164,7 +165,6 @@ public class DisplayCE_PopulateEditStudent {
 		TreeItem newStudent = new TreeItem(studentTree, SWT.NONE);
 		newStudent.setText(new String[] {"+", "Add New Student"});
 
-//		List<Student> allStudents = Student.getAllStudents();
 		for (Student s : CohortData.students) {
 			TreeItem student = new TreeItem(studentTree, SWT.NONE);
 			TreeItemMap.put(student, new StringBuffer[]{s.studentID, s.firstName, s.lastName});
@@ -172,7 +172,7 @@ public class DisplayCE_PopulateEditStudent {
 
 		refreshTree(studentTree);
 
-//		List<Staff> allStaff = Staff.getAllStaff();
+//		List<Staff> allStaff = Staff.getAllStaff(); replaced! TODO everyone look, this is how data should be accessed
 		for (Staff s : CohortData.staff) {
 			TreeItem supervisor = new TreeItem(supervisorTree, SWT.NONE);
 			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});
@@ -220,15 +220,17 @@ public class DisplayCE_PopulateEditStudent {
 			public void widgetSelected(SelectionEvent e) {
 				if (studentTree.getSelectionCount() == 1)  {
 					TreeItem item = studentTree.getSelection()[0];
-					populateSelectedData(Student.getStudentByID(item.getText()));
-					// TODO lock student number 
+					Student s = Student.getStudentByID(item.getText());
+					populateSelectedData(s);
+					for(TreeItem t : supervisorTree.getItems()) {
+						if(s.hasSupervisor(Integer.parseInt(t.getText(0)))) {
+							t.setChecked(true);
+						}
+					}
 				}
 			}
 		});
-
-
 		tbtmEditStudent.setControl(editStudentComposite);
-
 	}
 
 	//TODO: fix
@@ -271,12 +273,26 @@ public class DisplayCE_PopulateEditStudent {
 			student.setFirstName(firstName.getText());
 			student.setDissTitle(dissertationTitle.getText());
 			student.saveStudent();
-			//TODO Supervisors
+			
+			for(TreeItem t : supervisorTree.getItems()) {
+				int supID = Integer.parseInt(t.getText(0));
+				if(t.getChecked()) {
+					if(!student.hasSupervisor(supID)) {
+						student.addSupervisor(Staff.getStaffByID(supID+""));
+					}
+				}
+				else {
+					if(student.hasSupervisor(supID)) {
+						student.deleteSupervisor(Staff.getStaffByID(supID+""));
+					}
+				}
+			}
+			
 			student.updateRow();
 			refreshTree(studentTree); //TODO is this needed?
 
 			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
-		} catch (java.lang.NullPointerException e) {				//Default values
+		} catch (java.lang.NullPointerException e) {
 			Student newStudent = new Student(
 					Integer.parseInt(studentNumber.getText()), 
 					firstName.getText(), lastName.getText(), title.getText(), dissertationTitle.getText(),

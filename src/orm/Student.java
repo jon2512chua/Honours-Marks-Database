@@ -91,7 +91,7 @@ public class Student extends BaseStudent {
      */
     public void deleteSupervisor(Staff s) throws SQLException {
     	this.supervisors.remove(s);
-    	String sql = "Delete from Supervises WHERE StudentID = " + this.getStudentID() + " and StaffID = " + s.getStaffID() + ")";
+    	String sql = "Delete from Supervises WHERE StudentID = " + this.getStudentID() + " and StaffID = " + s.getStaffID();
     	System.out.println("ROW DELETE: " + sql); //TODO delete
     	Session.dbConn.getConnection().createStatement().execute(sql);
     }

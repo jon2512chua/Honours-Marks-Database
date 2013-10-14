@@ -1,6 +1,5 @@
 package newCohort;
 
-import gui.PopupWindow;
 import sessionControl.DerbyUtils;
 import sessionControl.Directories;
 

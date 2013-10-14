@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import newCohort.CohortImporter;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -75,9 +77,12 @@ public class DisplayCE_PopulateEditStudent {
 				fd.setFilterPath(System.getProperty("user.home"));
 				fd.setFilterExtensions(new String[]{ "*.xlsx", "*.xls", "*.*" });
 				String selected = fd.open();
-
-				//TODO: importing. Returns null if cancel is pressed
+		
 				System.out.println(selected);	//TODO: delete me
+				if(selected != null) { 
+					String importReport = CohortImporter.importFromFile(selected).toString();
+					PopupWindow.popupMessage(CETabFolder.getShell(), importReport, "RESULTS");
+				}
 			}
 		});
 

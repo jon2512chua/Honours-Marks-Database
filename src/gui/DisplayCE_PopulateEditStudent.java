@@ -230,7 +230,6 @@ public class DisplayCE_PopulateEditStudent {
 			lastName.setText(student.getLastName()+"");
 			firstName.setText(student.getFirstName()+"");
 			dissertationTitle.setText(student.getDissTitle()+"");
-			//TODO: supervisor/s NLA!
 			for (TreeItem ti : supervisorTree.getItems()) {
 				ti.setChecked(false);
 				List<Staff> supervisors = student.getSupervisors();

@@ -78,9 +78,14 @@ public class DisplayReport_PopulateUnit {
 		});
 
 		//Listener for Export button
-		treeTop[1].addListener(SWT.Selection, new Listener() {
+		treeTop[2].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				//TODO: export here
+				try {
+					export.ToExcel.unitSummaries("testunit.xls");
+					PopupWindow.popupMessage(markerTree.getShell(), "Export Successful!", "Success!");
+				} catch (Exception e) {
+					PopupWindow.popupMessage(markerTree.getShell(), e.toString(), "ERROR");
+				} 
 			}
 		});
 

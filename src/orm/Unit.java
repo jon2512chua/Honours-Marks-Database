@@ -75,17 +75,4 @@ public class Unit extends BaseUnit {
     	stmt.execute(sql);
     	stmt.close();
     }
-    /**
-     * Get a unit by unit code
-     * @param unitCode
-     * @return the unit, or null if not found
-     */
-    public static Unit getUnitByUnitCode(String unitCode) {
-    	for(Unit u : CohortData.units) {
-    		if(u.getUnitCode().toString().equals(unitCode)) {
-    			return u;
-    		}
-    	}
-    	return null;
-    }
 }

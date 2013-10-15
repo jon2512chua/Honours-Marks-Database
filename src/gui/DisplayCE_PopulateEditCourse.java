@@ -1,5 +1,8 @@
 package gui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -7,6 +10,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -22,6 +27,7 @@ public class DisplayCE_PopulateEditCourse {
 	private static Text points;
 	private static Text courseName;
 	private static Text courseCode;
+	private static Map<TreeItem, StringBuffer[]> TreeItemMap = new HashMap<TreeItem, StringBuffer[]>();
 
 	/**
 	 * Populates the Edit Unit Tab
@@ -95,11 +101,67 @@ public class DisplayCE_PopulateEditCourse {
 		Button[] btnSaveDiscard = CommonButtons.addSaveChangesDeleteButton(rComposite, "Course");
 
 		tbtmEditCourse.setControl(editCourseComposite);
-
+		/*TODO
+		for (Course c : CohortData.units) {
+			TreeItem unit = new TreeItem(courseTree, SWT.NONE);
+			TreeItemMap.put(unit, new StringBuffer[]{c.unitCode, c.name});
+		}*/
+		
+		refreshTree(courseTree);
+		
 		for (TreeColumn tc : courseTree.getColumns()) tc.pack();
 		courseTree.pack();
-		//End replace
+		/*TODO
+		courseTree.addListener(SWT.Selection,new Listener() {
+			public void handleEvent(Event event) {
+				TreeItem[] selected = courseTree.getSelection();
+				if (selected.length != 0) {
+					String[] selectedString = selected[0].getText().split(" ");
+					if (courseTree.indexOf(courseTree.getSelection()[0]) == 0) {
+						courseCode.setText("");
+						courseName.setText("");
+						points.setText("");
+					} else {
+						Course c = Course.getUnitByCode(selectedString[0]);
+						populateSelectedData(c);
+						//TODO populate unit data when clicked
+					}
+				}
+			}
+		});
+		*/
+	
+	}
+	
+	/**
+	 * Displays data relevant to which student was clicked on.
+	 * @param student the student that was clicked on
+	 */
+	/*TODO
+	private static void populateSelectedData(Course unit) {
+		try {														//Found values
+			courseCode.setText(unit.getUnitCode()+"");
+			courseName.setText(unit.getName()+"");
+			points.setText(unit.getPoints()+"");
 
+		} catch (java.lang.NullPointerException e) {				//Default values
+			courseCode.setText(unit.getUnitCode()+"");
+			courseName.setText(unit.getName()+"");
+			points.setText(unit.getPoints()+"");
+
+		}
+	}*/
+	
+	/**
+	 * Refreshes all data displayed in the tree
+	 * @param tree the tree which is to be refreshed
+	 */
+	public static void refreshTree(Tree tree) {
+		for ( TreeItem ti : tree.getItems() ) {
+			try {
+				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString() + " " + TreeItemMap.get(ti)[1].toString()});
+			} catch (java.lang.NullPointerException e) {}
+		}
 	}
 
 }

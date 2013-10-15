@@ -20,10 +20,10 @@ public class Assessment extends BaseAssessment {
         
         try {
             Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet assessmentRS = s.executeQuery("SELECT UnitCode FROM Student");
+            ResultSet assessmentRS = s.executeQuery("SELECT AssessmentID FROM Assessment");
             
             while (assessmentRS.next()) {
-                allAssessments.add(new Assessment(assessmentRS.getInt("UnitCode")));
+                allAssessments.add(new Assessment(assessmentRS.getInt("AssessmentID")));
             }
         } catch (java.lang.NullPointerException | SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);

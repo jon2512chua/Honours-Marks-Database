@@ -1,3 +1,4 @@
+.gitignore
 *.class
 *.properties
 
@@ -9,13 +10,31 @@
 # IDE Files #
 nbproject/
 
-# Miscellaeneous Files #
-.DS_Store
-
 # Database Files #
-db/
+db/*
 derby.log
+config/*
 
 # Build and Deployment Files #
 /build/
 /dist/
+bin/*
+
+# Miscellaeneous Files #
+.DS_Store
+icon.png
+.classpath
+.project
+sampleCohortData.xls
+/settings
+.settings/
+/bin
+/bin
+/bin
+/HMD
+/bin
+/bin
+/bin
+/bin
+/bin
+/bin

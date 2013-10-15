@@ -49,13 +49,13 @@ public class DisplayReport {
 
 	/**
 	 * Generates a report tree in the following tabFolder
-	 * @param tabFolder the tabFolder which contains the tree
+	 * @param composite the tabFolder which contains the tree
 	 * @param column1Name the title of the first column
 	 * @param column2Name the title of the second column
 	 * @return the generated tree
 	 */
-	public static Tree createReportTree(CTabFolder tabFolder, String column1Name, String column2Name) {
-		final Tree tree = new Tree(tabFolder, SWT.BORDER | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
+	public static Tree createReportTree(Composite composite, String column1Name, String column2Name) {
+		final Tree tree = new Tree(composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
 		TreeColumn lColumn = new TreeColumn(tree, SWT.LEFT);
 		lColumn.setText(column1Name);
 		lColumn.setWidth(MainUI.LColumnWidth);

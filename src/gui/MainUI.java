@@ -20,6 +20,7 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
 
 import sessionControl.DerbyUtils;
+
 import org.eclipse.swt.widgets.Label;
 
 
@@ -71,7 +72,12 @@ public class MainUI {
 
 		Label lblSemester = new Label(nowViewingComposite, SWT.NONE);
 		lblSemester.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		lblSemester.setText(sessionControl.Session.currentFocus.substring(0, 4) + " - Semester " + sessionControl.Session.currentFocus.substring(4));
+		try {
+			lblSemester.setText(sessionControl.Session.currentFocus.substring(0, 4) + " - Semester " + sessionControl.Session.currentFocus.substring(4));
+		} catch (java.lang.StringIndexOutOfBoundsException e) {
+			lblSemester.setText("No Cohort Loaded");
+		}
+
 
 
 		final Composite displayComposite = new Composite(shell, SWT.NONE);
@@ -98,28 +104,28 @@ public class MainUI {
 
 		Button btnReports = new Button(menuComposite, SWT.NONE);
 		GridData gd_btnReports = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnReports.heightHint = 30;
+		gd_btnReports.heightHint = 33;
 		btnReports.setLayoutData(gd_btnReports);
 		btnReports.setAlignment(SWT.LEFT);
 		btnReports.setText("Reports");
 
 		Button btnEnterMarks = new Button(menuComposite, SWT.NONE);
 		GridData gd_btnEnterMarks = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnEnterMarks.heightHint = 30;
+		gd_btnEnterMarks.heightHint = 33;
 		btnEnterMarks.setLayoutData(gd_btnEnterMarks);
 		btnEnterMarks.setAlignment(SWT.LEFT);
 		btnEnterMarks.setText("Enter Marks");
 
 		Button btnManageCohort = new Button(menuComposite, SWT.NONE);
 		GridData gd_btnManageCohort = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnManageCohort.heightHint = 30;
+		gd_btnManageCohort.heightHint = 33;
 		btnManageCohort.setLayoutData(gd_btnManageCohort);
 		btnManageCohort.setAlignment(SWT.LEFT);
 		btnManageCohort.setText("Manage Cohort");
 
 		Button btnSettings = new Button(menuComposite, SWT.NONE);
 		GridData gd_btnSettings = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnSettings.heightHint = 30;
+		gd_btnSettings.heightHint = 33;
 		btnSettings.setLayoutData(gd_btnSettings);
 		btnSettings.setAlignment(SWT.LEFT);
 		btnSettings.setText("Settings");
@@ -133,7 +139,7 @@ public class MainUI {
 
 		Button btnExit = new Button(exitComposite, SWT.NONE);
 		GridData gd_btnExit = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnExit.heightHint = 30;
+		gd_btnExit.heightHint = 33;
 		btnExit.setLayoutData(gd_btnExit);
 		btnExit.setAlignment(SWT.LEFT);
 		btnExit.setText("Exit");
@@ -199,13 +205,14 @@ public class MainUI {
 		shell.pack();
 		shell.setSize(DefaultWidth, DefaultHeight);
 		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 80);
+		shell.setMaximized(Boolean.valueOf(Settings.loadSettings("maximized", "false")));					//restores the maximized state
 		shell.open();
 
 
 		//Actions to perform when program is closed.
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent event) {
-				//TODO add close connection methods
+				Settings.saveSettings(new String[]{"maximized"}, new String[] {shell.getMaximized()+""});		//saves the maximized state
 				if(sessionControl.Session.sysConn.isConnected()) DerbyUtils.dbDisconnect(sessionControl.Session.sysConn);
 				if(sessionControl.Session.dbConn.isConnected()) DerbyUtils.dbDisconnect(sessionControl.Session.dbConn);
 				DerbyUtils.shutdownDriver();
@@ -235,6 +242,14 @@ public class MainUI {
 		showTabFolder.setSelection(tabIndex);
 		showTabFolder.getParent().getParent().layout();
 		showTabFolder.getShell().setText(title);
+	}
+	
+	public static void set_hardRefreshNeeded() {
+		DisplayReport_PopulateStudent.hardRefreshNeeded = true;
+		//TODO: uncomment once implemented.
+		//DisplayReport_PopulateCohort.hardRefreshNeeded = true;
+		//DisplayReport_PopulateMarker.hardRefreshNeeded = true;
+		//DisplayReport_PopulateUnit.hardRefreshNeeded = true;
 	}
 
 	//TODO: Tree *should* update automatically. If not, try this:

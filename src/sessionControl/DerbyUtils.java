@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,11 +39,10 @@ public class DerbyUtils {
 	}
 
 	/**
-	 * Shutdown the Derby driver. TODO This should be called for all exit
-	 * conditions!
+	 * Shutdown the Derby driver.
 	 * 
 	 * (In embedded mode, an application should shut down Derby. Shutdown throws
-	 * the XJ015 exception to confirm success)
+	 * the XJ015 exception to confirm success) -> from Derby doc
 	 **/
 	public static boolean shutdownDriver() {
 		boolean gotSQLExc = false;
@@ -88,12 +88,12 @@ public class DerbyUtils {
 
 	/**
 	 * Extract a list of SQL commands from an SQL file for execution by JDBC
-	 * NOTE: SQL file must have certain format 1. remove all ; from end of line
-	 * 2. no empty lines 3. each statement should occur on one line only (no \n
-	 * for formating)
+	 * NOTE: SQL file must have certain format 
+	 * 	1. remove all ; from end of line
+	 * 	2. no empty lines 
+	 *  3. each statement should occur on one line only (no \n for formating)
 	 * 
-	 * @param filepath
-	 *            of the SQL
+	 * @param filepath of the SQL
 	 * @return a list of the commands - these will be executed one by one.
 	 */
 	public static List<String> getSqlFromFile(String filepath) {
@@ -107,10 +107,32 @@ public class DerbyUtils {
 				line = reader.readLine();
 			}
 		} catch (IOException x) {
-			System.err.println("ERROR: Database schema could not be found at " + Directories.newCohortSql); //TODO fix exception
+			System.err.println("ERROR: Database schema could not be found at " + filepath);
 		}
 
 		return commands;
+	}
+
+	/**
+	 * Install data from sql file
+	 * @param sqlFile - the filename of the sql file
+	 * @param conn
+	 * @return
+	 */
+	public static boolean runSqlFromFile(String sqlFile, ConnectionWrapper conn) {
+		List<String> commands = getSqlFromFile(sqlFile);
+		try {
+			Statement s = conn.getConnection()
+					.createStatement();
+			for (String c : commands) {
+				s.execute(c);
+			}
+			return true;
+	
+		} catch (SQLException e) {
+			System.err.println("ERROR reading from sql file " + sqlFile + ".\nProgram reports: " + e); 
+			return false;
+		}
 	}
 
 }

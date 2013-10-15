@@ -1,9 +1,5 @@
 package newCohort;
 
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-
 import sessionControl.DerbyUtils;
 import sessionControl.Directories;
 
@@ -19,59 +15,54 @@ public class CohortCreator {
 	/**
 	 * Stores a Cohort object while it is being worked on
 	 */
-	public static Cohort newCohort;
+	public static Cohort newCohort = null;
 
 	/**
-	 * Create a new Cohort Database
+	 * Create a new Cohort Database and install schema
 	 * 
 	 * @param cohort
 	 *            - eg for 2014 semester 1 -> use 20141
 	 * @return true if successful
 	 */
-	public static boolean create(String cohort) {
-		boolean unique = true;
-		for (String s : sessionControl.Session.getCohorts()) {
-			System.out.println(s + "  " + cohort); // NLA
-			unique = !(s.equals(cohort));
+	public static boolean create(String cohort) throws Exception {
+		if(newCohort == null) {
+			//Check that cohort doesn't already exist
+			boolean unique = true;
+			for (String s : sessionControl.Session.getCohorts()) {
+				unique = !(s.equals(cohort));
+			}
+			if (unique) {
+				newCohort = new Cohort(cohort);
+				return DerbyUtils.runSqlFromFile(Directories.newCohortSql, newCohort.newConn);
+			} else
+				throw new Exception("WARNING: Cannot create cohort " + cohort.substring(0, 4) + " Sem " + cohort.substring(4) + " due to an error.");
 		}
-		if (unique) {
-			newCohort = new Cohort(cohort);
-			return installSchema(Directories.newCohortSql);
-		} else
-			System.err.println("WARNING: Cannot create cohort " + cohort.substring(0, 4) + " Sem " + cohort.substring(4) + " because it already exists.");
-			return false;
+		else {
+			throw new Exception("WARNING: a new cohort is already open - could not instantiate another.");
+		}
 	}
 
 	/**
 	 * This method is called once the setup of the new cohort is finalised
 	 * 
 	 * @param useNow
-	 *            - true if the user wants to swap to this database immediately
+	 *            - if setup was successful
 	 */
-	public static void finaliseSetup(boolean useNow) {
-		if (useNow) {
-			// TODO swap to this cohort
-		} else {
-			newCohort = null; // clear the newCohort, as it has already been
-								// saved.
-		}
+	public static void finaliseSetup() {
+			newCohort = null; 
+			// TODO maybe make this more thorough
 	}
-
-	// Helper method to install schema from an SQL file
-	private static boolean installSchema(String sql) {
-		List<String> commands = DerbyUtils.getSqlFromFile(sql);
-		try {
-			Statement s = CohortCreator.newCohort.newConn.getConnection()
-					.createStatement();
-			for (String c : commands) {
-				s.execute(c);
-			}
-			return true;
-
-		} catch (SQLException e) {
-			System.err.println("ERROR reading from sql file " + sql); // TODO elaborate 
+	
+	/**
+	 * TODO
+	 * @return
+	 */
+	public static boolean installData() {
+		if (!(newCohort == null)) return DerbyUtils.runSqlFromFile(Directories.dummyData, newCohort.newConn);
+		else {
+			System.err.println("WARNING: could not add data as new cohort not created.");
 			return false;
 		}
 	}
-
+	
 }

@@ -10,7 +10,7 @@ import java.sql.*;
  * @author Nicholas Abbey 20522805
  * @version 22/09/13
  * 
- *          PASSWORD CURRENTLY SET TO DEFAULT!! users are either Heather or
+ *          TODO PASSWORD CURRENTLY SET TO DEFAULT!! users are either Heather or
  *          admin
  * 
  */
@@ -25,7 +25,7 @@ public class Session {
 	 */
 	public static ConnectionWrapper dbConn = new ConnectionWrapper();
 
-	// do we need systemDB username/password installed?
+	// TODO do we need systemDB username/password installed?
 
 	/**
 	 * Cohort currently under consideration
@@ -35,13 +35,6 @@ public class Session {
 	 * Relative path to directory of currentFocus db
 	 */
 	public static String cohortDB = Directories.dbDir + currentFocus;
-
-	/**
-	 * true when login successful
-	 */
-	@SuppressWarnings("unused")	//TODO remove
-	private static boolean loggedIn = false; // is this necessary??? TODO
-												// depends on logout protocol
 	/**
 	 * Stores name of current user
 	 */
@@ -72,7 +65,6 @@ public class Session {
 			String u = rs.getString("username");
 			String p = rs.getString("password");
 			if (username.equals(u) && BCrypt.checkpw(password, p)) {
-				loggedIn = true;
 				currentFocus = cohort;
 				user = username;
 				rs.close();
@@ -91,11 +83,9 @@ public class Session {
 	}
 
 	/**
-	 * Sets loggedIn to false. In conjunction with GUI structure TODO finish
-	 * this method - will need to tie to GUI methods and DB connection
+	 * Sets loggedIn to false. 
 	 */
 	public static void logout() {
-		loggedIn = false;
 		user = "";
 		currentFocus = "";
 	}
@@ -176,7 +166,6 @@ public class Session {
 							.matches("\\d{5}"));
 				}
 			});
-			System.out.println(directories.length);
 			return directories;
 		}
 		else {

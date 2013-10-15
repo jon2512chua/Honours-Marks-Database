@@ -13,7 +13,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 
 import sessionControl.Errors;
-
+// TODO Tim - the dropdown menu here doesn't refresh itself : update: i think it might once you swap the order of popup and main window...?
 public class DisplaySettings_PopulateBackupRestore {
 
 	/**
@@ -31,7 +31,6 @@ public class DisplaySettings_PopulateBackupRestore {
 
 		final Combo combo = new Combo(composite, SWT.READ_ONLY);
 
-
 		settingsTabFolder.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				if (event.item == tbtmbackupRestore) {
@@ -46,8 +45,6 @@ public class DisplaySettings_PopulateBackupRestore {
 			}
 		});
 		settingsTabFolder.notifyListeners(SWT.FocusIn, new Event());
-
-
 
 		Button btnRestoreBackup = new Button(composite, SWT.NONE);
 		btnRestoreBackup.setText("Restore Backup");

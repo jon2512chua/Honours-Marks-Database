@@ -1,17 +1,32 @@
 package gui;
 
+import java.util.*;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+
+import orm.*;
 
 /**
  * Student Report
  * @author Tim Lander
  */
 public class DisplayReport_PopulateStudent {
-	
+	private static Map<TreeItem, StringBuffer> TreeItemMap = new HashMap<TreeItem, StringBuffer>();
+	public static Boolean hardRefreshNeeded = true;
+
 	/**
 	 * Populates the Student Report
 	 * @param reportTabFolder the folder to put the tab in
@@ -22,55 +37,180 @@ public class DisplayReport_PopulateStudent {
 		CTabItem tbtmReport = new CTabItem(reportTabFolder, SWT.NONE);
 		tbtmReport.setText(tabName);
 
-		Tree studentTree = DisplayReport.createReportTree(reportTabFolder, "Selection", "Data");
-		tbtmReport.setControl(studentTree);
+		Composite mainComposite = new Composite(reportTabFolder, SWT.NONE);
+		GridLayout gl_mainComposite = new GridLayout(1, false);
+		gl_mainComposite.horizontalSpacing = 0;
+		gl_mainComposite.verticalSpacing = 0;
+		gl_mainComposite.marginWidth = 0;
+		gl_mainComposite.marginHeight = 0;
+		mainComposite.setLayout(gl_mainComposite);
 
-		for (int sn=0; sn<5; sn++) {
-			TreeItem student = new TreeItem(studentTree, SWT.NONE);
+		Button[] treeTop = CommonButtons.addReportTreeTop(mainComposite);
 
-			student.setText(new String[] {Data.StudentNumber[sn]});
-			TreeItem studentNameTitle = new TreeItem(student, SWT.NONE);		//TODO: in theory these could be combined into one row
-			studentNameTitle.setText(new String[] {"Title", Data.StudentNameTitle[sn]});
-			TreeItem studentNameLast = new TreeItem(student, SWT.NONE);
-			studentNameLast.setText(new String[] {"Last Name", Data.StudentNameLast[sn]});
-			TreeItem studentNameFirst = new TreeItem(student, SWT.NONE);
-			studentNameFirst.setText(new String[] {"First Name", Data.StudentNameFirst[sn]});
-			TreeItem studentDissTitle = new TreeItem(student, SWT.NONE);
-			studentDissTitle.setText(new String[] {"Dissertation Title", Data.StudentDissTitle[sn]});
-			TreeItem studentSuper = new TreeItem(student, SWT.NONE);
-			studentSuper.setText(new String[] { "Supervisor", Data.StaffNameTitle[sn] + " " + Data.StaffNameFirst[sn].charAt(0) + ". " + Data.StaffNameLast[sn]});
+		Composite treeComposite = new Composite(mainComposite, SWT.NONE);
+		treeComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
+		treeComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-			for (int units=sn/2; units<=sn/2+3; units++) {
-				TreeItem unit = new TreeItem(student, SWT.NONE);
-				unit.setText(new String[] {Data.Unit[units]});
-				TreeItem unitName = new TreeItem(unit, SWT.NONE);
-				unitName.setText(new String[] {"Unit Name", Data.UnitName[units]});
-				TreeItem studentUnitMark = new TreeItem(unit, SWT.NONE);
-				studentUnitMark.setText(new String[] {"Students Unit Mark", "100%"});
-				TreeItem studentUnitGrade = new TreeItem(unit, SWT.NONE);
-				studentUnitGrade.setText(new String[] {"Students Unit Grade", "HD"});
-				TreeItem unitPoints = new TreeItem(unit, SWT.NONE);
-				unitPoints.setText(new String[] {"Unit Points", "6"});
-
-				for (int assessments=0; assessments<4; assessments++) {
-					TreeItem assessment = new TreeItem(unit, SWT.NONE);
-					assessment.setText(new String[] {Data.Assessment[assessments]});
-					TreeItem studentAssessmentMark = new TreeItem(assessment, SWT.NONE);
-					studentAssessmentMark.setText(new String[] {"Student Assessment Mark", (10*Data.marks[sn*5+units*4+assessments])+"%"});
-					TreeItem AssessmentPercentUnit = new TreeItem(assessment, SWT.NONE);
-					AssessmentPercentUnit.setText(new String[] {"Percent of Unit", "22%"});
-					TreeItem AssessmentPercentFinalGrade = new TreeItem(assessment, SWT.NONE);
-					AssessmentPercentFinalGrade.setText(new String[] {"Percent of Final Grade", "5%"});
-					//TODO: add in markers. May be a bit tricky, as the number of markers are variable.
-				}
-
-			}
-
-			//student.setExpanded(true);		//TODO:Perhaps add an expand all button?
-		}
+		final Tree studentTree = DisplayReport.createReportTree(treeComposite, "Selection", "Data");
+		tbtmReport.setControl(mainComposite);
 
 		//Listener to automatically resize Student Report column widths.
 		DisplayReport.autoResizeColumn(studentTree);
+
+		//Listener for + button
+		treeTop[0].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				for ( TreeItem ti : studentTree.getItems() ) ti.setExpanded(true);
+			}
+		});
+
+		//Listener for - button
+		treeTop[1].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				for ( TreeItem ti : studentTree.getItems() ) ti.setExpanded(false);
+			}
+		});
+
+		//Listener for Export button
+		treeTop[1].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				//TODO: export here
+			}
+		});
+
+		//Listener to auto-update displayed data (currently untested)
+		refreshAll(studentTree);
+		reportTabFolder.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				refreshAll(studentTree);
+			}
+		});
+
+	}
+
+	/**
+	 * Refreshes all data displayed in the tree
+	 * @param tree the tree which is to be refreshed
+	 */
+	//TODO: currently does not add new treeItems
+	public static void refreshAll(Tree tree) {
+		if (hardRefreshNeeded) {
+			for (TreeItem ti : tree.getItems()) ti.dispose();
+			hardRefresh(tree);
+			hardRefreshNeeded = !hardRefreshNeeded;
+		}
+		for ( TreeItem ti : tree.getItems() ) {
+			ti.setText(TreeItemMap.get(ti).toString());
+
+			refreshLevel(ti);
+		}
+	}
+
+	/**
+	 * Called recursively by refreshAll(), to refresh groups of data
+	 * @param parent the TreeItem whose children are to be refreshed.
+	 */
+	private static void refreshLevel(TreeItem parent) {
+		for ( TreeItem ti : parent.getItems() ) {
+			try {
+				if (ti.getText(0).length() > 2)
+					ti.setText(1, TreeItemMap.get(ti).toString());
+				else ti.setText(0, TreeItemMap.get(ti).toString());
+			} catch (java.lang.NullPointerException e) {
+				ti.setText(1, "");
+			}
+
+			if (ti.getItemCount() > 0)
+				refreshLevel (ti);
+		}
+	}
+
+	private static void hardRefresh(Tree tree) {
+		List<Student> allStudents = Student.getAllStudents();
+		for (Student s : allStudents) {
+			TreeItem student = new TreeItem(tree, SWT.NONE);
+			TreeItemMap.put(student, s.studentID);
+
+			TreeItem studentNameTitle = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentNameTitle, s.title);
+			studentNameTitle.setText(0, "Title");
+
+			TreeItem studentNameLast = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentNameLast, s.lastName);
+			studentNameLast.setText(0, "Last Name");
+
+			TreeItem studentNameFirst = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentNameFirst, s.firstName);
+			studentNameFirst.setText(0, "First Name");
+
+			TreeItem studentDissTitle = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentDissTitle, s.dissTitle);
+			studentDissTitle.setText(0, "Dissertation Title");
+
+			for (Staff supervisor : s.supervisors) {
+				TreeItem studentSuper = new TreeItem(student, SWT.NONE);
+				TreeItemMap.put(studentSuper, supervisor.staffID);	//TODO: fix for stringbuffer
+				studentSuper.setText(0, "Supervisor");
+			}
+
+			List<Unit> units = s.getDiscipline();
+			for (Unit u : units) {
+				TreeItem unit = new TreeItem(student, SWT.NONE);
+				TreeItemMap.put(unit, u.unitCode);
+
+				TreeItem unitName = new TreeItem(unit, SWT.NONE);
+				TreeItemMap.put(unitName, u.name);
+				unitName.setText(0, "Unit Name");
+
+				TreeItem unitPoints = new TreeItem(unit, SWT.NONE);
+				TreeItemMap.put(unitPoints, u.points);
+				unitPoints.setText(0, "Unit Points");
+
+				TreeItem unitMarks = new TreeItem(unit, SWT.NONE);
+				TreeItemMap.put(unitMarks, u.mark);
+				unitMarks.setText(0, "Unit Mark");
+
+				List<Assessment> assessments = u.getAssessments();
+				for (Assessment a : assessments) {
+					TreeItem assessment = new TreeItem(unit, SWT.NONE);
+					TreeItemMap.put(assessment, a.name);
+
+					TreeItem assessmentPercentUnit = new TreeItem(assessment, SWT.NONE);
+					TreeItemMap.put(assessmentPercentUnit, a.unitPercent);
+					assessmentPercentUnit.setText(0, "Percent of Unit");
+
+					TreeItem assessmentMark = new TreeItem(assessment, SWT.NONE);
+					TreeItemMap.put(assessmentMark, a.mark);
+					assessmentMark.setText(0, "Mark");
+
+					List<SubAssessment> subAssessments = a.getSubAssessments();
+					for (SubAssessment sa : subAssessments) {
+						TreeItem subAssessment = new TreeItem(assessment, SWT.NONE);
+						TreeItemMap.put(subAssessment, sa.name);
+
+						TreeItem subAssessmentsPercentAssessment = new TreeItem(subAssessment, SWT.NONE);
+						TreeItemMap.put(subAssessmentsPercentAssessment, sa.assessmentPercent);
+						subAssessmentsPercentAssessment.setText(0, "Precent of Assessment");
+
+						TreeItem subAssessmentMaxMark = new TreeItem(subAssessment, SWT.NONE);
+						TreeItemMap.put(subAssessmentMaxMark, sa.maxMark);
+						subAssessmentMaxMark.setText(0, "Maximum Mark");
+
+						TreeItem subAssessmentMark = new TreeItem(subAssessment, SWT.NONE);
+						TreeItemMap.put(subAssessmentMark, sa.aveMark);
+						subAssessmentMark.setText(0, "Mark");
+
+						List<Mark> subAssessmentMarkersMarks = sa.getMarks();
+						for (Mark m : subAssessmentMarkersMarks) {
+							TreeItem subAssessmentMarkersMark = new TreeItem(subAssessmentMark, SWT.NONE);
+							TreeItemMap.put(subAssessmentMarkersMark, m.value);
+							subAssessmentMarkersMark.setText(0, m.markerID.toString());		//marker name does not yet update dynamically. Their marks do however.
+						}
+					}
+				}
+			}
+
+		}
 
 	}
 }

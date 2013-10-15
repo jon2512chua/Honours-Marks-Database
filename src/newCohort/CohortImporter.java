@@ -8,13 +8,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Iterator;
 
+import logic.CohortData;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 
-import cohortSetupSubsystem.Student;
+import orm.BaseStudent;
+import orm.Staff;
+import orm.Student;
 
 /**
  * This class imports students in bulk from a prefilled template spreadsheet
@@ -22,21 +26,24 @@ import cohortSetupSubsystem.Student;
  * @version 28/9/13
  * @todo needs to have write to DB method!
  */
-public class CohortImporter {	 
+public class CohortImporter {
+	
 	/**
 	 * holds log for reporting errors encountered when bulk-importing
 	 */
-	public static StringBuffer importErrors = new StringBuffer();
+	private static StringBuffer importErrors; 
 
 	/**
 	 * Import student records from excel template
 	 * @param filename
 	 * @param cohort
-	 * @return a List of Students or null if error
+	 * @return a List of BaseStudents or null if error
 	 */
-	public static List<Student> importFromFile(String filename) {	
-		List<Student> students = new LinkedList<Student>();
-
+	public static StringBuffer importFromFile(String filename) {	
+		List<BaseStudent> students = new LinkedList<BaseStudent>();
+		// fresh stringbuffer for each attempt
+		importErrors = new StringBuffer();
+		
 		try {
 
 			FileInputStream file = new FileInputStream(new File(filename));
@@ -56,11 +63,17 @@ public class CohortImporter {
 
 				HSSFCell cell = row.getCell(0, org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK);
 				int sID;
-				if(cell.getCellType() == 0) {sID = (int) cell.getNumericCellValue();}
+				if(cell.getCellType() == 0) {
+					sID = (int) cell.getNumericCellValue();
+					if (Student.getStudentByID(sID+"") != null) {
+						String error = "Row: " + index + ": student already exits in database - Student not added.\n";
+						importErrors.append(error);
+						continue;
+					}
+				}
 				else {
 					String error = "Row: " + index + ": no Student ID - Student not added.\n";
 					importErrors.append(error);
-					//System.out.print(error);
 					continue;
 				}
 
@@ -71,57 +84,59 @@ public class CohortImporter {
 					if(!(disc.equals("a") || disc.equals("n") || disc.equals("p") || disc.equals("b"))) {
 						String error = "Row: " + index + ": invalid Discipline in row - Student not added.\n";
 						importErrors.append(error);
-						//System.out.print(error);
 						continue;
 					}
 				} else {
 					String error = "Row: " + index + ": invalid Discipline in row - Student not added.\n";
 					importErrors.append(error);
-					//System.out.print(error);
 					continue;
 				}
 
-				@SuppressWarnings("unused")	//TODO: remove
 				String title = row.getCell(2,org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 				String ln = row.getCell(3,org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 				String fn = row.getCell(4, org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 				String dissTit = row.getCell(5, org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 
-				List<String> supers = new LinkedList<String>();
+				List<Staff> supers = new LinkedList<Staff>();
 
-				int supId = -1;
+				int supID = -1;
 				int i = 6;
 				do {
 					cell = row.getCell(i, org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK);
 					if(cell.getCellType() == 0) {
-						supId = (int) cell.getNumericCellValue();
-						if((supId > 99999999 && supId < 199999999) || (supId > 199 && supId < 299)) {
-							supers.add(supId + "");
-						} else {
+						supID = (int) cell.getNumericCellValue();
+						Staff sup = orm.Staff.getStaffByID(supID + ""); 
+						if (sup != null) {
+							supers.add(sup);
+						}
+						else {
 							String error = "Row " + index + " : invalid supervisor number in column " + i + ". Student added, but supervisor not.\n";
 							importErrors.append(error);
-							//System.out.print(error);
 						}
-					} else if (cell.getCellType() == 3) {
-						supId = -1;
+					} else if (cell.getCellType() == 3) { //NO MORE SUPERVISORS
+						supID = -1;
 					} else {
 						String error = "Row " + index + " : invalid supervisor number in column " + i + ". Student added, but supervisor not.\n";
 						importErrors.append(error);
-						//System.out.print(error);
 					}
 					i++;
-				} while (supId != -1);
-
-				students.add(new Student(sID, disc, ln, fn, dissTit, supers)); // make a wrapper method to ensure student successfully added??
+				} while (supID != -1);
+				System.out.println(fn + ln); //TODO rem
+				try {
+					Student s = new Student(sID, fn, ln, title, dissTit, disc, 0, "NA", supers);
+					CohortData.students.add(s); // TODO what should initial grade be?
+				} catch (Exception e) {
+					System.out.println(e);
+				}
 			}
 			file.close();
-			return students;
+			return importErrors;
 		} catch (FileNotFoundException e) {
-			System.err.println("ERROR: Selected Excel import file could not be found.");
-			return null;
+			importErrors.append("ERROR: Selected Excel import file could not be found.");
+			return importErrors;
 		} catch (IOException e) {
-			System.err.println("ERROR: An error occurred while importing from Excel. Please check your data in case of partial effects.");
-			return null;
+			importErrors.append("ERROR: An error occurred while importing from Excel. Please check your data in case of partial effects.");
+			return importErrors;
 		}	
 	}
 

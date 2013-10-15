@@ -27,7 +27,7 @@ public class DisplaySettings {
 		settingsTabFolder.setSelectionBackground(Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		
 		//Schedule Backup tab
-		DisplaySettings_PopulateBackupSchedule.populate(settingsTabFolder, "Backup");
+		DisplaySettings_PopulateBackup.populate(settingsTabFolder, "Backup");
 		
 		//Restore Backup tab
 		DisplaySettings_PopulateBackupRestore.populate(settingsTabFolder, "Restore Backup");

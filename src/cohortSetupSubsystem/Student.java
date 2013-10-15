@@ -1,25 +1,14 @@
 package cohortSetupSubsystem;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
+/**
+ * THIS CLASS IS NOT IN USE -> IT WAS FROM AN EARLIER PROTOTYPING VERSION
+ * @author Nicholas Abbey
+ */
 public class Student {
 
-	public final static Map<String, String> discKeys;
-	static
-	{
-		discKeys = new HashMap<String, String>();
-		discKeys.put("a", "ANHB");
-		discKeys.put("p", "PHYL");
-		discKeys.put("n", "NEURO");
-		discKeys.put("b", "BIOMS");
-		discKeys.put("ANHB", "ANHB");
-		discKeys.put("PHYL", "PHYL");
-		discKeys.put("NEURO", "NEURO");
-		discKeys.put("BIOMS", "BIOMS"); 
-	}
+
 
 	public int studentId;
 	public String discipline;
@@ -42,7 +31,7 @@ public class Student {
 	 */
 	public Student(int sId, String disc, String lName, String fName, String dissT, List<String> sups) {
 		studentId = sId;
-		discipline = discKeys.get(disc);
+		discipline = disc;
 		lastName = lName;
 		firstName = fName;
 		dissTitle = dissT;

@@ -154,6 +154,14 @@ public class DisplayReport_PopulateStudent {
 				TreeItemMap.put(studentSuper, supervisor.staffID);	//TODO: fix for stringbuffer
 				studentSuper.setText(0, "Supervisor");
 			}
+			
+			TreeItem studentOverallMark = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentOverallMark, s.courseMark);
+			studentOverallMark.setText(0, "Course Mark");
+			
+			TreeItem studentOverallGrade = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentOverallGrade, s.grade);
+			studentOverallGrade.setText(0, "Course Grade");
 
 			List<Unit> units = s.getDiscipline();
 			for (Unit u : units) {

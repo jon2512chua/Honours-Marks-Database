@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 import sessionControl.Session;
 
-public class BaseMark {
+public class BaseMark implements Comparable<BaseMark> {
     public StringBuffer value = new StringBuffer (30);    
     public StringBuffer report = new StringBuffer (30);
     public StringBuffer markerID = new StringBuffer (30);
@@ -115,5 +115,10 @@ public class BaseMark {
     
     public void setReport(String report) {
     	this.report.replace(0, this.report.length(), report);
+    }
+
+    @Override
+    public int compareTo(BaseMark mark) {
+        return Double.compare(this.getValue(), mark.getValue());
     }
 }

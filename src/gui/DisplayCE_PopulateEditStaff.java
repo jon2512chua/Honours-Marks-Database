@@ -129,7 +129,7 @@ public class DisplayCE_PopulateEditStaff {
 		Composite paddingComposite = new Composite(rComposite, SWT.NONE);
 		paddingComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 2, 1));
 
-		Button[] btnSaveDiscard = CommonButtons.addSaveChangesDeleteButton(rComposite, "Student");
+		Button[] btnSaveDiscard = CommonButtons.addSaveChangesDeleteButton(rComposite, "Staff Member");
 
 
 		staffTree = new Tree(editStaffComposite, SWT.BORDER | SWT.FULL_SELECTION);
@@ -200,8 +200,8 @@ public class DisplayCE_PopulateEditStaff {
 
 
 	/**
-	 * Displays data relevant to which student was clicked on.
-	 * @param s the student that was clicked on
+	 * Displays data relevant to which staff member was clicked on.
+	 * @param s the staff member that was clicked on
 	 */
 	private static void populateSelectedData(Staff s) {
 		try {														//Found values
@@ -224,7 +224,7 @@ public class DisplayCE_PopulateEditStaff {
 
 	/**
 	 * Action to perform when the save button is pressed
-	 * @param staff the student whose data is to be saved
+	 * @param staff the staff member whose data is to be saved
 	 */
 	private static void saveData(Staff staff) {
 		try {									
@@ -262,7 +262,7 @@ public class DisplayCE_PopulateEditStaff {
 			try {
 				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
 			} catch (java.lang.NullPointerException e) {
-				System.out.println("somthing went wrong... " + e); //TODO remove
+				//System.out.println("somthing went wrong... " + e); //TODO remove
 			}
 		}
 	}

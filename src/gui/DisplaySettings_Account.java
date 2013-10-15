@@ -1,5 +1,9 @@
 package gui;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -7,8 +11,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.TreeItem;
+
+import orm.Student;
 
 /**
  * Account Settings Section
@@ -21,7 +30,9 @@ public class DisplaySettings_Account {
 	private static Text secretQText;
 	private static Text secretAText;
 	private static Text currentPasswordText;
-
+	
+	public static StringBuffer[] userInfo = new StringBuffer[3];
+	
 	/**
 	 * Populates the Account Settings Tab Tab
 	 * @param settingsTabFolder the folder to put the tab in
@@ -31,6 +42,35 @@ public class DisplaySettings_Account {
 	public static void populate(final CTabFolder settingsTabFolder, String tabName) {
 		CTabItem tbtmAccountSettings = new CTabItem(settingsTabFolder, SWT.NONE);
 		tbtmAccountSettings.setText(tabName);
+		
+		
+		userInfo[0] = (new StringBuffer()).append(sessionControl.Session.getUser());
+		
+		try {
+			String sql = "SELECT SecretQn, SecretAns from System WHERE Username = '" + userInfo[0] + "'";
+		
+			Statement stmt = sessionControl.Session.sysConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+			ResultSet r = stmt.executeQuery(sql);
+			
+			r.next();
+			
+			String q = "";
+			try {q = r.getString("SecretQn");}
+			catch (Exception e) {q = "woo";}
+
+			String a = "";
+			try {a = r.getString("SecretAns");}
+			catch (Exception e) {a = "yeah";}
+			
+			userInfo[1] = (new StringBuffer()).append(q);
+			userInfo[2] = (new StringBuffer()).append(a);
+		
+		} catch (SQLException e) {
+			System.err.print("ERROR: " + e);
+		}
+		
+		
 
 		final Composite accountSettingsComposite = new Composite(settingsTabFolder, SWT.NONE);
 		accountSettingsComposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1));
@@ -67,6 +107,8 @@ public class DisplaySettings_Account {
 		GridData gd_secretAText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_secretAText.widthHint = 350;
 		secretAText.setLayoutData(gd_secretAText);
+		
+		setFields();
 
 		//Padding - TODO: make this better
 		new Label(accountSettingsComposite, SWT.NONE);
@@ -107,7 +149,34 @@ public class DisplaySettings_Account {
 
 		@SuppressWarnings("unused")	//TODO: remove later
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(accountSettingsComposite);
-
+		
+		//Action to perform when the save button is pressed
+		btnSaveDiscard[0].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				if (!newPasswordText.getText().equals(retypeNewPasswordtext.getText())) {
+					PopupWindow.popupMessage(settingsTabFolder.getShell(), "New passwords do not match.\nChanges have not been saved", "WARNING");
+				} else if (newPasswordText.getText().length() == 0) {
+					PopupWindow.popupMessage(settingsTabFolder.getShell(), "Password cannot be null.\nChanges have not been saved", "WARNING");
+				} else {
+					if(sessionControl.Session.changePassword(currentPasswordText.getText(), newPasswordText.getText())) {
+						PopupWindow.popupMessage(settingsTabFolder.getShell(), "Password changed!\n", "SUCCESS!");
+					}
+					else {
+						PopupWindow.popupMessage(settingsTabFolder.getShell(), "Password not correct.\n", "WARNING!");
+					}
+					//TODO save other data
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Helper method to reset view's fields if data is saved/.
+	 */
+	public static void setFields() {
+		usernameText.setText(userInfo[0]+"");
+		secretQText.setText(userInfo[1]+"");
+		secretAText.setText(userInfo[2]+"");
 	}
 
 }

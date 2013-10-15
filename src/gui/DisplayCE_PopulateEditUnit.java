@@ -91,7 +91,7 @@ public class DisplayCE_PopulateEditUnit {
 		creditPoints.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1));
 		
 		@SuppressWarnings("unused")
-		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
+		Button[] btnSaveDiscard = CommonButtons.addSaveChangesDeleteButton(rComposite, "Unit");
 
 		tbtmEditUnit.setControl(editUnitComposite);
 		

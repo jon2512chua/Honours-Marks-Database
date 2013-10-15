@@ -148,7 +148,7 @@ public class DisplayCE_PopulateEditStudent {
 		Composite composite = new Composite(rComposite, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 2, 1));
 
-		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
+		Button[] btnSaveDiscard = CommonButtons.addSaveChangesDeleteButton(rComposite, "Student");
 
 
 		studentTree = new Tree(editStudentComposite, SWT.BORDER | SWT.FULL_SELECTION);

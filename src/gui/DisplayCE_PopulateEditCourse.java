@@ -92,7 +92,7 @@ public class DisplayCE_PopulateEditCourse {
 		trclmnUnitName.setText("Unit Name");
 		
 		@SuppressWarnings("unused")
-		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
+		Button[] btnSaveDiscard = CommonButtons.addSaveChangesDeleteButton(rComposite, "Course");
 
 		tbtmEditCourse.setControl(editCourseComposite);
 

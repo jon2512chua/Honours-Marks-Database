@@ -250,6 +250,7 @@ public class MainUI {
 		//DisplayReport_PopulateCohort.hardRefreshNeeded = true;
 		//DisplayReport_PopulateMarker.hardRefreshNeeded = true;
 		//DisplayReport_PopulateUnit.hardRefreshNeeded = true;
+		DisplayCE_PopulateEditStudent.hardRefreshNeeded = true;
 	}
 
 	//TODO: Tree *should* update automatically. If not, try this:

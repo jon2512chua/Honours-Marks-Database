@@ -97,7 +97,7 @@ public class DisplayReport_PopulateStudent {
 		if (hardRefreshNeeded) {
 			for (TreeItem ti : tree.getItems()) ti.dispose();
 			hardRefresh(tree);
-			hardRefreshNeeded = !hardRefreshNeeded;
+			hardRefreshNeeded = false;
 		}
 		for ( TreeItem ti : tree.getItems() ) {
 			ti.setText(TreeItemMap.get(ti).toString());

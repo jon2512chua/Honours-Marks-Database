@@ -38,6 +38,20 @@ public class Unit extends BaseUnit {
     }
     
     /**
+     * return Unit detail of a specific unit code
+     * @param unitCode the specific unit code
+     * @return the Unit class of the specific unit
+     */
+    public static Unit getUnitByCode (String unitCode) {
+    	for (Unit u : Unit.getAllUnits()) {
+    		try {
+			if (unitCode.equals(u.getUnitCode()+"")) return u;
+    		} catch (java.lang.NumberFormatException e) {}
+		}
+    	return null;
+    }
+    
+    /**
      * Update a single row of the Unit table 
      * 	- called when the save changes button is hit.
      *  - unit code is omitted so that it can never be changed. 

@@ -127,7 +127,7 @@ public class BaseMark implements Comparable<Object> {
     
     public void setValue(double value) {
     	this.value.replace(0, this.value.capacity(),  Double.toString(value));
-    	this.value.setCharAt(5, '\0');
+    	this.value.setLength(5);
     }
     
     public boolean getInsideRange() {

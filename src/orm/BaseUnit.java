@@ -192,7 +192,7 @@ public class BaseUnit {
      */
     public void setMark(double mark) {
         this.mark.replace(0, this.mark.capacity(),  Double.toString(mark));
-        this.mark.setCharAt(5, '\0');
+        this.mark.setLength(5);
     }
     
     /**

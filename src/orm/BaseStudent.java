@@ -163,7 +163,7 @@ public class BaseStudent {
     
     public void setCourseMarks(double courseMark) {
     	this.courseMark.replace(0, this.courseMark.capacity(),  Double.toString(courseMark));
-    	this.courseMark.setCharAt(5, '\0');
+    	this.courseMark.setLength(5);
     }
     
     public StringBuffer getGrade() {

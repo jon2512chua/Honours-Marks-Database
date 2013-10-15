@@ -176,7 +176,7 @@ public class BaseSubAssessment {
     
     public void setAveMark(double aveMark) {
     	this.aveMark.replace(0, this.aveMark.capacity(),  Double.toString(aveMark));
-    	this.aveMark.setCharAt(5, '\0');
+    	this.aveMark.setLength(5);
     }
     
     

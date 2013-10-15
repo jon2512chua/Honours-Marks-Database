@@ -152,6 +152,9 @@ public class MainUI {
 
 		//Generate the Tools Screen
 		/*final CTabFolder toolsTabFolder = DisplayTools.display(displayComposite);*/
+		
+		//Generate the Marks Screen
+		final CTabFolder marksTabFolder = DisplayEnterMarks.display(displayComposite);
 
 		//Generate the Creation/Editing screen
 		final CTabFolder manageCohortTabFolder = DisplayCE.display(displayComposite);
@@ -176,13 +179,12 @@ public class MainUI {
 		};
 		btnManageCohort.addListener(SWT.Selection, btnManageCohortListener);
 
-		//TODO: link to btnEnterMarks
-		/*Listener btnSettingsListener = new Listener() {
+		Listener btnMarksListener = new Listener() {
 			public void handleEvent(Event event) {
-				showScreen(toolsTabFolder, sl_displayComposite, 0, "Tools");
+				showScreen(marksTabFolder, sl_displayComposite, 0, "Marks Entry");
 			}
 		};
-		btnSettings.addListener(SWT.Selection, btnSettingsListener);*/
+		btnEnterMarks.addListener(SWT.Selection, btnMarksListener);
 
 		Listener btnSettingsListener = new Listener() {
 			public void handleEvent(Event event) {

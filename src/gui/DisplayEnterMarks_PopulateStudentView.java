@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import orm.Assessment;
+import orm.Mark;
 import orm.Student;
 import orm.SubAssessment;
 import orm.Unit;
@@ -32,6 +33,7 @@ import orm.Unit;
 public class DisplayEnterMarks_PopulateStudentView {
 	private static Map<TreeItem, StringBuffer[]> TreeItemMap = new HashMap<TreeItem, StringBuffer[]>();
 	public static Boolean hardRefreshNeeded = true;
+	public static Boolean populateMarkersNeeded = true;
 
 	/**
 	 * Populates the entering marks - student orientation Tab
@@ -167,9 +169,19 @@ public class DisplayEnterMarks_PopulateStudentView {
 				TreeItemMap.put(assessment, new StringBuffer[]{a.name, a.mark});
 
 				for (SubAssessment sa : a.getSubAssessments()) {
-					TreeItem subAssessment = new TreeItem(assessment, SWT.NONE);
-					TreeItemMap.put(subAssessment, concatenateStringBufferArray(new StringBuffer[]{sa.name, sa.aveMark, new StringBuffer("TODO"), new StringBuffer("TODO"), sa.maxMark}, sa.getMarks().toArray(new StringBuffer[0])));
+					TreeItem subAssessment = new TreeItem(assessment, SWT.NONE);					
+					StringBuffer[] strBuf = new StringBuffer[]{sa.name, sa.aveMark, new StringBuffer("TODO"), new StringBuffer("TODO"), sa.maxMark};
+					for (Mark m : sa.getMarks()) {
+						strBuf = concatenateStringBufferArray(strBuf, new StringBuffer[]{m.value});
+
+						if (populateMarkersNeeded) {
+							TreeColumn trclmnMarker = new TreeColumn(marksTree, SWT.NONE);
+							trclmnMarker.setText(m.markerID.toString());
+						}
+					}
+					TreeItemMap.put(subAssessment, strBuf);
 				}
+				populateMarkersNeeded = false;
 			}
 
 		}

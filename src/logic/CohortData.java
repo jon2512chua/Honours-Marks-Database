@@ -22,7 +22,7 @@ public class CohortData
     public static List<Assessment> assessments;
 	public static int numAssessments;
 	public static List<SubAssessment> subassessments;
-	public static int numSubssessments;
+	public static int numSubAssessments;
     
 	/**
 	 * Bulk load all db data into objects upon successful login.
@@ -69,12 +69,13 @@ public class CohortData
 	 * Load all subassessments from the database on opening
 	 */
 	private static void loadSubassessments(){
-//		TODO subassessments = Subassessment.getAllSubassessments();
-//		numSubassessments = Subassessments.size();	
+//		TODO subassessments = SubAssessment.getAllSubAssessments();
+//		numSubAssessments = SubAssessment.size();	
 	}
 	/**
 	 * Load all marks from the database on opening
 	 */
+	@SuppressWarnings("unused")
 	private static void loadMarks(){
 //		TODO marks = Mark.getAllMarks();
 //		numMarks = Mark.size();	

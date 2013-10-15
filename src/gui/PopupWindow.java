@@ -359,6 +359,9 @@ public class PopupWindow {
 
 	}
 	
+	private static Text subAssessmentName;
+	private static Text maximumMark;
+	private static Text assessmentPercentage;
 	/**
 	 * Popups a message, to add sub assessment
 	 * @param parentShell the display currently in use
@@ -366,9 +369,6 @@ public class PopupWindow {
 	 * @param title the title to display
 
 	 */
-	private static Text subAssessmentName;
-	private static Text maximumMark;
-	private static Text assessmentPercentage;
 	public static void popupAddSubAssessment(final Shell parentShell, String text, String title, final Tree tree) {
 		// Disable the previous window
 		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
@@ -466,8 +466,8 @@ public class PopupWindow {
 	 * @param parentShell the display currently in use
 	 * @param text the text the popup displays 
 	 * @param title the title to display
-	 * @param percentageUnit 
-	 * @return 
+	 * @param assessmentName the assessmentName
+	 * @param percentageUnit the percentage unit
 	 * @wbp.parser.entryPoint
 	 */
 	public static void popupAddAssessment(final Shell parentShell, String text, String title, final Tree tree, final Text assessmentName, final Text percentageUnit) {

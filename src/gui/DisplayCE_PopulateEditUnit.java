@@ -1,5 +1,10 @@
 package gui;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import logic.CohortData;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -13,6 +18,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
+import orm.Unit;
+
 /**
  * Edit Units Section
  * @author Johnathan Lim
@@ -20,19 +27,17 @@ import org.eclipse.swt.widgets.TreeItem;
 public class DisplayCE_PopulateEditUnit {
 	@SuppressWarnings("unused")
 	private static Text points;
+	private static Text unitName;
+	private static Text unitCode;
+	private static Text creditPoints;
+	private static Map<TreeItem, StringBuffer[]> TreeItemMap = new HashMap<TreeItem, StringBuffer[]>();
 
 	/**
 	 * Populates the Edit Unit Tab
 	 * @param CETabFolder the folder to put the tab in
 	 * @param tabName the name of the tab
 	 * @wbp.parser.entryPoint
-	 */
-	private static Text unitName;
-	private static Text unitCode;
-	private static Text creditPoints;
-	/**
-	 * @wbp.parser.entryPoint
-	 */
+	 */	
 	public static void populate(final CTabFolder CETabFolder, String tabName) {
 		CTabItem tbtmEditUnit = new CTabItem(CETabFolder, SWT.NONE);
 		tbtmEditUnit.setText(tabName);
@@ -90,11 +95,28 @@ public class DisplayCE_PopulateEditUnit {
 
 		tbtmEditUnit.setControl(editUnitComposite);
 		
+		//for (Unit s : CohortData.units) {
+			//TreeItem unit = new TreeItem(unitTree, SWT.NONE);
+			//TreeItemMap.put(unit, new StringBuffer[]{new StringBuffer("CITS3200"), new StringBuffer("Prof Comp")});
+		//}
+		
+		//refreshTree(unitTree);
+		
 		for (TreeColumn tc : unitTree.getColumns()) tc.pack();
 		unitTree.pack();
 
-		//End replace
-
+	}
+	
+	/**
+	 * Refreshes all data displayed in the tree
+	 * @param tree the tree which is to be refreshed
+	 */
+	public static void refreshTree(Tree tree) {
+		for ( TreeItem ti : tree.getItems() ) {
+			try {
+				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString() + " " + TreeItemMap.get(ti)[1].toString()});
+			} catch (java.lang.NullPointerException e) {}
+		}
 	}
 
 }

@@ -11,6 +11,43 @@ import orm.*;
 public class StatisticsCalculator
 {
 	/**
+	 * Method to calculate the average of a subassessment over a cohort
+	 *
+	 * @subAssessID the ID of the subassessment that is being looked for
+	 * @return the average for the cohort for the subassessment
+	 */
+	public static double subAssessAve(int subAssessID){
+
+		SubAssessment current = null;
+
+		for (SubAssessment s : CohortData.subassessments) {
+			if (s.getSubAssessmentID() == subAssessID){
+				current = s;
+				break;
+			}
+			
+		}
+		if (current == null){
+			return 0;
+		}
+		
+		double ave = 0;
+		int counted = 0;
+		for (Mark m : current.getMarks()){
+			ave = ave + m.getValue();
+			counted++;
+		}
+		
+		ave = ave/counted;
+		return ave;
+	}
+	
+	
+	
+	
+	//old things, not sure how they're useful
+	
+	/**
 	 * Method to return the list of units whose codes match the unit being
 	 * searched for
 	 *
@@ -56,34 +93,6 @@ public class StatisticsCalculator
 		return assessList;
 	}
 
-	/**
-	 * Method to calculate the average of a subassessment over a cohort
-	 *
-	 * @subAssessID the ID of the subassessment that is being looked for
-	 * @return the average for the cohort for the subassessment
-	 */
-
-	public static double subAssessAve(int subAssessID){
-
-		subAssessment current;
-
-		for (SubAssessment s : CohortData.subassessments) {
-			if (s.getSubAssessmentID() == subAssessID){
-				current = s;
-			}
-		}
-		
-		double ave = 0;
-		int counted = 0;
-		for (Mark m : current.getSubAssessments()){
-			ave = ave + m.getValue();
-			counted++;
-		}
-		
-		ave = ave/counted;
-		return ave;
-	}
-
 	
 	/**
 	 * Method to find the Cohort's average over a subassessment
@@ -91,7 +100,7 @@ public class StatisticsCalculator
 	 * @curSubAssess is the subassessment for which the average is being found
 	 * @return the subassessment's average, as a string to 2 decimal places
 	 */
-
+/*
 	public static String subAssessAve(SubAssessment curSubAssess){
 
 		List<SubAssessment> subAssessList = findSubAssessments(curSubAssess);
@@ -108,14 +117,14 @@ public class StatisticsCalculator
 		return result;
 
 	}
-
+*/
 	/**
 	 * Method to find the Cohort's range over a subassessment
 	 * 
 	 * @curSubAssess is the subassessment for which the range is being found
 	 * @return the subassessment's range, as a string to 2 decimal places in the form "min - max"
 	 */
-
+/*
 	public static String subAssessRange(SubAssessment curSubAssess){
 
 		List<SubAssessment> subAssessList = findSubAssessments(curSubAssess);
@@ -136,7 +145,7 @@ public class StatisticsCalculator
 		String result = Double.toString(min) + "-" + Double.toString(max);
 		return result;
 	}
-
+*/
 	/**
 	 * Method to find the Cohort's average over an assessment
 	 * 

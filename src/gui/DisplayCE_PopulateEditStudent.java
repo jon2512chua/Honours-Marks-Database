@@ -222,11 +222,12 @@ public class DisplayCE_PopulateEditStudent {
 					TreeItem item = studentTree.getSelection()[0];
 					Student s = Student.getStudentByID(item.getText());
 					populateSelectedData(s);
-					for(TreeItem t : supervisorTree.getItems()) {
+					//moved the following to populateSelectedData() - see below
+					/*for(TreeItem t : supervisorTree.getItems()) {
 						if(s.hasSupervisor(Integer.parseInt(t.getText(0)))) {
 							t.setChecked(true);
 						}
-					}
+					}*/
 				}
 			}
 		});
@@ -249,6 +250,9 @@ public class DisplayCE_PopulateEditStudent {
 					if ( ti.getText() == s.getStaffID()+"" ) {
 						ti.setChecked(true);
 					}
+				}
+				if(student.hasSupervisor(Integer.parseInt(ti.getText(0)))) {
+					ti.setChecked(true);
 				}
 			}
 			studentNumber.setEditable(false);

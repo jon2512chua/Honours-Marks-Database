@@ -110,17 +110,6 @@ public class DisplayCE_PopulateEditAssessment {
 		//for (TreeItem ti : unitTree.getItems()) ti.setExpanded(false);
 		
 		DisplayReport.autoResizeColumn(unitTree);
-		new Label(rComposite, SWT.NONE);
-		
-		Composite addReAssessComposite = new Composite(rComposite, SWT.NONE);
-		addReAssessComposite.setLayout(new GridLayout(2, false));
-		addReAssessComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		
-		Button btnAddAssessment = new Button(addReAssessComposite, SWT.NONE);
-		btnAddAssessment.setText("Add Assessment");
-		
-		Button btnRemoveAssessment = new Button(addReAssessComposite, SWT.NONE);
-		btnRemoveAssessment.setText("Remove Assessment");
 		
 		Label label = new Label(rComposite, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
@@ -190,15 +179,17 @@ public class DisplayCE_PopulateEditAssessment {
 		
 		Listener LisAddAssessment = new Listener() {
 			public void handleEvent(Event event) {
-				if (!assessmentName.getText().isEmpty() && !percentageUnit.getText().isEmpty()) {
-					PopupWindow.popupAddAssessment(editAssessmentComposite.getShell(), 
-							"Please choose the unit that the Assessment will be added to", 
-							"Adding Assessment", unitTree, assessmentName, percentageUnit);
-				} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Null Value is not allowed.", "ERROR!");
+				if (unitTree.indexOf(unitTree.getSelection()[0]) == 0) {
+					if (!assessmentName.getText().isEmpty() && !percentageUnit.getText().isEmpty()) {
+						PopupWindow.popupAddAssessment(editAssessmentComposite.getShell(), 
+								"Please choose the unit that the Assessment will be added to", 
+								"Adding Assessment", unitTree, assessmentName, percentageUnit);
+					} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Null Value is not allowed.", "ERROR!");
+				} else {
+					//TODO Save
+				}
 			}
 		};
-
-		btnAddAssessment.addListener(SWT.Selection, LisAddAssessment);
 		
 		Listener LisRemoveAssessment = new Listener() {
 			public void handleEvent(Event event) {
@@ -211,8 +202,6 @@ public class DisplayCE_PopulateEditAssessment {
 				} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select an Assessment to be Removed.", "ERROR!");
 			}
 		};
-		
-		btnRemoveAssessment.addListener(SWT.Selection, LisRemoveAssessment);
 		
 		Listener LisAddSubAssessment = new Listener() {
 			public void handleEvent(Event event) {
@@ -236,9 +225,10 @@ public class DisplayCE_PopulateEditAssessment {
 			}
 		};
 		btnRemoveSubAssessment.addListener(SWT.Selection, LisRemoveSubAssessment);
-		
-		@SuppressWarnings("unused")	//TODO: remove later
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
+		btnSaveDiscard[0].addListener(SWT.Selection, LisAddAssessment);
+		btnSaveDiscard[1].addListener(SWT.Selection, LisRemoveAssessment);
+		
 		tbtmEditAssessment.setControl(editAssessmentComposite);
 		
 	}

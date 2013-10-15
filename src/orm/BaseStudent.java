@@ -3,8 +3,10 @@ package orm;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
-import sessionControl.*;
+
 import logic.MarkCalculator;
+import sessionControl.*;
+
 
 public class BaseStudent {
 	
@@ -17,8 +19,13 @@ public class BaseStudent {
     public StringBuffer courseMark = new StringBuffer (6);
     public StringBuffer grade = new StringBuffer (3);
     public StringBuffer disciplineName = new StringBuffer (20);
-    public List<Unit> discipline;
+    public List<Unit> discipline = Collections.<Unit>emptyList();
     
+    /**
+     * Method to create a java object to represent a student found in the database
+     * 
+     * @param studentID is the studentID of the student being searched for
+     */
     public BaseStudent(int studentID) {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet studentRS = s.executeQuery("SELECT * FROM Student WHERE StudentID=" + studentID)) {
@@ -38,11 +45,27 @@ public class BaseStudent {
 	            
 	            MarkCalculator.calculateStudentMarks((Student)this); /// TAKE ME OUT
         	}
+        	
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+	/**
+	 * Method to create java object for a student that doesn't exist yet, and create
+	 * a row for it in the database
+	 * 
+	 * @param studentID student's ID number
+	 * @param firstName student's first name
+	 * @param lastName student's last name
+	 * @param title student's title (ie Mr, Ms, etc)
+	 * @param dissTitle student's dissertation title
+	 * @param disciplineName name of student's discipline
+	 * @param courseMark mark student has for his course
+	 * @param grade grade student has for his course
+	 * @param supervisors list of student's supervisors
+	 * @throws SQLException if insert into table fails (ie. invalid student number given)
+	 */
     public BaseStudent(int studentID, String firstName, String lastName, String title, String dissTitle, String disciplineName, double courseMark, String grade, List<Staff> supervisors) throws SQLException {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
             s.execute("INSERT INTO Student VALUES (" + studentID + ", '" + firstName + "', '" + lastName + "', '" + title + "', '" + dissTitle + "', '" + disciplineName + "', " + courseMark + ", '" + grade + "')");
@@ -67,6 +90,22 @@ public class BaseStudent {
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
             throw new SQLException(ex.getMessage());
+        }
+    }
+    
+    public void saveStudent() {
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+            s.execute("UPDATE Student SET"
+            		+ " FirstName = '" + getFirstName().toString() + "',"
+            		+ " LastName = '" + getLastName().toString() + "',"
+            		+ " Title = '" + getTitle().toString() + "',"
+            		+ " DissTitle = '" + getDissTitle().toString() + "',"
+            		+ " Discipline = '" + getDisciplineName().toString() + "',"
+            		+ " Mark = " + getCourseMark()
+            		+ " Grade = '" + getGrade().toString() + "',"
+            		+ " WHERE StudentID=" + getStudentID());
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

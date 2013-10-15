@@ -10,7 +10,7 @@ public class BaseStaff {
     public StringBuffer staffID = new StringBuffer (12);
     public StringBuffer firstName = new StringBuffer (24);
     public StringBuffer lastName = new StringBuffer (24);
-    public PriorityQueue<Mark> marks;
+    public PriorityQueue<Mark> marks = new PriorityQueue<Mark>();
     
     public BaseStaff(int staffID) {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

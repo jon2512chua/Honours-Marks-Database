@@ -5,10 +5,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import logic.StatisticsCalculator;
 import sessionControl.Session;
 
 public class BaseUnit {
@@ -19,7 +19,8 @@ public class BaseUnit {
     private List<Assessment> assessments = new ArrayList<Assessment>();
     
     /**
-     * Method to create a java object to represent a unit found in the database
+     * Method to create a java object to represent a unit found in the database, independently of a student, primarily for
+     * use in displaying/editing unit information
      * 
      * @param unitCode is the unit code of the unit being searched for
      */
@@ -50,6 +51,9 @@ public class BaseUnit {
             	Assessment nextAssess = new Assessment(assessmentRS.getInt("AssessmentID"), (Unit) this);
 	            this.assessments.add(nextAssess);
             }
+            
+            StatisticsCalculator.unitAve((Unit)this);
+            
         } catch (SQLException ex) {
             Logger.getLogger(BaseUnit.class.getName()).log(Level.SEVERE, null, ex);
         }

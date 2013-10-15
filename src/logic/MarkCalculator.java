@@ -129,9 +129,6 @@ public class MarkCalculator
         
         curAssess.setMark(assessmentMark);
         
-        //not sure if we want this method to set the mark,
-        //or another method to call this one and set the mark
-        
         return assessmentMark;
     }
 

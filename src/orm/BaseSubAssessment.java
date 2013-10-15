@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import logic.StatisticsCalculator;
 import sessionControl.Session;
 
 public class BaseSubAssessment {
@@ -20,6 +21,13 @@ public class BaseSubAssessment {
     public StringBuffer aveMark = new StringBuffer(6);
     // Maybe add average mark for this subassessment over all marks
     
+    /**
+     * Constructor run for sub assessments in CohortData.units or CohortData.assessments; contains all
+     * information about subassessments, has parent assessment, is non-specific to students
+     * 
+     * @param subAssessmentID the subassessment ID
+     * @param assessment the parent assessment
+     */
     public BaseSubAssessment(int subAssessmentID, Assessment assessment) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet subassessmentRS = s.executeQuery("SELECT * FROM SubAssessment WHERE SubAssessmentID=" + subAssessmentID)) {
@@ -34,18 +42,36 @@ public class BaseSubAssessment {
 	            setMaxMark(subassessmentRS.getInt("MaxMarks"));
 	            setAssessmentPercent(subassessmentRS.getInt("AssessmentPercent"));
 	            this.parentAssessment = assessment;
+	            
+	            
     		}
             
         } catch (SQLException ex) {
             Logger.getLogger(BaseSubAssessment.class.getName()).log(Level.SEVERE, null, ex);
         }
     	
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet subassessmentMarksRS = s.executeQuery("SELECT * FROM SubAssessmentMark WHERE SubAssessmentID=" + subAssessmentID)) {
+            
+            // Will be a list of subAssessments marks returned, as many subAssessments marks can belong to a subassessment
+    		// We are adding all of them to the list
+            while (subassessmentMarksRS.next()) {
+            	Mark nextMark = new Mark(subAssessmentID, subassessmentMarksRS.getInt("StudentID"), subassessmentMarksRS.getInt("MarkerID"), (SubAssessment) this);
+	            this.marks.add(nextMark);
+            }
+            
+            setAveMark(StatisticsCalculator.subAssessAve(subAssessmentID));
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    	
     }
+    
     /**
-     * Method run when returning a list of all subassessments; creates single subassessment object for each subassessment, 
-     * and populates each object with its relevant marks
+     * Constructor run when creating a subAssessment for CohortData.subassessments - single 'master' subassessment object for each subassessment ID,
+     * containing all related marks for that subassessment. Does not have a parent assessment.
      * 
-     * @param subAssessmentID the ID of the subassessment being made
+     * @param subAssessmentID the ID of the subassessment
      */
     public BaseSubAssessment(int subAssessmentID) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -75,6 +101,7 @@ public class BaseSubAssessment {
             	Mark nextMark = new Mark(subAssessmentID, subassessmentMarksRS.getInt("StudentID"), subassessmentMarksRS.getInt("MarkerID"), (SubAssessment) this);
 	            this.marks.add(nextMark);
             }
+            
         } catch (SQLException ex) {
             Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -82,6 +109,13 @@ public class BaseSubAssessment {
     	
     }
     
+    /**
+     * Constructor run when creating a subAssessment related to a specific student
+     * 
+     * @param subAssessmentID subassessment ID
+     * @param studentID student's ID
+     * @param assessment parent of the subassessment
+     */
     public BaseSubAssessment(int subAssessmentID, int studentID, Assessment assessment) {
     	this.marks = new ArrayList<>();
     	
@@ -112,6 +146,7 @@ public class BaseSubAssessment {
             	Mark nextMark = new Mark(subAssessmentID, studentID, subassessmentMarksRS.getInt("MarkerID"), (SubAssessment)this);
 	            this.marks.add(nextMark);
             }
+            
         } catch (SQLException ex) {
             Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
         }

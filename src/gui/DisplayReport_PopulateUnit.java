@@ -3,7 +3,6 @@ package gui;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 
 import logic.CohortData;
 
@@ -23,8 +22,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import orm.Assessment;
-import orm.Mark;
-import orm.Staff;
 import orm.SubAssessment;
 import orm.Unit;
 
@@ -144,6 +141,10 @@ public class DisplayReport_PopulateUnit {
 			TreeItemMap.put(unitName, u.name);
 			unitName.setText(0, "Unit Name");
 			
+			TreeItem unitMark = new TreeItem(unit, SWT.NONE);
+			TreeItemMap.put(unitMark, u.mark);
+			unitMark.setText(0, "Average Mark");
+			
 			List<Assessment> assessments = u.getAssessments();
 			for (Assessment a : assessments){
 				TreeItem assessment = new TreeItem(unit, SWT.NONE);
@@ -152,6 +153,10 @@ public class DisplayReport_PopulateUnit {
 				TreeItem assessmentPercentUnit = new TreeItem(assessment, SWT.NONE);
 				TreeItemMap.put(assessmentPercentUnit, a.unitPercent);
 				assessmentPercentUnit.setText(0, "Percent of Unit");
+				
+				TreeItem assessmentMark = new TreeItem(assessment, SWT.NONE);
+				TreeItemMap.put(assessmentMark, a.mark);
+				assessmentMark.setText(0, "Average Mark");
 
 				List<SubAssessment> subAssessments = a.getSubAssessments();
 				for (SubAssessment sa : subAssessments) {
@@ -165,6 +170,10 @@ public class DisplayReport_PopulateUnit {
 					TreeItem subAssessmentMaxMark = new TreeItem(subAssessment, SWT.NONE);
 					TreeItemMap.put(subAssessmentMaxMark, sa.maxMark);
 					subAssessmentMaxMark.setText(0, "Maximum Mark");
+					
+					TreeItem subAssessmentAveMark = new TreeItem(subAssessment, SWT.NONE);
+					TreeItemMap.put(subAssessmentAveMark, sa.aveMark);
+					subAssessmentAveMark.setText(0, "Average Mark");
 				}
 			}
 			

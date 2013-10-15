@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 
+import logic.StatisticsCalculator;
 import sessionControl.Session;
 
 public class BaseAssessment {
@@ -41,7 +42,7 @@ public class BaseAssessment {
         		this.subAssessments.add(nextSubAssess);
             	
             }
-            	
+            StatisticsCalculator.assessAve((Assessment)this);	
         } catch (SQLException ex) {
             Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -75,7 +76,8 @@ public class BaseAssessment {
         		this.subAssessments.add(nextSubAssess);
             	
             }
-            	
+            
+            StatisticsCalculator.assessAve((Assessment)this);
         } catch (SQLException ex) {
             Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
         }

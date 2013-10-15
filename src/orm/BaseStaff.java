@@ -7,9 +7,9 @@ import java.util.logging.*;
 import sessionControl.Session;
 
 public class BaseStaff {
-    public StringBuffer staffID = new StringBuffer (30);
-    public StringBuffer firstName = new StringBuffer (30);
-    public StringBuffer lastName = new StringBuffer (30);
+    public StringBuffer staffID = new StringBuffer (12);
+    public StringBuffer firstName = new StringBuffer (24);
+    public StringBuffer lastName = new StringBuffer (24);
     public PriorityQueue<Mark> marks;
     
     public BaseStaff(int staffID) {
@@ -17,12 +17,13 @@ public class BaseStaff {
                 ResultSet staffRS = s.executeQuery("SELECT * FROM Staff WHERE StaffID=" + staffID)) {
             
             // There will only be one staff returned as staffID is unique.
-            staffRS.first();
+        	while (staffRS.next()) {
             
-            setStaffID(staffID);
-            setFirstName(staffRS.getString("FirstName"));
-            setLastName(staffRS.getString("LastName"));
-            setMarks(getSortedMarks(staffID));
+	            setStaffID(staffID);
+	            setFirstName(staffRS.getString("FirstName"));
+	            setLastName(staffRS.getString("LastName"));
+	            setMarks(getSortedMarks(staffID));
+        	}
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,7 +51,7 @@ public class BaseStaff {
     }
     
     public void setStaffID(int staffID) {
-        this.staffID.replace(0, this.staffID.length(),  Integer.toString(staffID));
+        this.staffID.replace(0, this.staffID.capacity(),  Integer.toString(staffID));
     }
     
     public StringBuffer getFirstName() {
@@ -58,7 +59,7 @@ public class BaseStaff {
     }
     
     public void setFirstName(String firstName) {
-    	this.firstName.replace(0, this.firstName.length(), firstName);
+    	this.firstName.replace(0, this.firstName.capacity(), firstName);
     }
     
     public StringBuffer getLastName() {
@@ -66,7 +67,7 @@ public class BaseStaff {
     }
     
     public void setLastName(String lastName) {
-    	this.lastName.replace(0, this.lastName.length(), lastName);
+    	this.lastName.replace(0, this.lastName.capacity(), lastName);
     }
     
     public PriorityQueue<Mark> getMarks() {

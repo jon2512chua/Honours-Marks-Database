@@ -184,11 +184,13 @@ public class DisplayCE_PopulateEditAssessment {
 		
 		Listener LisRemoveAssessment = new Listener() {
 			public void handleEvent(Event event) {
-				if (unitTree.isFocusControl() && PopupWindow.popupYessNo(editAssessmentComposite.getShell(),
-						"Are you sure you want to REMOVE \"" + unitTree.getSelection()[0].getText()
-						+ "\" from the database", "WARNING!"))
-					unitTree.getSelection()[0].dispose(); //TODO proper delete from database
-				else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select an Assessment to be Removed.", "ERROR!");
+				if (unitTree.getSelection().length != 0) {
+					if (unitTree.getSelection()[0] != null)
+						if (PopupWindow.popupYessNo(editAssessmentComposite.getShell(),
+							"Are you sure you want to REMOVE \"" + unitTree.getSelection()[0].getText()
+							+ "\" from the database", "WARNING!"))
+						unitTree.getSelection()[0].dispose(); //TODO proper delete from database
+				} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select an Assessment to be Removed.", "ERROR!");
 			}
 		};
 		

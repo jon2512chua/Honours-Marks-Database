@@ -16,9 +16,31 @@ public class BaseSubAssessment {
     private Assessment parentAssessment;
     public StringBuffer maxMark = new StringBuffer (6);
     public StringBuffer assessmentPercent = new StringBuffer (6);
-    private List<Mark> marks= Collections.<Mark>emptyList();
+    private List<Mark> marks = new ArrayList<Mark>();
     public StringBuffer aveMark = new StringBuffer(6);
     // Maybe add average mark for this subassessment over all marks
+    
+    public BaseSubAssessment(int subAssessmentID, Assessment assessment) {
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet subassessmentRS = s.executeQuery("SELECT * FROM SubAssessment WHERE SubAssessmentID=" + subAssessmentID)) {
+            
+            // There will only be one subAssessment returned as subAssessmentID is unique
+    		// Called with this constructor, no data about marks will exist
+    		while (subassessmentRS.next()) {
+            
+	            setSubAssessmentID(subAssessmentID);
+	            
+	            setName(subassessmentRS.getString("SubAssessmentName"));
+	            setMaxMark(subassessmentRS.getInt("MaxMarks"));
+	            setAssessmentPercent(subassessmentRS.getInt("AssessmentPercent"));
+	            this.parentAssessment = assessment;
+    		}
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseSubAssessment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    	
+    }
     
     public BaseSubAssessment(int subAssessmentID) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -33,7 +55,6 @@ public class BaseSubAssessment {
 	            setName(subassessmentRS.getString("SubAssessmentName"));
 	            setMaxMark(subassessmentRS.getInt("MaxMarks"));
 	            setAssessmentPercent(subassessmentRS.getInt("AssessmentPercent"));
-	            //this.parentAssessment = new Assessment(assessmentRS.getString("AssessmentID"));
     		}
             
         } catch (SQLException ex) {

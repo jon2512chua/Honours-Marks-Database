@@ -12,9 +12,9 @@ public class BaseAssessment {
     private Unit parentUnit;
     public StringBuffer mark = new StringBuffer (6);
     public StringBuffer unitPercent = new StringBuffer (6);
-    private List<SubAssessment> subAssessments;
+    private List<SubAssessment> subAssessments = new ArrayList<SubAssessment>();
     
-    public BaseAssessment(int assessmentID) {
+    public BaseAssessment(int assessmentID, Unit unit) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE AssessmentID=" + assessmentID)) {
             
@@ -26,7 +26,7 @@ public class BaseAssessment {
 	            
 	            setName(assessmentRS.getString("AssessmentName"));
 	            setUnitPercent(assessmentRS.getInt("UnitPercent"));
-	            //this.parentUnit = new Unit(assessmentRS.getString("UnitCode"));
+	            this.parentUnit = unit;
     		}
         } catch (SQLException ex) {
             Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
@@ -38,9 +38,11 @@ public class BaseAssessment {
             // Will be a list of subassessments returned, as many subassessments can belong to an assessment
     		// We are adding all of them to the list
             while (subassessmentRS.next()) {
-            	SubAssessment nextSubAssess = new SubAssessment(subassessmentRS.getInt("SubAssessmentID"));
-	            this.subAssessments.add(nextSubAssess);
+            	SubAssessment nextSubAssess = new SubAssessment(subassessmentRS.getInt("SubAssessmentID"), (Assessment)this);
+        		this.subAssessments.add(nextSubAssess);
+            	
             }
+            	
         } catch (SQLException ex) {
             Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
         }

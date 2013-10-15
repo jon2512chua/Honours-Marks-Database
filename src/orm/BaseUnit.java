@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +16,7 @@ public class BaseUnit {
     public StringBuffer name = new StringBuffer (50);
     public StringBuffer points = new StringBuffer (3);
     public StringBuffer mark = new StringBuffer (6);
-    private List<Assessment> assessments;
+    private List<Assessment> assessments = new ArrayList<Assessment>();
     
     /**
      * Method to create a java object to represent a unit found in the database
@@ -24,7 +25,7 @@ public class BaseUnit {
      */
     public BaseUnit(String unitCode) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet unitRS = s.executeQuery("SELECT * FROM Unit WHERE UnitCode=" + unitCode)) {
+                ResultSet unitRS = s.executeQuery("SELECT * FROM Unit WHERE UnitCode='" + unitCode+"'")) {
             
             // There will only be one unit returned as unitCode is unique
     		// Called with this constructor, no data about marks will exist
@@ -46,7 +47,7 @@ public class BaseUnit {
             // Will be a list of assessments returned, as many assessments can belong to a unit
     		// We are adding all of them to the list
             while (assessmentRS.next()) {
-            	Assessment nextAssess = new Assessment(assessmentRS.getInt("AssessmentID"));
+            	Assessment nextAssess = new Assessment(assessmentRS.getInt("AssessmentID"), (Unit) this);
 	            this.assessments.add(nextAssess);
             }
         } catch (SQLException ex) {

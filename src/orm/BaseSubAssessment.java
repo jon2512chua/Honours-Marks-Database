@@ -14,8 +14,8 @@ public class BaseSubAssessment {
     private int subAssessmentID;
     public StringBuffer name = new StringBuffer (30);
     private Assessment parentAssessment;
-    public StringBuffer maxMark = new StringBuffer (30);
-    public StringBuffer assessmentPercent = new StringBuffer (30);
+    public StringBuffer maxMark = new StringBuffer (6);
+    public StringBuffer assessmentPercent = new StringBuffer (6);
     private List<Mark> marks;
     // Maybe add average mark for this subassessment over all marks
     
@@ -25,14 +25,15 @@ public class BaseSubAssessment {
             
             // There will only be one subAssessment returned as subAssessmentID is unique
     		// Called with this constructor, no data about marks will exist
-    		subassessmentRS.first();
+    		while (subassessmentRS.next()) {
             
-            setSubAssessmentID(subAssessmentID);
-            
-            setName(subassessmentRS.getString("SubAssessmentName"));
-            setMaxMark(subassessmentRS.getInt("MaxMarks"));
-            setAssessmentPercent(subassessmentRS.getInt("AssessmentPercent"));
-            //this.parentAssessment = new Assessment(assessmentRS.getString("AssessmentID"));
+	            setSubAssessmentID(subAssessmentID);
+	            
+	            setName(subassessmentRS.getString("SubAssessmentName"));
+	            setMaxMark(subassessmentRS.getInt("MaxMarks"));
+	            setAssessmentPercent(subassessmentRS.getInt("AssessmentPercent"));
+	            //this.parentAssessment = new Assessment(assessmentRS.getString("AssessmentID"));
+    		}
             
         } catch (SQLException ex) {
             Logger.getLogger(BaseSubAssessment.class.getName()).log(Level.SEVERE, null, ex);
@@ -48,14 +49,15 @@ public class BaseSubAssessment {
             
             // There will only be one subAssessment returned as subAssessmentID is unique
     		// Called with this constructor, no data about marks will exist
-    		subassessmentRS.first();
+    		while (subassessmentRS.next()) {
             
-            setSubAssessmentID(subAssessmentID);
-            
-            setName(subassessmentRS.getString("SubAssessmentName"));
-            setMaxMark(subassessmentRS.getInt("MaxMarks"));
-            setAssessmentPercent(subassessmentRS.getInt("AssessmentPercent"));
-            this.parentAssessment = assessment;
+	            setSubAssessmentID(subAssessmentID);
+	            
+	            setName(subassessmentRS.getString("SubAssessmentName"));
+	            setMaxMark(subassessmentRS.getInt("MaxMarks"));
+	            setAssessmentPercent(subassessmentRS.getInt("AssessmentPercent"));
+	            this.parentAssessment = assessment;
+    		}
         } catch (SQLException ex) {
             Logger.getLogger(BaseSubAssessment.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -108,7 +110,7 @@ public class BaseSubAssessment {
     }
     
     public void setName(String name) {
-    	this.name.replace(0, this.name.length(), name);
+    	this.name.replace(0, this.name.capacity(), name);
     }
     
     public Assessment getParentAssessment() {
@@ -124,7 +126,7 @@ public class BaseSubAssessment {
     }
     
     public void setMaxMark(int maxMark) {
-    	this.maxMark.replace(0, this.maxMark.length(),  Integer.toString(maxMark));
+    	this.maxMark.replace(0, this.maxMark.capacity(),  Integer.toString(maxMark));
     }
     
     public double getAssessmentPercent() {
@@ -132,7 +134,7 @@ public class BaseSubAssessment {
     }
     
     public void setAssessmentPercent (int assessmentPercent) {
-    	this.assessmentPercent.replace(0, this.assessmentPercent.length(),  Integer.toString(assessmentPercent));
+    	this.assessmentPercent.replace(0, this.assessmentPercent.capacity(),  Integer.toString(assessmentPercent));
     }
     
     public List<Mark> getMarks() {

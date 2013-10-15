@@ -15,10 +15,19 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import orm.Staff;
 import orm.Student;
-
+/**
+ * This is a class for exporting statistics from the database into excel format.
+ * @author Nicholas Abbey
+ * @version 16/10/13
+ *
+ */
 public class ToExcel {
-	
-	public static void studentSummaries(String filepath) {
+	/**
+	 * Write a summary of the students' final grades and key information to .xls
+	 * 		NOTE: don't try to use a .xlsx filename
+	 * @param filepath to export to
+	 */
+	public static void studentSummaries(String filepath) throws Exception {
 		try {
 			FileOutputStream fileOut = new FileOutputStream(filepath);
 			
@@ -34,17 +43,19 @@ public class ToExcel {
 		    cell = row.createCell(2);
 		    cell.setCellValue("First Name");
 		    cell = row.createCell(3);
-		    cell.setCellValue("Mark");
+		    cell.setCellValue("Discipline");
 		    cell = row.createCell(4);
-		    cell.setCellValue("Grade");
+		    cell.setCellValue("Mark");
 		    cell = row.createCell(5);
-		    cell.setCellValue("Supervisors >>>>>");
+		    cell.setCellValue("Grade");
+		    cell = row.createCell(6);
+		    cell.setCellValue("Supervisors:");
 		    
 		    int rowIndex = 1;
 		    
 		    if(CohortData.students == null) {
 		    	fileOut.close();
-		    	throw new Exception("No students");
+		    	throw new Exception("No students found in CohortData");
 		    }
 		    
 		    for(Student student : CohortData.students) {
@@ -59,7 +70,9 @@ public class ToExcel {
 			    cell.setCellValue(student.getCourseMark());
 			    cell = row.createCell(4);
 			    cell.setCellValue(student.getGrade().toString());
-			    int colIndex = 5;
+			    cell = row.createCell(5);
+			    cell.setCellValue(student.getDisciplineName().toString());
+			    int colIndex = 6;
 			    if(student.getSupervisors() != null) {
 				    for(Staff sup : student.getSupervisors()){
 				    	cell = row.createCell(colIndex);
@@ -72,13 +85,13 @@ public class ToExcel {
 			wb.write(fileOut);
 			fileOut.close();
 		} catch (FileNotFoundException e) {
-			System.err.println(e);
+			System.err.println("ERROR: couldn't create export file.\nPROGRAM REPORT: " + e);
+			throw new Exception("There has been an error exporting.");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.err.println(e);
+			System.err.println("ERROR: couldn't write to export file.\nPROGRAM REPORT: " + e);
+			throw new Exception("There has been an error exporting.");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.err.println(e);
+			throw new Exception("There are no students to export");
 		}
 	}
 	

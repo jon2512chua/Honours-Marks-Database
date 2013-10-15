@@ -9,12 +9,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import logic.CohortData;
-
 import sessionControl.Session;
 
 public class Staff extends BaseStaff {
 	public Staff(int staffID) {
 		super(staffID);
+	}
+
+	public Staff(int staffID, String firstName, String lastName) throws SQLException {
+		super(staffID, firstName, lastName);
 	}
 
 	public String getFullName() {

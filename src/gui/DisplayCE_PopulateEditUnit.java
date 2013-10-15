@@ -12,6 +12,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -97,16 +99,50 @@ public class DisplayCE_PopulateEditUnit {
 
 		tbtmEditUnit.setControl(editUnitComposite);
 		
-		//for (Unit s : CohortData.units) {
-			//TreeItem unit = new TreeItem(unitTree, SWT.NONE);
-			//TreeItemMap.put(unit, new StringBuffer[]{new StringBuffer("CITS3200"), new StringBuffer("Prof Comp")});
-		//}
+		for (Unit s : CohortData.units) {
+			TreeItem unit = new TreeItem(unitTree, SWT.NONE);
+			TreeItemMap.put(unit, new StringBuffer[]{s.unitCode, s.name});
+		}
 		
-		//refreshTree(unitTree);
+		refreshTree(unitTree);
 		
 		for (TreeColumn tc : unitTree.getColumns()) tc.pack();
 		unitTree.pack();
+		
+		unitTree.addListener(SWT.Selection,new Listener() {
+			public void handleEvent(Event event) {
+				TreeItem[] selected = unitTree.getSelection();
+				if (selected.length != 0) {
+					String[] selectedString = selected[0].getText().split(" ");
+					if (unitTree.indexOf(unitTree.getSelection()[0]) == 0) {
+						unitCode.setText("");
+						unitName.setText("");
+						creditPoints.setText("");
+					} else {
+						//TODO populate unit data when clicked
+					}
+				}
+			}
+		});
+	
+	}
+	
+	/**
+	 * Displays data relevant to which student was clicked on.
+	 * @param student the student that was clicked on
+	 */
+	private static void populateSelectedData(Unit unit) {
+		try {														//Found values
+			unitCode.setText(unit.getUnitCode()+"");
+			unitName.setText(unit.getName()+"");
+			creditPoints.setText(unit.getPoints()+"");
 
+		} catch (java.lang.NullPointerException e) {				//Default values
+			//Found values
+			unitCode.setText("");
+			unitName.setText("");
+			creditPoints.setText("");
+		}
 	}
 	
 	/**

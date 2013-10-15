@@ -157,11 +157,7 @@ public class DisplayCE_PopulateEditStudent {
 		TreeColumn studentTree_studentName = new TreeColumn(studentTree, SWT.LEFT);
 		studentTree_studentName.setText("Student Name");
 
-
-
-		refreshTree(studentTree);
-		refreshTree(supervisorTree);
-		supervisorTree.pack();
+		refreshTree();
 
 		//Action to perform when the save button is pressed
 		btnSaveDiscard[0].addListener(SWT.Selection, new Listener() {
@@ -215,6 +211,14 @@ public class DisplayCE_PopulateEditStudent {
 				}
 			}
 		});
+		
+		//Listener to auto-update displayed data (currently untested)
+		CETabFolder.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				refreshTree();
+			}
+		});
+		
 		tbtmEditStudent.setControl(editStudentComposite);
 	}
 
@@ -284,7 +288,7 @@ public class DisplayCE_PopulateEditStudent {
 			}
 
 			student.updateRow();
-			refreshTree(studentTree); //TODO is this needed?
+			refreshTree(); //TODO is this needed?
 
 			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
 		} catch (java.lang.NullPointerException | SQLException e) {
@@ -299,7 +303,7 @@ public class DisplayCE_PopulateEditStudent {
 				//studentTree.setSelection(studentTreeItem);	//TODO: does not seem to work properly
 				PopupWindow.popupMessage(studentTree.getShell(), "New student created successfully", "Save Successful");
 				hardRefreshNeeded = true;
-				refreshTree(studentTree);
+				refreshTree();
 			} catch (SQLException ex) {
 				PopupWindow.popupMessage(studentTree.getShell(), "New student was unable to be created. \nPossible duplicate student number", "Save Unsuccessful");
 			}
@@ -311,13 +315,17 @@ public class DisplayCE_PopulateEditStudent {
 	 * Refreshes all data displayed in the tree
 	 * @param tree the tree which is to be refreshed
 	 */
-	public static void refreshTree(Tree tree) {
+	public static void refreshTree() {
 		if (hardRefreshNeeded) {
-			for (TreeItem ti : tree.getItems()) ti.dispose();
 			hardRefresh();
 			hardRefreshNeeded = false;
 		}
-		for ( TreeItem ti : tree.getItems() ) {
+		for ( TreeItem ti : studentTree.getItems() ) {
+			try {
+				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
+			} catch (java.lang.NullPointerException e) {}
+		}
+		for ( TreeItem ti : supervisorTree.getItems() ) {
 			try {
 				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
 			} catch (java.lang.NullPointerException e) {}
@@ -325,6 +333,9 @@ public class DisplayCE_PopulateEditStudent {
 	}
 
 	private static void hardRefresh() {
+		for (TreeItem ti : studentTree.getItems()) ti.dispose();
+		for (TreeItem ti : supervisorTree.getItems()) ti.dispose();
+		
 		TreeItem newStudent = new TreeItem(studentTree, SWT.NONE);
 		newStudent.setText(new String[] {"+", "Add New Student"});
 		
@@ -338,6 +349,7 @@ public class DisplayCE_PopulateEditStudent {
 			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});
 			TreeItemMap.put(supervisor, new StringBuffer[]{s.staffID, s.firstName, s.lastName});
 		}
+		supervisorTree.pack();
 	}
 
 }

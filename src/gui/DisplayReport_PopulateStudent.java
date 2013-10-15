@@ -81,10 +81,10 @@ public class DisplayReport_PopulateStudent {
 		});
 
 		//Listener to auto-update displayed data (currently untested)
-		refreshAll(studentTree);
+		refreshTree(studentTree);
 		reportTabFolder.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				refreshAll(studentTree);
+				refreshTree(studentTree);
 			}
 		});
 
@@ -94,8 +94,7 @@ public class DisplayReport_PopulateStudent {
 	 * Refreshes all data displayed in the tree
 	 * @param tree the tree which is to be refreshed
 	 */
-	//TODO: currently does not add new treeItems
-	public static void refreshAll(Tree tree) {
+	public static void refreshTree(Tree tree) {
 		if (hardRefreshNeeded) {
 			for (TreeItem ti : tree.getItems()) ti.dispose();
 			hardRefresh(tree);

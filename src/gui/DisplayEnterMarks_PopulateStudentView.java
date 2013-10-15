@@ -44,14 +44,14 @@ public class DisplayEnterMarks_PopulateStudentView {
 		studentUnitSelectionComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
 		studentUnitSelectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 
-		final Combo studentCombo = new Combo(studentUnitSelectionComposite, SWT.NONE);
+		final Combo studentCombo = new Combo(studentUnitSelectionComposite, SWT.READ_ONLY);
 		try {
 			for (Student s : CohortData.students)
 				studentCombo.add("[" + s.studentID + "] " + s.getFullName());
 		} catch (java.lang.NullPointerException e) {}
 
-		final Combo unitCombo = new Combo(studentUnitSelectionComposite, SWT.NONE);
-		
+		final Combo unitCombo = new Combo(studentUnitSelectionComposite, SWT.READ_ONLY);
+
 		Tree marksTree = new Tree(mainComposite, SWT.BORDER);
 		marksTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tbtmReport.setControl(mainComposite);
@@ -59,13 +59,11 @@ public class DisplayEnterMarks_PopulateStudentView {
 		studentCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				unitCombo.removeAll();
-				String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 8);
-				System.out.println("ns" + studentNumber);
-				for (Unit u : Student.getStudentByID(studentNumber).discipline) {
-					try {
+				String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 9);
+				try {
+					for (Unit u : Student.getStudentByID(studentNumber).discipline)
 						unitCombo.add("[" + u.unitCode + "] " + u.name);
-					} catch (java.lang.NullPointerException NPE) {}
-				}
+				} catch (java.lang.NullPointerException NPE) {}
 			}
 		});
 

@@ -23,6 +23,7 @@ public class BaseUnit {
             
             // There will only be one unit returned as unitCode is unique
     		// Called with this constructor, no data about marks will exist
+    		
     		unitRS.first();
             
             setUnitCode(unitCode);

@@ -81,7 +81,7 @@ public class Student extends BaseStudent {
     public void addSupervisor(Staff s) throws SQLException {
     	this.supervisors.add(s);
     	String sql = "Insert into Supervises values (" + this.getStudentID() + " , " + s.getStaffID() + ")";
-    	System.out.println("ROW INSERT: " + sql); //TODO delete
+    	//System.out.println("ROW INSERT: " + sql); //TODO delete
     	Session.dbConn.getConnection().createStatement().execute(sql);
     }
     /**
@@ -91,8 +91,8 @@ public class Student extends BaseStudent {
      */
     public void deleteSupervisor(Staff s) throws SQLException {
     	this.supervisors.remove(s);
-    	String sql = "Delete from Supervises WHERE StudentID = " + this.getStudentID() + " and StaffID = " + s.getStaffID();
-    	System.out.println("ROW DELETE: " + sql); //TODO delete
+    	String sql = "Delete from Supervises WHERE StudentID = " + this.getStudentID() + " and StaffID = " + s.getStaffID()	;
+    	//System.out.println("ROW DELETE: " + sql); //TODO delete
     	Session.dbConn.getConnection().createStatement().execute(sql);
     }
     
@@ -103,7 +103,7 @@ public class Student extends BaseStudent {
      */
     public void updateRow() throws SQLException {
     	String sql = "UPDATE Student SET FirstName = '"+this.getFirstName().toString()+"', LastName = '"+this.getLastName().toString()+"', Title = '"+this.getTitle().toString()+"', DissTitle = '"+this.getDissTitle().toString()+"', Discipline = '"+this.getDisciplineName().toString()+"', Mark = "+this.getCourseMark()+", Grade = '"+this.getGrade().toString()+"' WHERE StudentID = " + this.getStudentID();
-    	System.out.println("ROW UPDATE: " + sql); //TODO delete
+    	//System.out.println("ROW UPDATE: " + sql); //TODO delete
     	Session.dbConn.getConnection().createStatement().execute(sql);	   
     }
     

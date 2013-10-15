@@ -195,11 +195,16 @@ public class MarkCalculator
      */
     public static void calculateStudentMarks(Student curStudent){
         int unitNum = curStudent.getDiscipline().size();
-        
+        double total = 0;
+        int points = 0;
         for (int i = 0; i < unitNum; i++) {
             calculateWholeUnit( curStudent.getDiscipline().get(i) );
+            total = total + ( calculateWholeUnit( curStudent.getDiscipline().get(i) ) * curStudent.getDiscipline().get(i).getPoints());
+            points = points + curStudent.getDiscipline().get(i).getPoints();
         }
-
+        
+        total = total/points;
+        curStudent.setCourseMarks(total);
         return;
     }
     

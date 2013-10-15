@@ -38,6 +38,33 @@ public class CommonButtons {
 	}
 	
 	/**
+	 * Creates three buttons, and places them in the bottom right corner.</br>
+	 * The buttons are 'Change Username', 'Change Password' and 'Change Secret Question/Answer'
+	 * @param parent the composite to put the buttons in
+	 * @return the created buttons, in the order {Change Username, Change Password, Change Secret Question/Answer}
+	 */
+	public static Button[] addUpdateSettingsButtons(Composite parent) {
+		Composite buttonsComposite = new Composite(parent, SWT.NONE);
+		buttonsComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
+		buttonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false, 2, 1));
+
+		Button btnChangeUsername = new Button(buttonsComposite, SWT.NONE);
+		btnChangeUsername.setText("Change Username");
+
+		Button btnChangePassword = new Button(buttonsComposite, SWT.NONE);
+		btnChangePassword.setText("Change Password");
+		
+		Button btnChangeQuestion = new Button(buttonsComposite, SWT.NONE);
+		btnChangeQuestion.setText("Change Secret Question/Answer");
+		
+		Button[] returnButtons = new Button[3];
+		returnButtons[0] = btnChangeUsername;
+		returnButtons[1] = btnChangePassword;
+		returnButtons[2] = btnChangeQuestion;
+		return returnButtons;
+	}
+	
+	/**
 	 * Creates two buttons, and places them in the bottom right corner.</br>
 	 * The buttons are 'Save Changes' and 'Delete "whatToDelete"'
 	 * @param parent the composite to put the buttons in

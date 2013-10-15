@@ -15,9 +15,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.TreeItem;
-
-import orm.Student;
 
 /**
  * Account Settings Section
@@ -147,11 +144,10 @@ public class DisplaySettings_Account {
 		Composite spacerComposite = new Composite(accountSettingsComposite, SWT.NONE);
 		spacerComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true, 2, 1));
 
-		@SuppressWarnings("unused")	//TODO: remove later
-		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(accountSettingsComposite);
+		Button[] btnUpdateSettings = CommonButtons.addUpdateSettingsButtons(accountSettingsComposite);
 		
-		//Action to perform when the save button is pressed
-		btnSaveDiscard[0].addListener(SWT.Selection, new Listener() {
+		//Action to perform when the Change Username button is pressed
+		btnUpdateSettings[0].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				if (!newPasswordText.getText().equals(retypeNewPasswordtext.getText())) {
 					PopupWindow.popupMessage(settingsTabFolder.getShell(), "New passwords do not match.\nChanges have not been saved", "WARNING");

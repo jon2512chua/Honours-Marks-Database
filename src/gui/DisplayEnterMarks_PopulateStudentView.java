@@ -25,6 +25,7 @@ import orm.Mark;
 import orm.Student;
 import orm.SubAssessment;
 import orm.Unit;
+import org.eclipse.swt.layout.RowData;
 
 /**
  * Student Oriented Entering Marks View
@@ -59,12 +60,14 @@ public class DisplayEnterMarks_PopulateStudentView {
 
 		//TODO: make autoupdate
 		final Combo studentCombo = new Combo(studentUnitSelectionComposite, SWT.READ_ONLY);
+		studentCombo.setLayoutData(new RowData(200, SWT.DEFAULT));
 		try {
 			for (Student s : CohortData.students)
 				studentCombo.add("[" + s.studentID + "] " + s.getFullName());
 		} catch (java.lang.NullPointerException e) {}
 
 		final Combo unitCombo = new Combo(studentUnitSelectionComposite, SWT.READ_ONLY);
+		unitCombo.setLayoutData(new RowData(200, SWT.DEFAULT));
 
 		final Tree marksTree = new Tree(mainComposite, SWT.BORDER);
 		marksTree.setLinesVisible(true);
@@ -83,7 +86,7 @@ public class DisplayEnterMarks_PopulateStudentView {
 		TreeColumn trclmnMaxMark = new TreeColumn(marksTree, SWT.NONE);
 		trclmnMaxMark.setText("Max Mark");
 
-		//Student Selection Listener
+		//Student Combo Selection Listener
 		studentCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				unitCombo.removeAll();
@@ -95,11 +98,9 @@ public class DisplayEnterMarks_PopulateStudentView {
 			}
 		});
 
-		//Unit Selection Listener
+		//Unit Combo Selection Listener
 		unitCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-
-
 				refreshTree(marksTree, studentCombo);
 				for ( TreeColumn tc : marksTree.getColumns() ) tc.pack();
 			}
@@ -122,6 +123,7 @@ public class DisplayEnterMarks_PopulateStudentView {
 	/**
 	 * Refreshes all data displayed in the tree
 	 * @param tree the tree which is to be refreshed
+	 * @param studentCombo
 	 */
 	public static void refreshTree(Tree tree, Combo studentCombo) {
 		if (hardRefreshNeeded) {
@@ -157,6 +159,10 @@ public class DisplayEnterMarks_PopulateStudentView {
 		}
 	}
 
+	/**
+	 * @param marksTree
+	 * @param studentCombo
+	 */
 	private static void hardRefresh(Tree marksTree, Combo studentCombo) {
 
 		String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 9);

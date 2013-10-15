@@ -106,7 +106,7 @@ public class DisplayReport_PopulateStudent {
 						
 						TreeItem assessmentPercentUnit = new TreeItem(assessment, SWT.NONE);
 						TreeItemMap.put(assessmentPercentUnit, a.unitPercent);
-						assessmentPercentUnit.setText(0, "Precent of Unit");
+						assessmentPercentUnit.setText(0, "Percent of Unit");
 						
 						TreeItem assessmentMark = new TreeItem(assessment, SWT.NONE);
 						TreeItemMap.put(assessmentMark, a.mark);
@@ -124,6 +124,17 @@ public class DisplayReport_PopulateStudent {
 							TreeItem subAssessmentMaxMark = new TreeItem(subAssessment, SWT.NONE);
 							TreeItemMap.put(subAssessmentMaxMark, sa.maxMark);
 							subAssessmentMaxMark.setText(0, "Maximum Mark");
+							
+							TreeItem subAssessmentMark = new TreeItem(subAssessment, SWT.NONE);
+							TreeItemMap.put(subAssessmentMark, sa.aveMark);
+							subAssessmentMark.setText(0, "Mark");
+							
+							List<Mark> subAssessmentMarkersMarks = sa.getMarks();
+							for (Mark m : subAssessmentMarkersMarks) {
+								TreeItem subAssessmentMarkersMark = new TreeItem(subAssessmentMark, SWT.NONE);
+								TreeItemMap.put(subAssessmentMarkersMark, m.value);
+								subAssessmentMarkersMark.setText(0, m.markerID.toString());		//marker name does not yet update dynamically. Their marks do however.
+							}
 						}
 					}
 				}

@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import sessionControl.*;
+import logic.MarkCalculator;
 
 public class BaseStudent {
 	

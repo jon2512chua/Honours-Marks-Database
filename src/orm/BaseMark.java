@@ -41,10 +41,18 @@ public class BaseMark implements Comparable {
 	            setStudentID(studentID);
 	            setParentSubAssessment(subAssessment);
 	            
+	            int inRange = markRS.getInt("InsideRange");
+	            if (inRange == 0){
+	            	setInsideRange(false);
+	            }
+	            else {
+	            	setInsideRange(true);
+	            }
 	            
 	            setValue(markRS.getDouble("Mark"));
 	            setReport(markRS.getString("Report"));
     		}
+    		
             
         } catch (SQLException ex) {
             Logger.getLogger(BaseUnit.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,7 +85,7 @@ public class BaseMark implements Comparable {
     }
     
     public double getValue() {
-        try {
+    	try {
     		return Double.parseDouble(value+"");
     	} catch (java.lang.NumberFormatException e) {
     		return 0;

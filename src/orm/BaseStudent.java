@@ -34,6 +34,8 @@ public class BaseStudent {
 	            setCourseMarks(studentRS.getDouble("Mark"));
 	            setGrade(studentRS.getString("Grade"));
 	            setDiscipline(getUnitListByStudentID(studentID));
+	            
+	            MarkCalculator.calculateStudentMarks((Student)this); /// TAKE ME OUT
         	}
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);

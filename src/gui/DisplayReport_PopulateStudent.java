@@ -61,6 +61,7 @@ public class DisplayReport_PopulateStudent {
 		treeTop[0].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				for ( TreeItem ti : studentTree.getItems() ) ti.setExpanded(true);
+				studentTree.notifyListeners(SWT.Expand, new Event());
 			}
 		});
 
@@ -68,6 +69,7 @@ public class DisplayReport_PopulateStudent {
 		treeTop[1].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				for ( TreeItem ti : studentTree.getItems() ) ti.setExpanded(false);
+				studentTree.notifyListeners(SWT.Collapse, new Event());
 			}
 		});
 
@@ -79,10 +81,10 @@ public class DisplayReport_PopulateStudent {
 		});
 
 		//Listener to auto-update displayed data (currently untested)
-		refreshAll(studentTree);
+		refreshTree(studentTree);
 		reportTabFolder.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				refreshAll(studentTree);
+				refreshTree(studentTree);
 			}
 		});
 
@@ -92,8 +94,7 @@ public class DisplayReport_PopulateStudent {
 	 * Refreshes all data displayed in the tree
 	 * @param tree the tree which is to be refreshed
 	 */
-	//TODO: currently does not add new treeItems
-	public static void refreshAll(Tree tree) {
+	public static void refreshTree(Tree tree) {
 		if (hardRefreshNeeded) {
 			for (TreeItem ti : tree.getItems()) ti.dispose();
 			hardRefresh(tree);
@@ -152,6 +153,14 @@ public class DisplayReport_PopulateStudent {
 				TreeItemMap.put(studentSuper, supervisor.staffID);	//TODO: fix for stringbuffer
 				studentSuper.setText(0, "Supervisor");
 			}
+			
+			TreeItem studentOverallMark = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentOverallMark, s.courseMark);
+			studentOverallMark.setText(0, "Course Mark");
+			
+			TreeItem studentOverallGrade = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentOverallGrade, s.grade);
+			studentOverallGrade.setText(0, "Course Grade");
 
 			List<Unit> units = s.getDiscipline();
 			for (Unit u : units) {

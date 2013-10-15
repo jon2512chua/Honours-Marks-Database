@@ -41,7 +41,12 @@ public class BaseSubAssessment {
         }
     	
     }
-    
+    /**
+     * Method run when returning a list of all subassessments; creates single subassessment object for each subassessment, 
+     * and populates each object with its relevant marks
+     * 
+     * @param subAssessmentID the ID of the subassessment being made
+     */
     public BaseSubAssessment(int subAssessmentID) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet subassessmentRS = s.executeQuery("SELECT * FROM SubAssessment WHERE SubAssessmentID=" + subAssessmentID)) {
@@ -60,6 +65,20 @@ public class BaseSubAssessment {
         } catch (SQLException ex) {
             Logger.getLogger(BaseSubAssessment.class.getName()).log(Level.SEVERE, null, ex);
         }
+    	
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet subassessmentMarksRS = s.executeQuery("SELECT * FROM SubAssessmentMark WHERE SubAssessmentID=" + subAssessmentID)) {
+            
+            // Will be a list of subAssessments marks returned, as many subAssessments marks can belong to a subassessment
+    		// We are adding all of them to the list
+            while (subassessmentMarksRS.next()) {
+            	Mark nextMark = new Mark(subAssessmentID, subassessmentMarksRS.getInt("StudentID"), subassessmentMarksRS.getInt("MarkerID"), (SubAssessment) this);
+	            this.marks.add(nextMark);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    	
     	
     }
     
@@ -157,6 +176,7 @@ public class BaseSubAssessment {
     
     public void setAveMark(double aveMark) {
     	this.aveMark.replace(0, this.aveMark.capacity(),  Double.toString(aveMark));
+    	this.aveMark.setLength(5);
     }
     
     

@@ -57,34 +57,34 @@ public class StatisticsCalculator
 	}
 
 	/**
-	 * Method to return the list of subassessments whose IDs match the subassessment being
-	 * searched for
+	 * Method to calculate the average of a subassessment over a cohort
 	 *
-	 * @curSubAssess is the subassessment that is being looked for
-	 * @return a list of the subassessment objects with the same subassessmentID as curSubAssess
+	 * @subAssessID the ID of the subassessment that is being looked for
+	 * @return the average for the cohort for the subassessment
 	 */
 
-	public static List<SubAssessment> findSubAssessments(SubAssessment curSubAssess){
+	public static double subAssessAve(int subAssessID){
 
-		List<SubAssessment> subAssessList = new ArrayList<SubAssessment>();
+		subAssessment current;
 
-		List<Assessment> assessList = findAssessments(curSubAssess.getParentAssessment());
-
-		for (int i = 0; i < assessList.size(); i++) {
-			Assessment curAssess = assessList.get(i);
-
-			for (int j = 0; j <curAssess.getSubAssessments().size(); j++){
-
-				if (curSubAssess.getSubAssessmentID() ==
-						curAssess.getSubAssessments().get(j).getSubAssessmentID()) {
-					subAssessList.add(curAssess.getSubAssessments().get(j));
-				}
+		for (SubAssessment s : CohortData.subassessments) {
+			if (s.getSubAssessmentID() == subAssessID){
+				current = s;
 			}
-
 		}
-		return subAssessList;
+		
+		double ave = 0;
+		int counted = 0;
+		for (Mark m : current.getSubAssessments()){
+			ave = ave + m.getValue();
+			counted++;
+		}
+		
+		ave = ave/counted;
+		return ave;
 	}
 
+	
 	/**
 	 * Method to find the Cohort's average over a subassessment
 	 * 

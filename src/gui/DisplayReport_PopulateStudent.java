@@ -199,7 +199,7 @@ public class DisplayReport_PopulateStudent {
 
 						TreeItem subAssessmentsPercentAssessment = new TreeItem(subAssessment, SWT.NONE);
 						TreeItemMap.put(subAssessmentsPercentAssessment, sa.assessmentPercent);
-						subAssessmentsPercentAssessment.setText(0, "Precent of Assessment");
+						subAssessmentsPercentAssessment.setText(0, "Percent of Assessment");
 
 						TreeItem subAssessmentMaxMark = new TreeItem(subAssessment, SWT.NONE);
 						TreeItemMap.put(subAssessmentMaxMark, sa.maxMark);

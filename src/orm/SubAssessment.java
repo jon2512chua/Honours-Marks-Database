@@ -19,7 +19,6 @@ public class SubAssessment extends BaseSubAssessment {
     public SubAssessment(int subAssessmentID){
     	super(subAssessmentID);
     }
-    
 
     public static List<SubAssessment> getAllSubAssessments() {
         List<SubAssessment> allSubAssessments = new ArrayList<>();

@@ -77,7 +77,11 @@ public class BaseMark implements Comparable {
     }
     
     public double getValue() {
-    	return Double.parseDouble(value+"");
+        try {
+    		return Double.parseDouble(value+"");
+    	} catch (java.lang.NumberFormatException e) {
+    		return 0;
+    	}
     }
     
     public void setValue(double value) {

@@ -65,6 +65,7 @@ public class CommonButtons {
 	 * The buttons are '+', '-', 'Export Report to Excel'
 	 * @param parent the composite to put the buttons in
 	 * @return the created buttons, in the order {+, -, Export}
+	 * @wbp.parser.entryPoint
 	 */
 	public static Button[] addReportTreeTop(Composite parent) {
 		Composite buttonsComposite = new Composite(parent, SWT.NONE);
@@ -77,9 +78,7 @@ public class CommonButtons {
 		buttonsComposite.setLayout(rl_buttonsComposite);
 		buttonsComposite.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, false, 2, 1));
 		
-		RowData rd_ButtonsPM = new RowData();
-		rd_ButtonsPM.height = 30;
-		rd_ButtonsPM.width = 30;
+		RowData rd_ButtonsPM = new RowData(SWT.DEFAULT, SWT.DEFAULT);
 
 		Button btnExpand = new Button(buttonsComposite, SWT.NONE);
 		btnExpand.setLayoutData(rd_ButtonsPM);
@@ -91,7 +90,7 @@ public class CommonButtons {
 		
 		Button btnExport = new Button(buttonsComposite, SWT.NONE);
 		RowData rd_btnExport = new RowData();
-		rd_btnExport.height = 30;
+		rd_btnExport.height = 33;
 		btnExport.setLayoutData(rd_btnExport);
 		btnExport.setText("Export Report to Excel");
 		

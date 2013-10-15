@@ -104,28 +104,28 @@ public class MainUI {
 
 		Button btnReports = new Button(menuComposite, SWT.NONE);
 		GridData gd_btnReports = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnReports.heightHint = 30;
+		gd_btnReports.heightHint = 33;
 		btnReports.setLayoutData(gd_btnReports);
 		btnReports.setAlignment(SWT.LEFT);
 		btnReports.setText("Reports");
 
 		Button btnEnterMarks = new Button(menuComposite, SWT.NONE);
 		GridData gd_btnEnterMarks = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnEnterMarks.heightHint = 30;
+		gd_btnEnterMarks.heightHint = 33;
 		btnEnterMarks.setLayoutData(gd_btnEnterMarks);
 		btnEnterMarks.setAlignment(SWT.LEFT);
 		btnEnterMarks.setText("Enter Marks");
 
 		Button btnManageCohort = new Button(menuComposite, SWT.NONE);
 		GridData gd_btnManageCohort = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnManageCohort.heightHint = 30;
+		gd_btnManageCohort.heightHint = 33;
 		btnManageCohort.setLayoutData(gd_btnManageCohort);
 		btnManageCohort.setAlignment(SWT.LEFT);
 		btnManageCohort.setText("Manage Cohort");
 
 		Button btnSettings = new Button(menuComposite, SWT.NONE);
 		GridData gd_btnSettings = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnSettings.heightHint = 30;
+		gd_btnSettings.heightHint = 33;
 		btnSettings.setLayoutData(gd_btnSettings);
 		btnSettings.setAlignment(SWT.LEFT);
 		btnSettings.setText("Settings");
@@ -139,7 +139,7 @@ public class MainUI {
 
 		Button btnExit = new Button(exitComposite, SWT.NONE);
 		GridData gd_btnExit = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnExit.heightHint = 30;
+		gd_btnExit.heightHint = 33;
 		btnExit.setLayoutData(gd_btnExit);
 		btnExit.setAlignment(SWT.LEFT);
 		btnExit.setText("Exit");

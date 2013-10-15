@@ -253,7 +253,7 @@ public class DisplayCE_PopulateEditStudent {
 					ti.setChecked(true);
 				}
 			}
-			studentNumber.setEditable(false);
+			studentNumber.setEnabled(false);
 
 		} catch (java.lang.NullPointerException e) {				//Default values
 			studentNumber.setText("");
@@ -264,7 +264,7 @@ public class DisplayCE_PopulateEditStudent {
 			for (TreeItem ti : supervisorTree.getItems()) {
 				ti.setChecked(false);
 			}
-			studentNumber.setEditable(true);
+			studentNumber.setEnabled(true);
 		}
 	}
 

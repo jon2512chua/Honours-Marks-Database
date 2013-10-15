@@ -78,7 +78,7 @@ public class CommonButtons {
 		buttonsComposite.setLayout(rl_buttonsComposite);
 		buttonsComposite.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, false, 2, 1));
 		
-		RowData rd_ButtonsPM = new RowData(SWT.DEFAULT, SWT.DEFAULT);
+		RowData rd_ButtonsPM = new RowData(33,33);
 
 		Button btnExpand = new Button(buttonsComposite, SWT.NONE);
 		btnExpand.setLayoutData(rd_ButtonsPM);

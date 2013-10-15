@@ -43,8 +43,6 @@ public class StatisticsCalculator
 	}
 	
 	
-	
-	
 	//old things, not sure how they're useful
 	
 	/**

@@ -243,6 +243,14 @@ public class MainUI {
 		showTabFolder.getParent().getParent().layout();
 		showTabFolder.getShell().setText(title);
 	}
+	
+	public static void set_hardResetNeeded () {
+		DisplayReport_PopulateStudent.hardRefreshNeeded = true;
+		//TODO: uncomment once implemented.
+		//DisplayReport_PopulateCohort.hardRefreshNeeded = true;
+		//DisplayReport_PopulateMarker.hardRefreshNeeded = true;
+		//DisplayReport_PopulateUnit.hardRefreshNeeded = true;
+	}
 
 	//TODO: Tree *should* update automatically. If not, try this:
 	/*public static void refresh(TreeItem ctrl, Tree tree) {

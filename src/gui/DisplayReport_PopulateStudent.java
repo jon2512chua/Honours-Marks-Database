@@ -74,9 +74,9 @@ public class DisplayReport_PopulateStudent {
 		});
 
 		//Listener for Export button
-		treeTop[1].addListener(SWT.Selection, new Listener() {
+		treeTop[2].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				//TODO: export here
+				export.ToExcel.studentSummaries("test.xls"); //TODO Need to make a file picker
 			}
 		});
 

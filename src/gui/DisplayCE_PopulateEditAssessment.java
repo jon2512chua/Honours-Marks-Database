@@ -60,7 +60,7 @@ public class DisplayCE_PopulateEditAssessment {
 		rComposite.setLayout(new GridLayout(2, false));
 		rComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
-		Label lblUnitName = new Label(rComposite, SWT.NONE);
+		final Label lblUnitName = new Label(rComposite, SWT.NONE);
 		lblUnitName.setText("UNIT NAME");
 		new Label(rComposite, SWT.NONE);
 		
@@ -163,6 +163,8 @@ public class DisplayCE_PopulateEditAssessment {
 					} else {
 						subAssessmentTree.setEnabled(true);
 						recursiveSetEnabled(rComposite, true);
+						lblUnitName.setText(selected[0].getParentItem().getText());
+						assessmentName.setText(selected[0].getText());
 					}
 				}
 			}
@@ -171,14 +173,9 @@ public class DisplayCE_PopulateEditAssessment {
 		Listener LisAddAssessment = new Listener() {
 			public void handleEvent(Event event) {
 				if (!assessmentName.getText().isEmpty() && !percentageUnit.getText().isEmpty()) {
-					int oriTreeCount = unitTree.getItemCount();
 					PopupWindow.popupAddAssessment(editAssessmentComposite.getShell(), 
 							"Please choose the unit that the Assessment will be added to", 
 							"Adding Assessment", unitTree, assessmentName, percentageUnit);
-					/*if (unitTree.getItemCount() > oriTreeCount) {
-						assessmentName.setText("");
-						percentageUnit.setText("");
-					}*/
 				} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Null Value is not allowed.", "ERROR!");
 			}
 		};
@@ -187,11 +184,13 @@ public class DisplayCE_PopulateEditAssessment {
 		
 		Listener LisRemoveAssessment = new Listener() {
 			public void handleEvent(Event event) {
-				if (unitTree.isFocusControl() && PopupWindow.popupYessNo(editAssessmentComposite.getShell(),
-						"Are you sure you want to REMOVE \"" + unitTree.getSelection()[0].getText()
-						+ "\" from the database", "WARNING!"))
-					unitTree.getSelection()[0].dispose(); //TODO proper delete from database
-				else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select an Assessment to be Removed.", "ERROR!");
+				if (unitTree.getSelection().length != 0) {
+					if (unitTree.getSelection()[0] != null)
+						if (PopupWindow.popupYessNo(editAssessmentComposite.getShell(),
+							"Are you sure you want to REMOVE \"" + unitTree.getSelection()[0].getText()
+							+ "\" from the database", "WARNING!"))
+						unitTree.getSelection()[0].dispose(); //TODO proper delete from database
+				} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select an Assessment to be Removed.", "ERROR!");
 			}
 		};
 		

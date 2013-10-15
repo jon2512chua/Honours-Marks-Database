@@ -7,11 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import logic.CohortData;
-
 import newCohort.CohortImporter;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
@@ -222,11 +220,12 @@ public class DisplayCE_PopulateEditStudent {
 					TreeItem item = studentTree.getSelection()[0];
 					Student s = Student.getStudentByID(item.getText());
 					populateSelectedData(s);
-					for(TreeItem t : supervisorTree.getItems()) {
+					//moved the following to populateSelectedData() - see below
+					/*for(TreeItem t : supervisorTree.getItems()) {
 						if(s.hasSupervisor(Integer.parseInt(t.getText(0)))) {
 							t.setChecked(true);
 						}
-					}
+					}*/
 				}
 			}
 		});
@@ -249,6 +248,9 @@ public class DisplayCE_PopulateEditStudent {
 					if ( ti.getText() == s.getStaffID()+"" ) {
 						ti.setChecked(true);
 					}
+				}
+				if(student.hasSupervisor(Integer.parseInt(ti.getText(0)))) {
+					ti.setChecked(true);
 				}
 			}
 			studentNumber.setEditable(false);
@@ -293,18 +295,24 @@ public class DisplayCE_PopulateEditStudent {
 
 			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
 		} catch (java.lang.NullPointerException e) {
-			Student newStudent = new Student(
-					Integer.parseInt(studentNumber.getText()), 
-					firstName.getText(), lastName.getText(), title.getText(), dissertationTitle.getText(),
-					"", 0, "", new ArrayList<Staff>());
+			Student newStudent;
+			try {
+				newStudent = new Student(
+						Integer.parseInt(studentNumber.getText()), 
+						firstName.getText(), lastName.getText(), title.getText(), dissertationTitle.getText(),
+						"", 0, "", new ArrayList<Staff>());
+				//TODO: fix
+				//create new student on the tree
+				TreeItem studentTreeItem = new TreeItem(studentTree, SWT.NONE);
+				TreeItemMap.put(studentTreeItem, new StringBuffer[]{newStudent.studentID, newStudent.firstName, newStudent.lastName});
+				studentTree.setSelection(studentTreeItem);	//TODO: does not seem to work properly
+				PopupWindow.popupMessage(studentTree.getShell(), "New student created successfully", "Save Successful");
+				refreshTree(studentTree);
+			} catch (SQLException ex) {
 
-			//TODO: fix
-			//create new student on the tree
-			TreeItem studentTreeItem = new TreeItem(studentTree, SWT.NONE);
-			TreeItemMap.put(studentTreeItem, new StringBuffer[]{newStudent.studentID, newStudent.firstName, newStudent.lastName});
-			studentTree.setSelection(studentTreeItem);	//TODO: does not seem to work properly
-			PopupWindow.popupMessage(studentTree.getShell(), "New student created successfully", "Save Successful");
-			refreshTree(studentTree);
+				PopupWindow.popupMessage(studentTree.getShell(), "New student was unable to be created. \nPossible duplicate student number", "Save Unsuccessful");
+			}
+
 		} catch (SQLException e) {			
 			e.printStackTrace(); //TODO fix and remove
 		}

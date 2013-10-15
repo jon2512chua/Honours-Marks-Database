@@ -7,15 +7,15 @@ import sessionControl.*;
 
 public class BaseStudent {
 	
-    public StringBuffer studentID = new StringBuffer (30);
+    public StringBuffer studentID = new StringBuffer (10);
     public StringBuffer firstName = new StringBuffer (30);
     public StringBuffer lastName = new StringBuffer (30);
-    public StringBuffer title = new StringBuffer (30);
-    public StringBuffer dissTitle = new StringBuffer (30);
+    public StringBuffer title = new StringBuffer (6);
+    public StringBuffer dissTitle = new StringBuffer (300);
     public List<Staff> supervisors;
-    public StringBuffer courseMark = new StringBuffer (30);
-    public StringBuffer grade = new StringBuffer (30);
-    public StringBuffer disciplineName = new StringBuffer (30);
+    public StringBuffer courseMark = new StringBuffer (6);
+    public StringBuffer grade = new StringBuffer (3);
+    public StringBuffer disciplineName = new StringBuffer (20);
     public List<Unit> discipline;
     
     public BaseStudent(int studentID) {
@@ -23,23 +23,24 @@ public class BaseStudent {
                 ResultSet studentRS = s.executeQuery("SELECT * FROM Student WHERE StudentID=" + studentID)) {
             
             // There will only be one student returned as studentID is unique.
-            studentRS.first();
+        	while (studentRS.next()) {
             
-            setStudentID(studentID);
-            setFirstName(studentRS.getString("FirstName"));
-            setLastName(studentRS.getString("LastName"));
-            setTitle(studentRS.getString("Title"));
-            setDissTitle(studentRS.getString("DissTitle"));
-            setSupervisors(getStaffList(studentID));
-            setCourseMarks(studentRS.getDouble("Mark"));
-            setGrade(studentRS.getString("Grade"));
-            setDiscipline(getUnitListByStudentID(studentID));
+	            setStudentID(studentID);
+	            setFirstName(studentRS.getString("FirstName"));
+	            setLastName(studentRS.getString("LastName"));
+	            setTitle(studentRS.getString("Title"));
+	            setDissTitle(studentRS.getString("DissTitle"));
+	            setSupervisors(getStaffList(studentID));
+	            setCourseMarks(studentRS.getDouble("Mark"));
+	            setGrade(studentRS.getString("Grade"));
+	            setDiscipline(getUnitListByStudentID(studentID));
+        	}
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public BaseStudent(int studentID, String firstName, String lastName, String title, String dissTitle, String disciplineName, double courseMark, String grade, List<Staff> supervisors) {
+    public BaseStudent(int studentID, String firstName, String lastName, String title, String dissTitle, String disciplineName, double courseMark, String grade, List<Staff> supervisors) throws SQLException {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
             s.execute("INSERT INTO Student VALUES (" + studentID + ", '" + firstName + "', '" + lastName + "', '" + title + "', '" + dissTitle + "', '" + disciplineName + "', " + courseMark + ", '" + grade + "')");
             
@@ -62,6 +63,7 @@ public class BaseStudent {
             setDiscipline(getUnitListByDisciplineName(disciplineName));
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
         }
     }
     
@@ -86,7 +88,7 @@ public class BaseStudent {
     }
     
     public void setStudentID(int studentID) {
-    	this.studentID.replace(0, this.studentID.length(),  Integer.toString(studentID));
+    	this.studentID.replace(0, this.studentID.capacity(),  Integer.toString(studentID));
     }
     
     public StringBuffer getFirstName() {
@@ -94,7 +96,7 @@ public class BaseStudent {
     }
     
     public void setFirstName(String firstName) {
-    	this.firstName.replace(0, this.firstName.length(), firstName);
+    	this.firstName.replace(0, this.firstName.capacity(), firstName);
     }
     
     public StringBuffer getLastName() {
@@ -102,7 +104,7 @@ public class BaseStudent {
     }
     
     public void setLastName(String lastName) {
-    	this.lastName.replace(0, this.lastName.length(), lastName);
+    	this.lastName.replace(0, this.lastName.capacity(), lastName);
     }
     
     public StringBuffer getTitle() {
@@ -110,7 +112,7 @@ public class BaseStudent {
     }
     
     public void setTitle(String title) {
-    	this.title.replace(0, this.title.length(), title);
+    	this.title.replace(0, this.title.capacity(), title);
     }
     
     public StringBuffer getDissTitle() {
@@ -118,7 +120,7 @@ public class BaseStudent {
     }
     
     public void setDissTitle(String dissTitle) {
-    	this.dissTitle.replace(0, this.dissTitle.length(), dissTitle);
+    	this.dissTitle.replace(0, this.dissTitle.capacity(), dissTitle);
     }
     
     public List<Staff> getSupervisors() {
@@ -134,7 +136,7 @@ public class BaseStudent {
     }
     
     public void setCourseMarks(double courseMark) {
-    	this.courseMark.replace(0, this.courseMark.length(),  Double.toString(courseMark));
+    	this.courseMark.replace(0, this.courseMark.capacity(),  Double.toString(courseMark));
     }
     
     public StringBuffer getGrade() {
@@ -143,10 +145,9 @@ public class BaseStudent {
     
     public void setGrade(String grade) {
     	try {
-    		this.grade.replace(0, this.grade.length(), grade);
+    		this.grade.replace(0, this.grade.capacity(), grade);
     	} catch (java.lang.NullPointerException e) {
-    		this.grade.replace(0, this.grade.length(), "0");
-    		System.out.println("grade is null. defulated to 0. should be made not null in db.");
+    		this.grade.replace(0, this.grade.capacity(), "0");
     	}
     }
     
@@ -155,7 +156,7 @@ public class BaseStudent {
     }
     
     public void setDisciplineName(String disciplineName) {
-    	this.disciplineName.replace(0, this.disciplineName.length(), disciplineName);
+    	this.disciplineName.replace(0, this.disciplineName.capacity(), disciplineName);
     }
     
     public List<Unit> getDiscipline() {

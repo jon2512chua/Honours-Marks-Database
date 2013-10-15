@@ -1,5 +1,4 @@
-.settings/
-
+.gitignore
 *.class
 *.properties
 
@@ -11,13 +10,6 @@
 # IDE Files #
 nbproject/
 
-# Miscellaeneous Files #
-.DS_Store
-icon.png
-.classpath
-.project
-sampleCohortData.xls
-
 # Database Files #
 db/*
 derby.log
@@ -26,12 +18,13 @@ config/*
 # Build and Deployment Files #
 /build/
 /dist/
-
-.gitignore
-/bin
 bin/*
-/settings
-/HMD
 
-# Bins. I don't know why this is happening. #
-/bin
+# Miscellaeneous Files #
+.DS_Store
+icon.png
+.classpath
+.project
+sampleCohortData.xls
+/settings
+.settings/

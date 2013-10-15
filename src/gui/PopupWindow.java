@@ -449,13 +449,13 @@ public class PopupWindow {
 	 * @param text the text the popup displays 
 	 * @param title the title to display
 	 * @param percentageUnit 
+	 * @return 
 	 * @wbp.parser.entryPoint
 	 */
-	public static boolean popupAddAssessment(final Shell parentShell, String text, String title, final Tree tree, final Text assessmentName, final Text percentageUnit) {
+	public static void popupAddAssessment(final Shell parentShell, String text, String title, final Tree tree, final Text assessmentName, final Text percentageUnit) {
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 		shell.setImage(parentShell.getImage());
 		
-		final boolean status = false;
 
 		// Set the Window Title
 		shell.setText(title);
@@ -533,7 +533,6 @@ public class PopupWindow {
 				shell.dispose();
 			}
 		});
-		return status;
 		
 	}
 

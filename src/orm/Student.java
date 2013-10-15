@@ -11,7 +11,7 @@ public class Student extends BaseStudent {
         super(studentID);
     }
     
-    public Student(int studentID, String firstName, String lastName, String title, String dissTitle, String disciplineName, double courseMark, String grade, List<Staff> supervisors) {
+    public Student(int studentID, String firstName, String lastName, String title, String dissTitle, String disciplineName, double courseMark, String grade, List<Staff> supervisors) throws SQLException {
         super(studentID, firstName, lastName, title, dissTitle, disciplineName, courseMark, grade, supervisors);
     }
         

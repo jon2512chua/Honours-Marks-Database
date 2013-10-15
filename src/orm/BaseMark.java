@@ -1,18 +1,23 @@
 package orm;
 
+
+import logic.*;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+//import java.util.List;
+//import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import sessionControl.Session;
 
-public class BaseMark {
-    public StringBuffer value = new StringBuffer (30);    
-    public StringBuffer report = new StringBuffer (30);
-    public StringBuffer markerID = new StringBuffer (30);
-    public StringBuffer studentID = new StringBuffer (30);
+public class BaseMark implements Comparable {
+    public StringBuffer value = new StringBuffer (6);    
+    public StringBuffer report = new StringBuffer (500);
+    public StringBuffer markerID = new StringBuffer (12);
+    public StringBuffer studentID = new StringBuffer (10);
     public SubAssessment parentSubAssessment;
     
     /**
@@ -30,28 +35,53 @@ public class BaseMark {
                 									"AND StudentID ="+ studentID + "AND MarkerID =" + markerID)) {
             
             // There will only be one mark returned as each (subAssessmentID, studentID, markerID) tuple is unique
-    		markRS.first();
+    		while (markRS.next()) {
             
-            setMarkerID(markerID);
-            setStudentID(studentID);
-            setParentSubAssessment(subAssessment);
-            
-            
-            setValue(markRS.getDouble("Mark"));
-            setReport(markRS.getString("Report"));
+	            setMarkerID(markerID);
+	            setStudentID(studentID);
+	            setParentSubAssessment(subAssessment);
+	            
+	            
+	            setValue(markRS.getDouble("Mark"));
+	            setReport(markRS.getString("Report"));
+    		}
             
         } catch (SQLException ex) {
             Logger.getLogger(BaseUnit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    public BaseMark(double value, String report, boolean insideRange, int markerID, int studentID, SubAssessment parentSubAssessment) throws SQLException {
+        try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+            s.execute("INSERT INTO SubAssessmentMark VALUES ("
+                    + value + ", "
+                    + markerID + ", "
+                    + studentID + ", "
+                    + parentSubAssessment.getSubAssessmentID() + ", '"
+                    + (getInsideRange() ? 1 : 0) +"', '"
+                    + report + "')");
+            
+            setValue(value);
+            setReport(report);
+            setInsideRange(insideRange);
+            setMarkerID(markerID);
+            setStudentID(studentID);
+            setParentSubAssessment(parentSubAssessment);
+            
+            MarkCalculator.calculateStudentMarks(Student.getStudentByID(studentID+""));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+    }
     
     public double getValue() {
     	return Double.parseDouble(value+"");
     }
     
     public void setValue(double value) {
-    	this.value.replace(0, this.value.length(),  Double.toString(value));
+    	this.value.replace(0, this.value.capacity(),  Double.toString(value));
     }
     
     public boolean getInsideRange() {
@@ -67,7 +97,7 @@ public class BaseMark {
     }
     
     public void setMarkerID(int markerID) {
-    	this.markerID.replace(0, this.markerID.length(),  Integer.toString(markerID));
+    	this.markerID.replace(0, this.markerID.capacity(),  Integer.toString(markerID));
     }
     
     public int getStudentID() {
@@ -75,7 +105,7 @@ public class BaseMark {
     }
     
     public void setStudentID(int studentID) {
-    	this.studentID.replace(0, this.studentID.length(),  Integer.toString(studentID));
+    	this.studentID.replace(0, this.studentID.capacity(),  Integer.toString(studentID));
     }
     
     public SubAssessment getParentSubAssessment() {
@@ -91,6 +121,13 @@ public class BaseMark {
     }
     
     public void setReport(String report) {
-    	this.report.replace(0, this.report.length(), report);
+    	this.report.replace(0, this.report.capacity(), report);
     }
+    
+    public int compareTo(Object otherMark) throws ClassCastException {
+        if (!(otherMark instanceof Mark))
+          throw new ClassCastException("A Mark object expected.");
+        double otherValue = ((Mark) otherMark).getValue();  
+        return (int) ((Double.parseDouble(this.value+"")) - otherValue);    
+      }
 }

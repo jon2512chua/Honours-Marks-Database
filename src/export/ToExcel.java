@@ -16,7 +16,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import orm.Staff;
 import orm.Student;
 /**
- * This is a class for exporting statistics from the database into excel format.
+ * This is a class for exporting particular statistics from the database into excel format.
  * @author Nicholas Abbey
  * @version 16/10/13
  *
@@ -33,8 +33,7 @@ public class ToExcel {
 			
 			Workbook wb = new HSSFWorkbook();
 			Sheet s = wb.createSheet("Student Summaries");
-			
-			
+		
 			Row row = s.createRow(0);
 			Cell cell = row.createCell(0);
 		    cell.setCellValue("Student ID");

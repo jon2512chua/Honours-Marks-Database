@@ -25,6 +25,7 @@ import orm.*;
  */
 public class DisplayReport_PopulateStudent {
 	private static Map<TreeItem, StringBuffer> TreeItemMap = new HashMap<TreeItem, StringBuffer>();
+	public static Boolean hardRefreshNeeded = true;
 
 	/**
 	 * Populates the Student Report
@@ -53,100 +54,6 @@ public class DisplayReport_PopulateStudent {
 		final Tree studentTree = DisplayReport.createReportTree(treeComposite, "Selection", "Data");
 		tbtmReport.setControl(mainComposite);
 
-		try {	//TODO: better error handling
-
-			List<Student> allStudents = Student.getAllStudents();
-			for (Student s : allStudents) {
-				TreeItem student = new TreeItem(studentTree, SWT.NONE);
-				TreeItemMap.put(student, s.studentID);
-
-				TreeItem studentNameTitle = new TreeItem(student, SWT.NONE);
-				TreeItemMap.put(studentNameTitle, s.title);
-				studentNameTitle.setText(0, "Title");
-
-				TreeItem studentNameLast = new TreeItem(student, SWT.NONE);
-				TreeItemMap.put(studentNameLast, s.lastName);
-				studentNameLast.setText(0, "Last Name");
-
-				TreeItem studentNameFirst = new TreeItem(student, SWT.NONE);
-				TreeItemMap.put(studentNameFirst, s.firstName);
-				studentNameFirst.setText(0, "First Name");
-
-				TreeItem studentDissTitle = new TreeItem(student, SWT.NONE);
-				TreeItemMap.put(studentDissTitle, s.dissTitle);
-				studentDissTitle.setText(0, "Dissertation Title");
-
-				for (Staff supervisor : s.supervisors) {
-					TreeItem studentSuper = new TreeItem(student, SWT.NONE);
-					TreeItemMap.put(studentSuper, supervisor.staffID);	//TODO: fix for stringbuffer
-					studentSuper.setText(0, "Supervisor");
-				}
-
-				List<Unit> units = s.getDiscipline();
-				for (Unit u : units) {
-					TreeItem unit = new TreeItem(student, SWT.NONE);
-					TreeItemMap.put(unit, u.unitCode);
-
-					TreeItem unitName = new TreeItem(unit, SWT.NONE);
-					TreeItemMap.put(unitName, u.name);
-					unitName.setText(0, "Unit Name");
-
-					TreeItem unitPoints = new TreeItem(unit, SWT.NONE);
-					TreeItemMap.put(unitPoints, u.points);
-					unitPoints.setText(0, "Unit Points");
-
-					TreeItem unitMarks = new TreeItem(unit, SWT.NONE);
-					TreeItemMap.put(unitMarks, u.mark);
-					unitMarks.setText(0, "Unit Mark");
-
-					List<Assessment> assessments = u.getAssessments();
-					for (Assessment a : assessments) {
-						TreeItem assessment = new TreeItem(unit, SWT.NONE);
-						TreeItemMap.put(assessment, a.name);
-						
-						TreeItem assessmentPercentUnit = new TreeItem(assessment, SWT.NONE);
-						TreeItemMap.put(assessmentPercentUnit, a.unitPercent);
-						assessmentPercentUnit.setText(0, "Percent of Unit");
-						
-						TreeItem assessmentMark = new TreeItem(assessment, SWT.NONE);
-						TreeItemMap.put(assessmentMark, a.mark);
-						assessmentMark.setText(0, "Mark");
-						
-						List<SubAssessment> subAssessments = a.getSubAssessments();
-						for (SubAssessment sa : subAssessments) {
-							TreeItem subAssessment = new TreeItem(assessment, SWT.NONE);
-							TreeItemMap.put(subAssessment, sa.name);
-							
-							TreeItem subAssessmentsPercentAssessment = new TreeItem(subAssessment, SWT.NONE);
-							TreeItemMap.put(subAssessmentsPercentAssessment, sa.assessmentPercent);
-							subAssessmentsPercentAssessment.setText(0, "Precent of Assessment");
-							
-							TreeItem subAssessmentMaxMark = new TreeItem(subAssessment, SWT.NONE);
-							TreeItemMap.put(subAssessmentMaxMark, sa.maxMark);
-							subAssessmentMaxMark.setText(0, "Maximum Mark");
-							
-							TreeItem subAssessmentMark = new TreeItem(subAssessment, SWT.NONE);
-							TreeItemMap.put(subAssessmentMark, sa.aveMark);
-							subAssessmentMark.setText(0, "Mark");
-							
-							List<Mark> subAssessmentMarkersMarks = sa.getMarks();
-							for (Mark m : subAssessmentMarkersMarks) {
-								TreeItem subAssessmentMarkersMark = new TreeItem(subAssessmentMark, SWT.NONE);
-								TreeItemMap.put(subAssessmentMarkersMark, m.value);
-								subAssessmentMarkersMark.setText(0, m.markerID.toString());		//marker name does not yet update dynamically. Their marks do however.
-							}
-						}
-					}
-				}
-
-			}
-
-
-		} catch (java.lang.NullPointerException e) {
-			System.out.println("Whoops, null pointer exception");
-			e.printStackTrace();
-		}
-
 		//Listener to automatically resize Student Report column widths.
 		DisplayReport.autoResizeColumn(studentTree);
 
@@ -170,7 +77,7 @@ public class DisplayReport_PopulateStudent {
 				//TODO: export here
 			}
 		});
-		
+
 		//Listener to auto-update displayed data (currently untested)
 		refreshAll(studentTree);
 		reportTabFolder.addSelectionListener(new SelectionAdapter() {
@@ -187,13 +94,17 @@ public class DisplayReport_PopulateStudent {
 	 */
 	//TODO: currently does not add new treeItems
 	public static void refreshAll(Tree tree) {
+		if (hardRefreshNeeded) {
+			for (TreeItem ti : tree.getItems()) ti.dispose();
+			hardRefresh(tree);				
+		}
 		for ( TreeItem ti : tree.getItems() ) {
 			ti.setText(TreeItemMap.get(ti).toString());
-			
+
 			refreshLevel(ti);
 		}
 	}
-	
+
 	/**
 	 * Called recursively by refreshAll(), to refresh groups of data
 	 * @param parent the TreeItem whose children are to be refreshed.
@@ -207,10 +118,98 @@ public class DisplayReport_PopulateStudent {
 			} catch (java.lang.NullPointerException e) {
 				ti.setText(1, "");
 			}
-			
+
 			if (ti.getItemCount() > 0)
 				refreshLevel (ti);
 		}
 	}
 
+	private static void hardRefresh(Tree tree) {
+		List<Student> allStudents = Student.getAllStudents();
+		for (Student s : allStudents) {
+			TreeItem student = new TreeItem(tree, SWT.NONE);
+			TreeItemMap.put(student, s.studentID);
+
+			TreeItem studentNameTitle = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentNameTitle, s.title);
+			studentNameTitle.setText(0, "Title");
+
+			TreeItem studentNameLast = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentNameLast, s.lastName);
+			studentNameLast.setText(0, "Last Name");
+
+			TreeItem studentNameFirst = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentNameFirst, s.firstName);
+			studentNameFirst.setText(0, "First Name");
+
+			TreeItem studentDissTitle = new TreeItem(student, SWT.NONE);
+			TreeItemMap.put(studentDissTitle, s.dissTitle);
+			studentDissTitle.setText(0, "Dissertation Title");
+
+			for (Staff supervisor : s.supervisors) {
+				TreeItem studentSuper = new TreeItem(student, SWT.NONE);
+				TreeItemMap.put(studentSuper, supervisor.staffID);	//TODO: fix for stringbuffer
+				studentSuper.setText(0, "Supervisor");
+			}
+
+			List<Unit> units = s.getDiscipline();
+			for (Unit u : units) {
+				TreeItem unit = new TreeItem(student, SWT.NONE);
+				TreeItemMap.put(unit, u.unitCode);
+
+				TreeItem unitName = new TreeItem(unit, SWT.NONE);
+				TreeItemMap.put(unitName, u.name);
+				unitName.setText(0, "Unit Name");
+
+				TreeItem unitPoints = new TreeItem(unit, SWT.NONE);
+				TreeItemMap.put(unitPoints, u.points);
+				unitPoints.setText(0, "Unit Points");
+
+				TreeItem unitMarks = new TreeItem(unit, SWT.NONE);
+				TreeItemMap.put(unitMarks, u.mark);
+				unitMarks.setText(0, "Unit Mark");
+
+				List<Assessment> assessments = u.getAssessments();
+				for (Assessment a : assessments) {
+					TreeItem assessment = new TreeItem(unit, SWT.NONE);
+					TreeItemMap.put(assessment, a.name);
+
+					TreeItem assessmentPercentUnit = new TreeItem(assessment, SWT.NONE);
+					TreeItemMap.put(assessmentPercentUnit, a.unitPercent);
+					assessmentPercentUnit.setText(0, "Percent of Unit");
+
+					TreeItem assessmentMark = new TreeItem(assessment, SWT.NONE);
+					TreeItemMap.put(assessmentMark, a.mark);
+					assessmentMark.setText(0, "Mark");
+
+					List<SubAssessment> subAssessments = a.getSubAssessments();
+					for (SubAssessment sa : subAssessments) {
+						TreeItem subAssessment = new TreeItem(assessment, SWT.NONE);
+						TreeItemMap.put(subAssessment, sa.name);
+
+						TreeItem subAssessmentsPercentAssessment = new TreeItem(subAssessment, SWT.NONE);
+						TreeItemMap.put(subAssessmentsPercentAssessment, sa.assessmentPercent);
+						subAssessmentsPercentAssessment.setText(0, "Precent of Assessment");
+
+						TreeItem subAssessmentMaxMark = new TreeItem(subAssessment, SWT.NONE);
+						TreeItemMap.put(subAssessmentMaxMark, sa.maxMark);
+						subAssessmentMaxMark.setText(0, "Maximum Mark");
+
+						TreeItem subAssessmentMark = new TreeItem(subAssessment, SWT.NONE);
+						TreeItemMap.put(subAssessmentMark, sa.aveMark);
+						subAssessmentMark.setText(0, "Mark");
+
+						List<Mark> subAssessmentMarkersMarks = sa.getMarks();
+						for (Mark m : subAssessmentMarkersMarks) {
+							TreeItem subAssessmentMarkersMark = new TreeItem(subAssessmentMark, SWT.NONE);
+							TreeItemMap.put(subAssessmentMarkersMark, m.value);
+							subAssessmentMarkersMark.setText(0, m.markerID.toString());		//marker name does not yet update dynamically. Their marks do however.
+						}
+					}
+				}
+			}
+
+		}
+
+	}
 }

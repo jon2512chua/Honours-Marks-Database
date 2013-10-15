@@ -76,7 +76,12 @@ public class DisplayReport_PopulateStudent {
 		//Listener for Export button
 		treeTop[2].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				export.ToExcel.studentSummaries("test.xls"); //TODO Need to make a file picker
+				try {
+					export.ToExcel.studentSummaries("test.xls"); //TODO Need to make a file picker
+					PopupWindow.popupMessage(studentTree.getShell(), "Export Successful!", "Success!");
+				} catch (Exception e) {
+					PopupWindow.popupMessage(studentTree.getShell(), e.toString(), "ERROR");
+				}
 			}
 		});
 

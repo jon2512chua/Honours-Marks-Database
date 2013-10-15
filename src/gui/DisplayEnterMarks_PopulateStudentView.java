@@ -5,6 +5,8 @@ import logic.CohortData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.GridData;
@@ -42,25 +44,30 @@ public class DisplayEnterMarks_PopulateStudentView {
 		studentUnitSelectionComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
 		studentUnitSelectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 
-		Combo studentCombo = new Combo(studentUnitSelectionComposite, SWT.NONE);
+		final Combo studentCombo = new Combo(studentUnitSelectionComposite, SWT.NONE);
 		try {
-			for (Student s : CohortData.students) {
+			for (Student s : CohortData.students)
 				studentCombo.add("[" + s.studentID + "] " + s.getFullName());
-			}
 		} catch (java.lang.NullPointerException e) {}
 
-		try {
-			Combo unitCombo = new Combo(studentUnitSelectionComposite, SWT.NONE);
-			for (Unit u : CohortData.units) {
-				unitCombo.add("[" + u.unitCode + "] " + u.name);
-			}
-		} catch (java.lang.NullPointerException e) {}
-
-		Tree tree = new Tree(mainComposite, SWT.BORDER);
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		final Combo unitCombo = new Combo(studentUnitSelectionComposite, SWT.NONE);
+		
+		Tree marksTree = new Tree(mainComposite, SWT.BORDER);
+		marksTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tbtmReport.setControl(mainComposite);
 
-
+		studentCombo.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				unitCombo.removeAll();
+				String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 8);
+				System.out.println("ns" + studentNumber);
+				for (Unit u : Student.getStudentByID(studentNumber).discipline) {
+					try {
+						unitCombo.add("[" + u.unitCode + "] " + u.name);
+					} catch (java.lang.NullPointerException NPE) {}
+				}
+			}
+		});
 
 	}
 }

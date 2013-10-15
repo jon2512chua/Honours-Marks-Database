@@ -20,7 +20,7 @@ public class SubAssessment extends BaseSubAssessment {
     	super(subAssessmentID);
     }
     
-    /**		DON'T THINK THIS IS NECESSARY
+
     public static List<SubAssessment> getAllSubAssessments() {
         List<SubAssessment> allSubAssessments = new ArrayList<>();
         
@@ -29,7 +29,7 @@ public class SubAssessment extends BaseSubAssessment {
             ResultSet subAssessmentRS = s.executeQuery("SELECT SubAssessmentID FROM SubAssessment");
             
             while (subAssessmentRS.next()) {
-                allSubAssessments.add(new SubAssessment(subAssessmentRS.getInt("UnitCode")));
+                allSubAssessments.add(new SubAssessment(subAssessmentRS.getInt("SubAssessmentID")));
             }
         } catch (java.lang.NullPointerException | SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);
@@ -37,7 +37,6 @@ public class SubAssessment extends BaseSubAssessment {
         
         return allSubAssessments;
     }
-    **/
     
     /**
      * Update a single row of the SubAssessment table 

@@ -18,6 +18,7 @@ public class BaseMark implements Comparable<Object> {
     public StringBuffer report = new StringBuffer (500);
     public StringBuffer markerID = new StringBuffer (12);
     public StringBuffer studentID = new StringBuffer (10);
+    private int subAssessID;
     public SubAssessment parentSubAssessment;
     
     /**
@@ -40,6 +41,37 @@ public class BaseMark implements Comparable<Object> {
 	            setMarkerID(markerID);
 	            setStudentID(studentID);
 	            setParentSubAssessment(subAssessment);
+	            subAssessID = subAssessmentID;
+	            
+	            int inRange = markRS.getInt("InsideRange");
+	            if (inRange == 0){
+	            	setInsideRange(false);
+	            }
+	            else {
+	            	setInsideRange(true);
+	            }
+	            
+	            setValue(markRS.getDouble("Mark"));
+	            setReport(markRS.getString("Report"));
+    		}
+    		
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseUnit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public BaseMark(int subAssessmentID, int studentID, int markerID) {
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet markRS = s.executeQuery("SELECT * FROM SubAssessmentMark WHERE SubAssessmentID=" + subAssessmentID +
+                									"AND StudentID ="+ studentID + "AND MarkerID =" + markerID)) {
+            
+            // There will only be one mark returned as each (subAssessmentID, studentID, markerID) tuple is unique
+    		while (markRS.next()) {
+            
+	            setMarkerID(markerID);
+	            setStudentID(studentID);
+	            subAssessID = subAssessmentID;
 	            
 	            int inRange = markRS.getInt("InsideRange");
 	            if (inRange == 0){
@@ -75,6 +107,7 @@ public class BaseMark implements Comparable<Object> {
             setMarkerID(markerID);
             setStudentID(studentID);
             setParentSubAssessment(parentSubAssessment);
+            subAssessID = parentSubAssessment.getSubAssessmentID();
             
             MarkCalculator.calculateStudentMarks(Student.getStudentByID(studentID+""));
             
@@ -94,6 +127,7 @@ public class BaseMark implements Comparable<Object> {
     
     public void setValue(double value) {
     	this.value.replace(0, this.value.capacity(),  Double.toString(value));
+    	this.value.setCharAt(5, '\0');
     }
     
     public boolean getInsideRange() {
@@ -142,4 +176,10 @@ public class BaseMark implements Comparable<Object> {
         double otherValue = ((Mark) otherMark).getValue();  
         return (int) ((Double.parseDouble(this.value+"")) - otherValue);    
       }
+    
+    public int getSubAssessID(){
+    	return subAssessID;
+    }
+    
+    
 }

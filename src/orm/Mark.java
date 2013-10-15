@@ -10,6 +10,10 @@ public class Mark extends BaseMark {
         super(subAssessmentID, studentID,  markerID, subAssessment);
     }
     
+    public Mark(int subAssessmentID, int studentID, int markerID) {
+        super(subAssessmentID, studentID,  markerID);
+    }
+    
     public Mark(double value, String report, boolean insideRange, int markerID, int studentID, SubAssessment parentSubAssessment) throws SQLException {
         super(value, report, insideRange, markerID, studentID, parentSubAssessment);
     }
@@ -25,7 +29,7 @@ public class Mark extends BaseMark {
                 int subAssessmentID = markRS.getInt("SubAssessmentID");
                 int studentID = markRS.getInt("StudentID");
                 int markerID = markRS.getInt("MarkerID");
-                allMarks.add(new Mark(subAssessmentID, studentID, markerID, new SubAssessment(subAssessmentID)));
+                allMarks.add(new Mark(subAssessmentID, studentID, markerID));
             }
         } catch (java.lang.NullPointerException | SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,8 +1,14 @@
 package gui;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -13,14 +19,20 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.FillLayout;
 
+import orm.Staff;
+import orm.Mark;
+import logic.CohortData;
+
 /**
  * Marker Report
  * @author Tim Lander
  */
 public class DisplayReport_PopulateMarker {
-	
+	private static Map<TreeItem, StringBuffer> TreeItemMap = new HashMap<TreeItem, StringBuffer>();
+	public static Boolean hardRefreshNeeded = true;
+
 	/**
-	 * Populates the Marker Report Tab
+	 * Populates the Student Report
 	 * @param reportTabFolder the folder to put the tab in
 	 * @param tabName the name of the tab
 	 * @wbp.parser.entryPoint
@@ -28,7 +40,7 @@ public class DisplayReport_PopulateMarker {
 	public static void populate(final CTabFolder reportTabFolder, String tabName) {
 		CTabItem tbtmReport = new CTabItem(reportTabFolder, SWT.NONE);
 		tbtmReport.setText(tabName);
-		
+
 		Composite mainComposite = new Composite(reportTabFolder, SWT.NONE);
 		GridLayout gl_mainComposite = new GridLayout(1, false);
 		gl_mainComposite.horizontalSpacing = 0;
@@ -36,9 +48,9 @@ public class DisplayReport_PopulateMarker {
 		gl_mainComposite.marginWidth = 0;
 		gl_mainComposite.marginHeight = 0;
 		mainComposite.setLayout(gl_mainComposite);
-		
+
 		Button[] treeTop = CommonButtons.addReportTreeTop(mainComposite);
-		
+
 		Composite treeComposite = new Composite(mainComposite, SWT.NONE);
 		treeComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		treeComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -46,38 +58,9 @@ public class DisplayReport_PopulateMarker {
 		final Tree markerTree = DisplayReport.createReportTree(treeComposite, "Selection", "Data");
 		tbtmReport.setControl(mainComposite);
 
-		for (int sn=0; sn<5; sn++) {
-			TreeItem marker = new TreeItem(markerTree, SWT.NONE);
-
-			marker.setText(new String[] {Data.StaffNumber[sn]});
-			//marker.setExpanded(true);
-			TreeItem studentNameTitle = new TreeItem(marker, SWT.NONE);		//TODO: in theory these could be combined into one row
-			studentNameTitle.setText(new String[] {"Title", Data.StaffNameTitle[sn]});
-			TreeItem studentNameLast = new TreeItem(marker, SWT.NONE);
-			studentNameLast.setText(new String[] {"Last Name", Data.StaffNameLast[sn]});
-			TreeItem studentNameFirst = new TreeItem(marker, SWT.NONE);
-			studentNameFirst.setText(new String[] {"First Name", Data.StaffNameFirst[sn]});
-			//TreeItem studentDissTitle = new TreeItem(marker, SWT.NONE);
-			//studentDissTitle.setText(new String[] {"Dissertation Title", StudentDissTitle[sn]});
-			//TreeItem studentSuper = new TreeItem(marker, SWT.NONE);
-			//studentSuper.setText(new String[] { "Supervisor", StaffNameTitle[sn] + " " + StaffNameFirst[sn].charAt(0) + ". " + StaffNameLast[sn]});
-			//TreeItem studentFinalMark = new TreeItem(student, SWT.NONE);
-			//studentFinalMark.setText(new String[] {"Dissertation Title", SDissTitle[sn]});
-
-			/*for (int units=sn/2; units<=sn/2+3; units++) {
-				TreeItem unit = new TreeItem(marker, SWT.NONE);
-				unit.setText(new String[] {Data.Unit[units]});
-				TreeItem unitName = new TreeItem(unit, SWT.NONE);
-				unitName.setText(new String[] {"Unit Name", Data.UnitName[units]});
-				TreeItem unitMark = new TreeItem(unit, SWT.NONE);
-				unitMark.setText(new String[] {"Unit Mark", "100%"});
-			}*/
-
-		}
-		
 		//Listener to automatically resize Student Report column widths.
 		DisplayReport.autoResizeColumn(markerTree);
-		
+
 		//Listener for + button
 		treeTop[0].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
@@ -98,5 +81,77 @@ public class DisplayReport_PopulateMarker {
 				//TODO: export here
 			}
 		});
+
+		//Listener to auto-update displayed data (currently untested)
+		refreshAll(markerTree);
+		reportTabFolder.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				refreshAll(markerTree);
+			}
+		});
+
 	}
+
+	/**
+	 * Refreshes all data displayed in the tree
+	 * @param tree the tree which is to be refreshed
+	 */
+	//TODO: currently does not add new treeItems
+	public static void refreshAll(Tree tree) {
+		if (hardRefreshNeeded) {
+			for (TreeItem ti : tree.getItems()) ti.dispose();
+			hardRefresh(tree);
+			hardRefreshNeeded = !hardRefreshNeeded;
+		}
+		for ( TreeItem ti : tree.getItems() ) {
+			ti.setText(TreeItemMap.get(ti).toString());
+
+			refreshLevel(ti);
+		}
+	}
+
+	/**
+	 * Called recursively by refreshAll(), to refresh groups of data
+	 * @param parent the TreeItem whose children are to be refreshed.
+	 */
+	private static void refreshLevel(TreeItem parent) {
+		for ( TreeItem ti : parent.getItems() ) {
+			try {
+				if (ti.getText(0).length() > 2)
+					ti.setText(1, TreeItemMap.get(ti).toString());
+				else ti.setText(0, TreeItemMap.get(ti).toString());
+			} catch (java.lang.NullPointerException e) {
+				ti.setText(1, "");
+			}
+
+			if (ti.getItemCount() > 0)
+				refreshLevel (ti);
+		}
+	}
+		
+	private static void hardRefresh(Tree tree) {
+		for (Staff s : CohortData.staff) {
+			TreeItem marker = new TreeItem(tree, SWT.NONE);
+			TreeItemMap.put(marker, s.staffID);
+
+
+			TreeItem staffNameLast = new TreeItem(marker, SWT.NONE);
+			TreeItemMap.put(staffNameLast, s.lastName);
+			staffNameLast.setText(0, "Last Name");
+
+			TreeItem staffNameFirst = new TreeItem(marker, SWT.NONE);
+			TreeItemMap.put(staffNameFirst, s.firstName);
+			staffNameFirst.setText(0, "First Name");
+			
+			PriorityQueue<Mark> marks = s.getMarks();
+			for (Mark m : marks) {
+				TreeItem mark = new TreeItem(marker, SWT.NONE);
+				TreeItemMap.put(mark, m.value);
+				mark.setText(0, "Mark");
+			}
+
+
+		}
+	}
+		
 }

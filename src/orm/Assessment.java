@@ -7,6 +7,10 @@ import sessionControl.Session;
 
 public class Assessment extends BaseAssessment {
 
+	 public Assessment(int assessmentID) {
+	        super(assessmentID);
+	    }
+	 
     public Assessment(int assessmentID, Unit unit) {
         super(assessmentID, unit);
     }
@@ -15,7 +19,6 @@ public class Assessment extends BaseAssessment {
     	super(assessmentID, studentID,  unit);
     }
     
-    /**		DON'T THINK THIS IS NECESSARY
     public static List<Assessment> getAllAssessments() {
         List<Assessment> allAssessments = new ArrayList<>();
         
@@ -32,5 +35,4 @@ public class Assessment extends BaseAssessment {
         
         return allAssessments;
     }
-    **/
 }

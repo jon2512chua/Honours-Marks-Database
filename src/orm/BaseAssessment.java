@@ -14,6 +14,39 @@ public class BaseAssessment {
     public StringBuffer unitPercent = new StringBuffer (6);
     private List<SubAssessment> subAssessments = new ArrayList<SubAssessment>();
     
+    public BaseAssessment(int assessmentID) {
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE AssessmentID=" + assessmentID)) {
+            
+            // There will only be one assessment returned as assessmentID is unique
+    		// Called with this constructor, no data about marks will exist
+    		while (assessmentRS.next()) {
+	    		
+	            setAssessmentID(assessmentID);
+	            
+	            setName(assessmentRS.getString("AssessmentName"));
+	            setUnitPercent(assessmentRS.getInt("UnitPercent"));
+    		}
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    	
+    	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet subassessmentRS = s.executeQuery("SELECT * FROM SubAssessment WHERE AssessmentID=" + assessmentID)) {
+            
+            // Will be a list of subassessments returned, as many subassessments can belong to an assessment
+    		// We are adding all of them to the list
+            while (subassessmentRS.next()) {
+            	SubAssessment nextSubAssess = new SubAssessment(subassessmentRS.getInt("SubAssessmentID"), (Assessment)this);
+        		this.subAssessments.add(nextSubAssess);
+            	
+            }
+            	
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public BaseAssessment(int assessmentID, Unit unit) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE AssessmentID=" + assessmentID)) {
@@ -141,6 +174,7 @@ public class BaseAssessment {
     
     public void setMark(double mark) {
     	this.mark.replace(0, this.mark.capacity(),  Double.toString(mark));
+    	this.mark.setCharAt(5, '\0');
     }
     
     public double getUnitPercent() {

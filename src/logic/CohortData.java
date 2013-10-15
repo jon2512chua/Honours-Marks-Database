@@ -23,6 +23,8 @@ public class CohortData
 	public static int numAssessments;
 	public static List<SubAssessment> subassessments;
 	public static int numSubAssessments;
+	public static List<Mark> marks;
+	public static int numMarks;
     
 	/**
 	 * Bulk load all db data into objects upon successful login.
@@ -34,7 +36,7 @@ public class CohortData
 		loadAssessments();
 		loadSubassessments();
 		loadStudents();
-//		loadMarks() etc....
+		loadMarks();
 	}
 	
 	/**
@@ -55,30 +57,30 @@ public class CohortData
 	 * Load all units from the database on opening
 	 */
 	private static void loadUnits(){
-//		TODO units = Unit.getAllUnits();
-//		numUnits = units.size();	
+		units = Unit.getAllUnits();
+		numUnits = units.size();	
 	}
 	/**
 	 * Load all assessments from the database on opening
 	 */
 	private static void loadAssessments(){
-//		TODO assessments = Assessment.getAllAssessments();
-//		numAssessments = assessments.size();	
+		assessments = Assessment.getAllAssessments();
+		numAssessments = assessments.size();	
 	}
 	/**
 	 * Load all subassessments from the database on opening
 	 */
 	private static void loadSubassessments(){
-//		TODO subassessments = SubAssessment.getAllSubAssessments();
-//		numSubAssessments = SubAssessment.size();	
+		subassessments = SubAssessment.getAllSubAssessments();
+		numSubAssessments = subassessments.size();	
 	}
 	/**
 	 * Load all marks from the database on opening
 	 */
 	@SuppressWarnings("unused")
 	private static void loadMarks(){
-//		TODO marks = Mark.getAllMarks();
-//		numMarks = Mark.size();	
+		marks = Mark.getAllMarks();
+		numMarks = marks.size();	
 	}
 	
 	

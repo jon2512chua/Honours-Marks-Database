@@ -225,7 +225,7 @@ public class DisplayCE_PopulateEditAssessment {
 			}
 		};
 		btnRemoveSubAssessment.addListener(SWT.Selection, LisRemoveSubAssessment);
-		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
+		Button[] btnSaveDiscard = CommonButtons.addSaveChangesDeleteButton(rComposite, "Assessment");
 		btnSaveDiscard[0].addListener(SWT.Selection, LisAddAssessment);
 		btnSaveDiscard[1].addListener(SWT.Selection, LisRemoveAssessment);
 		

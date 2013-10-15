@@ -244,7 +244,7 @@ public class MainUI {
 		showTabFolder.getShell().setText(title);
 	}
 	
-	public static void set_hardResetNeeded () {
+	public static void set_hardRefreshNeeded() {
 		DisplayReport_PopulateStudent.hardRefreshNeeded = true;
 		//TODO: uncomment once implemented.
 		//DisplayReport_PopulateCohort.hardRefreshNeeded = true;

@@ -39,6 +39,30 @@ public class CommonButtons {
 	
 	/**
 	 * Creates two buttons, and places them in the bottom right corner.</br>
+	 * The buttons are 'Save Changes' and 'Delete "whatToDelete"'
+	 * @param parent the composite to put the buttons in
+	 * @param whatToDelete the string describing what you are deleting
+	 * @return the created buttons, in the order {Save Changes, Discard Changes}
+	 */
+	public static Button[] addSaveChangesDeleteButton(Composite parent, String whatToDelete) {
+		Composite buttonsComposite = new Composite(parent, SWT.NONE);
+		buttonsComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
+		buttonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false, 2, 1));
+
+		Button btnSaveChanges = new Button(buttonsComposite, SWT.NONE);
+		btnSaveChanges.setText("Save Changes");
+
+		Button btnDelete = new Button(buttonsComposite, SWT.NONE);
+		btnDelete.setText("Delete " + whatToDelete);
+		
+		Button[] returnButtons = new Button[2];
+		returnButtons[0] = btnSaveChanges;
+		returnButtons[1] = btnDelete;
+		return returnButtons;
+	}
+	
+	/**
+	 * Creates two buttons, and places them in the bottom right corner.</br>
 	 * The buttons are 'Create Now' and 'Discard Changes'
 	 * @param parent the composite to put the buttons in
 	 * @return the created buttons, in the order {Create Now, Discard Changes}

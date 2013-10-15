@@ -148,7 +148,7 @@ public class DisplayCE_PopulateEditStudent {
 		Composite composite = new Composite(rComposite, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 2, 1));
 
-		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
+		Button[] btnSaveDiscard = CommonButtons.addSaveChangesDeleteButton(rComposite, "Student");
 
 
 		studentTree = new Tree(editStudentComposite, SWT.BORDER | SWT.FULL_SELECTION);
@@ -232,7 +232,11 @@ public class DisplayCE_PopulateEditStudent {
 		tbtmEditStudent.setControl(editStudentComposite);
 	}
 
-	//TODO: fix
+
+	/**
+	 * Displays data relevant to which student was clicked on.
+	 * @param student the student that was clicked on
+	 */
 	private static void populateSelectedData(Student student) {
 		try {														//Found values
 			studentNumber.setText(student.getStudentID()+"");
@@ -268,6 +272,10 @@ public class DisplayCE_PopulateEditStudent {
 		}
 	}
 
+	/**
+	 * Action to perform when the save button is pressed
+	 * @param student the student whose data is to be saved
+	 */
 	private static void saveData(Student student) {
 		try {									
 			student.setTitle(title.getText());

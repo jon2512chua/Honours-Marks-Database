@@ -8,14 +8,19 @@ import logic.CohortData;
 import sessionControl.Session;
 
 public class SubAssessment extends BaseSubAssessment {
-    public SubAssessment(int subAssessmentID) {
-        super(subAssessmentID);
+    public SubAssessment(int subAssessmentID, Assessment assessment) {
+        super(subAssessmentID, assessment);
     }
 
     public SubAssessment(int subAssessmentID, int studentID, Assessment assessment) {
         super(subAssessmentID, studentID, assessment);
     }
     
+    public SubAssessment(int subAssessmentID){
+    	super(subAssessmentID);
+    }
+    
+    /**		DON'T THINK THIS IS NECESSARY
     public static List<SubAssessment> getAllSubAssessments() {
         List<SubAssessment> allSubAssessments = new ArrayList<>();
         
@@ -32,7 +37,7 @@ public class SubAssessment extends BaseSubAssessment {
         
         return allSubAssessments;
     }
-    
+    **/
     
     /**
      * Update a single row of the SubAssessment table 

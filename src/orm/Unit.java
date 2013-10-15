@@ -23,7 +23,7 @@ public class Unit extends BaseUnit {
         
         try {
             Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet unitsRS = s.executeQuery("SELECT UnitCode FROM Student");
+            ResultSet unitsRS = s.executeQuery("SELECT UnitCode FROM Unit");
             
             while (unitsRS.next()) {
                 allUnits.add(new Unit(unitsRS.getString("UnitCode")));

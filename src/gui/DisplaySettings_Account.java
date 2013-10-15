@@ -164,7 +164,7 @@ public class DisplaySettings_Account {
 					else {
 						PopupWindow.popupMessage(settingsTabFolder.getShell(), "Password not correct.\n", "WARNING!");
 					}
-					//TODO save other data
+					//TODO save other data: username, secret question/answer.
 				}
 			}
 		});

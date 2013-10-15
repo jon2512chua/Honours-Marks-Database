@@ -322,7 +322,9 @@ public class DisplayCE_PopulateEditStudent {
 		for ( TreeItem ti : studentTree.getItems() ) {
 			try {
 				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
-			} catch (java.lang.NullPointerException e) {}
+			} catch (java.lang.NullPointerException e) {
+				System.out.println("somthing went wrong... " + e); //TODO remove
+			}
 		}
 		for ( TreeItem ti : supervisorTree.getItems() ) {
 			try {

@@ -32,9 +32,9 @@ public class CohortData
 	 */
 	public static void loadData() {
 		loadStaff();
+		loadSubassessments();
 		loadUnits();
 		loadAssessments();
-		loadSubassessments();
 		loadStudents();
 		loadMarks();
 	}

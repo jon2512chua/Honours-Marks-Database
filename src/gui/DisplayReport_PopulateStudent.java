@@ -2,6 +2,8 @@ package gui;
 
 import java.util.*;
 
+import logic.CohortData;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -132,7 +134,7 @@ public class DisplayReport_PopulateStudent {
 	}
 
 	private static void hardRefresh(Tree tree) {
-		List<Student> allStudents = Student.getAllStudents();
+		List<Student> allStudents = CohortData.students;
 		for (Student s : allStudents) {
 			TreeItem student = new TreeItem(tree, SWT.NONE);
 			TreeItemMap.put(student, s.studentID);

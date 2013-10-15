@@ -61,6 +61,7 @@ public class DisplayReport_PopulateStudent {
 		treeTop[0].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				for ( TreeItem ti : studentTree.getItems() ) ti.setExpanded(true);
+				studentTree.notifyListeners(SWT.Expand, new Event());
 			}
 		});
 
@@ -68,6 +69,7 @@ public class DisplayReport_PopulateStudent {
 		treeTop[1].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				for ( TreeItem ti : studentTree.getItems() ) ti.setExpanded(false);
+				studentTree.notifyListeners(SWT.Collapse, new Event());
 			}
 		});
 

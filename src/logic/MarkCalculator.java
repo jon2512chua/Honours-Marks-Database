@@ -102,6 +102,10 @@ public class MarkCalculator
         }
         
         subAssessAve = subAssessAve/inRange;
+        
+        subAssessAve = (subAssessAve / curSubAssess.getMaxMark()) * 100 ;
+        
+        curSubAssess.setAveMark(subAssessAve);
         return subAssessAve;
     }
   
@@ -119,10 +123,11 @@ public class MarkCalculator
         double assessmentMark = 0;
         int subAssessNum = curAssess.getSubAssessments().size();
         for (int i = 0; i<subAssessNum; i++){
-            assessmentMark += subAssessMarkCalc(curAssess.getSubAssessments().get(i));
+        	SubAssessment curSubAssess = curAssess.getSubAssessments().get(i);
+            assessmentMark += subAssessMarkCalc(curSubAssess) * curSubAssess.getAssessmentPercent() / 100;
         }
         
-        curAssess.setMark((int)assessmentMark);
+        curAssess.setMark(assessmentMark);
         
         //not sure if we want this method to set the mark,
         //or another method to call this one and set the mark
@@ -143,11 +148,11 @@ public class MarkCalculator
         int assessNum = curUnit.getAssessments().size();
         
         for (int i = 0; i<assessNum; i++){
-            unitMark += ( ((double)curUnit.getAssessments().get(i).getMark())
+            unitMark += ( (curUnit.getAssessments().get(i).getMark())
                             * (curUnit.getAssessments().get(i).getUnitPercent()) / 100);
         }
         
-        curUnit.setMark((int)unitMark);
+        curUnit.setMark(unitMark);
         
         //not sure if we want this method to set the mark,
         //or another method to call this one and set the mark

@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import sessionControl.*;
+import logic.MarkCalculator;
 
 public class BaseStudent {
 	
@@ -34,6 +35,8 @@ public class BaseStudent {
 	            setCourseMarks(studentRS.getDouble("Mark"));
 	            setGrade(studentRS.getString("Grade"));
 	            setDiscipline(getUnitListByStudentID(studentID));
+	            
+	            MarkCalculator.calculateStudentMarks((Student)this); /// TAKE ME OUT
         	}
         } catch (SQLException ex) {
             Logger.getLogger(BaseStudent.class.getName()).log(Level.SEVERE, null, ex);

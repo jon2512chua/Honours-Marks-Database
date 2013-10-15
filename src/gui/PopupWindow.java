@@ -46,7 +46,10 @@ public class PopupWindow {
 	 * @param text the text the popup displays 
 	 * @param title the title to display
 	 */
-	public static void popupMessage(Shell parentShell, String text, String title) {
+	public static void popupMessage(final Shell parentShell, String text, String title) {
+		// Disable the previous window
+		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
+		
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 		shell.setImage(parentShell.getImage());
 
@@ -76,6 +79,7 @@ public class PopupWindow {
 		//Button listener to deal with the button being pressed
 		Listener btnOKListener = new Listener() {
 			public void handleEvent(Event event) {
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 				shell.close();
 			}
 		};
@@ -83,6 +87,7 @@ public class PopupWindow {
 
 		shell.addListener(SWT.Close, new Listener() {
 			public void handleEvent(Event event) {
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 				shell.dispose();
 			}
 		});
@@ -96,7 +101,10 @@ public class PopupWindow {
 
 	 */
 	private static boolean returnVal = false;
-	static boolean popupYessNo(Shell parentShell, String text, String title) {	//TODO: test
+	static boolean popupYessNo(final Shell parentShell, String text, String title) {	//TODO: test
+
+		// Disable the previous window
+		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
 		
 		final Shell shell = new Shell(parentShell, SWT.TITLE);
 		shell.setImage(parentShell.getImage());
@@ -143,6 +151,7 @@ public class PopupWindow {
 		Listener btnYesListener = new Listener() {
 			public void handleEvent(Event event) {
 				returnVal = true;
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 				shell.close();
 			}
 		};
@@ -152,6 +161,7 @@ public class PopupWindow {
 		Listener btnNoListener = new Listener() {
 			public void handleEvent(Event event) {
 				returnVal = false;
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 				shell.close();
 			}
 		};
@@ -160,6 +170,7 @@ public class PopupWindow {
 		//Actions to perform when program is closed.
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent event) {
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 				//return returnVal;
 			}
 		});
@@ -167,6 +178,7 @@ public class PopupWindow {
 		
 		shell.addListener(SWT.Close, new Listener() {
 			public void handleEvent(Event event) {
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 				shell.dispose();
 			}
 		});
@@ -358,6 +370,9 @@ public class PopupWindow {
 	private static Text maximumMark;
 	private static Text assessmentPercentage;
 	public static void popupAddSubAssessment(final Shell parentShell, String text, String title, final Tree tree) {
+		// Disable the previous window
+		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
+		
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 		shell.setImage(parentShell.getImage());
 
@@ -408,6 +423,7 @@ public class PopupWindow {
 							TreeItem data = new TreeItem(tree, SWT.NONE);
 							data.setText(new String[] {subAssessmentName.getText(), maximumMark.getText(), assessmentPercentage.getText()});
 							for (TreeColumn tc : tree.getColumns()) tc.pack();
+							DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 							shell.close();
 						} else {
 							popupMessage(parentShell, "Null Value is not allowed.", "ERROR!");
@@ -417,6 +433,7 @@ public class PopupWindow {
 				
 				Listener btnCancelListener = new Listener() {
 					public void handleEvent(Event event) {
+						DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 						shell.close();
 					}
 				};
@@ -437,6 +454,7 @@ public class PopupWindow {
 		
 		shell.addListener(SWT.Close, new Listener() {
 			public void handleEvent(Event event) {
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 				shell.dispose();
 			}
 		});
@@ -453,9 +471,11 @@ public class PopupWindow {
 	 * @wbp.parser.entryPoint
 	 */
 	public static void popupAddAssessment(final Shell parentShell, String text, String title, final Tree tree, final Text assessmentName, final Text percentageUnit) {
+		// Disable the previous window
+		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
+		
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 		shell.setImage(parentShell.getImage());
-		
 
 		// Set the Window Title
 		shell.setText(title);
@@ -490,7 +510,8 @@ public class PopupWindow {
 							int i = 0;
 							boolean added = false;
 							while (i < tree.getItemCount() && !added){
-								if (tree.getItem(i).getText().equals(unitName.getText().substring(0,8))) {
+								String[] selectedUnit = unitName.getText().split(" ");
+								if (tree.getItem(i).getText().equals(selectedUnit[0])) {
 									TreeItem data = new TreeItem(tree.getItem(i), SWT.NONE);
 									data.setText(assessmentName.getText());
 									for (TreeColumn tc : tree.getColumns()) tc.pack();
@@ -500,6 +521,7 @@ public class PopupWindow {
 							}
 							assessmentName.setText("");
 							percentageUnit.setText("");
+							DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 							shell.close();
 						} else {
 							popupMessage(parentShell, "Null Value is not allowed.", "ERROR!");
@@ -509,6 +531,7 @@ public class PopupWindow {
 				
 				Listener btnCancelListener = new Listener() {
 					public void handleEvent(Event event) {
+						DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 						shell.close();
 					}
 				};
@@ -530,6 +553,7 @@ public class PopupWindow {
 				
 		shell.addListener(SWT.Close, new Listener() {
 			public void handleEvent(Event event) {
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 				shell.dispose();
 			}
 		});

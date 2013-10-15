@@ -23,13 +23,23 @@ public class DisplayCE_PopulateEditAssessment {
 	 * @param enabled true as to enable false otherwise
 	 */
 	public static void recursiveSetEnabled(Control ctrl, boolean enabled) {
-		if (ctrl instanceof Composite) {
-			Composite comp = (Composite) ctrl;
-			for (Control c : comp.getChildren()) {
-				recursiveSetEnabled(c, enabled);};
+		if (ctrl instanceof Composite && !(ctrl instanceof Tree) && !(ctrl instanceof CTabFolder)) {
+				Composite comp = (Composite) ctrl;
+				for (Control c : comp.getChildren()) {
+					recursiveSetEnabled(c, enabled);
+				}
+		} else {
+			if ((ctrl instanceof CTabFolder)){
+				CTabFolder cTabFold = (CTabFolder) ctrl;
+				Composite comp = (Composite) ctrl;
+				for (Control c : comp.getChildren()) {
+					recursiveSetEnabled(c, enabled);
+				}
+				cTabFold.setEnabled(enabled);
 			} else {
 				ctrl.setEnabled(enabled);
 			}
+		}
 	}
 	
 	/**
@@ -83,6 +93,8 @@ public class DisplayCE_PopulateEditAssessment {
 		TreeColumn trclmnUnits = new TreeColumn(unitTree, SWT.NONE);
 		trclmnUnits.setText("Units");
 		
+		TreeItem newUnit = new TreeItem(unitTree, SWT.NONE | SWT.NO_FOCUS);
+		newUnit.setText("+  Add New Assessment");
 		for (int i = 0; i < Data.Unit.length; i++) {
 			TreeItem unit = new TreeItem(unitTree, SWT.NONE | SWT.NO_FOCUS);
 			unit.setText(new String[] {Data.Unit[i]});
@@ -157,14 +169,20 @@ public class DisplayCE_PopulateEditAssessment {
 			public void handleEvent(Event event) {
 				TreeItem[] selected = unitTree.getSelection();
 				if (selected.length != 0) {
-					if(selected[0].getParentItem() == null) {
-						subAssessmentTree.setEnabled(false);
-						recursiveSetEnabled(rComposite, false);
-					} else {
-						subAssessmentTree.setEnabled(true);
+					if (unitTree.indexOf(unitTree.getSelection()[0]) == 0) {
 						recursiveSetEnabled(rComposite, true);
-						lblUnitName.setText(selected[0].getParentItem().getText());
-						assessmentName.setText(selected[0].getText());
+						assessmentName.setText("");
+						percentageUnit.setText("");
+						lblUnitName.setText("Add New Assessment");
+						lblUnitName.pack();
+					} else {
+						if (selected[0].getParentItem() == null) {
+							recursiveSetEnabled(rComposite, false);
+						} else {
+							recursiveSetEnabled(rComposite, true);
+							lblUnitName.setText(selected[0].getParentItem().getText());
+							assessmentName.setText(selected[0].getText());
+						}
 					}
 				}
 			}
@@ -209,8 +227,11 @@ public class DisplayCE_PopulateEditAssessment {
 			public void handleEvent(Event event) {
 				if (subAssessmentTree.isFocusControl() && PopupWindow.popupYessNo(editAssessmentComposite.getShell(),
 						"Are you sure you want to REMOVE \"" + subAssessmentTree.getSelection()[0].getText()
-						+ "\" from the database", "WARNING!"))
+						+ "\" from the database", "WARNING!")) {
+					// Enable the previous window
+					recursiveSetEnabled(editAssessmentComposite.getShell(), true);
 					subAssessmentTree.getSelection()[0].dispose();
+				}
 				else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select a Sub Assessment to be Removed.", "ERROR!");
 			}
 		};

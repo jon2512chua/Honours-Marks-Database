@@ -17,6 +17,7 @@ public class BaseSubAssessment {
     public StringBuffer maxMark = new StringBuffer (6);
     public StringBuffer assessmentPercent = new StringBuffer (6);
     private List<Mark> marks;
+    public StringBuffer aveMark = new StringBuffer(6);
     // Maybe add average mark for this subassessment over all marks
     
     public BaseSubAssessment(int subAssessmentID) {
@@ -128,6 +129,15 @@ public class BaseSubAssessment {
     public void setMaxMark(int maxMark) {
     	this.maxMark.replace(0, this.maxMark.capacity(),  Integer.toString(maxMark));
     }
+    
+    public double getAveMark() {
+    	return Double.parseDouble(aveMark+"");
+    }
+    
+    public void setAveMark(double aveMark) {
+    	this.aveMark.replace(0, this.aveMark.capacity(),  Double.toString(aveMark));
+    }
+    
     
     public double getAssessmentPercent() {
     	return Integer.parseInt(assessmentPercent+"");

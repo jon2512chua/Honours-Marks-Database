@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.sql.*;
 
+import logic.CohortData;
+
 /**
  * This static class holds information about the current session
  * 
@@ -43,10 +45,37 @@ public class Session {
 	// --------------------------------------------------------------------------------
 
 	/**
-	 * Set loggedIn to true if credentials validated
+	 * Return the currently logged in user
+	 * @return username
+	 */
+	public static String getUser() {
+		return user;
+	}
+	
+	/**
+	 * Log a user in if their credentials are validated
+	 * @param username
+	 * @param password
+	 * @param the cohort to load, selected from the login screen
+	 * @return true if successful
 	 */
 	public static boolean login(String username, String password, String cohort) {
-
+		if (checkPassword(username, password)) {
+			currentFocus = cohort;
+			user = username;
+			return true;
+		}
+		else return false;
+	}
+	
+	/**
+	 * Helper method to check if a username/password combo match
+	 * Called by login, change password, and in DisplaySettings when updating info 
+	 * @param username
+	 * @param password
+	 * @return true if password correct 
+	 */
+	public static boolean checkPassword(String username, String password) {
 		Statement query;
 
 		try {
@@ -65,8 +94,7 @@ public class Session {
 			String u = rs.getString("username");
 			String p = rs.getString("password");
 			if (username.equals(u) && BCrypt.checkpw(password, p)) {
-				currentFocus = cohort;
-				user = username;
+				
 				rs.close();
 				query.close();
 				return true;
@@ -76,8 +104,8 @@ public class Session {
 				return false;
 			}
 		} catch (SQLException e) {
-			System.err.println("ERROR: There was an error connecting to the System database: could not attempt logon.");
-			e.printStackTrace();
+			System.err.println("ERROR: There was an error connecting to the System database: could check password.");
+			System.err.println("PROGRAM REPORT: " + e);
 			return false;
 		}
 	}
@@ -97,52 +125,36 @@ public class Session {
 	 */
 	public static boolean changePassword(String oldp, String newp) {
 
-		boolean check = DerbyUtils.dbConnect(Directories.systemDb);
-		if (!check)
-			return false;
-
-		Statement query;
-
-		try {
-			query = sysConn.getConnection()
-					.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-							ResultSet.CONCUR_UPDATABLE);
-			String SQL = "SELECT * FROM System WHERE username = '"
-					+ Session.user + "'";
-			ResultSet rs = query.executeQuery(SQL);
-
-			rs.next();
-
-			String p = rs.getString("password");
-
-			if ((BCrypt.checkpw(oldp, p))) {
-				String update = "UPDATE System SET password = '"
+		if (checkPassword(user, oldp)) {
+			Statement stmt;
+			try {
+				stmt = sysConn.getConnection().createStatement();
+				String update = "UPDATE System SET Password = '"
 						+ BCrypt.hashpw(newp, BCrypt.gensalt())
-						+ "' WHERE username = " + "'admin'";
-				query.execute(update);
-				query.close();
-				rs.close();
-				DerbyUtils.dbDisconnect(sysConn);
+						+ "' WHERE username = '" + user + "'";
+				stmt.execute(update);
+				stmt.close();
 				return true;
-			} else {
-				DerbyUtils.dbDisconnect(sysConn);
-				query.close();
+			} catch (SQLException e) {
+				System.err.println("ERROR: couldn't change password.\nPROGRAM REPORT: " + e);
 				return false;
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
 		}
+		else return false;
+
 	}
 
 	/**
-	 * Change the GUI's focus to a different cohort TODO implement changeFocus
+	 * Change the GUI's focus to a different cohort 
+	 * There is not currently a GUI option for doing this.
+	 * @param the new cohort to focus on
+	 * @param true if successful
 	 */
 	public boolean changeFocus(String newFocus) {
 		dbConn.closeConnection();
 		if (DerbyUtils.dbConnect(newFocus)) {
 			currentFocus = newFocus;
-			// TODO load data!
+			logic.CohortData.loadData();
 			return true;
 		} else
 			return false;

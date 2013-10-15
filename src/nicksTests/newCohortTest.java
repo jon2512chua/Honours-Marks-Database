@@ -6,6 +6,7 @@ import newCohort.CohortCreator;
  * @author nickos
  *
  */
+@SuppressWarnings("unused")
 public class newCohortTest {
 
 	/**

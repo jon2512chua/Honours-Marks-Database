@@ -24,8 +24,9 @@ import orm.Unit;
  * Edit Units Section
  * @author Johnathan Lim
  */
+@SuppressWarnings("unused")
 public class DisplayCE_PopulateEditUnit {
-	@SuppressWarnings("unused")
+	
 	private static Text points;
 	private static Text unitName;
 	private static Text unitCode;
@@ -90,8 +91,9 @@ public class DisplayCE_PopulateEditUnit {
 		creditPoints = new Text(rComposite, SWT.BORDER);
 		creditPoints.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1));
 		
-		@SuppressWarnings("unused")
-		Button[] btnSaveDiscard = CommonButtons.addSaveChangesDeleteButton(rComposite, "Unit");
+
+		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
+
 
 		tbtmEditUnit.setControl(editUnitComposite);
 		

@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import sessionControl.Session;
 
-public class BaseMark implements Comparable {
+public class BaseMark implements Comparable<Object> {
     public StringBuffer value = new StringBuffer (6);    
     public StringBuffer report = new StringBuffer (500);
     public StringBuffer markerID = new StringBuffer (12);

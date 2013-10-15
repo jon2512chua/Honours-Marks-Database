@@ -39,6 +39,7 @@ public class CohortImporter {
 	 * @param cohort
 	 * @return a List of BaseStudents or null if error
 	 */
+	@SuppressWarnings("unused")
 	public static StringBuffer importFromFile(String filename) {	
 		List<BaseStudent> students = new LinkedList<BaseStudent>();
 		// fresh stringbuffer for each attempt

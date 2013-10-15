@@ -16,7 +16,7 @@ public class BaseSubAssessment {
     private Assessment parentAssessment;
     public StringBuffer maxMark = new StringBuffer (6);
     public StringBuffer assessmentPercent = new StringBuffer (6);
-    private List<Mark> marks;
+    private List<Mark> marks= Collections.<Mark>emptyList();
     public StringBuffer aveMark = new StringBuffer(6);
     // Maybe add average mark for this subassessment over all marks
     
@@ -64,12 +64,12 @@ public class BaseSubAssessment {
         }
     	
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet subassessmentMarksRS = s.executeQuery("SELECT * FROM SubAssessmentMark WHERE SubAssessmentID=" + subAssessmentID)) {
+                ResultSet subassessmentMarksRS = s.executeQuery("SELECT MarkerID FROM SubAssessmentMark WHERE SubAssessmentID=" + subAssessmentID + " AND StudentID =" + studentID)) {
             
             // Will be a list of subAssessments marks returned, as many subAssessments marks can belong to a subassessment
     		// We are adding all of them to the list
             while (subassessmentMarksRS.next()) {
-            	Mark nextMark = new Mark(subassessmentMarksRS.getInt("SubAssessmentID"), studentID, subassessmentMarksRS.getInt("MarkerID"), (SubAssessment)this);
+            	Mark nextMark = new Mark(subAssessmentID, studentID, subassessmentMarksRS.getInt("MarkerID"), (SubAssessment)this);
 	            this.marks.add(nextMark);
             }
         } catch (SQLException ex) {

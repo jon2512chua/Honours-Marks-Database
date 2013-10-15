@@ -75,7 +75,7 @@ public class DisplayCE_PopulateEditUnit {
 		lblUnitCode.setText("Unit Code:");
 
 		unitCode = new Text(rComposite, SWT.BORDER);
-		unitCode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		unitCode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblUnitName = new Label(rComposite, SWT.NONE);
 		lblUnitName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -119,6 +119,8 @@ public class DisplayCE_PopulateEditUnit {
 						unitName.setText("");
 						creditPoints.setText("");
 					} else {
+						Unit u = Unit.getUnitByCode(selectedString[0]);
+						populateSelectedData(u);
 						//TODO populate unit data when clicked
 					}
 				}

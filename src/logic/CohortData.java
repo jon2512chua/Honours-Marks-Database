@@ -8,6 +8,7 @@ import java.util.List;
 import orm.*;
 
 /**
+ * @author Nicholas Abbey 20522805, with initial setup by Sam Widenbar
  * Class to hold (static) lists of all students, all units, and all markers involved in this cohort
  */
 public class CohortData
@@ -24,8 +25,8 @@ public class CohortData
 	public static int numSubssessments;
     
 	/**
-	 * load all data upon db opening
-	 * Order of these method calls is important due to dependencies
+	 * Bulk load all db data into objects upon successful login.
+	 * 	Order of these method calls is important due to dependencies
 	 */
 	public static void loadData() {
 		loadStaff();
@@ -33,7 +34,6 @@ public class CohortData
 		loadAssessments();
 		loadSubassessments();
 		loadStudents();
-//		loadStaff();
 //		loadMarks() etc....
 	}
 	
@@ -55,23 +55,33 @@ public class CohortData
 	 * Load all units from the database on opening
 	 */
 	private static void loadUnits(){
-//		units = Unit.getAllUnits();
+//		TODO units = Unit.getAllUnits();
 //		numUnits = units.size();	
 	}
 	/**
 	 * Load all assessments from the database on opening
 	 */
 	private static void loadAssessments(){
-//		assessments = Assessment.getAllAssessments();
+//		TODO assessments = Assessment.getAllAssessments();
 //		numAssessments = assessments.size();	
 	}
 	/**
 	 * Load all subassessments from the database on opening
 	 */
 	private static void loadSubassessments(){
-//		subassessments = Subassessment.getAllSubassessments();
+//		TODO subassessments = Subassessment.getAllSubassessments();
 //		numSubassessments = Subassessments.size();	
 	}
+	/**
+	 * Load all marks from the database on opening
+	 */
+	private static void loadMarks(){
+//		TODO marks = Mark.getAllMarks();
+//		numMarks = Mark.size();	
+	}
+	
+	
+	//TODO move all below methods into newCohort class
 	
 	/**
 	 * Write an already existent unit to a new database

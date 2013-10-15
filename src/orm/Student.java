@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 
+import logic.CohortData;
+
 import sessionControl.*;
 
 public class Student extends BaseStudent { 
@@ -75,14 +77,15 @@ public class Student extends BaseStudent {
     }
     /**
      * Add a supervisor to this student
-     * @param s
+     * @param s - supervisor to add (Staff Object)
      * @throws SQLException 
      */
     public void addSupervisor(Staff s) throws SQLException {
     	this.supervisors.add(s);
     	String sql = "Insert into Supervises values (" + this.getStudentID() + " , " + s.getStaffID() + ")";
-    	//System.out.println("ROW INSERT: " + sql); //TODO delete
-    	Session.dbConn.getConnection().createStatement().execute(sql);
+    	Statement stmt = Session.dbConn.getConnection().createStatement();
+    	stmt.execute(sql);
+    	stmt.close();
     }
     /**
      * Delete a supervisor to this student
@@ -92,19 +95,34 @@ public class Student extends BaseStudent {
     public void deleteSupervisor(Staff s) throws SQLException {
     	this.supervisors.remove(s);
     	String sql = "Delete from Supervises WHERE StudentID = " + this.getStudentID() + " and StaffID = " + s.getStaffID()	;
-    	//System.out.println("ROW DELETE: " + sql); //TODO delete
-    	Session.dbConn.getConnection().createStatement().execute(sql);
+    	Statement stmt = Session.dbConn.getConnection().createStatement();
+    	stmt.execute(sql);
+    	stmt.close();
     }
     
     /**
-     * A method for updating a single row of the Student table - this is called when the save changes button is hit.
-     * Note that student number is omitted so that it can never be changed 
+     * Update a single row of the Student table 
+     * 	- called when the save changes button is hit.
+     *  - student number is omitted so that it can never be changed. 
      * @throws SQLException 
      */
     public void updateRow() throws SQLException {
     	String sql = "UPDATE Student SET FirstName = '"+this.getFirstName().toString()+"', LastName = '"+this.getLastName().toString()+"', Title = '"+this.getTitle().toString()+"', DissTitle = '"+this.getDissTitle().toString()+"', Discipline = '"+this.getDisciplineName().toString()+"', Mark = "+this.getCourseMark()+", Grade = '"+this.getGrade().toString()+"' WHERE StudentID = " + this.getStudentID();
-    	//System.out.println("ROW UPDATE: " + sql); //TODO delete
-    	Session.dbConn.getConnection().createStatement().execute(sql);	   
+    	Statement stmt = Session.dbConn.getConnection().createStatement();
+    	stmt.execute(sql);
+    	stmt.close();
+    }
+    
+    /**
+     * Delete this student //TODO test
+     * @throws SQLException
+     */
+    public void deleteRow() throws SQLException {
+    	CohortData.students.remove(this);
+    	String sql = "DELETE from Student WHERE StudentID = " + this.getStudentID();
+    	Statement stmt = Session.dbConn.getConnection().createStatement();
+    	stmt.execute(sql);
+    	stmt.close();
     }
     
 }

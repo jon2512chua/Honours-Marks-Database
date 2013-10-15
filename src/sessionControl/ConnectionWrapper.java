@@ -6,15 +6,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Class stores connection information and has connection utilities TODO needs
- * more testing
+ * Class stores connection information and has connection utilities 
  * 
  * @author Nicholas Abbey 20522805
  * @version 28/9/13
  * 
  */
 public class ConnectionWrapper {
-
+	
 	private Connection dock;
 	private boolean disconnected;
 
@@ -36,7 +35,7 @@ public class ConnectionWrapper {
 	}
 
 	/**
-	 * Get connection for querying
+	 * Get this object's connection for querying
 	 * 
 	 * @return the connection
 	 */
@@ -48,7 +47,9 @@ public class ConnectionWrapper {
 	 * Open a new connection
 	 * 
 	 * @param db
-	 *            the database to connect to
+	 *            the directory name of database to connect to
+	 *            this connection wil be stored by this ConnectionWrapper for querying
+	 *            eg "20131" or "../config/System"
 	 * @return true if successful
 	 */
 	public boolean openConnection(String db) {
@@ -78,7 +79,7 @@ public class ConnectionWrapper {
 	}
 
 	/**
-	 * Close a connection
+	 * Close this object's connection
 	 * 
 	 * @return true if successful
 	 */

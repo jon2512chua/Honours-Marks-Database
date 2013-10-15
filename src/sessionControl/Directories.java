@@ -10,7 +10,7 @@ package sessionControl;
 public class Directories {
 
 	/**
-	 * Relative directory of System database
+	 * Relative path of System database
 	 */
 	public static final String systemDb = "config/System";
 	/**

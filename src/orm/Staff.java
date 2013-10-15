@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import logic.CohortData;
+
 import sessionControl.Session;
 
 public class Staff extends BaseStaff {
@@ -48,4 +50,30 @@ public class Staff extends BaseStaff {
 		}
 	    return null;
     }
+    
+    /**
+     * Update a single row of the Staff table 
+     * 	- called when the save changes button is hit.
+     *  - staff number is omitted so that it can never be changed. 
+     * @throws SQLException 
+     */
+    public void updateRow() throws SQLException {
+    	String sql = "UPDATE Staff SET FirstName = '"+this.getFirstName().toString()+"', LastName = '"+this.getLastName().toString()+"' WHERE StaffID = " + this.getStaffID();
+    	Statement stmt = Session.dbConn.getConnection().createStatement();
+    	stmt.execute(sql);
+    	stmt.close();
+    }
+    /**
+     * Delete this staff member //TODO test
+     * TODO delete ops are problematic - may need to refresh data??
+     * @throws SQLException
+     */
+    public void deleteRow() throws SQLException {
+    	CohortData.staff.remove(this);
+    	String sql = "DELETE from Staff WHERE StaffID = " + this.getStaffID();
+    	Statement stmt = Session.dbConn.getConnection().createStatement();
+    	stmt.execute(sql);
+    	stmt.close();
+    }
+    
 }

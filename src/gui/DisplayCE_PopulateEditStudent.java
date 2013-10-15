@@ -274,7 +274,6 @@ public class DisplayCE_PopulateEditStudent {
 			student.setLastName(lastName.getText());
 			student.setFirstName(firstName.getText());
 			student.setDissTitle(dissertationTitle.getText());
-			student.saveStudent();
 			
 			for(TreeItem t : supervisorTree.getItems()) {
 				int supID = Integer.parseInt(t.getText(0));

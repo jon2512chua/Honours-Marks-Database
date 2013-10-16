@@ -7,19 +7,50 @@ import java.util.logging.*;
 import logic.CohortData;
 import sessionControl.Session;
 
+/**
+ * Class representing a Unit.
+ * 
+ * @author Jonathan Chua
+ * @author Samuel Widenbar
+ * @author Nicholas Abbey
+ * @version 16/10/2013
+ */
 public class Unit extends BaseUnit {
+    /**
+     * Constructor to create a java object to represent a unit found in the database, independently of a student, primarily for
+     * use in displaying/editing unit information.
+     * 
+     * @param unitCode is the unit code of the unit being searched for
+     */
     public Unit(String unitCode) {
         super(unitCode);
     }
 
+    /**
+     * Constructor to create a java object to represent a unit being taken by a particular student found in the database.
+     * 
+     * @param unitCode the unit code of the unit being searched for
+     * @param studentID the ID of the student
+     */
     public Unit(String unitCode, int studentID) throws SQLException {
         super(unitCode, studentID);
     }
     
+    /**
+     * Constructor to create a java object to represent a unit that doesn't exist yet in the database.
+     * 
+     * @param unitCode the unit code of the unit being searched for
+     * @param studentID the ID of the student
+     * @param points the amount of credit points for the unit
+     */
     public Unit(String unitCode, String unitName, int unitPoints) throws SQLException {
         super(unitCode, unitName, unitPoints);
     }
     
+    /**
+     * Method to get all the units in the database.
+     * @return a List of Unit objects
+     */
     public static List<Unit> getAllUnits() {
         List<Unit> allUnits = new ArrayList<>();
         

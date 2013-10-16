@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.sql.*;
 
-import logic.CohortData;
-
 /**
  * This static class holds information about the current session
  * 

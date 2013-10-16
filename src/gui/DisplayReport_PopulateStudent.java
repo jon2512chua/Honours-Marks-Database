@@ -4,8 +4,6 @@ import java.util.*;
 
 import logic.CohortData;
 
-import newCohort.CohortImporter;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;

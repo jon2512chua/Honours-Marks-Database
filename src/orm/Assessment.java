@@ -52,8 +52,8 @@ public class Assessment extends BaseAssessment {
      * @param unitPercent the percentage this assessment takes up in the unit
      * @throws SQLException when there is an error with the SQL statement
      */
-    public Assessment(int assessmentID, String name, Unit parentUnit, int unitPercent) throws SQLException {
-        super(assessmentID, name, parentUnit, unitPercent);
+    public Assessment(String name, Unit parentUnit, int unitPercent) throws SQLException {
+        super(name, parentUnit, unitPercent);
     }
     
     /**

@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridData;
 
 import backupSubsystem.BackupOperations;
+import org.eclipse.swt.widgets.Label;
 
 /**
  * Schedule Backup Section
@@ -46,6 +47,10 @@ public class DisplaySettings_PopulateBackup {
 		final Composite backupComposite = new Composite(settingsTabFolder, SWT.NONE);
 		tbtmbackupSchedule.setControl(backupComposite);
 		backupComposite.setLayout(new GridLayout(2, false));
+		
+		Label lblScheduledBackupDisabled = new Label(backupComposite, SWT.NONE);
+		lblScheduledBackupDisabled.setText("Scheduled Backup Disabled");
+		new Label(backupComposite, SWT.NONE);
 
 		
 		final Composite radioButtoncomposite = new Composite(backupComposite, SWT.NONE);

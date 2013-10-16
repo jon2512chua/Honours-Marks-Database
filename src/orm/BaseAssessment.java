@@ -7,14 +7,49 @@ import java.util.logging.*;
 import logic.StatisticsCalculator;
 import sessionControl.Session;
 
+/**
+ * Base class representing an Assessment.
+ * 
+ * @author Jonathan Chua
+ * @author Samuel Widenbar
+ * @version 16/10/2013
+ */
 public class BaseAssessment {
-	private int assessmentID;
+    /**
+     * The ID to identify the assessment.
+     */
+    private int assessmentID;
+    
+    /**
+     * The name of the assessment, exists as a String in the database.
+     */
     public StringBuffer name = new StringBuffer (30);
+    
+    /**
+     * The unit this assessment belongs to.
+     */
     private Unit parentUnit;
+    
+    /**
+     * The amount a student scored for this assessment, exists as a Double.
+     */
     public StringBuffer mark = new StringBuffer (6);
+    
+    /**
+     * The percentage this assessment takes up in the unit, exists as an Integer in the database.
+     */
     public StringBuffer unitPercent = new StringBuffer (6);
+    
+    /**
+     * All the sub assessments belonging to this assessment.
+     */
     private List<SubAssessment> subAssessments = new ArrayList<SubAssessment>();
     
+    /**
+     * Constructor to create a java object to represent an assessment found in the database.
+     * 
+     * @param assessmentID to identify the assessment
+     */
     public BaseAssessment(int assessmentID) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE AssessmentID=" + assessmentID)) {
@@ -22,9 +57,7 @@ public class BaseAssessment {
             // There will only be one assessment returned as assessmentID is unique
     		// Called with this constructor, no data about marks will exist
     		while (assessmentRS.next()) {
-	    		
-	            setAssessmentID(assessmentID);
-	            
+	    		setAssessmentID(assessmentID);
 	            setName(assessmentRS.getString("AssessmentName"));
 	            setUnitPercent(assessmentRS.getInt("UnitPercent"));
                 setParentUnit(new Unit(assessmentRS.getString("UnitCode")));
@@ -49,6 +82,12 @@ public class BaseAssessment {
         }
     }
     
+    /**
+     * Constructor to create a java object to represent an assessment found in the database, belonging to the specified unit.
+     * 
+     * @param assessmentID to identify the assessment
+     * @param unit the unit that this assessment belongs to
+     */
     public BaseAssessment(int assessmentID, Unit unit) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ResultSet assessmentRS = s.executeQuery("SELECT * FROM Assessment WHERE AssessmentID=" + assessmentID)) {
@@ -84,6 +123,13 @@ public class BaseAssessment {
         }
     }
     
+    /**
+     * Constructor to create a java object to represent an assessment found in the database, belonging to the specified unit and student.
+     * 
+     * @param assessmentID to identify the assessment
+     * @param studentID to identify the student
+     * @param unit the unit that the assessment belongs to
+     */
     public BaseAssessment(int assessmentID, int studentID, Unit unit) {
     	this.subAssessments = new ArrayList<>();
     	
@@ -130,6 +176,15 @@ public class BaseAssessment {
         }
     }
     
+    /**
+     * Constructor to create a java object to represent an assessment that doesn't exist yet in the database.
+     * 
+     * @param assessmentID to identify this assessment
+     * @param name the name of this assessment
+     * @param parentUnit the unit this assessment belongs to
+     * @param unitPercent the percentage this assessment takes up in the unit
+     * @throws SQLException when there is an error with the SQL statement
+     */
     public BaseAssessment(int assessmentID, String name, Unit parentUnit, int unitPercent) throws SQLException {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
             s.execute("INSERT INTO Assessment(AssessmentName, UnitCode, UnitPercent) VALUES ('" + name + "', '" + parentUnit.getUnitCode() + "', " + unitPercent + ")");
@@ -147,51 +202,110 @@ public class BaseAssessment {
         }
     }
     
+    /**
+     * Method to get the ID of this assessment.
+     * 
+     * @return the ID of this assessment
+     */
     public int getAssessmentID() {
         return assessmentID;
     }
     
+    /**
+     * Method to set the ID of this assessment.
+     * 
+     * @param assessmentID the ID of this assessment
+     */
     public void setAssessmentID(int assessmentID) {
         this.assessmentID = assessmentID;
     }
     
+    /**
+     * Method to get the name of this assessment.
+     * 
+     * @return name of the assessment
+     */
     public StringBuffer getName() {
         return name;
     }
     
+    /**
+     * Method to set the name of this assessment.
+     * 
+     * @param name the name of the assessment
+     */
     public void setName(String name) {
     	this.name.replace(0, this.name.capacity(), name);
     }
     
+    /**
+     * Method to get the parent unit.
+     * 
+     * @return Unit object that this assessment belongs to
+     */
     public Unit getParentUnit() {
         return parentUnit;
     }
     
+    /**
+     * Method to set the parent uni.
+     * 
+     * @param parentUnit Unit object that this assessment belongs to
+     */
     public void setParentUnit(Unit parentUnit) {
         this.parentUnit = parentUnit;
     }
     
+    /**
+     * Method to get the mark.
+     * 
+     * @return the mark a student got for this assessment
+     */
     public double getMark() {
     	return Double.parseDouble(mark+"");
     }
     
+    /**
+     * Method to set the mark.
+     * @param mark the mark a student got for this assessment
+     */
     public void setMark(double mark) {
     	this.mark.replace(0, this.mark.capacity(),  Double.toString(mark));
     	this.mark.setLength(5);
     }
     
+    /**
+     * Method to get the unit percent.
+     * 
+     * @return the percentage of the parent unit that this assessment takes up
+     */
     public double getUnitPercent() {
     	return Integer.parseInt(unitPercent+"");
     }
     
+    /**
+     * Method to set the unit percent.
+     * 
+     * @param unitPercent the percentage of the parent unit that this assessment takes up
+     */
     public void setUnitPercent(int unitPercent) {
     	this.unitPercent.replace(0, this.unitPercent.capacity(),  Integer.toString(unitPercent));
     }
     
+    /**
+     * Method to get sub assessments.
+     * 
+     * @return a list of all the sub assessments belonging to this assessment
+     */
     public List<SubAssessment> getSubAssessments() {
         return subAssessments;
     }
     
+    /**
+     * Method to set the sub assessments.
+     * 
+     * @param subAssessments a list of all the sub assessments belonging to this assessment
+     */
     public void setSubAssessments(List<SubAssessment> subAssessments) {
         this.subAssessments = subAssessments;
     }

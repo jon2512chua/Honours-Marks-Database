@@ -661,4 +661,26 @@ public class PopupWindow {
 			return false;
 		}
 	}
+	
+	/**
+	 * Method to display a pop-up message if something goes wrong while starting up the system
+	 * TODO needs fixing
+	 * @param s the error message to display
+	 */
+	public static void failedLoad(Shell shell, String s) {
+		shell.setLayout(new GridLayout(2, false));
+		try {
+			Image icon = new Image(shell.getDisplay(),MainUI.getIconPath());
+			shell.setImage(icon); 
+		} catch (SWTException e) {
+			System.err.println("Warning: The file " + (new File(MainUI.getIconPath())).toURI().getPath() + " was unable to be located.");
+		}
+
+		Shell errorMsg = PopupWindow.popupMsg(shell.getShell(), s, "HONOURS MARKS DATABASE");
+		while (!errorMsg.isDisposed()) {
+			if (!shell.getDisplay().readAndDispatch()) {
+				shell.getDisplay().sleep();
+			}
+		}
+	}
 }

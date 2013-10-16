@@ -1,13 +1,5 @@
 package gui;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-
-import org.eclipse.swt.SWTException;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
@@ -20,7 +12,7 @@ import gui.MainUI;
  * @author Tim Lander
  */
 public class MainLoader {
-	// TODO what is this for? private static final String errorFile = "LogFile.log"; 
+	private static final String errorFile = "LogFile.log"; 	//This is for when we want the errors to be printed to a log file.
 
 	public static void main(String[] args) {
 		// TODO: undisable
@@ -39,13 +31,13 @@ public class MainLoader {
 		
 		//Load database drivers
 		if(!DerbyUtils.loadDriver()) {
-			failedLoad("Sorry, the database driver could not be loaded.\nPlease contact System Admin.");
-			System.exit(0);
+			PopupWindow.failedLoad(new Shell(new Display()), "Sorry, the database driver could not be loaded.\nPlease contact System Admin.");
+			System.exit(1);	//Exit status of 0 indicates success.
 		}
 		//Connect to System Database
 		else if(!DerbyUtils.dbConnect(Directories.systemDb)) {
-			failedLoad("Sorry, we couldn't connect to the system database.\nPlease try again later, as there is most likely another user accessing the program.");
-			System.exit(0);
+			PopupWindow.failedLoad(new Shell(new Display()), "Sorry, we couldn't connect to the system database.\nPlease try again later, as there is most likely another user accessing the program.");
+			System.exit(1);
 		}
 		else {
 			//Begin program execution
@@ -53,27 +45,5 @@ public class MainLoader {
 		}
 	}
 	
-	/**
-	 * Method to display a pop-up message if something goes wrong while starting up the system
-	 * TODO needs fixing
-	 * @param s the error message to display
-	 */
-	public static void failedLoad(String s) {
-		Display display = new Display();
-		final Shell shell = new Shell(display);
-		shell.setLayout(new GridLayout(2, false));
-		try {
-			Image icon = new Image(display,MainUI.getIconPath());
-			shell.setImage(icon); 
-		} catch (SWTException e) {
-			System.err.println("Warning: The file " + (new File(MainUI.getIconPath())).toURI().getPath() + " was unable to be located.");
-		}
-
-		Shell errorMsg = PopupWindow.popupMsg(shell.getShell(), s, "HONOURS MARKS DATABASE");
-		while (!errorMsg.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-	}
+	
 }

@@ -44,6 +44,7 @@ import sessionControl.DerbyUtils;
 public class PopupWindow {
 	private static Text userNameText;
 	private static Text passwordText;
+	public static String attemptedUser;
 
 	/**
 	 * Popups a message. No line wrapping currently implemented.
@@ -251,9 +252,7 @@ public class PopupWindow {
 	 * @return true if the username/answer/question are all correct, false otherwise
 	 * @wbp.parser.entryPoint
 	 */
-	static boolean popupForgottenPW(final Shell parentShell, String enteredUsername) { //add cohort?
-		//Text secretQ;
-		//Text secretA;
+	static boolean popupForgottenPW(final Shell parentShell) {
 
 		final Shell shell = new Shell(parentShell, SWT.TITLE);
 		shell.setImage(parentShell.getImage());
@@ -280,8 +279,8 @@ public class PopupWindow {
 
 		final Text userName = new Text(composite, SWT.BORDER);
 		userName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		userName.setText(enteredUsername);	//set initial username to the one currently entered
-		//userName.setEditable(false);	// username shouldn't be changable
+		userName.setText(attemptedUser);	//set initial username to the one currently entered
+		userName.setEditable(false);	// username needs to be unchangable for security in this edition 
 
 		Label lblSecretQuestion = new Label(composite, SWT.NONE);
 		lblSecretQuestion.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
@@ -303,7 +302,7 @@ public class PopupWindow {
 		lblAnswer.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		lblAnswer.setText("Answer:");
 
-		Text secretA = new Text(composite, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.MULTI);
+		final Text secretA = new Text(composite, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.MULTI);
 		GridData gd_secretA = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
 		gd_secretA.minimumWidth = 200;
 		gd_secretA.minimumHeight = 50;
@@ -342,8 +341,13 @@ public class PopupWindow {
 		//Button listener to deal with the OK button being pressed
 		Listener btnOKListener = new Listener() {
 			public void handleEvent(Event event) {
-				if (true) {	//TODO: validation here
-					returnVal = true;
+				if (true) {	
+					if(Session.checkRecovery(attemptedUser, secretA.getText())) {
+						returnVal = true;
+					}
+					else {
+						returnVal = false;	
+					}
 					shell.close();
 				}
 			}
@@ -379,7 +383,7 @@ public class PopupWindow {
 				shell.getDisplay().sleep();
 			}
 		}
-
+		attemptedUser = null;
 		return returnVal;
 	}
 
@@ -388,7 +392,7 @@ public class PopupWindow {
 	 * @param parentShell the shell that is the parent of this new shell
 	 * @return the newly created shell
 	 */
-	public static Shell popupLogon(Shell parentShell) {		//TODO: perhaps add a forgotten password button?
+	public static Shell popupLogon(Shell parentShell) {		
 		final String imageFileName = "splash.png";
 		final Shell shell = new Shell(parentShell, SWT.TITLE);
 
@@ -535,34 +539,30 @@ public class PopupWindow {
 		Listener btnRecoverListener = new Listener() {
 			public void handleEvent(Event event) {
 				
-				if (popupForgottenPW(shell, userNameText.getText())) {
+				attemptedUser = userNameText.getText();
+				if (popupForgottenPW(shell)) {
 					String selectedCohort = combo.getItems()[combo.getSelectionIndex()];
-					Session.recover(userNameText.getText(), passwordText.getText(), selectedCohort);
-				}
-				
-				
-				/*String selectedCohort = combo.getItems()[combo.getSelectionIndex()];
-				int sem = selectedCohort.length();
-				try {
-					if(selectedCohort.equals(Errors.noDatabaseFound)) {selectedCohort = "";}
-					else {selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem);}
-					//need text entry box here 
-					if (Session.recover(userNameText.getText(), passwordText.getText(), selectedCohort)) {
+					int sem = selectedCohort.length();
+					try {
+						if(selectedCohort.equals(Errors.noDatabaseFound)) {selectedCohort = "";}
+						else {selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem);} 
+						Session.currentFocus = selectedCohort;
 						if(!setPasswordDefault()) {
-							popupMessage(shell, "Could not reset password.\nYou may use the system with your recovery credentials, but please contanct technical support promptly to have the situation rectified.", "WARNING");;
+							popupMessage(shell, "Logged in.\nCould not reset password.\nYou may use the system with your recovery credentials, but please contanct technical support promptly to have the situation rectified.", "WARNING");;
 						}
 						else {
-							popupMessage(shell, "Reset password to 'default'\nPlease go to settings to change it.", "SUCCESS!");;
+							popupMessage(shell, "Logged in.\nReset password to 'default'\nPlease go to settings to change it.", "SUCCESS!");;
 						}
 						DerbyUtils.dbConnect(selectedCohort);
 						CohortData.loadData();
 						//Enables controls	
 						for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
 						shell.close();
-					} else popupMessage(shell, "Invalid username."+"\n\r"+"Please try again.", "Invalid Account");
-				} catch (java.lang.StringIndexOutOfBoundsException e) {
-					popupMessage(shell, "Invalid username."+"\n\r"+"Please try again.", "Invalid Account");
-				}*/
+					} catch (java.lang.StringIndexOutOfBoundsException e) {
+						popupMessage(shell, "Invalid username."+"\n\r"+"Please try again.", "Invalid Account");
+					}
+				}
+				else popupMessage(shell, "Invalid credentials."+"\n\r"+"Please try again.", "Invalid Account");					
 			}
 		};
 		btnRecover.addListener(SWT.Selection, btnRecoverListener);

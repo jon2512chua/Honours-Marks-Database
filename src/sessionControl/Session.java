@@ -60,22 +60,27 @@ public class Session {
 		else return false;
 	}
 	
-	/**
-	 * Log a user in if they have forgotton their details
-	 * Sets password to default.
-	 * @param username
-	 * @param secretAnswer
-	 * @return true if successful
-	 */
-	public static boolean recover(String username, String secretAnswer, String cohort)
-	{
-		if (checkRecovery(username, secretAnswer)) {
-			currentFocus = cohort;
-			user = username;
-			return true;
-		}
-		else return false;
-	}
+//	/** Couldn't be used because setup needed retooling.
+//	 *	
+//	 * Log a user in if they have forgotton their details
+//	 * Sets password to default.
+//	 * @param username
+//	 * @param secretAnswer
+//	 * @return true if successful
+//	 */
+//	public static boolean recover(String username, String secretAnswer, String cohort)
+//	{
+//		if (checkRecovery(username, secretAnswer)) {
+//			currentFocus = cohort;
+//			user = username;
+//			return true;
+//		}
+//		else return false;
+//	}
+	
+	
+	
+	
 	
 	/**
 	 * Helper method to check if a username/password combo match
@@ -84,7 +89,7 @@ public class Session {
 	 * @param secretAnswer
 	 * @return true if password correct 
 	 */
-	private static boolean checkRecovery(String username, String secretAnswer) {
+	public static boolean checkRecovery(String username, String secretAnswer) {
 		try {
 			Statement query = sysConn.getConnection()
 					.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -102,6 +107,7 @@ public class Session {
 			if (a.equals(secretAnswer)) {
 				rs.close();
 				query.close();
+				user = username;
 				return true;
 			} else {
 				rs.close();

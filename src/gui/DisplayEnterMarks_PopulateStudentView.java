@@ -205,7 +205,6 @@ public class DisplayEnterMarks_PopulateStudentView {
 						TreeItemMap.put(assessment, new StringBuffer[]{a.name, a.mark});
 
 						for (SubAssessment sa : a.getSubAssessments()) {
-							System.out.println("tst");
 							TreeItem subAssessment = new TreeItem(assessment, SWT.NONE);					
 							StringBuffer[] strBuf = new StringBuffer[]{sa.name, sa.aveMark, new StringBuffer("TODO"), new StringBuffer("TODO"), sa.maxMark};
 							for (Mark m : sa.getMarks()) {

@@ -49,6 +49,7 @@ public class MarkCalculator
         }
         standDev = standDev / size;
         standDev = Math.sqrt(standDev);
+        curSubAssess.setStandDev(standDev);
         
         return standDev;
     }  

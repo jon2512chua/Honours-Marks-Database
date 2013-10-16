@@ -3,6 +3,8 @@ package orm;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
+import logic.CohortData;
 import sessionControl.Session;
 
 /**
@@ -76,5 +78,61 @@ public class Assessment extends BaseAssessment {
         }
         
         return allAssessments;
+    }
+	
+    /**
+     * return assessment detail of a specific unit code and assessment name
+     * @param unitCode the specific unit code
+     * @return the Assessment class of the specific assessment
+     */
+    public static Assessment getAssessByCodeAndName (String unitCode, String assessmentName) {
+    	for (Assessment a : Assessment.getAllAssessments()) {
+    		try {if (unitCode.equals(a.getParentUnit().getUnitCode()+"") && assessmentName.equals(a.getName()+"")) return a;
+    		} catch (java.lang.NumberFormatException e) {}
+    	}
+    	return null;
+    }
+
+    /**
+     * return current assessmentID
+     * @return the current assessmentID
+     */
+    public static int getMaxAssessID () {
+    	try {
+    		String sql = "Select max(assessmentID) from Assessment";
+    		Statement s = Session.dbConn.getConnection().createStatement();
+    		ResultSet r = s.executeQuery(sql);
+    		r.next();
+    		int assessID = r.getInt("assessmentID");
+    		r.close();
+    		s.close();
+    		return assessID;
+    	} catch (SQLException ex) {}
+    	return 0;
+    }
+
+    /**
+     * Update a single row of the Assessment table 
+     * 	- called when the save changes button is hit.
+     *  - AssessmentID is omitted so that it can never be changed. 
+     * @throws SQLException 
+     */
+    public void updateRow() throws SQLException {
+    	String sql = "UPDATE Student SET AssessmentName = '"+this.getName().toString()+"', UnitCode = '"+this.getParentUnit().toString()+"', UnitPercent = '"+this.getUnitPercent()+"' WHERE ssessmentID = " + this.getAssessmentID();
+    	Statement stmt = Session.dbConn.getConnection().createStatement();
+    	stmt.execute(sql);
+    	stmt.close();
+    }
+
+    /**
+     * Delete this unit
+     * @throws SQLException
+     */
+    public void deleteRow() throws SQLException {
+    	CohortData.units.remove(this);
+    	String sql = "DELETE from Assessment WHERE AssessmentID = " + this.getAssessmentID();
+    	Statement stmt = Session.dbConn.getConnection().createStatement();
+    	stmt.execute(sql);
+    	stmt.close();
     }
 }

@@ -32,6 +32,7 @@ import org.eclipse.swt.events.SelectionEvent;
 
 import orm.Staff;
 import orm.Student;
+import org.eclipse.swt.widgets.Combo;
 
 /**
  * Edit Students Section
@@ -120,6 +121,18 @@ public class DisplayCE_PopulateEditStudent {
 		lblFirstName.setText("First Name:");
 		firstName = new Text(rComposite, SWT.BORDER);
 		firstName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblDiscipline = new Label(rComposite, SWT.NONE);
+		lblDiscipline.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblDiscipline.setText("Discipline:");
+		
+		Combo DisciplineCombo = new Combo(rComposite, SWT.READ_ONLY);
+		DisciplineCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		//Hardcoded discipline options. TODO: get properly.
+		DisciplineCombo.add("PHYS");
+		DisciplineCombo.add("ANHB");
+		DisciplineCombo.add("BIOM");
+		DisciplineCombo.add("NEUR");
 
 		Label seperator = new Label(rComposite, SWT.SEPARATOR | SWT.HORIZONTAL);
 		seperator.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
@@ -352,5 +365,4 @@ public class DisplayCE_PopulateEditStudent {
 		}
 		supervisorTree.pack();
 	}
-
 }

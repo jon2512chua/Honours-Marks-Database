@@ -93,6 +93,8 @@ INSERT INTO SubAssessmentMark  VALUES
 	(76, 100099999, 20001234, 2, 1, 'it was objectively pretty good, but not as good as the other half'),
 	(85, 100012345, 20112233, 2, 1, 'interesting listen'),
 	
+	(75, 100067890, 20001234, 3, 1, 'report'),
+	(85, 100012345, 20112233, 3, 1, 'report'),
 	(75, 100067890, 20001234, 4, 1, 'report'),
 	(85, 100012345, 20112233, 4, 1, 'report'),
 	(75, 100067890, 20001234, 5, 1, 'report'),

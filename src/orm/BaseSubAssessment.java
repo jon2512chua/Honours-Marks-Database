@@ -272,54 +272,79 @@ public class BaseSubAssessment {
      * @return the maximum mark scored by the students for this sub assessment
      */
     public int getMaxMark() {
+
     	return Integer.parseInt(maxMark+"");
+        
     }
     
     /**
-     * Method to set the max mark.
+     * Method to set the max mark. If value passed is not a number, sets to a blank string
      * 
      * @param maxMark the maximum mark scored by the students for this sub assessment
      */
     public void setMaxMark(int maxMark) {
-    	this.maxMark.replace(0, this.maxMark.capacity(),  Integer.toString(maxMark));
+
+		this.maxMark.replace(0, this.maxMark.capacity(),  Integer.toString(maxMark));
+
     }
     
     /**
-     * Method to get the average mark.
+     * Method to get the average mark, or 0 if mark isn't a number.
      * 
      * @return the calculated average of all the marks all the students got for this sub assessment
      */
     public double getAveMark() {
-    	return Double.parseDouble(aveMark+"");
+    	try {
+    		return Double.parseDouble(aveMark+"");
+    	}
+    	catch (NumberFormatException e) {
+    		return 0;
+    	}
     }
     
     /**
-     * Method to set the average mark.
+     * Method to set the average mark. If value passed is not a number, sets to a blank string.
      * 
      * @param aveMark the calculated average of all the marks all the students got for this sub assessment
      */
     public void setAveMark(double aveMark) {
-    	this.aveMark.replace(0, this.aveMark.capacity(),  Double.toString(aveMark));
-    	this.aveMark.setLength(5);
+    	if (!Double.isNaN(aveMark)){
+	    	this.aveMark.replace(0, this.aveMark.capacity(),  Double.toString(aveMark));
+	    	this.aveMark.setLength(5);
+    	} else {
+    		this.aveMark.replace(0, this.aveMark.capacity(),  " ");
+	    	this.aveMark.setLength(1);
+    	}
     }
     
     /**
-     * Method to get the standard deviation of all the marks for this sub assessment.
+     * Method to get the standard deviation of all the marks for this sub assessment, or 0 if it is not a number
      * 
      * @return the standard deviation
      */
     public double getStandDev() {
-    	return Double.parseDouble(standDev+"");
+    	try {
+    		return Double.parseDouble(standDev+"");
+    	}
+    	catch (NumberFormatException e) {
+    		return 0;
+    	}
+
     }
     
     /**
-     * Method to set the standard deviation of all the marks for this sub assessment.
+     * Method to set the standard deviation of all the marks for this sub assessment.  If value passed is not a number, sets to a blank string.
      * 
      * @param standDev the standard deviation
      */
     public void setStandDev(double standDev) {
-    	this.standDev.replace(0, this.standDev.capacity(),  Double.toString(standDev));
-    	this.standDev.setLength(5);
+    	if (!Double.isNaN(standDev)){
+    		this.standDev.replace(0, this.standDev.capacity(),  Double.toString(standDev));
+	    	this.standDev.setLength(5);
+    	} else {
+    		this.standDev.replace(0, this.standDev.capacity(),  " ");
+	    	this.standDev.setLength(1);
+    	}
     }
     
     /**
@@ -333,17 +358,25 @@ public class BaseSubAssessment {
     }
     
     /**
-     * Sets the string buffer displaying the range of scores over the sub assessment.
+     * Sets the string buffer displaying the range of scores over the sub assessment. If one of the values passed is not a number, sets to a blank string.
      * 
      * @param min minimum score in range
      * @param max maximum score in range
      */
     public void setRange(double min, double max) {
+    	
+    	if (Double.isNaN(min) || Double.isNaN(min)){
+    		this.range.replace(0, this.range.capacity(),  " ");
+	    	this.range.setLength(1);
+	    	
+    	} else {
+    
     	this.range.replace(0, this.range.capacity(),  Double.toString(min));
     	this.range.setLength(5);
     	this.range.append(" - ");
     	this.range.append(max);
     	this.range.setLength(13);
+    	}
     }
     
     /**

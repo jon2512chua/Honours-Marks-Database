@@ -246,22 +246,31 @@ public class BaseStudent {
     }
     
     /**
-     * Method to get the course mark.
+     * Method to get the mark, or 0 if it is not a number
      * 
-     * @return the mark the student got for the course he/she enrolled for
+     * @return the mark a student got for their course
      */
     public double getCourseMark() {
-    	return Double.parseDouble(courseMark+"");
+    	try {
+    		return Double.parseDouble(courseMark+"");
+    	}
+    	catch (NumberFormatException e) {
+    		return 0;
+    	}
     }
     
     /**
-     * Method to set the course mark.
-     * 
-     * @param courseMark the mark the student got for the course he/she enrolled for
+     * Method to set the mark. If value passed is not a number, sets to empty string.
+     * @param mark the mark a student got for their course
      */
     public void setCourseMarks(double courseMark) {
-    	this.courseMark.replace(0, this.courseMark.capacity(),  Double.toString(courseMark));
-    	this.courseMark.setLength(5);
+    	if (!Double.isNaN(courseMark)){
+    		this.courseMark.replace(0, this.courseMark.capacity(),  Double.toString(courseMark));
+	    	this.courseMark.setLength(5);
+    	} else {
+    		this.courseMark.replace(0, this.courseMark.capacity(),  " ");
+	    	this.courseMark.setLength(1);
+    	}
     }
     
     /**

@@ -248,30 +248,41 @@ public class BaseAssessment {
     }
     
     /**
-     * Method to set the parent uni.
+     * Method to set the parent unit.
      * 
      * @param parentUnit Unit object that this assessment belongs to
      */
     public void setParentUnit(Unit parentUnit) {
+    	
         this.parentUnit = parentUnit;
     }
     
     /**
-     * Method to get the mark.
+     * Method to get the mark, or 0 if it is not a number
      * 
      * @return the mark a student got for this assessment
      */
     public double getMark() {
-    	return Double.parseDouble(mark+"");
+    	try {
+    		return Double.parseDouble(mark+"");
+    	}
+    	catch (NumberFormatException e) {
+    		return 0;
+    	}
     }
     
     /**
-     * Method to set the mark.
+     * Method to set the mark. If value passed is not a number, sets to empty string.
      * @param mark the mark a student got for this assessment
      */
     public void setMark(double mark) {
-    	this.mark.replace(0, this.mark.capacity(),  Double.toString(mark));
-    	this.mark.setLength(5);
+    	if (!Double.isNaN(mark)){
+    		this.mark.replace(0, this.mark.capacity(),  Double.toString(mark));
+	    	this.mark.setLength(5);
+    	} else {
+    		this.mark.replace(0, this.mark.capacity(),  " ");
+	    	this.mark.setLength(1);
+    	}
     }
     
     /**

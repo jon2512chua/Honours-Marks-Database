@@ -12,23 +12,58 @@ import java.util.logging.Logger;
 import logic.CohortData;
 import sessionControl.Session;
 
-public class Staff extends BaseStaff {
+/**
+ * Class representing a Staff.
+ * 
+ * @author Jonathan Chua
+ * @author Samuel Widenbar
+ * @version 16/10/2013
+ */public class Staff extends BaseStaff {
+     
+    /**
+     * Constructor to create a new java object to represent a staff found in the database.
+     * 
+     * @param staffID the ID of the staff
+     */
     public Staff(int staffID) {
         super(staffID);
     }
 
+    /**
+     * Constructor to create a java object to represent a staff that does not exist yet in the database.
+     * 
+     * @param staffID the ID of the staff
+     * @param firstName the first name of the staff
+     * @param lastName the last name of the staff
+     * @throws SQLException when there is an error with the SQL statement
+     */
     public Staff(int staffID, String firstName, String lastName) throws SQLException {
         super(staffID, firstName, lastName);
     }
 
+    /**
+     * Method that combines the first and last name of the staff together.
+     * 
+     * @return full name of the staff
+     */
     public String getFullName() {
         return this.getFirstName() + " " + this.getLastName();
     }
 
+    /**
+     * Method that calculates how many marks this staff had given out.
+     * 
+     * @return count of marks given by this staff
+     */
     public int getNumMarks() {
         return getMarks().size();
     }
 
+    /**
+     * Method that retrieves a list of every single staff found in the database.
+     * 
+     * @return a list of all the staff from the database
+     */
     public static List<Staff> getAllStaff() {
         List<Staff> allStaff = new ArrayList<>();
 
@@ -45,7 +80,15 @@ public class Staff extends BaseStaff {
 
         return allStaff;
     }
-	
+    
+    /**
+     * Method that retrieves a staff object identified by staffID.
+     * 
+     * TODO: Do we really need this? Does the constructor not do the exact same thing?
+     * 
+     * @param ID ID of the staff
+     * @return a Staff object identified by the staffID
+     */
     public static Staff getStaffByID (String ID) {
         for (Staff s : Staff.getAllStaff()) {
             try {

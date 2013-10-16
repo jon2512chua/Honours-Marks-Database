@@ -31,42 +31,43 @@ public class ToExcel {
 	//TODO set some cell styles for export http://poi.apache.org/spreadsheet/quick-guide.html
 	//TODO add std devs, etc
 	
-//	public static void markerSummaries(String filepath) throws Exception {
-//		try {
-//			FileOutputStream fileOut = new FileOutputStream(filepath);
-//			
-//			Workbook wb = new HSSFWorkbook();
-//			Sheet s = wb.createSheet("Marker Summaries");
-//			
-//			int colOffset = 0; 
-//			int maxDepth = 0;
-//			Iterator<Staff> markers = CohortData.staff.iterator();
-//			
-//			if(!markers.hasNext()) {
-//				fileOut.close();
-//				throw new Exception("No markers");
-//			}
-//			
-//			while(markers.hasNext()) {
-//				Staff m = markers.next();
-//				Row row;
-//				if(colOffset == 0) row = s.createRow(0);
-//				else row = s.getRow(0);
-//				row.createCell(0+colOffset).setCellValue(m.getStaffID());
-//			    row.createCell(1+colOffset).setCellValue(m.getLastName().toString());
-//			    row.createCell(2+colOffset).setCellValue(m.getFirstName().toString());
-//			    if(colOffset == 0) row = s.createRow(1);
-//				else row = s.getRow(2);
-//			    
-//			    
-//			    
-//			    row.createCell(0+colOffset).setCellValue("Unit:");
-//			    row.createCell(1+colOffset).setCellValue(u.mark.toString());
-//			    row.createCell(2+colOffset);
-//			    row.createCell(3+colOffset);
-//			    if(colOffset == 0) row = s.createRow(2);
+	public static void markerSummaries(String filepath) throws Exception {
+		//try {
+			FileOutputStream fileOut = new FileOutputStream(filepath);
+			
+			Workbook wb = new HSSFWorkbook();
+			Sheet s = wb.createSheet("Marker Summaries");
+			
+			int colOffset = 0; 
+			int maxDepth = 0;
+			Iterator<Staff> markers = CohortData.staff.iterator();
+			
+			if(!markers.hasNext()) {
+				fileOut.close();
+				throw new Exception("No markers");
+			}
+			
+			while(markers.hasNext()) {
+				Staff m = markers.next();
+				Row row;
+				if(colOffset == 0) row = s.createRow(0);
+				else row = s.getRow(0);
+				row.createCell(0+colOffset).setCellValue(m.getStaffID());
+			    row.createCell(1+colOffset).setCellValue(m.getLastName().toString());
+			    row.createCell(2+colOffset).setCellValue(m.getFirstName().toString());
+			    if(colOffset == 0) row = s.createRow(1);
+				else row = s.getRow(2);
+			    
+			    //HashMap<Unit, List<Assessment>>
+			    
+			    row.createCell(0+colOffset).setCellValue("Unit:");
+			    //row.createCell(1+colOffset).setCellValue(u.mark.toString());
+			    row.createCell(2+colOffset);
+			    row.createCell(3+colOffset);
+			    //if(colOffset == 0) row = s.createRow(2);
+			}
 //			    int rowNum = 3;
-//			    List<Assessment> as = u.getAssessments(); 
+//			    //List<Assessment> as = u.getAssessments(); 
 //			    if(as != null) {
 //				    for (Assessment a : as) {
 //				    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
@@ -114,7 +115,7 @@ public class ToExcel {
 //		} catch (Exception e) {
 //			throw new Exception("There are no units to export");
 //		}
-//	}
+	}
 	
 	/**
 	 * Write a summary of the students' final grades and key information to .xls

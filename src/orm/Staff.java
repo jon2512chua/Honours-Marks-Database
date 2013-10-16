@@ -84,7 +84,6 @@ import sessionControl.Session;
     /**
      * Method that retrieves a staff object identified by staffID.
      * 
-     * TODO: Do we really need this? Does the constructor not do the exact same thing?
      * 
      * @param ID ID of the staff
      * @return a Staff object identified by the staffID

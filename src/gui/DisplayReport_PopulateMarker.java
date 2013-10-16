@@ -13,6 +13,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -76,9 +77,21 @@ public class DisplayReport_PopulateMarker {
 		});
 
 		//Listener for Export button
-		treeTop[1].addListener(SWT.Selection, new Listener() {
+		treeTop[2].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				//TODO: export here
+				FileDialog fd = new FileDialog(markerTree.getShell(), SWT.SAVE);
+				fd.setText("Save Marker Summary...");
+				fd.setFilterPath("exports/");
+				fd.setFilterExtensions(new String[]{ "*.xls", "*.*" }); 
+				String selected = fd.open();
+				if(selected != null) { 							
+					try {
+						export.ToExcel.markerSummaries(selected);
+						PopupWindow.popupMessage(markerTree.getShell(), "Export Successful!", "SUCCESS!");
+					} catch (Exception e) {
+						PopupWindow.popupMessage(markerTree.getShell(), e.toString(), "ERROR");
+					}
+				}
 			}
 		});
 

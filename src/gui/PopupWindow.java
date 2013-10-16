@@ -251,7 +251,7 @@ public class PopupWindow {
 	 * @return true if the username/answer/question are all correct, false otherwise
 	 * @wbp.parser.entryPoint
 	 */
-	static boolean popupForgottenPW(final Shell parentShell, String enteredUsername) {
+	static boolean popupForgottenPW(final Shell parentShell, String enteredUsername) { //add cohort?
 		//Text secretQ;
 		//Text secretA;
 
@@ -281,6 +281,7 @@ public class PopupWindow {
 		final Text userName = new Text(composite, SWT.BORDER);
 		userName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		userName.setText(enteredUsername);	//set initial username to the one currently entered
+		//userName.setEditable(false);	// username shouldn't be changable
 
 		Label lblSecretQuestion = new Label(composite, SWT.NONE);
 		lblSecretQuestion.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));

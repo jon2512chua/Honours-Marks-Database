@@ -144,6 +144,7 @@ public class BaseUnit {
      * @param unitCode the unit code of the unit being searched for
      * @param studentID the ID of the student
      * @param points the amount of credit points for the unit
+     * @throws SQLException when there's an error with the SQL statement
      */
     public BaseUnit(String unitCode, String name, int points) throws SQLException {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {

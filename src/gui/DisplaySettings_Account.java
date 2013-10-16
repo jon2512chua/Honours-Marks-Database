@@ -147,7 +147,25 @@ public class DisplaySettings_Account {
 		Button[] btnUpdateSettings = CommonButtons.addUpdateSettingsButtons(accountSettingsComposite);
 		
 		//Action to perform when the Change Username button is pressed
-		btnUpdateSettings[0].addListener(SWT.Selection, new Listener() {
+				btnUpdateSettings[0].addListener(SWT.Selection, new Listener() {
+					public void handleEvent(Event event) {
+						if(usernameText.getText().length() != 0 && currentPasswordText.getText().length() !=0){ 
+							if(sessionControl.Session.changeUsername(currentPasswordText.getText(), usernameText.getText())) {
+								PopupWindow.popupMessage(settingsTabFolder.getShell(), "Username changed to " + usernameText.getText() + "!\n", "SUCCESS!");
+							}
+							else {
+								PopupWindow.popupMessage(settingsTabFolder.getShell(), "Password not correct.\n", "WARNING!");
+							}
+						}
+						else {
+							PopupWindow.popupMessage(settingsTabFolder.getShell(), "Username or password field is empty.\nCannot update.", "WARNING!");	
+						}
+						currentPasswordText.setText("");
+					}
+				});
+		
+		//Action to perform when the Change password button is pressed
+		btnUpdateSettings[1].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				if (!newPasswordText.getText().equals(retypeNewPasswordtext.getText())) {
 					PopupWindow.popupMessage(settingsTabFolder.getShell(), "New passwords do not match.\nChanges have not been saved", "WARNING");
@@ -160,11 +178,30 @@ public class DisplaySettings_Account {
 					else {
 						PopupWindow.popupMessage(settingsTabFolder.getShell(), "Password not correct.\n", "WARNING!");
 					}
-					//TODO save other data: username, secret question/answer.
 				}
-			}
+				currentPasswordText.setText("");
+			}			
 		});
+		
+		//Action to perform when the Change qn/ans button is pressed
+				btnUpdateSettings[2].addListener(SWT.Selection, new Listener() {
+					public void handleEvent(Event event) {
+						if (secretQText.getText().length() != 0 && secretAText.getText().length() !=0) {
+							if(sessionControl.Session.changeRecovery(currentPasswordText.getText(), secretQText.getText(), secretAText.getText())) {
+								PopupWindow.popupMessage(settingsTabFolder.getShell(), "Recovery details changed!\n", "SUCCESS!");
+							}
+							else {
+								PopupWindow.popupMessage(settingsTabFolder.getShell(), "Password not correct.\nRecovery details not updated.", "WARNING!");
+							}
+						} else {
+							PopupWindow.popupMessage(settingsTabFolder.getShell(), "Secret question or answer field is empty.\nCannot update.", "WARNING!");
+						}
+						currentPasswordText.setText("");
+					}			
+				});
+		
 	}
+	
 	
 	/**
 	 * Helper method to reset view's fields if data is saved/.

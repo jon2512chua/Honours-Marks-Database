@@ -1,6 +1,8 @@
 package gui;
 
 import java.io.File;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import logic.CohortData;
 
@@ -27,6 +29,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
 
+import sessionControl.BCrypt;
 import sessionControl.Session;
 import sessionControl.Errors;
 import sessionControl.DerbyUtils;
@@ -339,7 +342,7 @@ public class PopupWindow {
 		combo.select(0); //@todo find the last used one from the system DB
 
 		Composite buttonsComposite = new Composite(shell, SWT.NONE);
-		GridData gd_buttonsComposite = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1);
+		GridData gd_buttonsComposite = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 4, 1);
 		gd_buttonsComposite.verticalIndent = 20;
 		buttonsComposite.setLayoutData(gd_buttonsComposite);
 		RowLayout rl_buttonsComposite = new RowLayout(SWT.HORIZONTAL);
@@ -349,7 +352,11 @@ public class PopupWindow {
 		Button btnOK = new Button(buttonsComposite, SWT.CENTER);
 		btnOK.setLayoutData(new RowData(75, SWT.DEFAULT));
 		btnOK.setText("OK");
-
+		
+		Button btnRecover = new Button(buttonsComposite, SWT.CENTER);
+		btnRecover.setLayoutData(new RowData(75, SWT.DEFAULT));
+		btnRecover.setText("Forgot Password?");
+		
 		Button btnClear = new Button(buttonsComposite, SWT.CENTER);
 		btnClear.setLayoutData(new RowData(75, SWT.DEFAULT));
 		btnClear.setText("Clear");
@@ -369,8 +376,6 @@ public class PopupWindow {
 					if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) {
                         DerbyUtils.dbConnect(selectedCohort);
 						CohortData.loadData();
-//						System.out.print("(CHECK) Number: " + CohortData.numStudents); //TODO delete
-//						System.exit(0);//delete
 						//Enables controls	
 						for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
 						shell.close();
@@ -381,6 +386,35 @@ public class PopupWindow {
 			}
 		};
 		btnOK.addListener(SWT.Selection, btnOKListener);
+		
+		//Button listener to deal with the Recover button being pressed
+		Listener btnRecoverListener = new Listener() {
+			public void handleEvent(Event event) {
+				String selectedCohort = combo.getItems()[combo.getSelectionIndex()];
+				int sem = selectedCohort.length();
+				try {
+					if(selectedCohort.equals(Errors.noDatabaseFound)) {selectedCohort = "";}
+					else {selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem);}
+					//need text entry box here 
+					if (Session.recover(userNameText.getText(), passwordText.getText(), selectedCohort)) {
+                        if(!setPasswordDefault()) {
+                        	popupMessage(shell, "Could not reset password.\nYou may use the system with your recovery credentials, but please contanct technical support promptly to have the situation rectified.", "WARNING");;
+                        }
+                        else {
+                        	popupMessage(shell, "Reset password to 'default'\nPlease go to settings to change it.", "SUCCESS!");;
+                        }
+						DerbyUtils.dbConnect(selectedCohort);
+						CohortData.loadData();
+						//Enables controls	
+						for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
+						shell.close();
+					} else popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
+				} catch (java.lang.StringIndexOutOfBoundsException e) {
+					popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
+				}
+			}
+		};
+		btnRecover.addListener(SWT.Selection, btnRecoverListener);
 
 		//Button listener to deal with the button clear being pressed
 		Listener btnClearListener = new Listener() {
@@ -606,7 +640,25 @@ public class PopupWindow {
 				shell.dispose();
 			}
 		});
-		
 	}
-
+	
+	/**
+	 * reset a forgotten password to default
+	 * @param username
+	 * @return true if successful
+	 */
+	private static boolean setPasswordDefault() {
+		try {
+			Statement stmt = Session.sysConn.getConnection().createStatement();
+			String update = "UPDATE System SET Password = '"
+					+ BCrypt.hashpw("default", BCrypt.gensalt())
+					+ "' WHERE username = '" + Session.getUser() + "'";
+			stmt.execute(update);
+			stmt.close();
+			return true;
+		} catch (SQLException e) {
+			System.err.println("ERROR: couldn't change password.\nPROGRAM REPORT: " + e);
+			return false;
+		}
+	}
 }

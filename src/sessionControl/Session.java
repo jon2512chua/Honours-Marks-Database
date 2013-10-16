@@ -11,10 +11,6 @@ import logic.CohortData;
  * 
  * @author Nicholas Abbey 20522805
  * @version 22/09/13
- * 
- *          TODO PASSWORD CURRENTLY SET TO DEFAULT!! users are either Heather or
- *          admin
- * 
  */
 public class Session {
 
@@ -26,8 +22,6 @@ public class Session {
 	 * Object for storing connections to the cohort database
 	 */
 	public static ConnectionWrapper dbConn = new ConnectionWrapper();
-
-	// TODO do we need systemDB username/password installed?
 
 	/**
 	 * Cohort currently under consideration
@@ -69,20 +63,35 @@ public class Session {
 	}
 	
 	/**
-	 * Helper method to check if a username/password combo match
-	 * Called by login, change password, and in DisplaySettings when updating info 
+	 * Log a user in if they have forgotton their details
+	 * Sets password to default.
 	 * @param username
-	 * @param password
+	 * @param secretAnswer
+	 * @return true if successful
+	 */
+	public static boolean recover(String username, String secretAnswer, String cohort)
+	{
+		if (checkRecovery(username, secretAnswer)) {
+			currentFocus = cohort;
+			user = username;
+			return true;
+		}
+		else return false;
+	}
+	
+	/**
+	 * Helper method to check if a username/password combo match
+	 * Called by recover
+	 * @param username
+	 * @param secretAnswer
 	 * @return true if password correct 
 	 */
-	public static boolean checkPassword(String username, String password) {
-		Statement query;
-
+	private static boolean checkRecovery(String username, String secretAnswer) {
 		try {
-			query = sysConn.getConnection()
+			Statement query = sysConn.getConnection()
 					.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 							ResultSet.CONCUR_UPDATABLE);
-			String SQL = "SELECT * FROM System where username = '" + username
+			String SQL = "SELECT SecretAns FROM System where username = '" + username
 					+ "'";
 
 			ResultSet rs = query.executeQuery(SQL);
@@ -91,10 +100,70 @@ public class Session {
 				return false;
 			}
 
-			String u = rs.getString("username");
-			String p = rs.getString("password");
-			if (username.equals(u) && BCrypt.checkpw(password, p)) {
-				
+			String a = rs.getString("SecretAns");
+			if (a.equals(secretAnswer)) {
+				rs.close();
+				query.close();
+				return true;
+			} else {
+				rs.close();
+				query.close();
+				return false;
+			}
+		} catch (SQLException e) {
+			System.err.println("ERROR: There was an error connecting to the System database: could check recovery details.");
+			System.err.println("PROGRAM REPORT: " + e);
+			return false;
+		}
+	}
+	
+	/**
+	 * @param Username
+	 * @return Secret Question for printing
+	 */
+	public static String getSecretQuestion(String username) {
+		try {
+			Statement query = sysConn.getConnection()
+					.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+							ResultSet.CONCUR_UPDATABLE);
+			String SQL = "SELECT SecretQn FROM System where Username = '" + username
+					+ "'";
+
+			ResultSet rs = query.executeQuery(SQL);
+			
+			rs.next();
+
+			return rs.getString("SecretQn");
+		} catch (SQLException e) {
+			System.err.println("ERROR: There was an error connecting to the System database: could check recovery details.");
+			System.err.println("PROGRAM REPORT: " + e);
+			return "Couldn't retrieve secret question.\n" +
+					"It was not set for this user, or an error has occured.";
+		}
+	}
+	
+	/**
+	 * Helper method to check if a username/password combo match
+	 * Called by login, change password, and in DisplaySettings when updating info 
+	 * @param username
+	 * @param password
+	 * @return true if password correct 
+	 */
+	private static boolean checkPassword(String username, String password) {
+		try {
+			Statement query = sysConn.getConnection()
+					.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+							ResultSet.CONCUR_UPDATABLE);
+			String SQL = "SELECT Password FROM System where Username = '" + username
+					+ "'";
+
+			ResultSet rs = query.executeQuery(SQL);
+
+			if (!rs.next()) {
+				return false;
+			}
+			String p = rs.getString("Password");
+			if (BCrypt.checkpw(password, p)) {			
 				rs.close();
 				query.close();
 				return true;
@@ -120,11 +189,9 @@ public class Session {
 
 	/**
 	 * Change password
-	 * 
-	 * TODO the validation of newp should occur in UI
+	 * @return true if successful
 	 */
 	public static boolean changePassword(String oldp, String newp) {
-
 		if (checkPassword(user, oldp)) {
 			Statement stmt;
 			try {
@@ -141,9 +208,55 @@ public class Session {
 			}
 		}
 		else return false;
-
+	}
+	
+	/**
+	 * Change username
+	 * @return true if successful
+	 */
+	public static boolean changeUsername(String oldp, String newUsername) {
+		if (checkPassword(user, oldp)) {
+			Statement stmt;
+			try {
+				stmt = sysConn.getConnection().createStatement();
+				String update = "UPDATE System SET Username = '"
+						+ newUsername
+						+ "' WHERE username = '" + user + "'";
+				stmt.execute(update);
+				stmt.close();
+				user = newUsername;
+				return true;
+			} catch (SQLException e) {
+				System.err.println("ERROR: couldn't change username.\nPROGRAM REPORT: " + e);
+				return false;
+			}
+		}
+		else return false;
 	}
 
+	/**
+	 * Change secret question and/or answer
+	 * @return true if successful
+	 */
+	public static boolean changeRecovery(String oldp, String newQuestion, String newAnswer) {
+		if (checkPassword(user, oldp)) {
+			Statement stmt;
+			try {
+				stmt = sysConn.getConnection().createStatement();
+				String update = "UPDATE System SET SecretQn = '"
+						+ newQuestion + "', SecretAns = '" + newAnswer
+						+ "' WHERE username = '" + user + "'";
+				stmt.execute(update);
+				stmt.close();
+				return true;
+			} catch (SQLException e) {
+				System.err.println("ERROR: couldn't change username.\nPROGRAM REPORT: " + e);
+				return false;
+			}
+		}
+		else return false;
+	}
+	
 	/**
 	 * Change the GUI's focus to a different cohort 
 	 * There is not currently a GUI option for doing this.

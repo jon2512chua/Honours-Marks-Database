@@ -13,46 +13,50 @@ import logic.CohortData;
 import sessionControl.Session;
 
 public class Staff extends BaseStaff {
-	public Staff(int staffID) {
-		super(staffID);
-	}
+    public Staff(int staffID) {
+        super(staffID);
+    }
 
-	public Staff(int staffID, String firstName, String lastName) throws SQLException {
-		super(staffID, firstName, lastName);
-	}
+    public Staff(int staffID, String firstName, String lastName) throws SQLException {
+        super(staffID, firstName, lastName);
+    }
 
-	public String getFullName() {
-		return this.getFirstName() + " " + this.getLastName();
-	}
+    public String getFullName() {
+        return this.getFirstName() + " " + this.getLastName();
+    }
 
-	public int getNumMarks() {
-		return getMarks().size();
-	}
+    public int getNumMarks() {
+        return getMarks().size();
+    }
 
-	public static List<Staff> getAllStaff() {
-		List<Staff> allStaff = new ArrayList<>();
+    public static List<Staff> getAllStaff() {
+        List<Staff> allStaff = new ArrayList<>();
 
-		try {
-			Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			ResultSet staffsRS = s.executeQuery("SELECT * FROM Staff");
+        try {
+            Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet staffsRS = s.executeQuery("SELECT * FROM Staff");
 
-			while (staffsRS.next()) {
-				allStaff.add(new Staff(staffsRS.getInt("StaffID")));
-			}
-		} catch (java.lang.NullPointerException | SQLException ex) {
-			Logger.getLogger(BaseStaff.class.getName()).log(Level.SEVERE, null, ex);
-		}
+            while (staffsRS.next()) {
+                allStaff.add(new Staff(staffsRS.getInt("StaffID")));
+            }
+        } catch (java.lang.NullPointerException | SQLException ex) {
+            Logger.getLogger(BaseStaff.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-		return allStaff;
-	}
+        return allStaff;
+    }
 	
     public static Staff getStaffByID (String ID) {
-	    for (Staff s : Staff.getAllStaff()) {
-	    	try {
-				if (Integer.parseInt(ID) == Integer.parseInt(s.getStaffID()+"")) return s;
-			} catch (java.lang.NumberFormatException e) {}
-		}
-	    return null;
+        for (Staff s : Staff.getAllStaff()) {
+            try {
+                if (Integer.parseInt(ID) == Integer.parseInt(s.getStaffID()+"")) {
+                    return s;
+                }
+            } catch (java.lang.NumberFormatException e) {
+            }
+        }
+        
+        return null;
     }
     
     /**
@@ -81,7 +85,8 @@ public class Staff extends BaseStaff {
     }
     
     /**
-     * Returns a list of the assessments a marker has marked
+     * Returns a list of the assessments a marker has marked.
+     * 
      * @return the list, or null if none
      */
     public List<Assessment> getAssessmentsMarked(){
@@ -95,8 +100,10 @@ public class Staff extends BaseStaff {
     	}
     	else return null;
     }
+    
     /**
-     * Returns a list of the units a marker has marked
+     * Returns a list of the units a marker has marked.
+     * 
      * @return the list, or null if none
      */
     public List<Unit> getUnitsMarked() {
@@ -111,5 +118,4 @@ public class Staff extends BaseStaff {
     	}
     	else return null;
     }
-    
 }

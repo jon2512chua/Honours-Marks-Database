@@ -174,14 +174,13 @@ public class DisplayEnterMarks_PopulateStudentView {
 								int column = cursor.getColumn();
 								TreeItemMap.get(row)[column].replace(0, TreeItemMap.get(row)[column].capacity(), text.getText());
 
-								//row.getText(column).
+								row.setText(column, text.getText());
 
-								//Quick and dirty way to save the students marks
-								for (Student s : Student.getAllStudents()) {
-									try {
-										s.updateRow();
-									} catch (SQLException e1) {}
-								}
+								//save the students marks
+								String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 9);
+								try {
+									Student.getStudentByID(studentNumber).updateRow();
+								} catch (SQLException e1) {}
 
 								text.dispose();
 								//refresh(tree);
@@ -206,6 +205,14 @@ public class DisplayEnterMarks_PopulateStudentView {
 							int column = cursor.getColumn();
 
 							TreeItemMap.get(row)[column].replace(0, TreeItemMap.get(row)[column].capacity(), text.getText());
+
+							row.setText(column, text.getText());
+
+							//save the students marks
+							String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 9);
+							try {
+								Student.getStudentByID(studentNumber).updateRow();
+							} catch (SQLException e1) {}
 
 							text.dispose();
 						}

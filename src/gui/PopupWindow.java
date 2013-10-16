@@ -286,9 +286,12 @@ public class PopupWindow {
 		lblSecretQuestion.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		lblSecretQuestion.setText("Secret Question:");
 
-		final Text secretQ = new Text(composite, SWT.BORDER);
+		final Text secretQ = new Text(composite, SWT.BORDER | SWT.READ_ONLY | SWT.WRAP | SWT.V_SCROLL | SWT.MULTI);
 		secretQ.setEditable(false);
-		secretQ.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		GridData gd_secretQ = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+		gd_secretQ.minimumWidth = 200;
+		gd_secretQ.minimumHeight = 50;
+		secretQ.setLayoutData(gd_secretQ);
 		try {
 			secretQ.setText(Session.getSecretQuestion(userName.getText()));
 		} catch (Exception badUsername) {
@@ -299,8 +302,11 @@ public class PopupWindow {
 		lblAnswer.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		lblAnswer.setText("Answer:");
 
-		Text secretA = new Text(composite, SWT.BORDER);
-		secretA.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		Text secretA = new Text(composite, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.MULTI);
+		GridData gd_secretA = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+		gd_secretA.minimumWidth = 200;
+		gd_secretA.minimumHeight = 50;
+		secretA.setLayoutData(gd_secretA);
 
 		Button btnOK = new Button(composite, SWT.CENTER);
 		GridData gd_btnYes = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);

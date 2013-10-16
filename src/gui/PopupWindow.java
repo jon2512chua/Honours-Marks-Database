@@ -19,6 +19,8 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
@@ -150,7 +152,6 @@ public class PopupWindow {
 	 * @param parentShell the display currently in use
 	 * @param text the text the popup displays 
 	 * @param title the title to display
-
 	 */
 	private static boolean returnVal = false;
 	static boolean popupYessNo(final Shell parentShell, String text, String title) {	//TODO: test
@@ -245,10 +246,140 @@ public class PopupWindow {
 	}
 
 	/**
+	 * @param parentShell the display currently in use
+	 * @param enteredUsername the currently entered username
+	 * @return true if the username/answer/question are all correct, false otherwise
+	 * @wbp.parser.entryPoint
+	 */
+	static boolean popupForgottenPW(final Shell parentShell, String enteredUsername) {
+		//Text secretQ;
+		//Text secretA;
+
+		final Shell shell = new Shell(parentShell, SWT.TITLE);
+		shell.setImage(parentShell.getImage());
+
+		// Set the Window Title
+		shell.setText("Password Recovery");
+		RowLayout rl_shell = new RowLayout(SWT.VERTICAL);
+		rl_shell.marginTop = 8;
+		rl_shell.marginRight = 10;
+		rl_shell.marginLeft = 10;
+		rl_shell.marginBottom = 10;
+		rl_shell.spacing = 25;
+		rl_shell.center = true;
+		shell.setLayout(rl_shell);
+
+		Composite composite = new Composite(shell, SWT.NONE);
+		GridLayout gl_composite = new GridLayout(2, false);
+		gl_composite.horizontalSpacing = 10;
+		composite.setLayout(gl_composite);
+
+		Label lblUsername = new Label(composite, SWT.NONE);
+		lblUsername.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+		lblUsername.setText("Username:");
+
+		final Text userName = new Text(composite, SWT.BORDER);
+		userName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		userName.setText(enteredUsername);	//set initial username to the one currently entered
+
+		Label lblSecretQuestion = new Label(composite, SWT.NONE);
+		lblSecretQuestion.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+		lblSecretQuestion.setText("Secret Question:");
+
+		final Text secretQ = new Text(composite, SWT.BORDER);
+		secretQ.setEditable(false);
+		secretQ.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		try {
+			secretQ.setText(Session.getSecretQuestion(userName.getText()));
+		} catch (Exception badUsername) {
+			System.err.println("Invalid Username");
+		}
+
+		Label lblAnswer = new Label(composite, SWT.NONE);
+		lblAnswer.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+		lblAnswer.setText("Answer:");
+
+		Text secretA = new Text(composite, SWT.BORDER);
+		secretA.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+
+		Button btnOK = new Button(composite, SWT.CENTER);
+		GridData gd_btnYes = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_btnYes.widthHint = 75;
+		btnOK.setLayoutData(gd_btnYes);
+		btnOK.setText("OK");
+
+		Button btnCancel = new Button(composite, SWT.NONE);
+		GridData gd_btnNo = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_btnNo.widthHint = 75;
+		btnCancel.setLayoutData(gd_btnNo);
+		btnCancel.setText("Cancel");
+
+		shell.setDefaultButton(btnOK);
+
+		shell.pack();
+		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
+		shell.open();
+
+		userName.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent e) {
+				try {
+					secretQ.setText(Session.getSecretQuestion(userName.getText()));
+				} catch (Exception badUsername) {
+					System.err.println("Invalid Username");
+				}
+			}
+
+			public void focusGained(FocusEvent e) {}
+		});
+
+		//Button listener to deal with the OK button being pressed
+		Listener btnOKListener = new Listener() {
+			public void handleEvent(Event event) {
+				if (true) {	//TODO: validation here
+					returnVal = true;
+					shell.close();
+				}
+			}
+		};
+		btnOK.addListener(SWT.Selection, btnOKListener);
+
+		//Button listener to deal with the Cancel button being pressed
+		Listener btnCancelListener = new Listener() {
+			public void handleEvent(Event event) {
+				returnVal = false;
+				shell.close();
+			}
+		};
+		btnCancel.addListener(SWT.Selection, btnCancelListener);
+
+		//Actions to perform when program is closed.
+		shell.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent event) {
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
+			}
+		});
+
+
+		shell.addListener(SWT.Close, new Listener() {
+			public void handleEvent(Event event) {
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
+				shell.dispose();
+			}
+		});
+
+		while (!shell.isDisposed()) {
+			if (!shell.getDisplay().readAndDispatch()) {
+				shell.getDisplay().sleep();
+			}
+		}
+
+		return returnVal;
+	}
+
+	/**
 	 * Popups a log on screen.
 	 * @param parentShell the shell that is the parent of this new shell
 	 * @return the newly created shell
-	 * @wbp.parser.entryPoint
 	 */
 	public static Shell popupLogon(Shell parentShell) {		//TODO: perhaps add a forgotten password button?
 		final String imageFileName = "splash.png";
@@ -396,7 +527,14 @@ public class PopupWindow {
 		//Button listener to deal with the Recover button being pressed
 		Listener btnRecoverListener = new Listener() {
 			public void handleEvent(Event event) {
-				String selectedCohort = combo.getItems()[combo.getSelectionIndex()];
+				
+				if (popupForgottenPW(shell, userNameText.getText())) {
+					String selectedCohort = combo.getItems()[combo.getSelectionIndex()];
+					Session.recover(userNameText.getText(), passwordText.getText(), selectedCohort);
+				}
+				
+				
+				/*String selectedCohort = combo.getItems()[combo.getSelectionIndex()];
 				int sem = selectedCohort.length();
 				try {
 					if(selectedCohort.equals(Errors.noDatabaseFound)) {selectedCohort = "";}
@@ -417,7 +555,7 @@ public class PopupWindow {
 					} else popupMessage(shell, "Invalid username."+"\n\r"+"Please try again.", "Invalid Account");
 				} catch (java.lang.StringIndexOutOfBoundsException e) {
 					popupMessage(shell, "Invalid username."+"\n\r"+"Please try again.", "Invalid Account");
-				}
+				}*/
 			}
 		};
 		btnRecover.addListener(SWT.Selection, btnRecoverListener);

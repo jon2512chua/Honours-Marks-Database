@@ -52,7 +52,7 @@ public class PopupWindow {
 	public static void popupMessage(final Shell parentShell, String text, String title) {
 		// Disable the previous window
 		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
-		
+
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 		shell.setImage(parentShell.getImage());
 
@@ -95,7 +95,7 @@ public class PopupWindow {
 			}
 		});
 	}
-	
+
 	/**
 	 * RETURNS a shell object for displaying error messages before MainUI is displayed
 	 * Popups a message. (duplicate implementation to above) 
@@ -106,7 +106,7 @@ public class PopupWindow {
 	public static Shell popupMsg(final Shell parentShell, String text, String title) {
 		// Disable the previous window
 		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
-		
+
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 		shell.setImage(parentShell.getImage());
 
@@ -141,10 +141,10 @@ public class PopupWindow {
 			}
 		};
 		btnOk.addListener(SWT.Close, btnQuitListener);
-		
+
 		return shell;
 	}
-	
+
 	/**
 	 * Popups a message, with yes/no buttons. No line wrapping currently implemented.
 	 * @param parentShell the display currently in use
@@ -157,7 +157,7 @@ public class PopupWindow {
 
 		// Disable the previous window
 		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
-		
+
 		final Shell shell = new Shell(parentShell, SWT.TITLE);
 		shell.setImage(parentShell.getImage());
 
@@ -175,7 +175,7 @@ public class PopupWindow {
 		// Create a Label in the Shell
 		Label label = new Label(shell, SWT.WRAP);
 		label.setText(text);
-		
+
 		Composite composite = new Composite(shell, SWT.NONE);
 		GridLayout gl_composite = new GridLayout(2, false);
 		gl_composite.horizontalSpacing = 10;
@@ -186,14 +186,14 @@ public class PopupWindow {
 		gd_btnYes.widthHint = 75;
 		btnYes.setLayoutData(gd_btnYes);
 		btnYes.setText("Yes");
-		
+
 		Button btnNo = new Button(composite, SWT.NONE);
 		GridData gd_btnNo = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
 		gd_btnNo.widthHint = 75;
 		btnNo.setLayoutData(gd_btnNo);
 		btnNo.setText("No");
 
-	    shell.setDefaultButton(btnYes);
+		shell.setDefaultButton(btnYes);
 
 		shell.pack();
 		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
@@ -208,7 +208,7 @@ public class PopupWindow {
 			}
 		};
 		btnYes.addListener(SWT.Selection, btnYesListener);
-		
+
 		//Button listener to deal with the NO button being pressed
 		Listener btnNoListener = new Listener() {
 			public void handleEvent(Event event) {
@@ -218,7 +218,7 @@ public class PopupWindow {
 			}
 		};
 		btnNo.addListener(SWT.Selection, btnNoListener);
-		
+
 		//Actions to perform when program is closed.
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent event) {
@@ -227,27 +227,28 @@ public class PopupWindow {
 			}
 		});
 
-		
+
 		shell.addListener(SWT.Close, new Listener() {
 			public void handleEvent(Event event) {
 				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 				shell.dispose();
 			}
 		});
-		
+
 		while (!shell.isDisposed()) {
 			if (!shell.getDisplay().readAndDispatch()) {
 				shell.getDisplay().sleep();
 			}
 		}
-		
+
 		return returnVal;
 	}
-	
+
 	/**
-	 * Popups a log on screen. Controls are disabled until a account is accepted.
-	 * @param parentShell
-	 * @return 
+	 * Popups a log on screen.
+	 * @param parentShell the shell that is the parent of this new shell
+	 * @return the newly created shell
+	 * @wbp.parser.entryPoint
 	 */
 	public static Shell popupLogon(Shell parentShell) {		//TODO: perhaps add a forgotten password button?
 		final String imageFileName = "splash.png";
@@ -314,6 +315,14 @@ public class PopupWindow {
 		passwordText.setLayoutData(gd_passwordText);
 		new Label(shell, SWT.NONE);
 		passwordText.setText("default"); //TODO remove this - just for ease at the moment
+		new Label(shell, SWT.NONE);
+
+		Button btnRecover = new Button(shell, SWT.CENTER);
+		GridData gd_btnRecover = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_btnRecover.horizontalIndent = 278;
+		btnRecover.setLayoutData(gd_btnRecover);
+		btnRecover.setText("Forgot Password?");
+		new Label(shell, SWT.NONE);
 
 		Label lblCohortToLoad = new Label(shell, SWT.NONE);
 		GridData gd_lblCohortToLoad = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -340,6 +349,7 @@ public class PopupWindow {
 			}
 		}
 		combo.select(0); //@todo find the last used one from the system DB
+		new Label(shell, SWT.NONE);
 
 		Composite buttonsComposite = new Composite(shell, SWT.NONE);
 		GridData gd_buttonsComposite = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 4, 1);
@@ -352,11 +362,7 @@ public class PopupWindow {
 		Button btnOK = new Button(buttonsComposite, SWT.CENTER);
 		btnOK.setLayoutData(new RowData(75, SWT.DEFAULT));
 		btnOK.setText("OK");
-		
-		Button btnRecover = new Button(buttonsComposite, SWT.CENTER);
-		btnRecover.setLayoutData(new RowData(75, SWT.DEFAULT));
-		btnRecover.setText("Forgot Password?");
-		
+
 		Button btnClear = new Button(buttonsComposite, SWT.CENTER);
 		btnClear.setLayoutData(new RowData(75, SWT.DEFAULT));
 		btnClear.setText("Clear");
@@ -374,7 +380,7 @@ public class PopupWindow {
 					if(selectedCohort.equals(Errors.noDatabaseFound)) {selectedCohort = "";}
 					else {selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem);} 
 					if (Session.login(userNameText.getText(), passwordText.getText(), selectedCohort)) {
-                        DerbyUtils.dbConnect(selectedCohort);
+						DerbyUtils.dbConnect(selectedCohort);
 						CohortData.loadData();
 						//Enables controls	
 						for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
@@ -386,7 +392,7 @@ public class PopupWindow {
 			}
 		};
 		btnOK.addListener(SWT.Selection, btnOKListener);
-		
+
 		//Button listener to deal with the Recover button being pressed
 		Listener btnRecoverListener = new Listener() {
 			public void handleEvent(Event event) {
@@ -397,12 +403,12 @@ public class PopupWindow {
 					else {selectedCohort = selectedCohort.substring(0, 4) + selectedCohort.substring(sem-1, sem);}
 					//need text entry box here 
 					if (Session.recover(userNameText.getText(), passwordText.getText(), selectedCohort)) {
-                        if(!setPasswordDefault()) {
-                        	popupMessage(shell, "Could not reset password.\nYou may use the system with your recovery credentials, but please contanct technical support promptly to have the situation rectified.", "WARNING");;
-                        }
-                        else {
-                        	popupMessage(shell, "Reset password to 'default'\nPlease go to settings to change it.", "SUCCESS!");;
-                        }
+						if(!setPasswordDefault()) {
+							popupMessage(shell, "Could not reset password.\nYou may use the system with your recovery credentials, but please contanct technical support promptly to have the situation rectified.", "WARNING");;
+						}
+						else {
+							popupMessage(shell, "Reset password to 'default'\nPlease go to settings to change it.", "SUCCESS!");;
+						}
 						DerbyUtils.dbConnect(selectedCohort);
 						CohortData.loadData();
 						//Enables controls	
@@ -437,11 +443,11 @@ public class PopupWindow {
 		shell.pack();
 		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 150);
 		shell.open();
-		
+
 		return shell;
 
 	}
-	
+
 	private static Text subAssessmentName;
 	private static Text maximumMark;
 	private static Text assessmentPercentage;
@@ -455,7 +461,7 @@ public class PopupWindow {
 	public static void popupAddSubAssessment(final Shell parentShell, String text, String title, final Tree tree) {
 		// Disable the previous window
 		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
-		
+
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 		shell.setImage(parentShell.getImage());
 
@@ -467,83 +473,83 @@ public class PopupWindow {
 		Label label = new Label(shell, SWT.WRAP);
 		label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
 		label.setText(text);
-		
+
 		Label lblAssessmentName = new Label(shell, SWT.NONE);
 		lblAssessmentName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblAssessmentName.setText("Assessment Name:");
-		
+
 		subAssessmentName = new Text(shell, SWT.BORDER);
 		GridData gd_assessmentName = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_assessmentName.widthHint = 180;
 		subAssessmentName.setLayoutData(gd_assessmentName);
-		
+
 		Label lblMaximumMark = new Label(shell, SWT.NONE);
 		lblMaximumMark.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblMaximumMark.setText("Maximum Mark:");
-		
+
 		maximumMark = new Text(shell, SWT.BORDER);
 		maximumMark.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		maximumMark.setTextLimit(3);
 		Validation.validateInt(maximumMark);
-		
+
 		Label lblAssessmentPercentage = new Label(shell, SWT.NONE);
 		lblAssessmentPercentage.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblAssessmentPercentage.setText("Assessment Percentage:");
-		
+
 		assessmentPercentage = new Text(shell, SWT.BORDER);
 		assessmentPercentage.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		assessmentPercentage.setTextLimit(5);
 		Validation.validateDouble(assessmentPercentage);
-		
+
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false, 2, 1));
 		composite.setLayout(new GridLayout(2, false));
-		
-				//Button listener to deal with the button being pressed
-				Listener btnOKListener = new Listener() {
-					public void handleEvent(Event event) {
-						if (!subAssessmentName.getText().isEmpty() && !maximumMark.getText().isEmpty() && !assessmentPercentage.getText().isEmpty()) {
-							TreeItem data = new TreeItem(tree, SWT.NONE);
-							data.setText(new String[] {subAssessmentName.getText(), maximumMark.getText(), assessmentPercentage.getText()});
-							for (TreeColumn tc : tree.getColumns()) tc.pack();
-							DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
-							shell.close();
-						} else {
-							popupMessage(parentShell, "Null Value is not allowed.", "ERROR!");
-						}
-					}
-				};
-				
-				Listener btnCancelListener = new Listener() {
-					public void handleEvent(Event event) {
-						DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
-						shell.close();
-					}
-				};
-		
-				Button btnOk = new Button(composite, SWT.CENTER);
-				btnOk.setText("OK");
-				btnOk.addListener(SWT.Selection, btnOKListener);
-				
-				Button btnCancel = new Button(composite, SWT.NONE);
-				btnCancel.setText("Cancel");
-				btnCancel.addListener(SWT.Selection, btnCancelListener);
-				
-				shell.setDefaultButton(btnOk);
+
+		//Button listener to deal with the button being pressed
+		Listener btnOKListener = new Listener() {
+			public void handleEvent(Event event) {
+				if (!subAssessmentName.getText().isEmpty() && !maximumMark.getText().isEmpty() && !assessmentPercentage.getText().isEmpty()) {
+					TreeItem data = new TreeItem(tree, SWT.NONE);
+					data.setText(new String[] {subAssessmentName.getText(), maximumMark.getText(), assessmentPercentage.getText()});
+					for (TreeColumn tc : tree.getColumns()) tc.pack();
+					DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
+					shell.close();
+				} else {
+					popupMessage(parentShell, "Null Value is not allowed.", "ERROR!");
+				}
+			}
+		};
+
+		Listener btnCancelListener = new Listener() {
+			public void handleEvent(Event event) {
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
+				shell.close();
+			}
+		};
+
+		Button btnOk = new Button(composite, SWT.CENTER);
+		btnOk.setText("OK");
+		btnOk.addListener(SWT.Selection, btnOKListener);
+
+		Button btnCancel = new Button(composite, SWT.NONE);
+		btnCancel.setText("Cancel");
+		btnCancel.addListener(SWT.Selection, btnCancelListener);
+
+		shell.setDefaultButton(btnOk);
 
 		shell.pack();
 		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);
 		shell.open();
-		
+
 		shell.addListener(SWT.Close, new Listener() {
 			public void handleEvent(Event event) {
 				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 				shell.dispose();
 			}
 		});
-		
+
 	}
-	
+
 	/**
 	 * Popups a message, to add sub assessment
 	 * @param parentShell the display currently in use
@@ -551,12 +557,11 @@ public class PopupWindow {
 	 * @param title the title to display
 	 * @param assessmentName the assessmentName
 	 * @param percentageUnit the percentage unit
-	 * @wbp.parser.entryPoint
 	 */
 	public static void popupAddAssessment(final Shell parentShell, String text, String title, final Tree tree, final Text assessmentName, final Text percentageUnit) {
 		// Disable the previous window
 		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
-		
+
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 		shell.setImage(parentShell.getImage());
 
@@ -568,12 +573,12 @@ public class PopupWindow {
 		Label label = new Label(shell, SWT.WRAP);
 		label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
 		label.setText(text);
-		
+
 		Label lblUnitName = new Label(shell, SWT.NONE);
 		lblUnitName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblUnitName.setText("Unit Name:");
-;
-		
+
+
 		final Combo unitName = new Combo(shell, SWT.READ_ONLY);
 		String[] unitNameString = new String[Data.Unit.length];
 		for (int i = 0; i < Data.UnitName.length; i++) {
@@ -581,59 +586,59 @@ public class PopupWindow {
 		}
 		unitName.setItems(unitNameString);
 		unitName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false, 2, 1));
 		composite.setLayout(new GridLayout(2, false));
-		
-				//Button listener to deal with the button being pressed
-				Listener btnOKListener = new Listener() {
-					public void handleEvent(Event event) {
-						if (!unitName.getText().isEmpty()) {
-							int i = 0;
-							boolean added = false;
-							while (i < tree.getItemCount() && !added){
-								String[] selectedUnit = unitName.getText().split(" ");
-								if (tree.getItem(i).getText().equals(selectedUnit[0])) {
-									TreeItem data = new TreeItem(tree.getItem(i), SWT.NONE);
-									data.setText(assessmentName.getText());
-									for (TreeColumn tc : tree.getColumns()) tc.pack();
-									added = true;
-								}
-								i++;
-							}
-							assessmentName.setText("");
-							percentageUnit.setText("");
-							DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
-							shell.close();
-						} else {
-							popupMessage(parentShell, "Null Value is not allowed.", "ERROR!");
-						}
-					}
-				};
-				
-				Listener btnCancelListener = new Listener() {
-					public void handleEvent(Event event) {
-						DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
-						shell.close();
-					}
-				};
-		
-				Button btnOk = new Button(composite, SWT.CENTER);
-				btnOk.setText("OK");
-				btnOk.addListener(SWT.Selection, btnOKListener);
-				
-				Button btnCancel = new Button(composite, SWT.NONE);
-				btnCancel.setText("Cancel");
-				btnCancel.addListener(SWT.Selection, btnCancelListener);
-				
-				shell.setDefaultButton(btnOk);
-		
 
-				shell.pack();
-				shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);
-				shell.open();
-				
+		//Button listener to deal with the button being pressed
+		Listener btnOKListener = new Listener() {
+			public void handleEvent(Event event) {
+				if (!unitName.getText().isEmpty()) {
+					int i = 0;
+					boolean added = false;
+					while (i < tree.getItemCount() && !added){
+						String[] selectedUnit = unitName.getText().split(" ");
+						if (tree.getItem(i).getText().equals(selectedUnit[0])) {
+							TreeItem data = new TreeItem(tree.getItem(i), SWT.NONE);
+							data.setText(assessmentName.getText());
+							for (TreeColumn tc : tree.getColumns()) tc.pack();
+							added = true;
+						}
+						i++;
+					}
+					assessmentName.setText("");
+					percentageUnit.setText("");
+					DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
+					shell.close();
+				} else {
+					popupMessage(parentShell, "Null Value is not allowed.", "ERROR!");
+				}
+			}
+		};
+
+		Listener btnCancelListener = new Listener() {
+			public void handleEvent(Event event) {
+				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
+				shell.close();
+			}
+		};
+
+		Button btnOk = new Button(composite, SWT.CENTER);
+		btnOk.setText("OK");
+		btnOk.addListener(SWT.Selection, btnOKListener);
+
+		Button btnCancel = new Button(composite, SWT.NONE);
+		btnCancel.setText("Cancel");
+		btnCancel.addListener(SWT.Selection, btnCancelListener);
+
+		shell.setDefaultButton(btnOk);
+
+
+		shell.pack();
+		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);
+		shell.open();
+
 		shell.addListener(SWT.Close, new Listener() {
 			public void handleEvent(Event event) {
 				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
@@ -641,7 +646,7 @@ public class PopupWindow {
 			}
 		});
 	}
-	
+
 	/**
 	 * reset a forgotten password to default
 	 * @param username
@@ -661,7 +666,7 @@ public class PopupWindow {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Method to display a pop-up message if something goes wrong while starting up the system
 	 * TODO needs fixing

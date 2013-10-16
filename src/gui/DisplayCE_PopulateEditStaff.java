@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import orm.Staff;
+import orm.Student;
 
 /**
  * Edit Staff Section
@@ -42,7 +43,7 @@ public class DisplayCE_PopulateEditStaff {
 	private static Text lastName;
 	private static Text firstName;
 	private static Tree staffTree;
-
+	private static String selectedStaff;
 	/**
 	 * Populates the Edit Staff Tab
 	 * @param CETabFolder the folder to put the tab in
@@ -114,6 +115,7 @@ public class DisplayCE_PopulateEditStaff {
 		title.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		*/
 		
+		
 		Label lblLastName = new Label(rComposite, SWT.NONE);
 		lblLastName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblLastName.setText("Last Name:");
@@ -158,6 +160,19 @@ public class DisplayCE_PopulateEditStaff {
 				}
 			}
 		});
+		
+		//Action to perform when the delete button is pressed
+		btnSaveDiscard[1].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				try {
+					Staff.getStaffByID(selectedStaff).deleteRow();
+					PopupWindow.popupMessage(CETabFolder.getShell(), "Staff deleted.", "Complete");
+				}
+				catch (Exception e) {
+					PopupWindow.popupMessage(CETabFolder.getShell(), "Staff could not be deleted.", "WARNING");
+				}
+			}	
+		});
 
 		//Tool tip.
 		//TODO: display when input is invalid
@@ -183,7 +198,8 @@ public class DisplayCE_PopulateEditStaff {
 			public void widgetSelected(SelectionEvent e) {
 				if (staffTree.getSelectionCount() == 1)  {
 					TreeItem item = staffTree.getSelection()[0];
-					Staff s = Staff.getStaffByID(item.getText());
+					selectedStaff = item.getText();
+					Staff s = Staff.getStaffByID(selectedStaff);
 					populateSelectedData(s);
 				}
 			}

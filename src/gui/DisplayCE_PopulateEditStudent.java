@@ -174,6 +174,19 @@ public class DisplayCE_PopulateEditStudent {
 				}
 			}
 		});
+		
+		//Action to perform when the delete button is pressed
+		btnSaveDiscard[1].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				try {
+					Student.getStudentByID(studentNumber.getText()).deleteRow();
+					PopupWindow.popupMessage(CETabFolder.getShell(), "Student deleted.", "Complete");
+				}
+				catch (Exception e) {
+					PopupWindow.popupMessage(CETabFolder.getShell(), "Student could not be deleted.", "WARNING");
+				}
+			}	
+		});
 
 		//Tool tip.
 		//TODO: display when input is invalid

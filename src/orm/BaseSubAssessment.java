@@ -11,7 +11,7 @@ import logic.StatisticsCalculator;
 import sessionControl.Session;
 
 /**
- * Class representing a SubAssessment.
+ * Base Class representing a SubAssessment.
  * 
  * @author Jonathan Chua
  * @author Samuel Widenbar

@@ -7,6 +7,13 @@ import java.util.logging.*;
 import logic.CohortData;
 import sessionControl.Session;
 
+/**
+ * Class representing a SubAssessment.
+ * 
+ * @author Jonathan Chua
+ * @author Samuel Widenbar
+ * @version 16/10/2013
+ */
 public class SubAssessment extends BaseSubAssessment {
     /**
      * Constructor to create an object to retrieve and store a sub assessment found in the database.

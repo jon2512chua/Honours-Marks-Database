@@ -58,6 +58,9 @@ public class BaseSubAssessment {
 	 */
     public StringBuffer standDev = new StringBuffer(6); 
     
+	/**
+	 * The calculated range for this SubAssessment, existing as a string buffer.
+	 */
     public StringBuffer range = new StringBuffer(13);
 
     

@@ -3,6 +3,7 @@ package gui;
 import java.io.File;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 
 import logic.CohortData;
 
@@ -30,6 +31,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
+
+import orm.Assessment;
+import orm.SubAssessment;
+import orm.Unit;
 
 import sessionControl.BCrypt;
 import sessionControl.Session;
@@ -601,9 +606,10 @@ public class PopupWindow {
 	 * @param parentShell the display currently in use
 	 * @param text the text the popup displays 
 	 * @param title the title to display
-
+	 * @param tree the tree where sub assessment is stored
+	 * @param parentAssess the parent assessment of the sub assessment
 	 */
-	public static void popupAddSubAssessment(final Shell parentShell, String text, String title, final Tree tree) {
+	public static void popupAddSubAssessment(final Shell parentShell, String text, String title, final Tree tree, final Assessment parentAssess) {
 		// Disable the previous window
 		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
 
@@ -657,6 +663,12 @@ public class PopupWindow {
 					TreeItem data = new TreeItem(tree, SWT.NONE);
 					data.setText(new String[] {subAssessmentName.getText(), maximumMark.getText(), assessmentPercentage.getText()});
 					for (TreeColumn tc : tree.getColumns()) tc.pack();
+					//TODO proper constructor need to be done or not this will not be working
+//					try {
+//						new SubAssessment(subAssessmentName.getText()+"", parentAssess, 
+//								Integer.parseInt(assessmentPercentage.getText())).updateRow();
+//						
+//					} catch (NumberFormatException | SQLException e) {}
 					DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 					shell.close();
 				} else {
@@ -726,10 +738,16 @@ public class PopupWindow {
 
 		final Combo unitName = new Combo(shell, SWT.READ_ONLY);
 		String[] unitNameString = new String[Data.Unit.length];
-		for (int i = 0; i < Data.UnitName.length; i++) {
-			unitNameString[i] = Data.Unit[i] + " " + Data.UnitName[i];
+		int i = -1;
+		for (Unit u : CohortData.units) {
+			i++;
+			unitNameString[i] = u.unitCode+" "+u.name;
+			System.out.println("i "+i);
 		}
-		unitName.setItems(unitNameString);
+		for (int j = 0; j < unitNameString.length; j++) {
+			System.out.println("unitNameString[i] "+unitNameString[j]);
+		}
+		unitName.setItems(Arrays.copyOfRange(unitNameString, 0, i+1));
 		unitName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		Composite composite = new Composite(shell, SWT.NONE);
@@ -748,6 +766,13 @@ public class PopupWindow {
 							TreeItem data = new TreeItem(tree.getItem(i), SWT.NONE);
 							data.setText(assessmentName.getText());
 							for (TreeColumn tc : tree.getColumns()) tc.pack();
+							try {
+								new Assessment(Assessment.getMaxAssessID()+1,assessmentName.getText(), 
+										Unit.getUnitByCode(tree.getItem(i).getText()), Integer.parseInt(percentageUnit.getText())).updateRow();
+								PopupWindow.popupMessage(unitName.getShell(), "New Unit created successfully.", "Save Successful");
+							} catch (SQLException ex) {
+								PopupWindow.popupMessage(unitName.getShell(), "New unit was unable to be created. \nPossible duplicate unit code.", "ERROR! Save Unsuccessful");
+							}
 							added = true;
 						}
 						i++;

@@ -12,47 +12,94 @@ import java.util.logging.Logger;
 import logic.CohortData;
 import sessionControl.Session;
 
-public class Staff extends BaseStaff {
-	public Staff(int staffID) {
-		super(staffID);
-	}
+/**
+ * Class representing a Staff.
+ * 
+ * @author Jonathan Chua
+ * @author Samuel Widenbar
+ * @version 16/10/2013
+ */public class Staff extends BaseStaff {
+     
+    /**
+     * Constructor to create a new java object to represent a staff found in the database.
+     * 
+     * @param staffID the ID of the staff
+     */
+    public Staff(int staffID) {
+        super(staffID);
+    }
 
-	public Staff(int staffID, String firstName, String lastName) throws SQLException {
-		super(staffID, firstName, lastName);
-	}
+    /**
+     * Constructor to create a java object to represent a staff that does not exist yet in the database.
+     * 
+     * @param staffID the ID of the staff
+     * @param firstName the first name of the staff
+     * @param lastName the last name of the staff
+     * @throws SQLException when there is an error with the SQL statement
+     */
+    public Staff(int staffID, String firstName, String lastName) throws SQLException {
+        super(staffID, firstName, lastName);
+    }
 
-	public String getFullName() {
-		return this.getFirstName() + " " + this.getLastName();
-	}
+    /**
+     * Method that combines the first and last name of the staff together.
+     * 
+     * @return full name of the staff
+     */
+    public String getFullName() {
+        return this.getFirstName() + " " + this.getLastName();
+    }
 
-	public int getNumMarks() {
-		return getMarks().size();
-	}
+    /**
+     * Method that calculates how many marks this staff had given out.
+     * 
+     * @return count of marks given by this staff
+     */
+    public int getNumMarks() {
+        return getMarks().size();
+    }
 
-	public static List<Staff> getAllStaff() {
-		List<Staff> allStaff = new ArrayList<>();
+    /**
+     * Method that retrieves a list of every single staff found in the database.
+     * 
+     * @return a list of all the staff from the database
+     */
+    public static List<Staff> getAllStaff() {
+        List<Staff> allStaff = new ArrayList<>();
 
-		try {
-			Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			ResultSet staffsRS = s.executeQuery("SELECT * FROM Staff");
+        try {
+            Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet staffsRS = s.executeQuery("SELECT * FROM Staff");
 
-			while (staffsRS.next()) {
-				allStaff.add(new Staff(staffsRS.getInt("StaffID")));
-			}
-		} catch (java.lang.NullPointerException | SQLException ex) {
-			Logger.getLogger(BaseStaff.class.getName()).log(Level.SEVERE, null, ex);
-		}
+            while (staffsRS.next()) {
+                allStaff.add(new Staff(staffsRS.getInt("StaffID")));
+            }
+        } catch (java.lang.NullPointerException | SQLException ex) {
+            Logger.getLogger(BaseStaff.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-		return allStaff;
-	}
-	
+        return allStaff;
+    }
+    
+    /**
+     * Method that retrieves a staff object identified by staffID.
+     * 
+     * TODO: Do we really need this? Does the constructor not do the exact same thing?
+     * 
+     * @param ID ID of the staff
+     * @return a Staff object identified by the staffID
+     */
     public static Staff getStaffByID (String ID) {
-	    for (Staff s : Staff.getAllStaff()) {
-	    	try {
-				if (Integer.parseInt(ID) == Integer.parseInt(s.getStaffID()+"")) return s;
-			} catch (java.lang.NumberFormatException e) {}
-		}
-	    return null;
+        for (Staff s : Staff.getAllStaff()) {
+            try {
+                if (Integer.parseInt(ID) == Integer.parseInt(s.getStaffID()+"")) {
+                    return s;
+                }
+            } catch (java.lang.NumberFormatException e) {
+            }
+        }
+        
+        return null;
     }
     
     /**
@@ -81,7 +128,8 @@ public class Staff extends BaseStaff {
     }
     
     /**
-     * Returns a list of the assessments a marker has marked
+     * Returns a list of the assessments a marker has marked.
+     * 
      * @return the list, or null if none
      */
     public List<Assessment> getAssessmentsMarked(){
@@ -95,8 +143,10 @@ public class Staff extends BaseStaff {
     	}
     	else return null;
     }
+    
     /**
-     * Returns a list of the units a marker has marked
+     * Returns a list of the units a marker has marked.
+     * 
      * @return the list, or null if none
      */
     public List<Unit> getUnitsMarked() {
@@ -111,5 +161,4 @@ public class Staff extends BaseStaff {
     	}
     	else return null;
     }
-    
 }

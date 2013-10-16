@@ -11,16 +11,42 @@ import java.util.logging.Logger;
 import logic.StatisticsCalculator;
 import sessionControl.Session;
 
+/**
+ * Base class representing a Unit.
+ * 
+ * @author Jonathan Chua
+ * @author Samuel Widenbar
+ * @version 16/10/2013
+ */
 public class BaseUnit {
+    /**
+     * Primary key identifying the Unit, exists as a String in the database.
+     */
     public StringBuffer unitCode = new StringBuffer (12);
+    
+    /**
+     * Name of the Unit, exists as a String in the database.
+     */
     public StringBuffer name = new StringBuffer (50);
+    
+    /**
+     * Number of credit points the Unit has, exists as an Integer in the database.
+     */
     public StringBuffer points = new StringBuffer (3);
+    
+    /**
+     * The mark a student scores for this Unit, exists as a Double in the database.
+     */
     public StringBuffer mark = new StringBuffer (6);
+    
+    /**
+     * The list of Assessments in this unit.
+     */
     private List<Assessment> assessments = new ArrayList<Assessment>();
     
     /**
-     * Method to create a java object to represent a unit found in the database, independently of a student, primarily for
-     * use in displaying/editing unit information
+     * Constructor to create a java object to represent a unit found in the database, independently of a student, primarily for
+     * use in displaying/editing unit information.
      * 
      * @param unitCode is the unit code of the unit being searched for
      */
@@ -60,7 +86,7 @@ public class BaseUnit {
     }
     
     /**
-     * Method to create a java object to represent a unit being taken by a particular student found in the database
+     * Constructor to create a java object to represent a unit being taken by a particular student found in the database.
      * 
      * @param unitCode the unit code of the unit being searched for
      * @param studentID the ID of the student
@@ -113,10 +139,12 @@ public class BaseUnit {
     }
     
     /**
-     * Method to create a java object to represent a unit that doesn't exist yet in 
+     * Constructor to create a java object to represent a unit that doesn't exist yet in the database.
      * 
      * @param unitCode the unit code of the unit being searched for
      * @param studentID the ID of the student
+     * @param points the amount of credit points for the unit
+     * @throws SQLException when there's an error with the SQL statement
      */
     public BaseUnit(String unitCode, String name, int points) throws SQLException {
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
@@ -135,7 +163,8 @@ public class BaseUnit {
     }
     
     /**
-     * Method to get the unit code of the unit
+     * Method to get the unit code of the unit.
+     * 
      * @return the unit code of the unit
      */
     public StringBuffer getUnitCode() {
@@ -143,7 +172,8 @@ public class BaseUnit {
     }
  
     /**
-     * Method to set the unit code of the unit
+     * Method to set the unit code of the unit.
+     * 
      * @param unitCode the unit code of the unit
      */
     public void setUnitCode(String unitCode) {
@@ -151,7 +181,8 @@ public class BaseUnit {
     }
     
     /**
-     * Method to get the name of the unit
+     * Method to get the name of the unit.
+     * 
      * @return the name of the unit
      */
     public StringBuffer getName() {
@@ -159,7 +190,8 @@ public class BaseUnit {
     }
     
     /**
-     * Method to set the name of the unit
+     * Method to set the name of the unit.
+     * 
      * @param name the name of the unit
      */
     public void setName(String name) {
@@ -167,7 +199,8 @@ public class BaseUnit {
     }
     
     /**
-     * Method to get the points that the unit is worth
+     * Method to get the points that the unit is worth.
+     * 
      * @return the points the unit is worth
      */
     public int getPoints() {
@@ -175,7 +208,8 @@ public class BaseUnit {
     }
     
     /**
-     * Method to set the points that the unit is worth
+     * Method to set the points that the unit is worth.
+     * 
      * @param points the points the unit is worth
      */
     public void setPoints(int points) {
@@ -183,7 +217,8 @@ public class BaseUnit {
     }
     
     /**
-     * Method to get the mark a student has for a unit
+     * Method to get the mark a student has for a unit.
+     * 
      * @return the mark the student has
      */
     public double getMark() {
@@ -191,7 +226,8 @@ public class BaseUnit {
     }
     
     /**
-     * Method to set the mark a student has for a unit
+     * Method to set the mark a student has for a unit.
+     * 
      * @param mark the mark to give the student
      */
     public void setMark(double mark) {
@@ -200,7 +236,8 @@ public class BaseUnit {
     }
     
     /**
-     * Method to get the list of assessments in a unit
+     * Method to get the list of assessments in a unit.
+     * 
      * @return a list containing all of the assessments associated with the unit
      */
     public List<Assessment> getAssessments() {
@@ -208,7 +245,8 @@ public class BaseUnit {
     }
     
     /**
-     * Method to set the list of assessments in a unit
+     * Method to set the list of assessments in a unit.
+     * 
      * @param assessments a list containing all of the assessments to be associated with the unit
      */
     public void setAssessments(List<Assessment> assessments) {

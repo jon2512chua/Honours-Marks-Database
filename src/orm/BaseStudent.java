@@ -7,22 +7,66 @@ import java.util.logging.*;
 import logic.MarkCalculator;
 import sessionControl.*;
 
-
+/**
+ * Base class representing a Student.
+ * 
+ * @author Jonathan Chua
+ * @author Samuel Widenbar
+ * @version 16/10/2013
+ */
 public class BaseStudent {
-	
+	/**
+     * Primary key identifying the student, exists as an Integer in the database.
+     */
     public StringBuffer studentID = new StringBuffer (10);
+    
+    /**
+     * First name of the student, exists as a String in the database.
+     */
     public StringBuffer firstName = new StringBuffer (30);
+    
+    /**
+     * Last name of the student, exists as a String in the database.
+     */
     public StringBuffer lastName = new StringBuffer (30);
+    
+    /**
+     * Title of the student, exists as a String in the database.
+     */
     public StringBuffer title = new StringBuffer (6);
+    
+    /**
+     * Dissertation title the student is working on, exists as a String in the database.
+     */
     public StringBuffer dissTitle = new StringBuffer (300);
+    
+    /**
+     * The staff supervising the student.
+     */
     public List<Staff> supervisors;
+    
+    /**
+     * The mark the student got for the course he/she is enrolled for.
+     */
     public StringBuffer courseMark = new StringBuffer (6);
+    
+    /**
+     * The grade the student got for the course.
+     */
     public StringBuffer grade = new StringBuffer (3);
+    
+    /**
+     * The name of the discipline the student is enrolled in.
+     */
     public StringBuffer disciplineName = new StringBuffer (20);
+    
+    /**
+     * The unit combination that makes up the discipline the student is enrolled in.
+     */
     public List<Unit> discipline = Collections.<Unit>emptyList();
     
     /**
-     * Method to create a java object to represent a student found in the database
+     * Constructor to create a java object to represent a student found in the database.
      * 
      * @param studentID is the studentID of the student being searched for
      */
@@ -52,8 +96,8 @@ public class BaseStudent {
     }
     
 	/**
-	 * Method to create java object for a student that doesn't exist yet, and create
-	 * a row for it in the database
+	 * Constructor to create java object for a student that doesn't exist yet, and create
+	 * a row for it in the database.
 	 * 
 	 * @param studentID student's ID number
 	 * @param firstName student's first name
@@ -93,67 +137,147 @@ public class BaseStudent {
         }
     }
     
+    /**
+     * Method to get the student ID.
+     * 
+     * @return the ID identifying the student
+     */
     public int getStudentID() {
         return Integer.parseInt(studentID+"");
     }
     
+    /**
+     * Method to set the student ID.
+     * 
+     * @param studentID the ID identifying the student
+     */
     public void setStudentID(int studentID) {
     	this.studentID.replace(0, this.studentID.capacity(),  Integer.toString(studentID));
     }
     
+    /**
+     * Method to get the first name.
+     * 
+     * @return the first name of the student
+     */
     public StringBuffer getFirstName() {
         return firstName;
     }
     
+    /**
+     * Method to set the first name.
+     * 
+     * @param firstName the first name of the student
+     */
     public void setFirstName(String firstName) {
     	this.firstName.replace(0, this.firstName.capacity(), firstName);
     }
     
+    /**
+     * Method to get the last name of the student.
+     * 
+     * @return the last name of the student
+     */
     public StringBuffer getLastName() {
         return lastName;
     }
     
+    /**
+     * Method to set the last name of the student.
+     * 
+     * @param lastName the last name of the student
+     */
     public void setLastName(String lastName) {
     	this.lastName.replace(0, this.lastName.capacity(), lastName);
     }
     
+    /**
+     * Method to get the title of the student.
+     * 
+     * @return the title of the student (e.g. Mr., Mrs., etc.)
+     */
     public StringBuffer getTitle() {
         return title;
     }
     
+    /**
+     * Method to set the title of the student.
+     * 
+     * @param title the title of the student (e.g. Mr., Mrs., etc.)
+     */
     public void setTitle(String title) {
     	this.title.replace(0, this.title.capacity(), title);
     }
     
+    /**
+     * Method to get the dissertation title of the student.
+     * 
+     * @return the title of the dissertation the student is working on
+     */
     public StringBuffer getDissTitle() {
         return dissTitle;
     }
     
+    /**
+     * Method to set the dissertation title of the student.
+     * 
+     * @param dissTitle the title of the dissertation the student is working on
+     */
     public void setDissTitle(String dissTitle) {
     	this.dissTitle.replace(0, this.dissTitle.capacity(), dissTitle);
     }
     
+    /**
+     * Method to get the supervisors.
+     * 
+     * @return the list of staff supervising the student
+     */
     public List<Staff> getSupervisors() {
         return supervisors;
     }
     
+    /**
+     * Method to set the supervisors.
+     * 
+     * @param supervisors the list of staff supervising the student
+     */
     public void setSupervisors(List<Staff> supervisors) {
         this.supervisors = supervisors;
     }
     
+    /**
+     * Method to get the course mark.
+     * 
+     * @return the mark the student got for the course he/she enrolled for
+     */
     public double getCourseMark() {
     	return Double.parseDouble(courseMark+"");
     }
     
+    /**
+     * Method to set the course mark.
+     * 
+     * @param courseMark the mark the student got for the course he/she enrolled for
+     */
     public void setCourseMarks(double courseMark) {
     	this.courseMark.replace(0, this.courseMark.capacity(),  Double.toString(courseMark));
     	this.courseMark.setLength(5);
     }
     
+    /**
+     * Method to get the grade.
+     * 
+     * @return the grade the student got for the course
+     */
     public StringBuffer getGrade() {
         return grade;
     }
     
+    /**
+     * Method to set the grade.
+     * 
+     * @param grade the grade the student got for the course
+     */
     public void setGrade(String grade) {
     	try {
     		this.grade.replace(0, this.grade.capacity(), grade);
@@ -162,22 +286,48 @@ public class BaseStudent {
     	}
     }
     
+    /**
+     * Method to get the discipline name.
+     * 
+     * @return the name of the discipline the student is enrolled in
+     */
     public StringBuffer getDisciplineName() {
         return disciplineName;
     }
     
+    /**
+     * Method to set the discipline name.
+     * 
+     * @param disciplineName the name of the discipline the student is enrolled in
+     */
     public void setDisciplineName(String disciplineName) {
     	this.disciplineName.replace(0, this.disciplineName.capacity(), disciplineName);
     }
     
+    /**
+     * Method to get the discipline.
+     * 
+     * @return a list of units making up the discipline the student is enrolled for
+     */
     public List<Unit> getDiscipline() {
         return discipline;
     }
     
+    /**
+     * Method to set the discipline.
+     * 
+     * @param discipline a list of units making up the discipline the student is enrolled for
+     */
     public void setDiscipline(List<Unit> discipline) {
         this.discipline = discipline;
     }
     
+    /**
+     * Private helper method to get a list of staff supervising a student.
+     * 
+     * @param studentID the relevant student
+     * @return the list of staff
+     */
     private List<Staff> getStaffList(int studentID) {
         List<Staff> staffList = new ArrayList<>();
         
@@ -194,6 +344,12 @@ public class BaseStudent {
         return staffList;
     }
     
+    /**
+     * Private helper method to get a list of units comprising the discipline the student is enrolled in.
+     * 
+     * @param studentID the relevant student
+     * @return a list of units comprising the discipline
+     */
     private List<Unit> getUnitListByStudentID(int studentID) {
         List<Unit> unitsList = new ArrayList<>();
         
@@ -210,6 +366,12 @@ public class BaseStudent {
         return unitsList;
     }
     
+    /**
+     * Private helper method to get a list of units given the discipline name.
+     * 
+     * @param disciplineName the name of the discipline
+     * @return the list of units for said discipline
+     */
     private List<Unit> getUnitListByDisciplineName(String disciplineName) {
         List<Unit> unitsList = new ArrayList<>();
         
@@ -225,5 +387,4 @@ public class BaseStudent {
         
         return unitsList;
     }
-
 }

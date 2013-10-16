@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import orm.Staff;
-import orm.Student;
 
 /**
  * Edit Staff Section

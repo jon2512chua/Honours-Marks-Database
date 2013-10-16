@@ -28,7 +28,6 @@ public class BaseMark implements Comparable<Object> {
      * Should be true by default.
      */
     private boolean insideRange;
-
     
     public BaseMark(int subAssessmentID, int studentID, int markerID, SubAssessment subAssessment) {
     	try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -36,26 +35,23 @@ public class BaseMark implements Comparable<Object> {
                 									"AND StudentID ="+ studentID + "AND MarkerID =" + markerID)) {
             
             // There will only be one mark returned as each (subAssessmentID, studentID, markerID) tuple is unique
-    		while (markRS.next()) {
-            
-	            setMarkerID(markerID);
-	            setStudentID(studentID);
-	            setParentSubAssessment(subAssessment);
-	            subAssessmentID = subAssessmentID;
-	            
-	            int inRange = markRS.getInt("InsideRange");
-	            if (inRange == 0){
-	            	setInsideRange(false);
-	            }
-	            else {
-	            	setInsideRange(true);
-	            }
-	            
-	            setValue(markRS.getDouble("Mark"));
-	            setReport(markRS.getString("Report"));
-    		}
-    		
-            
+            while (markRS.next()) {
+                setMarkerID(markerID);
+                setStudentID(studentID);
+                setParentSubAssessment(subAssessment);
+                subAssessmentID = subAssessmentID;
+
+                int inRange = markRS.getInt("InsideRange");
+                if (inRange == 0){
+                    setInsideRange(false);
+                }
+                else {
+                    setInsideRange(true);
+                }
+
+                setValue(markRS.getDouble("Mark"));
+                setReport(markRS.getString("Report"));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(BaseUnit.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,25 +63,22 @@ public class BaseMark implements Comparable<Object> {
                 									"AND StudentID ="+ studentID + "AND MarkerID =" + markerID)) {
             
             // There will only be one mark returned as each (subAssessmentID, studentID, markerID) tuple is unique
-    		while (markRS.next()) {
-            
-	            setMarkerID(markerID);
-	            setStudentID(studentID);
-	            subAssessmentID = subAssessmentID;
-	            
-	            int inRange = markRS.getInt("InsideRange");
-	            if (inRange == 0){
-	            	setInsideRange(false);
-	            }
-	            else {
-	            	setInsideRange(true);
-	            }
-	            
-	            setValue(markRS.getDouble("Mark"));
-	            setReport(markRS.getString("Report"));
-    		}
-    		
-            
+            while (markRS.next()) {
+                setMarkerID(markerID);
+                setStudentID(studentID);
+                subAssessmentID = subAssessmentID;
+
+                int inRange = markRS.getInt("InsideRange");
+                if (inRange == 0){
+                    setInsideRange(false);
+                }
+                else {
+                    setInsideRange(true);
+                }
+
+                setValue(markRS.getDouble("Mark"));
+                setReport(markRS.getString("Report"));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(BaseUnit.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -119,9 +112,9 @@ public class BaseMark implements Comparable<Object> {
     
     public double getValue() {
     	try {
-    		return Double.parseDouble(value+"");
+            return Double.parseDouble(value+"");
     	} catch (java.lang.NumberFormatException e) {
-    		return 0;
+            return 0;
     	}
     }
     
@@ -170,18 +163,20 @@ public class BaseMark implements Comparable<Object> {
     	this.report.replace(0, this.report.capacity(), report);
     }
     
-    public int compareTo(Object otherMark) throws ClassCastException {
-        if (!(otherMark instanceof Mark))
-          throw new ClassCastException("A Mark object expected.");
-        double otherValue = ((Mark) otherMark).getValue();  
-        return (int) ((Double.parseDouble(this.value+"")) - otherValue);    
-      }
-    
     public int getSubAssessmentID() {
     	return subAssessmentID;
     }
     
     public void setSubAssessmentID(int subAssessmentID) {
         this.subAssessmentID = subAssessmentID;
+    }
+    
+    public int compareTo(Object otherMark) throws ClassCastException {
+        if (!(otherMark instanceof Mark)) {
+            throw new ClassCastException("A Mark object expected.");
+        }
+        double otherValue = ((Mark) otherMark).getValue();  
+        
+        return (int) ((Double.parseDouble(this.value+"")) - otherValue);    
     }
 }

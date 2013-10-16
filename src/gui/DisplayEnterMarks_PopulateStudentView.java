@@ -1,6 +1,7 @@
 package gui;
 
 import java.lang.reflect.Array;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
@@ -172,7 +172,16 @@ public class DisplayEnterMarks_PopulateStudentView {
 							if (e.character == SWT.CR) {	//works for both enter keys
 								TreeItem row = cursor.getRow();
 								int column = cursor.getColumn();
-								TreeItemMap.get(row)[column].replace(0, TreeItemMap.get(row)[column].length(), text.getText());
+								TreeItemMap.get(row)[column].replace(0, TreeItemMap.get(row)[column].capacity(), text.getText());
+
+								//row.getText(column).
+
+								//Quick and dirty way to save the students marks
+								for (Student s : Student.getAllStudents()) {
+									try {
+										s.updateRow();
+									} catch (SQLException e1) {}
+								}
 
 								text.dispose();
 								//refresh(tree);
@@ -196,7 +205,7 @@ public class DisplayEnterMarks_PopulateStudentView {
 							TreeItem row = cursor.getRow();
 							int column = cursor.getColumn();
 
-							TreeItemMap.get(row)[column].replace(0, TreeItemMap.get(row)[column].length(), text.getText());
+							TreeItemMap.get(row)[column].replace(0, TreeItemMap.get(row)[column].capacity(), text.getText());
 
 							text.dispose();
 						}
@@ -288,7 +297,7 @@ public class DisplayEnterMarks_PopulateStudentView {
 
 						for (SubAssessment sa : a.getSubAssessments()) {
 							TreeItem subAssessment = new TreeItem(assessment, SWT.NONE);					
-							StringBuffer[] strBuf = new StringBuffer[]{sa.name, sa.aveMark, new StringBuffer("TODO"), new StringBuffer("TODO"), sa.maxMark};
+							StringBuffer[] strBuf = new StringBuffer[]{sa.name, sa.aveMark, sa.getRange(), sa.standDev, sa.maxMark};
 							for (Mark m : sa.getMarks()) {
 								strBuf = concatenateStringBufferArray(strBuf, new StringBuffer[]{m.value});
 

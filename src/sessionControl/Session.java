@@ -5,7 +5,7 @@ import java.io.FilenameFilter;
 import java.sql.*;
 
 /**
- * This static class holds information about the current session
+ * This static class holds information about the current session and has methods for authentication and session management
  * 
  * @author Nicholas Abbey 20522805
  * @version 22/09/13
@@ -59,32 +59,9 @@ public class Session {
 		}
 		else return false;
 	}
-	
-//	/** Couldn't be used because setup needed retooling.
-//	 *	
-//	 * Log a user in if they have forgotton their details
-//	 * Sets password to default.
-//	 * @param username
-//	 * @param secretAnswer
-//	 * @return true if successful
-//	 */
-//	public static boolean recover(String username, String secretAnswer, String cohort)
-//	{
-//		if (checkRecovery(username, secretAnswer)) {
-//			currentFocus = cohort;
-//			user = username;
-//			return true;
-//		}
-//		else return false;
-//	}
-	
-	
-	
-	
-	
+
 	/**
-	 * Helper method to check if a username/password combo match
-	 * Called by recover
+	 * Helper method to check if a username/secret answer combo match
 	 * @param username
 	 * @param secretAnswer
 	 * @return true if password correct 
@@ -122,6 +99,7 @@ public class Session {
 	}
 	
 	/**
+	 * Return the secret question to prompt user for secret answer
 	 * @param Username
 	 * @return Secret Question for printing
 	 */
@@ -184,7 +162,8 @@ public class Session {
 	}
 
 	/**
-	 * Sets loggedIn to false. 
+	 * Logout of the system
+	 * (Not utilised) 
 	 */
 	public static void logout() {
 		user = "";
@@ -193,6 +172,8 @@ public class Session {
 
 	/**
 	 * Change password
+	 * @param oldp the old password (to check)
+	 * @param newp the new password (already confirmed by front end validation)
 	 * @return true if successful
 	 */
 	public static boolean changePassword(String oldp, String newp) {
@@ -216,6 +197,8 @@ public class Session {
 	
 	/**
 	 * Change username
+	 * @param oldp the old password (to check)
+	 * @param newUsername
 	 * @return true if successful
 	 */
 	public static boolean changeUsername(String oldp, String newUsername) {
@@ -240,6 +223,9 @@ public class Session {
 
 	/**
 	 * Change secret question and/or answer
+	 * @param oldp the old password (to check)
+	 * @param newQuestion new question to be written to db
+	 * @param newAnswer new answer to be written to db
 	 * @return true if successful
 	 */
 	public static boolean changeRecovery(String oldp, String newQuestion, String newAnswer) {
@@ -263,7 +249,7 @@ public class Session {
 	
 	/**
 	 * Change the GUI's focus to a different cohort 
-	 * There is not currently a GUI option for doing this.
+	 * (There is not currently a GUI option for doing this)
 	 * @param the new cohort to focus on
 	 * @param true if successful
 	 */
@@ -279,9 +265,8 @@ public class Session {
 
 	/**
 	 * Helper method for populating the list of databases on the login screen
-	 * This method was adapted from code from http://stackoverflow.com/questions
-	 * /5125242/list-only-subdirectory-from -directory-not-files, error handling
-	 * TODO fix reference
+	 * 
+	 * Adapted from solution from http://stackoverflow.com/questions/5125242/list-only-subdirectory-from-directory-not-files
 	 * 
 	 * @return a list of the available databases
 	 */
@@ -302,4 +287,24 @@ public class Session {
 			return new String[]{Errors.noDatabaseFolder};
 		} 		
 	}
+	
+	
+//	/** Couldn't be used because setup needed retooling.
+//	 *	
+//	 * Log a user in if they have forgotton their details
+//	 * Sets password to default.
+//	 * @param username
+//	 * @param secretAnswer
+//	 * @return true if successful
+//	 */
+//	public static boolean recover(String username, String secretAnswer, String cohort)
+//	{
+//		if (checkRecovery(username, secretAnswer)) {
+//			currentFocus = cohort;
+//			user = username;
+//			return true;
+//		}
+//		else return false;
+//	}
+
 }

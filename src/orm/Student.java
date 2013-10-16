@@ -99,7 +99,6 @@ public class Student extends BaseStudent {
     /**
      * Method to get a student identified by the ID.
      * 
-     * TODO: Is this really needed? Does the constructor not serve the same purpose?
      * This way is also more inefficient as it does a brute force search instead of letting the database handle it.
      * 
      * @param ID the ID identifying the student

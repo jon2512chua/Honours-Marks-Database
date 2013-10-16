@@ -3,14 +3,20 @@ import java.io.File;
 import java.io.IOException;
  
 /**
- * http://www.mkyong.com/java/how-to-delete-directory-in-java/
  * @author Nicholas Abbey 20522805
  * @version 24/09/13
- * @todo exceptions, cleanup, doc
  */
 
 public class DeleteUtility
 {
+	/**
+	 * Delete a file
+	 * 
+	 * Adapted from solution at http://www.mkyong.com/java/how-to-delete-directory-in-java/
+	 * 
+	 * @param file - to delete
+	 * @throws IOException - if error with operation
+	 */
     public static void delete(File file) throws IOException {
         if(file.isDirectory()) {
     		

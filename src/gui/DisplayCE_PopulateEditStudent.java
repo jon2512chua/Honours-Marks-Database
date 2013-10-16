@@ -313,7 +313,7 @@ public class DisplayCE_PopulateEditStudent {
 			}
 
 			student.updateRow();
-			refreshTree(); //TODO is this needed?
+			refreshTree(); 
 
 			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
 		} catch (java.lang.NullPointerException | SQLException e) {

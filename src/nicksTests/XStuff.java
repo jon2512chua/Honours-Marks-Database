@@ -7,8 +7,10 @@ package nicksTests;
 import backupSubsystem.BackupUtils;
 
 /**
- *
- * @author nickos
+ * Miscellaneous testing.
+ * <This testing class is dynamically edited/used - it may have been used differently in the past>
+ * 
+ * @author Nicholas Abbey 20522805
  */
 public class XStuff {
     public static void main(String[] args) {

@@ -1,3 +1,10 @@
+/**
+ * A class for testing the system's import function.
+ * Became unusable after changes to cohort Importation.
+ * <This testing class is dynamically edited/used - it may have been used differently in the past>
+ * 
+ * @author Nicholas Abbey 20522805
+ */
 //package nicksTests;
 //
 //import java.sql.Connection;

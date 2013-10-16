@@ -9,7 +9,10 @@ import java.sql.Statement;
 public class database {
 
 	/**
-	 * Nick's class for testing some database operations...
+	 * A class for initially playing with database characteristics
+	 * <This testing class is dynamically edited/used - it may have been used differently in the past>
+	 * 
+	 * @author Nicholas Abbey 20522805
 	 */
 	public static void main(String[] args) {
 		loadDriver();

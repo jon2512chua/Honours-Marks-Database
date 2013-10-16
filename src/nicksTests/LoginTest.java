@@ -1,14 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package nicksTests;
 
 //import sessionControl.Session;
 
 /**
- *
- * @author nickos
+ * A class for testing the login functions.
+ * <This testing class is dynamically edited/used - it may have been used differently in the past>
+ * 
+ * @author Nicholas Abbey 20522805
  */
 public class LoginTest {
     public static void main(String[] args) {

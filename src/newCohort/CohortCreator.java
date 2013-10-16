@@ -44,18 +44,13 @@ public class CohortCreator {
 
 	/**
 	 * This method is called once the setup of the new cohort is finalised
-	 * 
-	 * @param useNow
-	 *            - if setup was successful
 	 */
-	public static void finaliseSetup() {
-			newCohort = null; 
-			// TODO maybe make this more thorough
-	}
+	public static void finaliseSetup() {newCohort = null;}
 	
 	/**
+	 * Method for installing data into a database from and sql file
 	 * TODO
-	 * @return
+	 * @return true if successful
 	 */
 	public static boolean installData() {
 		if (!(newCohort == null)) return DerbyUtils.runSqlFromFile(Directories.dummyData, newCohort.newConn);
@@ -64,5 +59,4 @@ public class CohortCreator {
 			return false;
 		}
 	}
-	
 }

@@ -79,4 +79,17 @@ public class Mark extends BaseMark {
         
         return allMarks;
     }
+    
+    /**
+     * Update a single row of the mark table 
+     * 	- called when the save changes button is hit.
+     *  - student number is omitted so that it can never be changed. 
+     * @throws SQLException 
+     */
+    public void updateRow() throws SQLException {
+    	String sql = "UPDATE SubAssessmentMark SET Mark = "+Integer.parseInt(this.value.toString())+", InsideRange = "+this.getInsideRange()+", Report = '"+this.getReport().toString()+"' WHERE MarkerID = "+Integer.parseInt(this.markerID.toString())+" and StudentID = "+Integer.parseInt(this.studentID.toString())+" and SubAssessmentID = " + this.getSubAssessmentID();
+    	Statement stmt = Session.dbConn.getConnection().createStatement();
+    	stmt.execute(sql);
+    	stmt.close();
+    }
 }

@@ -29,8 +29,12 @@ import orm.Unit;
 public class ToExcel {
 	
 	//TODO set some cell styles for export http://poi.apache.org/spreadsheet/quick-guide.html
-	//TODO add std devs, etc
 	
+	/**
+	 * Export a summary of the marks issued by each marker
+	 * @param filepath - the output file
+	 * @throws Exception SQL or file read/write errors occur
+	 */
 	public static void markerSummaries(String filepath) throws Exception {
 		//try {
 			FileOutputStream fileOut = new FileOutputStream(filepath);
@@ -121,6 +125,7 @@ public class ToExcel {
 	 * Write a summary of the students' final grades and key information to .xls
 	 * 		NOTE: don't try to use a .xlsx filename
 	 * @param filepath to export to
+	 * @throws Exception SQL or file read/write errors occur
 	 */
 	public static void studentSummaries(String filepath) throws Exception {
 		try {
@@ -208,6 +213,7 @@ public class ToExcel {
 	 * Write a summary of units to .xls
 	 * 		NOTE: don't try to use a .xlsx filename
 	 * @param filepath to export to
+	 * @throws Exception SQL or file read/write errors occur
 	 */
 	public static void unitSummaries(String filepath) throws Exception {
 		try {

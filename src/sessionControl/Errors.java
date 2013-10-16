@@ -1,7 +1,7 @@
 package sessionControl;
 
 /**
- * A class for managing standard error messages.
+ * A class for managing some standard error messages.
  * Record the applicable classes.
  * 
  * @author Nicholas Abbey 20522805

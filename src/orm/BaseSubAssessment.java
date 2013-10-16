@@ -52,8 +52,12 @@ public class BaseSubAssessment {
      * The calculated average mark scored for this SubAssessment, existing as a double.
      */
     public StringBuffer aveMark = new StringBuffer(6);
+	
+	/**
+	 * The calculated standard deviation for this SubAssessment, existing as a double.
+	 */
     public StringBuffer standDev = new StringBuffer(6); 
-    // Maybe add average mark for this subassessment over all marks
+
     
     /**
      * Constructor to create an object to retrieve and store a sub assessment found in the database.

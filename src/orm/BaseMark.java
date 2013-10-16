@@ -79,7 +79,7 @@ public class BaseMark implements Comparable<Object> {
                 setMarkerID(markerID);
                 setStudentID(studentID);
                 setParentSubAssessment(subAssessment);
-                subAssessmentID = subAssessmentID;
+                setSubAssessmentID(subAssessmentID);
 
                 int inRange = markRS.getInt("InsideRange");
                 if (inRange == 0){
@@ -115,7 +115,7 @@ public class BaseMark implements Comparable<Object> {
             while (markRS.next()) {
                 setMarkerID(markerID);
                 setStudentID(studentID);
-                subAssessmentID = subAssessmentID;
+                setSubAssessmentID(subAssessmentID);
 
                 int inRange = markRS.getInt("InsideRange");
                 if (inRange == 0){

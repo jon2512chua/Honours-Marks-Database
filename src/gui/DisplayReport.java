@@ -41,7 +41,7 @@ public class DisplayReport {
 		DisplayReport_PopulateUnit.populate(reportTabFolder, "Unit Report");
 
 		//Create Cohort Data
-		DisplayReport_PopulateCohort.populate(reportTabFolder, "Cohort Report");
+		//DisplayReport_PopulateCohort.populate(reportTabFolder, "Cohort Report");
 
 		return reportTabFolder;
 	}

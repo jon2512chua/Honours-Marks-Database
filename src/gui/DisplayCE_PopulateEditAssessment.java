@@ -1,5 +1,6 @@
 package gui;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +14,8 @@ import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.layout.GridLayout;
 
 import orm.Assessment;
+import orm.SubAssessment;
 import orm.Unit;
-
 
 /**
  * Edit Assessment Section
@@ -22,7 +23,7 @@ import orm.Unit;
  */
 public class DisplayCE_PopulateEditAssessment {
 	
-	private static Map<TreeItem, StringBuffer[]> TreeItemMap = new HashMap<TreeItem, StringBuffer[]>();
+	private static Map<TreeItem, StringBuffer> TreeItemMap = new HashMap<TreeItem, StringBuffer>();
 	public static Boolean hardRefreshNeeded = true;
 	
 	private static Text assessmentName;
@@ -67,7 +68,6 @@ public class DisplayCE_PopulateEditAssessment {
 		CTabItem tbtmEditAssessment = new CTabItem(CETabFolder, SWT.NONE);
 		tbtmEditAssessment.setText(tabName);
 
-	//TODO: 
 		final Composite editAssessmentComposite = new Composite(CETabFolder, SWT.NONE);
 		editAssessmentComposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1));
 		GridLayout gl_editAssessmentComposite = new GridLayout(2, false);
@@ -86,7 +86,8 @@ public class DisplayCE_PopulateEditAssessment {
 		rComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		final Label lblUnitName = new Label(rComposite, SWT.NONE);
-		lblUnitName.setText("UNIT NAME");
+		lblUnitName.setText("Add New Assessment");
+		lblUnitName.pack();
 		new Label(rComposite, SWT.NONE);
 		
 		Label lblName = new Label(rComposite, SWT.NONE);
@@ -108,21 +109,29 @@ public class DisplayCE_PopulateEditAssessment {
 		TreeColumn trclmnUnits = new TreeColumn(assessmentTree, SWT.NONE);
 		trclmnUnits.setText("Units/Assessments");
 		
-		TreeItem newUnit = new TreeItem(assessmentTree, SWT.NONE | SWT.NO_FOCUS);
-		newUnit.setText("+  Add New Assessment");
-		for (Unit u : CohortData.units) {
-			TreeItem unit = new TreeItem(assessmentTree, SWT.NONE | SWT.NO_FOCUS);
-			unit.setText(u.getUnitCode().toString());
-			for (Assessment a : u.getAssessments()) {
-				TreeItem assessment = new TreeItem(unit, SWT.NONE);
-				assessment.setText(a.getName().toString());
-			}
-		}
 		
-		for (TreeItem ti : assessmentTree.getItems()) ti.setExpanded(true);
-		for (TreeColumn tc : assessmentTree.getColumns()) tc.pack();
-		assessmentTree.pack();
-		//for (TreeItem ti : assessmentTree.getItems()) ti.setExpanded(false);
+//		for (Unit u : CohortData.units) {
+//			TreeItem unit = new TreeItem(assessmentTree, SWT.NONE);
+//			TreeItemMap.put(unit, new StringBuffer[]{u.unitCode});
+//			for (Assessment a : u.getAssessments()) {
+//				TreeItem assessment = new TreeItem(unit, SWT.NONE);
+//				System.out.println(a.name);
+//				TreeItemMap.put(assessment, new StringBuffer[]{a.name});
+//				//assessment.setText(a.getName()+"");
+//			}
+//		}
+
+		
+//		for (Unit u : CohortData.units) {
+//			TreeItem unit = new TreeItem(assessmentTree, SWT.NONE);
+//			unit.setText(u.getUnitCode().toString());
+//			for (Assessment a : u.getAssessments()) {
+//				TreeItem assessment = new TreeItem(unit, SWT.NONE);
+//				assessment.setText(a.getName().toString());
+//			}
+//		}
+		
+		
 		
 		DisplayReport.autoResizeColumn(assessmentTree);
 		
@@ -160,15 +169,17 @@ public class DisplayCE_PopulateEditAssessment {
 		trclmnAssessmentPercentage.setWidth(100);
 		trclmnAssessmentPercentage.setText("Assessment Percentage");
 		
-		for (int i = 0; i < 3; i++) {
-			TreeItem subAssessment = new TreeItem(subAssessmentTree, SWT.NONE);
-			subAssessment.setText(new String[] {Data.SubAssessment[i]});
-		}
-		
 		for (TreeColumn tc : subAssessmentTree.getColumns()) tc.pack();
 		assessmentTree.pack();
-
 		
+		//Accommodating Data into assessmentTree
+		refreshTree();
+		for (TreeItem ti : assessmentTree.getItems()) ti.setExpanded(true);
+		for (TreeColumn tc : assessmentTree.getColumns()) tc.pack();
+		assessmentTree.pack();
+		//for (TreeItem ti : assessmentTree.getItems()) ti.setExpanded(false);
+
+		//assessmentTree Listener
 		assessmentTree.addListener(SWT.Selection,new Listener() {
 			public void handleEvent(Event event) {
 				TreeItem[] selected = assessmentTree.getSelection();
@@ -184,8 +195,16 @@ public class DisplayCE_PopulateEditAssessment {
 							recursiveSetEnabled(rComposite, false);
 						} else {
 							recursiveSetEnabled(rComposite, true);
-							lblUnitName.setText(selected[0].getParentItem().getText());
-							assessmentName.setText(selected[0].getText());
+							Unit u = Unit.getUnitByCode(selected[0].getParentItem().getText());
+							lblUnitName.setText(u.getUnitCode().toString());
+							outer:
+							for(Assessment a : u.getAssessments()) {
+								if(selected[0].getText().equals(a.name+"")){
+									for (TreeItem ti : subAssessmentTree.getItems()) ti.dispose();
+									populateSelectedData(a);
+									break outer;
+								}
+							}
 						}
 					}
 				}
@@ -194,7 +213,7 @@ public class DisplayCE_PopulateEditAssessment {
 		
 		Listener LisAddAssessment = new Listener() {
 			public void handleEvent(Event event) {
-				if (assessmentTree.indexOf(assessmentTree.getSelection()[0]) == 0) {
+				if (assessmentTree.getSelection().length == 0 || assessmentTree.indexOf(assessmentTree.getSelection()[0]) == 0) {
 					if (!assessmentName.getText().isEmpty() && !percentageUnit.getText().isEmpty()) {
 						PopupWindow.popupAddAssessment(editAssessmentComposite.getShell(), 
 								"Please choose the unit that the Assessment will be added to", 
@@ -213,13 +232,16 @@ public class DisplayCE_PopulateEditAssessment {
 						if (PopupWindow.popupYessNo(editAssessmentComposite.getShell(),
 							"Are you sure you want to REMOVE \"" + assessmentTree.getSelection()[0].getText()
 							+ "\" from the database", "WARNING!"))
-						assessmentTree.getSelection()[0].dispose(); 
-//						try {
-//							Unit.getUnitByCode(assessmentTree.getSelection()[0].getText()).deleteRow();
-//							PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Assessment removed.", "SUCCESS!");
-//						} catch (SQLException e) {
-//							PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Assessment not removed.", "ERROR!");
-//						}/ TODO delete assessment
+					try {
+						Assessment.getAssessByCodeAndName(assessmentTree.getSelection()[0].getParentItem().getText(),
+							assessmentTree.getSelection()[0].getText()).deleteRow();
+						PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Assessment removed.", "SUCCESS!");
+						assessmentTree.getSelection()[0].dispose();
+						assessmentName.setText("");
+						percentageUnit.setText("");
+					} catch (SQLException e) {
+						PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Assessment not removed.", "ERROR!");
+					}
 				} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select an Assessment to be Removed.", "ERROR!");
 			}
 		};
@@ -227,7 +249,8 @@ public class DisplayCE_PopulateEditAssessment {
 		Listener LisAddSubAssessment = new Listener() {
 			public void handleEvent(Event event) {
 				PopupWindow.popupAddSubAssessment(editAssessmentComposite.getShell(), 
-						"Please fill in the Sub Assessment Details", "Adding Sub Assessment", subAssessmentTree);
+						"Please fill in the Sub Assessment Details", "Adding Sub Assessment", 
+						subAssessmentTree, Assessment.getAssessByCodeAndName(lblUnitName.getText(), assessmentName.getText()));
 			}
 		};
 
@@ -238,6 +261,7 @@ public class DisplayCE_PopulateEditAssessment {
 				if (subAssessmentTree.isFocusControl() && PopupWindow.popupYessNo(editAssessmentComposite.getShell(),
 						"Are you sure you want to REMOVE \"" + subAssessmentTree.getSelection()[0].getText()
 						+ "\" from the database", "WARNING!")) {
+					
 					// Enable the previous window
 					recursiveSetEnabled(editAssessmentComposite.getShell(), true);
 					subAssessmentTree.getSelection()[0].dispose();
@@ -254,46 +278,81 @@ public class DisplayCE_PopulateEditAssessment {
 		
 	}
 	
-//	/**
-//	 * Refreshes all data displayed in the tree
-//	 * @param tree the tree which is to be refreshed
-//	 */
-//	public static void refreshTree() {
-//		if (hardRefreshNeeded) {
-//			hardRefresh();
-//			hardRefreshNeeded = false;
-//		}
-//		for ( TreeItem ti : studentTree.getItems() ) {
-//			try {
-//				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
-//			} catch (java.lang.NullPointerException e) {
-//				//System.out.println("somthing went wrong... " + e); //TODO remove
-//			}
-//		}
-//		for ( TreeItem ti : supervisorTree.getItems() ) {
-//			try {
-//				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
-//			} catch (java.lang.NullPointerException e) {}
-//		}
-//	}
-//
-//	private static void hardRefresh() {
-//		for (TreeItem ti : studentTree.getItems()) ti.dispose();
-//		for (TreeItem ti : supervisorTree.getItems()) ti.dispose();
-//		
-//		TreeItem newStudent = new TreeItem(studentTree, SWT.NONE);
-//		newStudent.setText(new String[] {"+", "Add New Student"});
-//		
-//		for (Student s : CohortData.students) {
-//			TreeItem student = new TreeItem(studentTree, SWT.NONE);
-//			TreeItemMap.put(student, new StringBuffer[]{s.studentID, s.firstName, s.lastName});
-//		}
-//
-//		for (Staff s : CohortData.staff) {
-//			TreeItem supervisor = new TreeItem(supervisorTree, SWT.NONE);
-//			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});
-//			TreeItemMap.put(supervisor, new StringBuffer[]{s.staffID, s.firstName, s.lastName});
-//		}
-//		supervisorTree.pack();
-//	}
+	/**
+	 * Displays data relevant to which assessment was clicked on.
+	 * @param student the student that was clicked on
+	 */
+	private static void populateSelectedData(Assessment assessment) {
+		try {														//Found values
+			for (TreeItem ti : subAssessmentTree.getItems()) ti.dispose();
+			assessmentName.setText(assessment.getName()+"");
+			percentageUnit.setText(assessment.getUnitPercent()+"");
+			for (SubAssessment s : assessment.getSubAssessments()) {
+				TreeItem subAssessment = new TreeItem(subAssessmentTree, SWT.NONE);
+				subAssessment.setText(new String[] {s.getName()+"", s.getMaxMark()+"", s.getAssessmentPercent()+""});
+				
+			}
+
+		} catch (java.lang.NullPointerException e) {				//Default values
+			for (TreeItem ti : subAssessmentTree.getItems()) ti.dispose();
+			assessmentName.setText("");
+			percentageUnit.setText("");
+		}
+	}
+	
+	/**
+	 * Refreshes all data displayed in the tree
+	 * @param tree the tree which is to be refreshed
+	 */
+	public static void refreshTree() {
+		if (hardRefreshNeeded) {
+			hardRefresh();
+			hardRefreshNeeded = false;
+		}
+		for ( TreeItem ti : assessmentTree.getItems() ) {
+			try {
+				ti.setText(TreeItemMap.get(ti).toString());
+
+				refreshLevel(ti);
+			} catch (java.lang.NullPointerException e) {}
+		}
+	}
+
+	/**
+	 * Called recursively by refreshAll(), to refresh groups of data
+	 * @param parent the TreeItem whose children are to be refreshed.
+	 */
+	private static void refreshLevel(TreeItem parent) {
+		for ( TreeItem ti : parent.getItems() ) {
+			try {
+				if (ti.getText(0).length() > 2)
+					ti.setText(1, TreeItemMap.get(ti).toString());
+				else ti.setText(0, TreeItemMap.get(ti).toString());
+			} catch (java.lang.NullPointerException e) {
+				ti.setText(1, "");
+			}
+
+			if (ti.getItemCount() > 0)
+				refreshLevel (ti);
+		}
+	}
+	
+	/**
+	 * Forced refresh on the tree
+	 */
+	private static void hardRefresh() {
+		for (TreeItem ti : assessmentTree.getItems()) ti.dispose();
+		for (TreeItem ti : subAssessmentTree.getItems()) ti.dispose();
+
+		TreeItem newUnit = new TreeItem(assessmentTree, SWT.NONE);
+		newUnit.setText("+  Add New Assessment");
+		for (Unit u : CohortData.units) {
+			TreeItem unit = new TreeItem(assessmentTree, SWT.NONE);
+			TreeItemMap.put(unit, u.unitCode);
+			for (Assessment a : u.getAssessments()) {
+				TreeItem assessment = new TreeItem(unit, SWT.NONE);
+				TreeItemMap.put(assessment, a.name);
+			}
+		}
+	}
 }

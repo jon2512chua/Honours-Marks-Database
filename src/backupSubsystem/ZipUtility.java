@@ -11,15 +11,16 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
- * This class has been closely adapted off of http://www.journaldev.com/957/java-zip-example-to-zip-single-file-and-a-directory-recursively
  * @author Nicholas Abbey 20522805
  * @version 24/09/13
  * @todo cleanup, annotation, passing errors 
  */
 
+// This class adapted from solution at 
+// http://www.journaldev.com/957/java-zip-example-to-zip-single-file-and-a-directory-recursively
 
 public class ZipUtility {
-
+	// list of all the files in a directory (part of recursive zip)
 	private static List<String> filesListInDir = new ArrayList<String>();
 
 	/**
@@ -70,49 +71,7 @@ public class ZipUtility {
 	}
 
 	/**
-	 * This method compresses the single file to zip format
-	 * @param file
-	 * @param zipFileName
-	 */
-	@SuppressWarnings("unused")
-	private static void zipSingleFile(File file, String zipFileName) {
-		try {
-			//create ZipOutputStream to write to the zip file
-			FileOutputStream fos = new FileOutputStream(zipFileName);
-			ZipOutputStream zos = new ZipOutputStream(fos);
-			//add a new Zip Entry to the ZipOutputStream
-			ZipEntry ze = new ZipEntry(file.getName());
-			zos.putNextEntry(ze);
-			//read the file and write to ZipOutputStream
-			FileInputStream fis = new FileInputStream(file);
-			byte[] buffer = new byte[1024];
-			int len;
-			while ((len = fis.read(buffer)) > 0) {
-				zos.write(buffer, 0, len);
-			}
-
-			//Close the zip entry to write to zip file
-			zos.closeEntry();
-			//Close resources
-			zos.close();
-			fis.close();
-			fos.close();
-
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-	List<String> fileList;
-
-
-
-	/*
-	 * This class was closely adapted from http://www.mkyong.com/java/how-to-decompress-files-from-a-zip-file/
-	 */
-	/**
-	 * Unzip it
+	 * Unzip a zipped archive
 	 * @param zipFile input zip file
 	 * @param output zip file output folder
 	 * @todo - alter, reference, annotate, error handling

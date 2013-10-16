@@ -13,8 +13,9 @@ import java.sql.SQLException;
  * 
  */
 public class ConnectionWrapper {
-	
+	//This is the connection object for querying
 	private Connection dock;
+	//This is true on instantiation (before connection) and after disconnection
 	private boolean disconnected;
 
 	/**
@@ -48,7 +49,7 @@ public class ConnectionWrapper {
 	 * 
 	 * @param db
 	 *            the directory name of database to connect to
-	 *            this connection wil be stored by this ConnectionWrapper for querying
+	 *            this connection will be stored by this ConnectionWrapper for querying
 	 *            eg "20131" or "../config/System"
 	 * @return true if successful
 	 */

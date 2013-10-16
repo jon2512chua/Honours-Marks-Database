@@ -2,9 +2,10 @@ package nicksTests;
 
 import newCohort.CohortCreator;
 /**
- * Nick's testing class for new cohort functionality
- * @author nickos
- *
+ * A class for testing the system's ability to instantiate a new cohort database.
+ * <This testing class is dynamically edited/used - it may have been used differently in the past>
+ * 
+ * @author Nicholas Abbey 20522805
  */
 @SuppressWarnings("unused")
 public class newCohortTest {

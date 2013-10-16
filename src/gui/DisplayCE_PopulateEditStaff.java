@@ -243,7 +243,7 @@ public class DisplayCE_PopulateEditStaff {
 			staff.setFirstName(firstName.getText());
 
 			staff.updateRow();
-			refreshTree(); //TODO is this needed?
+			refreshTree();
 
 			PopupWindow.popupMessage(staffTree.getShell(), "Staff member saved successfully", "Save Successful");
 		} catch (java.lang.NullPointerException | SQLException e) {

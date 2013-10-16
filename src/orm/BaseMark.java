@@ -42,7 +42,6 @@ public class BaseMark implements Comparable<Object> {
     /**
      * The ID of the sub assessment this mark belongs to.
      * 
-     * TODO: Do we really need this? Can't we just go parentSubAssessment.getSubAssessmentID()?
      */
     private int subAssessmentID;
     

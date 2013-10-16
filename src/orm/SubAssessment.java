@@ -100,7 +100,7 @@ public class SubAssessment extends BaseSubAssessment {
     }
     
     /**
-     * Delete this student //TODO test
+     * Delete this student
      * @throws SQLException
      */
     public void deleteRow() throws SQLException {

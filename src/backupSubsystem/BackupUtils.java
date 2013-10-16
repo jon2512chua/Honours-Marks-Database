@@ -27,12 +27,12 @@ public class BackupUtils {
 				String[] backups = file.list(new FilenameFilter() {
 					@Override
 					public boolean accept(File dir, String name) {
-						if(sessionControl.Session.currentFocus.equals("")) {
+						if(sessionControl.Session.currentFocus.equals("")) {// if for some reason no current focus, backup from anywhere
 							return (new File(dir, name).exists() && name
 									.matches("\\d{5} \\d{8} \\d{6}.zip"));
 						}
 						else {
-							return (new File(dir, name).exists() && name
+							return (new File(dir, name).exists() && name	// else backup only with a copy of the correct db
 									.matches("\\d{5} \\d{8} \\d{6}.zip")) && name.startsWith(sessionControl.Session.currentFocus);
 						}
 					}
@@ -50,5 +50,4 @@ public class BackupUtils {
 			}
 		}
 	}
-
 }

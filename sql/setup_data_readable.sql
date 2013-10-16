@@ -11,8 +11,8 @@ INSERT INTO Discipline VALUES
 	('ANHB', 'ANHB7405/1'),
 	('ANHB', 'ANHB7409/3'),
 	
-	('PHYSIOLOGY', 'PHYL7404/01'),
-	('PHYSIOLOGY', 'PHYL7406/03');
+	('PHYL', 'PHYL7404/01'),
+	('PHYL', 'PHYL7406/03');
 
 INSERT INTO Assessment(AssessmentName, UnitCode, UnitPercent) VALUES
 	('Proposal Seminar', 'ANHB7407/2', 20),

@@ -81,8 +81,8 @@ public class CohortImporter {
 				cell = row.getCell(1, org.apache.poi.ss.usermodel.Row.CREATE_NULL_AS_BLANK);
 				String disc;
 				if(cell.getCellType() == 1) {
-					disc = cell.getStringCellValue().toLowerCase();
-					if(!(disc.equals("a") || disc.equals("n") || disc.equals("p") || disc.equals("b"))) {
+					disc = cell.getStringCellValue().toUpperCase();
+					if(!(disc.equals("APHB") || disc.equals("NEUR") || disc.equals("PHYS") || disc.equals("BIOM"))) {
 						String error = "Row: " + index + ": invalid Discipline in row - Student not added.\n";
 						importErrors.append(error);
 						continue;
@@ -122,10 +122,9 @@ public class CohortImporter {
 					}
 					i++;
 				} while (supID != -1);
-				System.out.println(fn + ln); //TODO rem
 				try {
 					Student s = new Student(sID, fn, ln, title, dissTit, disc, 0, "NA", supers);
-					CohortData.students.add(s); // TODO what should initial grade be?
+					CohortData.students.add(s);
 				} catch (Exception e) {
 					System.out.println(e);
 				}

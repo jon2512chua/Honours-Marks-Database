@@ -11,7 +11,7 @@ import sessionControl.Directories;
 import sessionControl.Session;
 
 /**
- * This class performs file backup operations for the HMDBS
+ * This class performs database backup operations for the HMDBS
  * 
  * @author Nicholas Abbey 20522805
  * @version 22/09/13
@@ -98,7 +98,7 @@ public class BackupOperations {
 			try {
 				DeleteUtility.delete(directory);
 			} catch (IOException e) {
-				System.err.println("ERROR 21: Could not free up current database folder " + dir); // TODO error numbers?
+				System.err.println("ERROR 21: Could not free up current database folder " + dir);
 				return false;
 			}
 		}

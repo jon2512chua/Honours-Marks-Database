@@ -11,8 +11,8 @@ INSERT INTO Discipline VALUES
 	('ANHB', 'ANHB7405/1'),
 	('ANHB', 'ANHB7409/3'),
 	
-	('PHYSIOLOGY', 'PHYL7404/01'),
-	('PHYSIOLOGY', 'PHYL7406/03');
+	('PHYL', 'PHYL7404/01'),
+	('PHYL', 'PHYL7406/03');
 
 INSERT INTO Assessment(AssessmentName, UnitCode, UnitPercent) VALUES
 	('Proposal Seminar', 'ANHB7407/2', 20),
@@ -63,9 +63,9 @@ INSERT INTO SubAssessment(SubAssessmentName, AssessmentID, AssessmentPercent, Ma
 	
 INSERT INTO Student VALUES 
 	(20001234,'Bob', 'Jones', 'Mr', 'How to succeed in business without really trying', 'ANHB', 0, null),
-	(20005678,'Harry', 'Smith', 'Mr', 'The cultural effect of the paradigm of mental health in modern society', 'PHYSIOLOGY', 0, null),
+	(20005678,'Harry', 'Smith', 'Mr', 'The cultural effect of the paradigm of mental health in modern society', 'PHYL', 0, null),
 	(20112233,'Regina', 'George', 'Ms', 'How to make sick people better', 'ANHB', 0, null),
-	(20002222,'Lucy', 'Smith', 'Ms', 'The effect of overshadowing older brothers', 'PHYSIOLOGY', 0, null);
+	(20002222,'Lucy', 'Smith', 'Ms', 'The effect of overshadowing older brothers', 'PHYL', 0, null);
 			
 INSERT INTO Staff VALUES
 	(100012345,'Lee', 'Black'),

@@ -83,7 +83,7 @@ public class BaseSubAssessment {
                 setName(subassessmentRS.getString("SubAssessmentName"));
                 setMaxMark(subassessmentRS.getInt("MaxMarks"));
                 setAssessmentPercent(subassessmentRS.getInt("AssessmentPercent"));
-                this.parentAssessment = assessment;
+                setParentAssessment(assessment);
             }
         } catch (SQLException ex) {
             Logger.getLogger(BaseSubAssessment.class.getName()).log(Level.SEVERE, null, ex);

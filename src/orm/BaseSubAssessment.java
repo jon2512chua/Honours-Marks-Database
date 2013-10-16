@@ -57,6 +57,8 @@ public class BaseSubAssessment {
 	 * The calculated standard deviation for this SubAssessment, existing as a double.
 	 */
     public StringBuffer standDev = new StringBuffer(6); 
+    
+    public StringBuffer range = new StringBuffer(13);
 
     
     /**
@@ -324,7 +326,7 @@ public class BaseSubAssessment {
      * @param max maximum score in range
      */
     public StringBuffer getRange() {
-    	return standDev;
+    	return range;
     }
     
     /**
@@ -334,11 +336,11 @@ public class BaseSubAssessment {
      * @param max maximum score in range
      */
     public void setRange(double min, double max) {
-    	this.standDev.replace(0, this.standDev.capacity(),  Double.toString(min));
-    	this.standDev.setLength(5);
-    	this.standDev.append(" - ");
-    	this.standDev.append(max);
-    	this.standDev.setLength(13);
+    	this.range.replace(0, this.range.capacity(),  Double.toString(min));
+    	this.range.setLength(5);
+    	this.range.append(" - ");
+    	this.range.append(max);
+    	this.range.setLength(13);
     }
     
     /**

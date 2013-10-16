@@ -19,7 +19,11 @@ public class SubAssessment extends BaseSubAssessment {
     public SubAssessment(int subAssessmentID){
     	super(subAssessmentID);
     }
-
+    
+    public SubAssessment(String name, Assessment parentAssessment, int assessmentPercent, int maxMark) throws SQLException {
+        super(name, parentAssessment, assessmentPercent, maxMark);
+    }
+    
     public static List<SubAssessment> getAllSubAssessments() {
         List<SubAssessment> allSubAssessments = new ArrayList<>();
         

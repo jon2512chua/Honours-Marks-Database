@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
@@ -218,12 +219,16 @@ public class DisplayEnterMarks_PopulateStudentView {
 							}
 							TreeItemMap.put(subAssessment, strBuf);
 							populateMarkersNeeded = false;
+							for (int i=0; i<5; i++)
+								subAssessment.setBackground(i, marksTree.getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 						}
 						assessment.setExpanded(true);
+						assessment.setBackground(marksTree.getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 					}
 					
 				}
 				unit.setExpanded(true);
+				unit.setBackground(marksTree.getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 
 			}
 		}

@@ -27,6 +27,7 @@ public class BaseAssessment {
 	            
 	            setName(assessmentRS.getString("AssessmentName"));
 	            setUnitPercent(assessmentRS.getInt("UnitPercent"));
+                setParentUnit(new Unit(assessmentRS.getString("UnitCode")));
     		}
         } catch (SQLException ex) {
             Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,7 +61,7 @@ public class BaseAssessment {
 	            
 	            setName(assessmentRS.getString("AssessmentName"));
 	            setUnitPercent(assessmentRS.getInt("UnitPercent"));
-	            this.parentUnit = unit;
+	            setParentUnit(unit);
     		}
         } catch (SQLException ex) {
             Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,7 +98,7 @@ public class BaseAssessment {
 	            
 	            setName(assessmentRS.getString("AssessmentName"));
 	            setUnitPercent(assessmentRS.getInt("UnitPercent"));
-	            this.parentUnit = unit;
+	            setParentUnit(unit);
     		}
         } catch (SQLException ex) {
             Logger.getLogger(BaseAssessment.class.getName()).log(Level.SEVERE, null, ex);

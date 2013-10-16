@@ -39,16 +39,30 @@ public class MarkCalculator
     public static double standardDeviationCalc(SubAssessment curSubAssess) {
         int size = curSubAssess.getMarks().size();
         
+        double min = 100;//curSubAssess.getMarks().get(0).getValue();
+        double max = 0;//min;
+        
         double subAssessAve = subAssessAverage(curSubAssess);
         
         double standDev = 0;
         for (int i = 0; i < size; i++){
             
-            double diff = (curSubAssess.getMarks().get(i).getValue() - subAssessAve);
+        	double curValue = curSubAssess.getMarks().get(i).getValue();
+            double diff = (curValue - subAssessAve);
             standDev += (diff*diff);
+            
+            if (min > curValue){
+            	min = curValue;
+            }
+            if (max < curValue){
+            	max = curValue;
+            }
+            
         }
         standDev = standDev / size;
         standDev = Math.sqrt(standDev);
+        curSubAssess.setStandDev(standDev);
+        curSubAssess.setRange(min, max);
         
         return standDev;
     }  

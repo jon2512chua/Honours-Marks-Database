@@ -52,8 +52,17 @@ public class BaseSubAssessment {
      * The calculated average mark scored for this SubAssessment, existing as a double.
      */
     public StringBuffer aveMark = new StringBuffer(6);
+	
+	/**
+	 * The calculated standard deviation for this SubAssessment, existing as a double.
+	 */
     public StringBuffer standDev = new StringBuffer(6); 
-    // Maybe add average mark for this subassessment over all marks
+    
+	/**
+	 * The calculated range for this SubAssessment, existing as a string buffer.
+	 */
+    public StringBuffer range = new StringBuffer(13);
+
     
     /**
      * Constructor to create an object to retrieve and store a sub assessment found in the database.
@@ -320,7 +329,7 @@ public class BaseSubAssessment {
      * @param max maximum score in range
      */
     public StringBuffer getRange() {
-    	return standDev;
+    	return range;
     }
     
     /**
@@ -330,11 +339,11 @@ public class BaseSubAssessment {
      * @param max maximum score in range
      */
     public void setRange(double min, double max) {
-    	this.standDev.replace(0, this.standDev.capacity(),  Double.toString(min));
-    	this.standDev.setLength(5);
-    	this.standDev.append(" - ");
-    	this.standDev.append(max);
-    	this.standDev.setLength(13);
+    	this.range.replace(0, this.range.capacity(),  Double.toString(min));
+    	this.range.setLength(5);
+    	this.range.append(" - ");
+    	this.range.append(max);
+    	this.range.setLength(13);
     }
     
     /**

@@ -20,8 +20,8 @@ public class SubAssessment extends BaseSubAssessment {
     	super(subAssessmentID);
     }
     
-    public SubAssessment(String name, Assessment parentAssessment, int assessmentPercent, int maxMark) throws SQLException {
-        super(name, parentAssessment, assessmentPercent, maxMark);
+    public SubAssessment(String name, Assessment parentAssessment, int assessmentPercent) throws SQLException {
+        super(name, parentAssessment, assessmentPercent);
     }
     
     public static List<SubAssessment> getAllSubAssessments() {

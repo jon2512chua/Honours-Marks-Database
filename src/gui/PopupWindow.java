@@ -408,9 +408,9 @@ public class PopupWindow {
 						//Enables controls	
 						for ( Control ctrl : shell.getParent().getChildren() ) ctrl.setEnabled(true);
 						shell.close();
-					} else popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
+					} else popupMessage(shell, "Invalid username."+"\n\r"+"Please try again.", "Invalid Account");
 				} catch (java.lang.StringIndexOutOfBoundsException e) {
-					popupMessage(shell, "Invalid username or password."+"\n\r"+"Please try again.", "Invalid Account");
+					popupMessage(shell, "Invalid username."+"\n\r"+"Please try again.", "Invalid Account");
 				}
 			}
 		};

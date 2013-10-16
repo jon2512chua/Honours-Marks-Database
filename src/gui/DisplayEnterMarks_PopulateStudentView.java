@@ -25,6 +25,7 @@ import orm.Mark;
 import orm.Student;
 import orm.SubAssessment;
 import orm.Unit;
+
 import org.eclipse.swt.layout.RowData;
 
 /**
@@ -34,7 +35,6 @@ import org.eclipse.swt.layout.RowData;
 public class DisplayEnterMarks_PopulateStudentView {
 	private static Map<TreeItem, StringBuffer[]> TreeItemMap = new HashMap<TreeItem, StringBuffer[]>();
 	public static Boolean hardRefreshNeeded = true;
-	public static Boolean populateMarkersNeeded = true;
 
 	/**
 	 * Populates the entering marks - student orientation Tab
@@ -69,14 +69,16 @@ public class DisplayEnterMarks_PopulateStudentView {
 		final Combo unitCombo = new Combo(studentUnitSelectionComposite, SWT.READ_ONLY);
 		unitCombo.setLayoutData(new RowData(200, SWT.DEFAULT));
 
+		final Combo assessmentCombo = new Combo(studentUnitSelectionComposite, SWT.READ_ONLY);
+		assessmentCombo.setLayoutData(new RowData(200, SWT.DEFAULT));
+
 		final Tree marksTree = new Tree(mainComposite, SWT.BORDER);
 		marksTree.setLinesVisible(true);
 		marksTree.setHeaderVisible(true);
 		marksTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tbtmReport.setControl(mainComposite);
 
-		TreeColumn trclmnAssess = new TreeColumn(marksTree, SWT.NONE);
-		trclmnAssess.setText("");	//TODO: may be unneeded
+		new TreeColumn(marksTree, SWT.NONE);
 		TreeColumn trclmnMean = new TreeColumn(marksTree, SWT.NONE);
 		trclmnMean.setText("Mean");
 		TreeColumn trclmnRange = new TreeColumn(marksTree, SWT.NONE);
@@ -85,11 +87,13 @@ public class DisplayEnterMarks_PopulateStudentView {
 		trclmnSD.setText("Standard Deviation");
 		TreeColumn trclmnMaxMark = new TreeColumn(marksTree, SWT.NONE);
 		trclmnMaxMark.setText("Max Mark");
+		DisplayReport.autoResizeColumn(marksTree);
 
 		//Student Combo Selection Listener
 		studentCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				unitCombo.removeAll();
+				assessmentCombo.removeAll();
 				String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 9);
 				try {
 					for (Unit u : Student.getStudentByID(studentNumber).discipline)
@@ -101,7 +105,20 @@ public class DisplayEnterMarks_PopulateStudentView {
 		//Unit Combo Selection Listener
 		unitCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				refreshTree(marksTree, studentCombo);
+				assessmentCombo.removeAll();
+				String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 9);
+				try {
+					for (Assessment a : Student.getStudentByID(studentNumber).discipline.toArray(new Unit[0])[unitCombo.getSelectionIndex()].getAssessments())
+						assessmentCombo.add(a.name+"");
+				} catch (java.lang.NullPointerException NPE) {}
+			}
+		});
+
+		//Assessment Combo Selection Listener
+		assessmentCombo.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				hardRefreshNeeded = true;
+				refreshTree(marksTree, studentCombo, unitCombo, assessmentCombo);
 				for ( TreeColumn tc : marksTree.getColumns() ) tc.pack();
 			}
 		});
@@ -124,11 +141,12 @@ public class DisplayEnterMarks_PopulateStudentView {
 	 * Refreshes all data displayed in the tree
 	 * @param tree the tree which is to be refreshed
 	 * @param studentCombo
+	 * @param assessmentCombo 
 	 */
-	public static void refreshTree(Tree tree, Combo studentCombo) {
+	public static void refreshTree(Tree tree, Combo studentCombo, Combo unitCombo, Combo assessmentCombo) {
 		if (hardRefreshNeeded) {
 			for (TreeItem ti : tree.getItems()) ti.dispose();
-			hardRefresh(tree, studentCombo);
+			hardRefresh(tree, studentCombo, unitCombo, assessmentCombo);
 			hardRefreshNeeded = false;
 		}
 		for ( TreeItem ti : tree.getItems() ) {
@@ -162,34 +180,52 @@ public class DisplayEnterMarks_PopulateStudentView {
 	/**
 	 * @param marksTree
 	 * @param studentCombo
+	 * @param assessmentCombo 
 	 */
-	private static void hardRefresh(Tree marksTree, Combo studentCombo) {
+	private static void hardRefresh(Tree marksTree, Combo studentCombo, Combo unitCombo, Combo assessmentCombo) {
+		Boolean populateMarkersNeeded = true;
+		//remove old marker columns.
+		int nStaticColumns = 5;
+		for ( TreeColumn tc : marksTree.getColumns() ) {
+			if (nStaticColumns-- <= 0)	//TODO: double check this is correct
+				tc.dispose();
+		}
 
 		String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 9);
 		for (Unit u : Student.getStudentByID(studentNumber).discipline) {
-			TreeItem unit = new TreeItem(marksTree, SWT.NONE);
-			TreeItemMap.put(unit, new StringBuffer[]{u.name, u.mark});
+			if (u.unitCode.toString().equals( unitCombo.getItem(unitCombo.getSelectionIndex()).substring(1, 9) )) {
 
-			for (Assessment a : u.getAssessments()) {
-				TreeItem assessment = new TreeItem(unit, SWT.NONE);
-				TreeItemMap.put(assessment, new StringBuffer[]{a.name, a.mark});
+				TreeItem unit = new TreeItem(marksTree, SWT.NONE);
+				TreeItemMap.put(unit, new StringBuffer[]{u.name, u.mark});
 
-				for (SubAssessment sa : a.getSubAssessments()) {
-					TreeItem subAssessment = new TreeItem(assessment, SWT.NONE);					
-					StringBuffer[] strBuf = new StringBuffer[]{sa.name, sa.aveMark, new StringBuffer("TODO"), new StringBuffer("TODO"), sa.maxMark};
-					for (Mark m : sa.getMarks()) {
-						strBuf = concatenateStringBufferArray(strBuf, new StringBuffer[]{m.value});
+				for (Assessment a : u.getAssessments()) {
+					if (a.name.toString().equals( assessmentCombo.getItem(assessmentCombo.getSelectionIndex()) )) {
+						TreeItem assessment = new TreeItem(unit, SWT.NONE);
+						TreeItemMap.put(assessment, new StringBuffer[]{a.name, a.mark});
 
-						if (populateMarkersNeeded) {
-							TreeColumn trclmnMarker = new TreeColumn(marksTree, SWT.NONE);
-							trclmnMarker.setText(m.markerID.toString());
+						for (SubAssessment sa : a.getSubAssessments()) {
+							System.out.println("tst");
+							TreeItem subAssessment = new TreeItem(assessment, SWT.NONE);					
+							StringBuffer[] strBuf = new StringBuffer[]{sa.name, sa.aveMark, new StringBuffer("TODO"), new StringBuffer("TODO"), sa.maxMark};
+							for (Mark m : sa.getMarks()) {
+								strBuf = concatenateStringBufferArray(strBuf, new StringBuffer[]{m.value});
+
+								if (populateMarkersNeeded) {
+									TreeColumn trclmnMarker = new TreeColumn(marksTree, SWT.NONE);
+									trclmnMarker.setText(m.markerID.toString());
+									trclmnMarker.setWidth(100);
+								}
+							}
+							TreeItemMap.put(subAssessment, strBuf);
+							populateMarkersNeeded = false;
 						}
+						assessment.setExpanded(true);
 					}
-					TreeItemMap.put(subAssessment, strBuf);
+					
 				}
-				populateMarkersNeeded = false;
-			}
+				unit.setExpanded(true);
 
+			}
 		}
 	}
 }

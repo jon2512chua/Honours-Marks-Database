@@ -146,6 +146,7 @@ public class DisplayEnterMarks_PopulateMarkerView {
 
 								row.setText(column, text.getText());
 
+								//TODO: fix for markers
 								//save the students marks
 								String studentNumber = markerCombo.getItem(markerCombo.getSelectionIndex()).substring(1, 9);
 								try {

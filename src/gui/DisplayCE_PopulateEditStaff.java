@@ -99,11 +99,10 @@ public class DisplayCE_PopulateEditStaff {
 		staffNumber.setTextLimit(8);
 		Validation.validateInt(staffNumber);
 
-		//Label lblTitle = new Label(rComposite, SWT.NONE);
-		new Label(rComposite, SWT.NONE);
-		
+		//Commented out checkbox
+		/*new Label(rComposite, SWT.NONE);
 		Button isUWAStaff = new Button(rComposite, SWT.CHECK);
-		isUWAStaff.setText("UWA Staff?");
+		isUWAStaff.setText("UWA Staff?");*/
 		
 
 		/*//Staff do not have a title

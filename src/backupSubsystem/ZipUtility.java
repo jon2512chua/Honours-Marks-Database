@@ -74,7 +74,7 @@ public class ZipUtility {
 	 * @param file
 	 * @param zipFileName
 	 */
-	@SuppressWarnings("unused")		//TODO: remove later
+	@SuppressWarnings("unused")
 	private static void zipSingleFile(File file, String zipFileName) {
 		try {
 			//create ZipOutputStream to write to the zip file

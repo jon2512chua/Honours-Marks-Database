@@ -25,11 +25,11 @@ import orm.Unit;
  * This is a class for exporting particular statistics from the database into excel format.
  * @author Nicholas Abbey
  * @version 16/10/13
- *
  */
 public class ToExcel {
 	
 	//TODO set some cell styles for export http://poi.apache.org/spreadsheet/quick-guide.html
+	//TODO add std devs, etc
 	
 	/**
 	 * Write a summary of the students' final grades and key information to .xls
@@ -119,7 +119,7 @@ public class ToExcel {
 	}
 
 	/**
-	 * Write a summary of the students' final grades and key information to .xls
+	 * Write a summary of units to .xls
 	 * 		NOTE: don't try to use a .xlsx filename
 	 * @param filepath to export to
 	 */
@@ -154,33 +154,37 @@ public class ToExcel {
 			    row.createCell(3+colOffset);
 			    if(colOffset == 0) row = s.createRow(2);
 			    int rowNum = 3;
-			    List<Assessment> as = u.getAssessments(); //TODO check null case...
-			    for (Assessment a : as) {
-			    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
-			    	else row = s.getRow(rowNum++);
-			    	row.createCell(0+colOffset).setCellValue("Assessment");
-			    	row.createCell(1+colOffset).setCellValue("Average Mark");
-			    	row.createCell(2+colOffset).setCellValue("Unit Proportion");
-			    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
-			    	else row = s.getRow(rowNum++);
-			    	row.createCell(0+colOffset).setCellValue(a.name.toString());
-			    	row.createCell(1+colOffset).setCellValue(a.mark.toString() + "%");
-			    	row.createCell(2+colOffset).setCellValue(a.unitPercent + "%");
-			    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
-			    	else row = s.getRow(rowNum++);
-			    	row.createCell(0+colOffset).setCellValue("SubAssessment");
-			    	row.createCell(1+colOffset).setCellValue("Average Mark");
-			    	row.createCell(2+colOffset).setCellValue("Assessment Proportion");
-			    	List<SubAssessment> ss = a.getSubAssessments();
-			    	for (SubAssessment sub : ss) {
-			    		if (rowNum > maxDepth) row = s.createRow(rowNum++);
+			    List<Assessment> as = u.getAssessments(); 
+			    if(as != null) {
+				    for (Assessment a : as) {
+				    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
 				    	else row = s.getRow(rowNum++);
-				    	row.createCell(0+colOffset).setCellValue(sub.name.toString());
-				    	row.createCell(1+colOffset).setCellValue(sub.getAveMark() + " (/" + sub.maxMark + ")");
-				    	row.createCell(2+colOffset).setCellValue(sub.getAssessmentPercent() + "%");
-			    	}
-			    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
-			    	else row = s.getRow(rowNum++);
+				    	row.createCell(0+colOffset).setCellValue("Assessment");
+				    	row.createCell(1+colOffset).setCellValue("Average Mark");
+				    	row.createCell(2+colOffset).setCellValue("Unit Proportion");
+				    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
+				    	else row = s.getRow(rowNum++);
+				    	row.createCell(0+colOffset).setCellValue(a.name.toString());
+				    	row.createCell(1+colOffset).setCellValue(a.mark.toString() + "%");
+				    	row.createCell(2+colOffset).setCellValue(a.unitPercent + "%");
+				    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
+				    	else row = s.getRow(rowNum++);
+				    	row.createCell(0+colOffset).setCellValue("SubAssessment");
+				    	row.createCell(1+colOffset).setCellValue("Average Mark");
+				    	row.createCell(2+colOffset).setCellValue("Assessment Proportion");
+				    	List<SubAssessment> ss = a.getSubAssessments();
+				    	if(ss != null) {
+					    	for (SubAssessment sub : ss) {
+					    		if (rowNum > maxDepth) row = s.createRow(rowNum++);
+						    	else row = s.getRow(rowNum++);
+						    	row.createCell(0+colOffset).setCellValue(sub.name.toString());
+						    	row.createCell(1+colOffset).setCellValue(sub.getAveMark() + " (/" + sub.maxMark + ")");
+						    	row.createCell(2+colOffset).setCellValue(sub.getAssessmentPercent() + "%");
+					    	}
+				    	}
+				    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
+				    	else row = s.getRow(rowNum++);
+				    }
 			    }
 			    maxDepth = rowNum;
 			    colOffset += 4;

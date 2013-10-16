@@ -31,26 +31,35 @@ public class BackupOperations {
 	 * @param restore
 	 *            true only if called from a restore call
 	 * @return true if operation successful
-	 * @todo check folder exists when backing up
-	 * @todo Heaps of error checking, DISCONNECT FROM DATABASE BEFORE THIS!
 	 */
 	public static boolean backup(String sourceName, boolean restore) {
-		String sourcePath = Directories.dbDir + sourceName;
+		File directory = new File(Directories.dbDir);
+		if (directory.exists()) {	// Check db dir actually exists, just in case...
+			Session.dbConn.closeConnection();	
+			
+			String sourcePath = Directories.dbDir + sourceName;
 
-		DateFormat df = new SimpleDateFormat("yyyyMMdd HHmmss");
-		Date date = new java.util.Date();
-		String reportDate = df.format(date);
+			DateFormat df = new SimpleDateFormat("yyyyMMdd HHmmss");
+			Date date = new java.util.Date();
+			String reportDate = df.format(date);
 
-		String destZip = Directories.backupDir + sourceName + " " + reportDate;
-		if (restore) {
-			destZip += " (depr)";
+			String destZip = Directories.backupDir + sourceName + " " + reportDate;
+			if (restore) {
+				destZip += " (depr)";
+			}
+			destZip += ".zip";
+
+			File sourceDir = new File(sourcePath);
+			ZipUtility.zipDirectory(sourceDir, destZip);
+			
+			DerbyUtils.dbConnect(sourceName);
+			
+			return true; 
 		}
-		destZip += ".zip";
-
-		File sourceDir = new File(sourcePath);
-		ZipUtility.zipDirectory(sourceDir, destZip);
-
-		return true;
+		else {
+			System.err.println("ERROR 21: Could not find database folder " + directory.getPath()); 
+			return false;	
+		}
 	}
 
 	/**
@@ -65,8 +74,7 @@ public class BackupOperations {
 				.equals(""))) {
 			System.err.println("WARNING: Cannot overwrite a data");
 			return false;
-		} // TODO get rid of this, instead, only display on the list of backups
-			// the ones applicable to the situation
+		} 
 
 		String cohort = Session.currentFocus;
 		// Step 1: backup current state (if one is loaded)

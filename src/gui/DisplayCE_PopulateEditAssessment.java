@@ -1,5 +1,10 @@
 package gui;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import logic.CohortData;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -7,14 +12,24 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.layout.GridLayout;
 
+import orm.Assessment;
+import orm.Unit;
+
 
 /**
  * Edit Assessment Section
  * @author Johnathan Lim
  */
 public class DisplayCE_PopulateEditAssessment {
+	
+	private static Map<TreeItem, StringBuffer[]> TreeItemMap = new HashMap<TreeItem, StringBuffer[]>();
+	public static Boolean hardRefreshNeeded = true;
+	
 	private static Text assessmentName;
 	private static Text percentageUnit;
+	
+	private static Tree assessmentTree;
+	private static Tree subAssessmentTree;
 
 	/**
 	 * helper class to disable and grayed out anything in the composite
@@ -62,9 +77,9 @@ public class DisplayCE_PopulateEditAssessment {
 		gl_editAssessmentComposite.marginHeight = 0;
 		editAssessmentComposite.setLayout(gl_editAssessmentComposite);
 		
-		final Tree unitTree = new Tree(editAssessmentComposite, SWT.BORDER | SWT.FULL_SELECTION);
-		unitTree.setHeaderVisible(true);
-		unitTree.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
+		assessmentTree = new Tree(editAssessmentComposite, SWT.BORDER | SWT.FULL_SELECTION);
+		assessmentTree.setHeaderVisible(true);
+		assessmentTree.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
 		
 		final Composite rComposite = new Composite(editAssessmentComposite, SWT.NONE);
 		rComposite.setLayout(new GridLayout(2, false));
@@ -90,26 +105,26 @@ public class DisplayCE_PopulateEditAssessment {
 		percentageUnit.setTextLimit(4);
 		Validation.validateDouble(percentageUnit);
 		
-		TreeColumn trclmnUnits = new TreeColumn(unitTree, SWT.NONE);
-		trclmnUnits.setText("Units");
+		TreeColumn trclmnUnits = new TreeColumn(assessmentTree, SWT.NONE);
+		trclmnUnits.setText("Units/Assessments");
 		
-		TreeItem newUnit = new TreeItem(unitTree, SWT.NONE | SWT.NO_FOCUS);
+		TreeItem newUnit = new TreeItem(assessmentTree, SWT.NONE | SWT.NO_FOCUS);
 		newUnit.setText("+  Add New Assessment");
-		for (int i = 0; i < Data.Unit.length; i++) {
-			TreeItem unit = new TreeItem(unitTree, SWT.NONE | SWT.NO_FOCUS);
-			unit.setText(new String[] {Data.Unit[i]});
-			for (int j = 0; j < 3; j++) {
+		for (Unit u : CohortData.units) {
+			TreeItem unit = new TreeItem(assessmentTree, SWT.NONE | SWT.NO_FOCUS);
+			unit.setText(u.getUnitCode().toString());
+			for (Assessment a : u.getAssessments()) {
 				TreeItem assessment = new TreeItem(unit, SWT.NONE);
-				assessment.setText(new String[] {Data.Assessment[j]});
+				assessment.setText(a.getName().toString());
 			}
 		}
 		
-		for (TreeItem ti : unitTree.getItems()) ti.setExpanded(true);
-		for (TreeColumn tc : unitTree.getColumns()) tc.pack();
-		unitTree.pack();
-		//for (TreeItem ti : unitTree.getItems()) ti.setExpanded(false);
+		for (TreeItem ti : assessmentTree.getItems()) ti.setExpanded(true);
+		for (TreeColumn tc : assessmentTree.getColumns()) tc.pack();
+		assessmentTree.pack();
+		//for (TreeItem ti : assessmentTree.getItems()) ti.setExpanded(false);
 		
-		DisplayReport.autoResizeColumn(unitTree);
+		DisplayReport.autoResizeColumn(assessmentTree);
 		
 		Label label = new Label(rComposite, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
@@ -129,7 +144,7 @@ public class DisplayCE_PopulateEditAssessment {
 		btnRemoveSubAssessment.setText("Remove Sub Assessment");
 		
 		
-		final Tree subAssessmentTree = new Tree(rComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		subAssessmentTree = new Tree(rComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		subAssessmentTree.setHeaderVisible(true);
 		subAssessmentTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		
@@ -151,14 +166,14 @@ public class DisplayCE_PopulateEditAssessment {
 		}
 		
 		for (TreeColumn tc : subAssessmentTree.getColumns()) tc.pack();
-		unitTree.pack();
+		assessmentTree.pack();
 
 		
-		unitTree.addListener(SWT.Selection,new Listener() {
+		assessmentTree.addListener(SWT.Selection,new Listener() {
 			public void handleEvent(Event event) {
-				TreeItem[] selected = unitTree.getSelection();
+				TreeItem[] selected = assessmentTree.getSelection();
 				if (selected.length != 0) {
-					if (unitTree.indexOf(unitTree.getSelection()[0]) == 0) {
+					if (assessmentTree.indexOf(assessmentTree.getSelection()[0]) == 0) {
 						recursiveSetEnabled(rComposite, true);
 						assessmentName.setText("");
 						percentageUnit.setText("");
@@ -179,11 +194,11 @@ public class DisplayCE_PopulateEditAssessment {
 		
 		Listener LisAddAssessment = new Listener() {
 			public void handleEvent(Event event) {
-				if (unitTree.indexOf(unitTree.getSelection()[0]) == 0) {
+				if (assessmentTree.indexOf(assessmentTree.getSelection()[0]) == 0) {
 					if (!assessmentName.getText().isEmpty() && !percentageUnit.getText().isEmpty()) {
 						PopupWindow.popupAddAssessment(editAssessmentComposite.getShell(), 
 								"Please choose the unit that the Assessment will be added to", 
-								"Adding Assessment", unitTree, assessmentName, percentageUnit);
+								"Adding Assessment", assessmentTree, assessmentName, percentageUnit);
 					} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Null Value is not allowed.", "ERROR!");
 				} else {
 					//TODO Save
@@ -193,12 +208,18 @@ public class DisplayCE_PopulateEditAssessment {
 		
 		Listener LisRemoveAssessment = new Listener() {
 			public void handleEvent(Event event) {
-				if (unitTree.getSelection().length != 0) {
-					if (unitTree.getSelection()[0] != null)
+				if (assessmentTree.getSelection().length != 0) {
+					if (assessmentTree.getSelection()[0] != null)
 						if (PopupWindow.popupYessNo(editAssessmentComposite.getShell(),
-							"Are you sure you want to REMOVE \"" + unitTree.getSelection()[0].getText()
+							"Are you sure you want to REMOVE \"" + assessmentTree.getSelection()[0].getText()
 							+ "\" from the database", "WARNING!"))
-						unitTree.getSelection()[0].dispose(); //TODO proper delete from database
+						assessmentTree.getSelection()[0].dispose(); 
+//						try {
+//							Unit.getUnitByCode(assessmentTree.getSelection()[0].getText()).deleteRow();
+//							PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Assessment removed.", "SUCCESS!");
+//						} catch (SQLException e) {
+//							PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Assessment not removed.", "ERROR!");
+//						}/ TODO delete assessment
 				} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select an Assessment to be Removed.", "ERROR!");
 			}
 		};
@@ -232,4 +253,47 @@ public class DisplayCE_PopulateEditAssessment {
 		tbtmEditAssessment.setControl(editAssessmentComposite);
 		
 	}
+	
+//	/**
+//	 * Refreshes all data displayed in the tree
+//	 * @param tree the tree which is to be refreshed
+//	 */
+//	public static void refreshTree() {
+//		if (hardRefreshNeeded) {
+//			hardRefresh();
+//			hardRefreshNeeded = false;
+//		}
+//		for ( TreeItem ti : studentTree.getItems() ) {
+//			try {
+//				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
+//			} catch (java.lang.NullPointerException e) {
+//				//System.out.println("somthing went wrong... " + e); //TODO remove
+//			}
+//		}
+//		for ( TreeItem ti : supervisorTree.getItems() ) {
+//			try {
+//				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
+//			} catch (java.lang.NullPointerException e) {}
+//		}
+//	}
+//
+//	private static void hardRefresh() {
+//		for (TreeItem ti : studentTree.getItems()) ti.dispose();
+//		for (TreeItem ti : supervisorTree.getItems()) ti.dispose();
+//		
+//		TreeItem newStudent = new TreeItem(studentTree, SWT.NONE);
+//		newStudent.setText(new String[] {"+", "Add New Student"});
+//		
+//		for (Student s : CohortData.students) {
+//			TreeItem student = new TreeItem(studentTree, SWT.NONE);
+//			TreeItemMap.put(student, new StringBuffer[]{s.studentID, s.firstName, s.lastName});
+//		}
+//
+//		for (Staff s : CohortData.staff) {
+//			TreeItem supervisor = new TreeItem(supervisorTree, SWT.NONE);
+//			supervisor.setText(new String[] {String.valueOf(s.getStaffID()), String.valueOf(s.getFullName())});
+//			TreeItemMap.put(supervisor, new StringBuffer[]{s.staffID, s.firstName, s.lastName});
+//		}
+//		supervisorTree.pack();
+//	}
 }

@@ -65,7 +65,7 @@ public class Unit extends BaseUnit {
     }
     
     /**
-     * Delete this student //TODO test
+     * Delete this unit
      * @throws SQLException
      */
     public void deleteRow() throws SQLException {

@@ -19,9 +19,8 @@ import gui.MainUI;
  * Main class. Acts as a preloader for MainUI.
  * @author Tim Lander
  */
-@SuppressWarnings("unused")	//TODO: remove
 public class MainLoader {
-	private static final String errorFile = "LogFile.log";
+	// TODO what is this for? private static final String errorFile = "LogFile.log"; 
 
 	public static void main(String[] args) {
 		// TODO: undisable
@@ -55,9 +54,9 @@ public class MainLoader {
 	}
 	
 	/**
-	 * Method to display a popup if something goes wrong while starting up the system
+	 * Method to display a pop-up message if something goes wrong while starting up the system
 	 * TODO needs fixing
-	 * @param s
+	 * @param s the error message to display
 	 */
 	public static void failedLoad(String s) {
 		Display display = new Display();

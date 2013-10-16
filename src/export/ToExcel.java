@@ -8,6 +8,10 @@ import java.util.*;
 import logic.CohortData;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -40,13 +44,38 @@ public class ToExcel {
 			Sheet s = wb.createSheet("Student Summaries");
 		
 			Row row = s.createRow(0);
-			row.createCell(0).setCellValue("Student ID");
-		    row.createCell(1).setCellValue("Last Name");
-		    row.createCell(2).setCellValue("First Name");
-		    row.createCell(3).setCellValue("Discipline");
-		    row.createCell(4).setCellValue("Mark");
-		    row.createCell(5).setCellValue("Grade");
-		    row.createCell(6).setCellValue("Supervisors:");
+			
+			//Heading formating
+			CellStyle heading = wb.createCellStyle();
+			heading.setBorderBottom(CellStyle.BORDER_THIN);
+			heading.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+			Font font = wb.createFont();
+		    font.setFontHeightInPoints((short)10);
+		    font.setFontName("Arial");
+		    font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		    heading.setFont(font);
+			
+			Cell cell = row.createCell(0);
+			cell.setCellValue("Student ID");
+			cell.setCellStyle(heading);
+		    cell = row.createCell(1);
+		    cell.setCellValue("Last Name");
+		    cell.setCellStyle(heading);
+		    cell = row.createCell(2);
+		    cell.setCellValue("First Name");
+		    cell.setCellStyle(heading);
+		    cell = row.createCell(3);
+		    cell.setCellValue("Discipline");
+		    cell.setCellStyle(heading);
+		    cell = row.createCell(4);
+		    cell.setCellValue("Mark");
+		    cell.setCellStyle(heading);
+		    cell = row.createCell(5);
+		    cell.setCellValue("Grade");
+		    cell.setCellStyle(heading);
+		    cell = row.createCell(6);
+		    cell.setCellValue("Supervisors:");
+		    cell.setCellStyle(heading);
 		    
 		    int rowIndex = 1;
 		    
@@ -54,25 +83,29 @@ public class ToExcel {
 		    	fileOut.close();
 		    	throw new Exception("No students found in CohortData");
 		    }
-		    
+		    int maxCol = 0;
 		    for(Student student : CohortData.students) {
 		    	row = s.createRow(rowIndex);
 		    	row.createCell(0).setCellValue(student.getStudentID());
 			    row.createCell(1).setCellValue(student.getLastName().toString());
 			    row.createCell(2).setCellValue(student.getFirstName().toString());
-			    row.createCell(3).setCellValue(student.getCourseMark());
-			    row.createCell(4).setCellValue(student.getGrade().toString());
-			    row.createCell(5).setCellValue(student.getDisciplineName().toString());
+			    row.createCell(3).setCellValue(student.getDisciplineName().toString());
+			    row.createCell(4).setCellValue(student.getCourseMark());
+			    row.createCell(5).setCellValue(student.getGrade().toString());
 			    int colIndex = 6;
 			    if(student.getSupervisors() != null) {
 				    for(Staff sup : student.getSupervisors()){
 				    	row.createCell(colIndex).setCellValue(sup.getFullName());
 				    	colIndex++;
+				    	if (colIndex > maxCol) maxCol = colIndex;
 				    }
 			    }
 			    rowIndex++;
 		    }
-			wb.write(fileOut);
+		    
+		    for(int i = 0; i < maxCol; i++) {s.autoSizeColumn(i);}
+			
+		    wb.write(fileOut);
 			fileOut.close();
 		} catch (FileNotFoundException e) {
 			System.err.println("ERROR: couldn't create export file.\nPROGRAM REPORT: " + e);
@@ -97,7 +130,7 @@ public class ToExcel {
 			Workbook wb = new HSSFWorkbook();
 			Sheet s = wb.createSheet("Unit Summaries");
 			
-			int colOffset = 0; //TODO add 4 (horizontal offset)
+			int colOffset = 0; 
 			int maxDepth = 0;
 			Iterator<Unit> us = CohortData.units.iterator();
 			
@@ -143,7 +176,7 @@ public class ToExcel {
 			    		if (rowNum > maxDepth) row = s.createRow(rowNum++);
 				    	else row = s.getRow(rowNum++);
 				    	row.createCell(0+colOffset).setCellValue(sub.name.toString());
-				    	row.createCell(1+colOffset).setCellValue(sub.getAveMark() + "/" + sub.maxMark);
+				    	row.createCell(1+colOffset).setCellValue(sub.getAveMark() + " (/" + sub.maxMark + ")");
 				    	row.createCell(2+colOffset).setCellValue(sub.getAssessmentPercent() + "%");
 			    	}
 			    	if (rowNum > maxDepth) row = s.createRow(rowNum++);

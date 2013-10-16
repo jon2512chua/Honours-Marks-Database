@@ -260,5 +260,13 @@ public class MainUI {
 		//tree.getItems()	//list of all children
 		//TreeItemsetSelection() //might work
 	}*/
-
+	
+	/**
+	 * Return the filename of the program's icon 
+	 * Only called by MainLoader if something goes wrong during setup
+	 * @return
+	 */
+	public static String getIconPath () {
+		return iconFileName;
+	}
 }

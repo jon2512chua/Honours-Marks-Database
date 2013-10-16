@@ -78,7 +78,7 @@ public class DisplayCE_PopulateEditStudent {
 				FileDialog fd = new FileDialog(btnImportStudents.getShell(), SWT.OPEN);
 				fd.setText("Import From Excel");
 				fd.setFilterPath(System.getProperty("user.home"));
-				fd.setFilterExtensions(new String[]{ "*.xlsx", "*.xls", "*.*" });
+				fd.setFilterExtensions(new String[]{ "*.xls", "*.*" }); //TODO removed .xlsx, better to use xls
 				String selected = fd.open();
 
 				if(selected != null) { 

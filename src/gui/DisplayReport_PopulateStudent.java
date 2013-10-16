@@ -4,6 +4,8 @@ import java.util.*;
 
 import logic.CohortData;
 
+import newCohort.CohortImporter;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
@@ -15,6 +17,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -78,11 +81,18 @@ public class DisplayReport_PopulateStudent {
 		//Listener for Export button
 		treeTop[2].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				try {
-					export.ToExcel.studentSummaries("test.xls"); //TODO Need to make a file picker
-					PopupWindow.popupMessage(studentTree.getShell(), "Export Successful!", "Success!");
-				} catch (Exception e) {
-					PopupWindow.popupMessage(studentTree.getShell(), e.toString(), "ERROR");
+				FileDialog fd = new FileDialog(studentTree.getShell(), SWT.SAVE);
+				fd.setText("Save Student Summary...");
+				fd.setFilterPath("exports/");
+				fd.setFilterExtensions(new String[]{ "*.xls", "*.*" }); 
+				String selected = fd.open();
+				if(selected != null) { 							
+					try {
+						export.ToExcel.studentSummaries(selected);
+						PopupWindow.popupMessage(studentTree.getShell(), "Export Successful!", "SUCCESS!");
+					} catch (Exception e) {
+						PopupWindow.popupMessage(studentTree.getShell(), e.toString(), "ERROR");
+					}
 				}
 			}
 		});

@@ -94,6 +94,55 @@ public class PopupWindow {
 	}
 	
 	/**
+	 * RETURNS a shell object for displaying error messages before MainUI is displayed
+	 * Popups a message. (duplicate implementation to above) 
+	 * @param parentShell the display currently in use
+	 * @param text the text the popup displays 
+	 * @param title the title to display
+	 */
+	public static Shell popupMsg(final Shell parentShell, String text, String title) {
+		// Disable the previous window
+		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
+		
+		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
+		shell.setImage(parentShell.getImage());
+
+		// Set the Window Title
+		shell.setText(title);
+		RowLayout rl_shell = new RowLayout(SWT.VERTICAL);
+		rl_shell.marginTop = 8;
+		rl_shell.marginRight = 10;
+		rl_shell.marginLeft = 10;
+		rl_shell.marginBottom = 10;
+		rl_shell.spacing = 25;
+		rl_shell.center = true;
+		shell.setLayout(rl_shell);
+
+		// Create a Label in the Shell
+		Label label = new Label(shell, SWT.WRAP);
+		label.setText(text);
+
+		Button btnOk = new Button(shell, SWT.CENTER);
+		btnOk.setLayoutData(new RowData(75, SWT.DEFAULT));
+		btnOk.setText("OK");
+
+		shell.pack();
+		shell.setLocation((shell.getDisplay().getPrimaryMonitor().getBounds().width-(shell.getSize().x))/2, 200);	//Centres popup
+		shell.open();
+
+		//Button listener to deal with the button being pressed
+		Listener btnQuitListener = new Listener() {
+			public void handleEvent(Event event) {
+				shell.getShell().dispose();
+				System.exit(0);	//Gracefully exit system.
+			}
+		};
+		btnOk.addListener(SWT.Close, btnQuitListener);
+		
+		return shell;
+	}
+	
+	/**
 	 * Popups a message, with yes/no buttons. No line wrapping currently implemented.
 	 * @param parentShell the display currently in use
 	 * @param text the text the popup displays 

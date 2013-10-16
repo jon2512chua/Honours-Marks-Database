@@ -17,6 +17,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -80,12 +81,19 @@ public class DisplayReport_PopulateUnit {
 		//Listener for Export button
 		treeTop[2].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				try {
-					export.ToExcel.unitSummaries("testunit.xls");
-					PopupWindow.popupMessage(markerTree.getShell(), "Export Successful!", "Success!");
-				} catch (Exception e) {
-					PopupWindow.popupMessage(markerTree.getShell(), e.toString(), "ERROR");
-				} 
+				FileDialog fd = new FileDialog(markerTree.getShell(), SWT.SAVE);
+				fd.setText("Save Unit Summary...");
+				fd.setFilterPath("exports/");
+				fd.setFilterExtensions(new String[]{ "*.xls", "*.*" }); 
+				String selected = fd.open();
+				if(selected != null) { 							
+					try {
+						export.ToExcel.unitSummaries(selected);
+						PopupWindow.popupMessage(markerTree.getShell(), "Export Successful!", "SUCCESS!");
+					} catch (Exception e) {
+						PopupWindow.popupMessage(markerTree.getShell(), e.toString(), "ERROR");
+					}
+				}
 			}
 		});
 

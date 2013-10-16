@@ -19,6 +19,10 @@ public class Assessment extends BaseAssessment {
     	super(assessmentID, studentID,  unit);
     }
     
+    public Assessment(int assessmentID, String name, Unit parentUnit, int unitPercent) throws SQLException {
+        super(assessmentID, name, parentUnit, unitPercent);
+    }
+    
     public static List<Assessment> getAllAssessments() {
         List<Assessment> allAssessments = new ArrayList<>();
         

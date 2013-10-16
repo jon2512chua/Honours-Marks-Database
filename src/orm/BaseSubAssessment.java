@@ -225,6 +225,30 @@ public class BaseSubAssessment {
     }
     
     
+    /**
+     * Returns the string buffer displaying the range of scores over the subassessment
+     * @param min minimum score in range
+     * @param max maximum score in range
+     */
+    public StringBuffer getRange() {
+    	return standDev;
+    }
+    
+    /**
+     * Sets the string buffer displaying the range of scores over the subassessment
+     * @param min minimum score in range
+     * @param max maximum score in range
+     */
+    public void setRange(double min, double max) {
+    	
+    	this.standDev.replace(0, this.standDev.capacity(),  Double.toString(min));
+    	this.standDev.setLength(5);
+    	this.standDev.append(" - ");
+    	this.standDev.append(max);
+    	this.standDev.setLength(13);
+    }
+    
+    
     public double getAssessmentPercent() {
     	return Integer.parseInt(assessmentPercent+"");
     }

@@ -31,7 +31,7 @@ public class MarkCalculator
     }
     
     /**
-     * Method to find the standard deviation of a subassessment's marks.
+     * Method to find the standard deviation of a subassessment's marks. Also saves the range of scores for the subassessment.
      * 
      * @curSubAssess is the subassessment for which the standard deviation is being found
      * @return the subassessment's standard deviation
@@ -39,17 +39,29 @@ public class MarkCalculator
     public static double standardDeviationCalc(SubAssessment curSubAssess) {
         int size = curSubAssess.getMarks().size();
         
+        double min = curSubAssess.getMarks().get(0).getValue();
+        double max = min;
+        
         double subAssessAve = subAssessAverage(curSubAssess);
         
         double standDev = 0;
         for (int i = 0; i < size; i++){
             
-            double diff = (curSubAssess.getMarks().get(i).getValue() - subAssessAve);
+        	double curValue = curSubAssess.getMarks().get(i).getValue();
+            double diff = (curValue - subAssessAve);
             standDev += (diff*diff);
+            
+            if (min > curValue){
+            	min = curValue;
+            }
+            if (max < curValue){
+            	max = curValue;
+            }
         }
         standDev = standDev / size;
         standDev = Math.sqrt(standDev);
         curSubAssess.setStandDev(standDev);
+        curSubAssess.setRange(min, max);
         
         return standDev;
     }  

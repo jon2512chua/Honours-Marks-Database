@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,6 +78,38 @@ public class Staff extends BaseStaff {
     	Statement stmt = Session.dbConn.getConnection().createStatement();
     	stmt.execute(sql);
     	stmt.close();
+    }
+    
+    /**
+     * Returns a list of the assessments a marker has marked
+     * @return the list, or null if none
+     */
+    public List<Assessment> getAssessmentsMarked(){
+    	List<Assessment> marked = new LinkedList<Assessment>();
+    	if (marks != null) {
+    		for (Mark m : marks) {
+    			Assessment a = m.getParentSubAssessment().getParentAssessment();
+    			if(!marked.contains(a)) marked.add(a);
+    		}
+    		return marked;
+    	}
+    	else return null;
+    }
+    /**
+     * Returns a list of the units a marker has marked
+     * @return the list, or null if none
+     */
+    public List<Unit> getUnitsMarked() {
+    	List<Assessment> m = getAssessmentsMarked();
+    	List<Unit> marked = new LinkedList<Unit>();
+    	if(m != null) {
+    		for (Assessment a  : m) {
+    			Unit u = a.getParentUnit();
+    			if(!marked.contains(u)) marked.add(u);
+    		}
+    		return marked;
+    	}
+    	else return null;
     }
     
 }

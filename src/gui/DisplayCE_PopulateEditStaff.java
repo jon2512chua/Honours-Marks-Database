@@ -18,7 +18,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
@@ -66,8 +65,27 @@ public class DisplayCE_PopulateEditStaff {
 
 		tbtmEditStaff.setControl(editStaffComposite);
 
-		//Import from Excel Button
-		final Button btnImportStaff = new Button(editStaffComposite, SWT.NONE);
+
+		staffTree = new Tree(editStaffComposite, SWT.BORDER | SWT.FULL_SELECTION);
+		staffTree.setHeaderVisible(true);
+		staffTree.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 2));
+
+		TreeColumn staffTree_staffNumber= new TreeColumn(staffTree, SWT.LEFT);
+		staffTree_staffNumber.setText("Staff Number");
+		TreeColumn staffTree_staffName = new TreeColumn(staffTree, SWT.LEFT);
+		staffTree_staffName.setText("Staff Name");
+		staffTree.pack();
+
+		staffTree.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (staffTree.getSelectionCount() == 1)  {
+					TreeItem item = staffTree.getSelection()[0];
+					Staff s = Staff.getStaffByID(item.getText());
+					populateSelectedData(s);
+				}
+			}
+		});
+		/*final Button btnImportStaff = new Button(editStaffComposite, SWT.NONE);
 		btnImportStaff.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		btnImportStaff.setText("Import Staff from Excel");
 		btnImportStaff.addListener(SWT.Selection, new Listener() {
@@ -84,7 +102,7 @@ public class DisplayCE_PopulateEditStaff {
 					//PopupWindow.popupMessage(CETabFolder.getShell(), importReport, "RESULTS");
 				}
 			}
-		});
+		});*/
 
 
 
@@ -100,12 +118,11 @@ public class DisplayCE_PopulateEditStaff {
 		staffNumber.setTextLimit(8);
 		Validation.validateInt(staffNumber);
 
-		//Label lblTitle = new Label(rComposite, SWT.NONE);
-		new Label(rComposite, SWT.NONE);
-		
+		//Commented out checkbox
+		/*new Label(rComposite, SWT.NONE);
 		Button isUWAStaff = new Button(rComposite, SWT.CHECK);
-		isUWAStaff.setText("UWA Staff?");
-		
+		isUWAStaff.setText("UWA Staff?");*/
+
 
 		/*//Staff do not have a title
 		Label lblTitle = new Label(rComposite, SWT.NONE);
@@ -113,9 +130,9 @@ public class DisplayCE_PopulateEditStaff {
 		lblTitle.setText("Title:");
 		title = new Text(rComposite, SWT.BORDER);
 		title.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		*/
-		
-		
+		 */
+
+
 		Label lblLastName = new Label(rComposite, SWT.NONE);
 		lblLastName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblLastName.setText("Last Name:");
@@ -132,16 +149,6 @@ public class DisplayCE_PopulateEditStaff {
 		paddingComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 2, 1));
 
 		Button[] btnSaveDiscard = CommonButtons.addSaveChangesDeleteButton(rComposite, "Staff Member");
-
-
-		staffTree = new Tree(editStaffComposite, SWT.BORDER | SWT.FULL_SELECTION);
-		staffTree.setHeaderVisible(true);
-		staffTree.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true, 1, 1));
-
-		TreeColumn staffTree_staffNumber= new TreeColumn(staffTree, SWT.LEFT);
-		staffTree_staffNumber.setText("Staff Number");
-		TreeColumn staffTree_staffName = new TreeColumn(staffTree, SWT.LEFT);
-		staffTree_staffName.setText("Staff Name");
 
 		refreshTree();
 
@@ -192,18 +199,6 @@ public class DisplayCE_PopulateEditStaff {
 
 		//Auto Fit Columns
 		for (TreeColumn tc : staffTree.getColumns()) tc.pack();
-		staffTree.pack();
-
-		staffTree.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if (staffTree.getSelectionCount() == 1)  {
-					TreeItem item = staffTree.getSelection()[0];
-					selectedStaff = item.getText();
-					Staff s = Staff.getStaffByID(selectedStaff);
-					populateSelectedData(s);
-				}
-			}
-		});
 
 		//Listener to auto-update displayed data (currently untested)
 		CETabFolder.addSelectionListener(new SelectionAdapter() {
@@ -277,9 +272,7 @@ public class DisplayCE_PopulateEditStaff {
 		for ( TreeItem ti : staffTree.getItems() ) {
 			try {
 				ti.setText(new String[] {TreeItemMap.get(ti)[0].toString(), TreeItemMap.get(ti)[1] + " " + TreeItemMap.get(ti)[2]});
-			} catch (java.lang.NullPointerException e) {
-				//System.out.println("somthing went wrong... " + e); //TODO remove
-			}
+			} catch (java.lang.NullPointerException e) {}
 		}
 	}
 

@@ -160,7 +160,7 @@ public class DisplayReport_PopulateMarker {
 			for (Mark m : marks) {
 				TreeItem mark = new TreeItem(marker, SWT.NONE);
 				TreeItemMap.put(mark, m.value);
-				mark.setText(0, "Mark");
+				mark.setText(0, m.studentID.toString());
 			}
 
 

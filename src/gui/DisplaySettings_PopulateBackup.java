@@ -47,15 +47,17 @@ public class DisplaySettings_PopulateBackup {
 		tbtmbackupSchedule.setControl(backupComposite);
 		backupComposite.setLayout(new GridLayout(2, false));
 
+		
 		final Composite radioButtoncomposite = new Composite(backupComposite, SWT.NONE);
 		radioButtoncomposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1));
 		radioButtoncomposite.setLayout(new GridLayout(1, false));
-
+		radioButtoncomposite.setEnabled(false); // this would be deleted if we had auto backup
 		final Button btnBackupNever = new Button(radioButtoncomposite, SWT.RADIO);
 		btnBackupNever.setText("Never");
-
+		
 		final Button btnBackupStartup = new Button(radioButtoncomposite, SWT.RADIO);
 		btnBackupStartup.setText("On Startup");
+		
 
 		final Button btnBackupDaily = new Button(radioButtoncomposite, SWT.RADIO);
 		btnBackupDaily.setText("Daily Startup");
@@ -96,10 +98,14 @@ public class DisplaySettings_PopulateBackup {
 		backupNowComposite.setLayoutData(gd_backupNowComposite);
 
 		final Button btnBackupNow = new Button(backupNowComposite, SWT.NONE);
-		btnBackupNow.setBounds(0, 0, 75, 30);
+		btnBackupNow.setBounds(0, 0, 150, 30);
 		btnBackupNow.setText("Backup Now");
 
 		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(backupComposite);
+		for (Button b : btnSaveDiscard) {
+			b.setEnabled(false);
+			b.setGrayed(true);
+		}
 
 		//Displays previously saved settings
 		try {

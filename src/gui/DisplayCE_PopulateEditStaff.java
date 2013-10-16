@@ -115,7 +115,7 @@ public class DisplayCE_PopulateEditStaff {
 		lblStaffNumber.setText("Staff Number:");
 		staffNumber = new Text(rComposite, SWT.BORDER);
 		staffNumber.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		staffNumber.setTextLimit(8);
+		staffNumber.setTextLimit(9); // Changed - don't have time to fix all the staff stuff
 		Validation.validateInt(staffNumber);
 
 		//Commented out checkbox

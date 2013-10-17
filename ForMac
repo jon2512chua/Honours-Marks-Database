@@ -1,0 +1,5 @@
+#!/bin/sh
+cd "$(dirname "$0")"
+nohup java -jar -XstartOnFirstThread HMD.jar &
+osascript -e 'tell application "Terminal" to quit' &
+exit

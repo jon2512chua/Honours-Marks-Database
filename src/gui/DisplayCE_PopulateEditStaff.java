@@ -78,11 +78,22 @@ public class DisplayCE_PopulateEditStaff {
 
 		staffTree.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (staffTree.getSelectionCount() == 1)  {
-					TreeItem item = staffTree.getSelection()[0];
-					Staff s = Staff.getStaffByID(item.getText());
-					selectedStaff = s.getStaffID() +"";
-					populateSelectedData(s);
+				if (staffTree.getSelectionCount() == 1) {
+					if (!staffTree.getSelection()[0].getText().equals("+"))  {
+						TreeItem item = staffTree.getSelection()[0];
+						Staff s = Staff.getStaffByID(item.getText());
+						selectedStaff = s.getStaffID() +"";
+						populateSelectedData(s);
+						staffNumber.setEnabled(true);
+						staffNumber.setText("");
+						lastName.setText("");
+						firstName.setText("");
+					} else {
+						staffNumber.setEnabled(true);
+						staffNumber.setText("");
+						lastName.setText("");
+						firstName.setText("");
+					}
 				}
 			}
 		});
@@ -178,6 +189,8 @@ public class DisplayCE_PopulateEditStaff {
 				catch (Exception e) {
 					PopupWindow.popupMessage(CETabFolder.getShell(), "Staff could not be deleted.", "WARNING");
 				}
+				hardRefreshNeeded = true;
+				refreshTree();
 			}	
 		});
 

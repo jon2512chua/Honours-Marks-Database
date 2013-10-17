@@ -142,18 +142,18 @@ public class DisplayCE_PopulateEditUnit {
 								+ "\" from the database", "WARNING!"))
 							try {
 								String[] selectedString = selected[0].getText().split(" ");
-								Unit.getUnitByCode(selectedunit).deleteRow();
+								Unit.getUnitByCode(selectedString[0]).deleteRow();
 								PopupWindow.popupMessage(rComposite.getShell(), "Unit removed.", "SUCCESS!");
 								selectedunit = "";
 								unitTree.getSelection()[0].dispose();
 								unitName.setText("");
 								unitCode.setText("");
 								creditPoints.setText("");
-								hardRefreshNeeded = true;
-								refreshTree(unitTree);
 							} catch (SQLException e) {
 								PopupWindow.popupMessage(rComposite.getShell(), "Unit not removed.", "ERROR!");								
 							}
+					hardRefreshNeeded = true;
+					refreshTree(unitTree);
 				} else PopupWindow.popupMessage(rComposite.getShell(), "Please select an Unit to be Removed.", "ERROR!");
 			}
 		});
@@ -163,6 +163,7 @@ public class DisplayCE_PopulateEditUnit {
 			TreeItemMap.put(unit, new StringBuffer[]{u.unitCode, u.name});
 		}
 		
+		hardRefreshNeeded = true;
 		refreshTree(unitTree);
 		
 		for (TreeColumn tc : unitTree.getColumns()) tc.pack();

@@ -87,7 +87,7 @@ public class Mark extends BaseMark {
      * @throws SQLException 
      */
     public void updateRow() throws SQLException {
-    	String sql = "UPDATE SubAssessmentMark SET Mark = "+Integer.parseInt(this.value.toString())+", InsideRange = "+this.getInsideRange()+", Report = '"+this.getReport().toString()+"' WHERE MarkerID = "+Integer.parseInt(this.markerID.toString())+" and StudentID = "+Integer.parseInt(this.studentID.toString())+" and SubAssessmentID = " + this.getSubAssessmentID();
+    	String sql = "UPDATE SubAssessmentMark SET Mark = "+Double.parseDouble(this.value.toString())+", InsideRange = "+this.getInsideRange()+", Report = '"+this.getReport().toString()+"' WHERE MarkerID = "+Integer.parseInt(this.markerID.toString())+" and StudentID = "+Integer.parseInt(this.studentID.toString())+" and SubAssessmentID = " + this.getSubAssessmentID();
     	Statement stmt = Session.dbConn.getConnection().createStatement();
     	stmt.execute(sql);
     	stmt.close();

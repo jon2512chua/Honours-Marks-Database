@@ -177,10 +177,10 @@ public class DisplayEnterMarks_PopulateStudentView {
 								row.setText(column, text.getText());
 
 								//save the students marks
-								String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 9);
+								//String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 9);
 								try {
-									Student.getStudentByID(studentNumber).updateRow();
-									//for (Mark m : Mark.getAllMarks()) m.updateRow();
+									//Student.getStudentByID(studentNumber).updateRow();
+									for (Mark m : Mark.getAllMarks()) m.updateRow();
 								} catch (SQLException e1) {}
 
 								text.dispose();
@@ -210,10 +210,10 @@ public class DisplayEnterMarks_PopulateStudentView {
 							row.setText(column, text.getText());
 
 							//save the students marks
-							String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 9);
+							//String studentNumber = studentCombo.getItem(studentCombo.getSelectionIndex()).substring(1, 9);
 							try {
-								Student.getStudentByID(studentNumber).updateRow();
-								//for (Mark m : Mark.getAllMarks()) m.updateRow();
+								//Student.getStudentByID(studentNumber).updateRow();
+								for (Mark m : Mark.getAllMarks()) m.updateRow();
 							} catch (SQLException e1) {}
 
 							text.dispose();

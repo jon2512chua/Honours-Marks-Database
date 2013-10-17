@@ -109,8 +109,7 @@ public class CohortData
 	 */
 	public static void writeAssessment(Assessment a, Connection c) throws SQLException {
 		try {
-			String sql = "Insert into Assessment values (" + null + ", '" + a.getName() + "', '" + a.getParentUnit().getUnitCode() + "', " + a.getUnitPercent() + ")";
-			//System.out.println(sql); TODO
+			String sql = "Insert into Assessment(AssessmentName, UnitCode, UnitPercent) values ('" + a.getName() + "', '" + a.getParentUnit().getUnitCode() + "', " + a.getUnitPercent() + ")";
 			c.createStatement().execute(sql);
 		} catch (SQLException e) {
 			throw new SQLException(e);
@@ -125,8 +124,9 @@ public class CohortData
 	 */
 	public static void writeSubassessment(SubAssessment s, Connection c) throws SQLException {
 		try {
-			String sql = "Insert into SubAssessment values (" + null + ", '" + s.getName() + "', '" + s.getParentAssessment().getName() + "', " + s.getAssessmentPercent() + ", " + s.getMaxMark() +  ")";
-			//System.out.println(sql); TODO
+			//TODO This needs fixing: because ORM's parent finding methods don't work i had to place an arbitrary parent id to make this run. Easy fix once ORM works
+			String sql = "Insert into SubAssessment(SubAssessmentName, AssessmentID, AssessmentPercent, MaxMarks) values ('" + s.getName() + "', 1, " + s.getAssessmentPercent() + ", " + s.getMaxMark() +  ")";
+			System.out.println(sql); //TODO
 			c.createStatement().execute(sql);
 		} catch (SQLException e) {
 			throw new SQLException(e);

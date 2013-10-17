@@ -196,12 +196,12 @@ public class DisplayCE_PopulateEditStudent {
 				try {
 					Student.getStudentByID(studentNumber.getText()).deleteRow();
 					PopupWindow.popupMessage(CETabFolder.getShell(), "Student deleted.", "Complete");
-					hardRefreshNeeded = true;
-					refreshTree();
 				}
 				catch (Exception e) {
 					PopupWindow.popupMessage(CETabFolder.getShell(), "Student could not be deleted.", "WARNING");
 				}
+				hardRefreshNeeded = true;
+				refreshTree();
 			}	
 		});
 
@@ -317,7 +317,7 @@ public class DisplayCE_PopulateEditStudent {
 			}
 
 			student.updateRow();
-			refreshTree(); 
+			 
 
 			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
 		} catch (java.lang.NullPointerException | SQLException e) {
@@ -337,7 +337,8 @@ public class DisplayCE_PopulateEditStudent {
 				PopupWindow.popupMessage(studentTree.getShell(), "New student was unable to be created. \nPossible duplicate student number", "Save Unsuccessful");
 			}
 
-		} 
+		}
+		refreshTree();
 	}
 
 	/**

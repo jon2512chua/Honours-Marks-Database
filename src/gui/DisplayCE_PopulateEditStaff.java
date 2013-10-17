@@ -78,6 +78,7 @@ public class DisplayCE_PopulateEditStaff {
 
 		staffTree.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Selection made: " + staffTree.getSelection()[0].getText());
 				if (staffTree.getSelectionCount() == 1) {
 					if (!staffTree.getSelection()[0].getText().equals("+"))  {
 						TreeItem item = staffTree.getSelection()[0];
@@ -85,9 +86,9 @@ public class DisplayCE_PopulateEditStaff {
 						selectedStaff = s.getStaffID() +"";
 						populateSelectedData(s);
 						staffNumber.setEnabled(true);
-						staffNumber.setText("");
-						lastName.setText("");
-						firstName.setText("");
+//						staffNumber.setText(s.getStaffID()+"");
+//						lastName.setText(s.getLastName().toString());
+//						firstName.setText);
 					} else {
 						staffNumber.setEnabled(true);
 						staffNumber.setText("");

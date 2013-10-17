@@ -1,0 +1,2868 @@
+* commit 5f73759f1408b7acf1070252f5b227617085d27e
+| Author: Johnathan Lim <johnathan1234@gmail.com>
+| Date:   Thu Oct 17 13:28:03 2013 +0800
+| 
+|     BUGFIX: choose add new staff will not break now
+|  
+* commit 9e77f0f58f06d9b3762fbb232a6eab214cfeaa45
+| Author: Johnathan Lim <johnathan1234@gmail.com>
+| Date:   Thu Oct 17 12:53:20 2013 +0800
+| 
+|     BUGFIX: Infinite loop in the refreshTree().
+|  
+* commit 687ad2a9aad7cc4af161c59a6d0a9998a600f1a5
+| Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| Date:   Thu Oct 17 12:31:06 2013 +0800
+| 
+|     delete unit, staff :warning, delete unit actually works does what it is meant to, but program will hang - must force quit and check on reopen......
+|    
+*   commit 786399e2eab6a95c0b5ffbdbc805986a792c436b
+|\  Merge: adaebc5 029d999
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Thu Oct 17 12:03:41 2013 +0800
+| | 
+| |     mockup of marker export
+| |   
+| * commit 029d9995100632c19620350fc07133bd0be47fff
+| | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | Date:   Thu Oct 17 11:53:58 2013 +0800
+| | 
+| |     BUGFIX: refresh of tree now work.
+| |   
+* | commit adaebc5735959a02b8ee2c39d9c46c1ce557e0f5
+|/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+|   Date:   Thu Oct 17 12:03:25 2013 +0800
+|   
+|       mockup of marker export
+|  
+* commit 8c3786da7bdd907173efc673e25fa4327b445599
+| Author: Johnathan Lim <johnathan1234@gmail.com>
+| Date:   Thu Oct 17 04:08:52 2013 +0800
+| 
+|     added getAssessByCodeAndName getMaxAssessID and removed some println in PopupWindow.
+|  
+* commit 82d1f50b200ef1d6596ea491ec34793b8b25348a
+| Author: Johnathan Lim <johnathan1234@gmail.com>
+| Date:   Thu Oct 17 03:59:42 2013 +0800
+| 
+|     modified PopupWindow to save into Database.
+|  
+* commit 80c240ef1e7a2b2dd695a245bac57eee0960bfda
+| Author: Johnathan Lim <johnathan1234@gmail.com>
+| Date:   Thu Oct 17 03:51:13 2013 +0800
+| 
+|     partially working Assessment View due to not enough stuff from backend
+|  
+* commit 3c2078239c78b91c8ee1a05bec2681184aae9fa0
+| Author: Tim Lander <tim57282@hotmail.com>
+| Date:   Thu Oct 17 02:53:39 2013 +0800
+| 
+|     Reverted to the previous (unworking) method for entering marks, but at
+|     least the program doesn't crash.
+|  
+* commit f11e163a4727c93fafba195e6fefa60372fa29f2
+| Author: Tim Lander <tim57282@hotmail.com>
+| Date:   Thu Oct 17 02:40:40 2013 +0800
+| 
+|     Called code Nick wrote to update marks.
+|    
+*   commit 03f7f8ed37fb1e25ad0718b4d355419f9cf19e9d
+|\  Merge: d3764a5 d50029f
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Thu Oct 17 02:34:54 2013 +0800
+| | 
+| |     Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| |   
+| * commit d50029f13f06d0dadd5b4710e56e397033532ac1
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Thu Oct 17 02:33:51 2013 +0800
+| | 
+| |     attempt at update mark
+| |   
+| * commit a9ea19bbb9ed883e69e79c4057a1d21513d10da4
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Thu Oct 17 02:19:36 2013 +0800
+| | 
+| |     javadocing (actually add this time...)
+| |     
+| *   commit 197027032322a3ef96c9210948c52235216179bd
+| |\  Merge: f0ce42f 03463ba
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Thu Oct 17 02:14:53 2013 +0800
+| | | 
+| | |     javadocd
+| | |    
+| | * commit 03463bac9bb44fd7710174831ffcedaa3c7e09e8
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Thu Oct 17 01:38:28 2013 +0800
+| | | 
+| | |     Added "Scheduled backup disabled" text about scheduled backup dialogue.
+| | |    
+| * | commit f0ce42f3064d587c85eaeb44339b7adc102681e8
+| |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| |   Date:   Thu Oct 17 02:14:34 2013 +0800
+| |   
+| |       javadocd
+| |   
+* | commit d3764a521a307917e8648ae5d3fe45cd5d39c1bd
+|/  Author: Sam <sam.widenbar@gmail.com>
+|   Date:   Thu Oct 17 02:34:38 2013 +0800
+|   
+|       Added handling of NaN double values
+|    
+*   commit 9f7140fafa5c387b0cc9144c9e615ffbecc68abc
+|\  Merge: 8653e7f 7125295
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Thu Oct 17 01:31:21 2013 +0800
+| | 
+| |     disabled autobackup options
+| |   
+| * commit 7125295c851383cf88a8204817effb3696e25fc3
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Oct 17 01:12:02 2013 +0800
+| | 
+| |     Removed unused imports, and commented out redundant code, ie.
+| |     subAssessmentID = subAssessmentID
+| |   
+* | commit 8653e7fa3eeff0754e6a353e29215ce99d53c6b7
+|/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+|   Date:   Thu Oct 17 01:31:04 2013 +0800
+|   
+|       disabled autobackup options
+|    
+*   commit 0305f194971775a78234e7ee468242d20b23bd8b
+|\  Merge: 290d39a a5d3da4
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Thu Oct 17 00:58:02 2013 +0800
+| | 
+| |     delete staff and student
+| |   
+| * commit a5d3da44f9715afb67d001bef502bbe58608dcf6
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Oct 17 00:53:20 2013 +0800
+| | 
+| |     Commented out import staff button code.
+| |   
+| * commit fa6bf3408458ec7b74fa3ba28987223220c39ba4
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Oct 17 00:48:13 2013 +0800
+| | 
+| |     Added a discipline combo to edit student.
+| |   
+| * commit fd18aa73ea1a5c95bffc1899d85563ff6067e4f2
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Oct 17 00:35:52 2013 +0800
+| | 
+| |     Commented out "UWA Staff?" checkbox code.
+| |     Added some comments to marker view code.
+| |   
+| * commit 923d8568c1efda7724244f641a04e27bfa64d700
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Oct 17 00:18:31 2013 +0800
+| | 
+| |     Changed the word 'mark' to the student ID of the student who is being
+| |     marked in the marker report.
+| |   
+* | commit 290d39aa5fdb91a8e6e67f47ae9bed7a12432205
+|/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+|   Date:   Thu Oct 17 00:56:32 2013 +0800
+|   
+|       delete staff and student
+|    
+*   commit 20d92bc3b5cda6320a5ea1dfc72a50f09e2e0087
+|\  Merge: da407dd 209c73d
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Thu Oct 17 00:09:42 2013 +0800
+| | 
+| |     secret question now works - minor display bug if cancel pressed
+| |     
+| *   commit 209c73d5453177afcd1731f0b8a95de8c4e6e1ec
+| |\  Merge: 3060c54 572850b
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Wed Oct 16 23:54:20 2013 +0800
+| | | 
+| | |     Merge remote-tracking branch 'origin/develop' into develop
+| | |    
+| * | commit 3060c547db3699125b4494a2a72cd896ce375632
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Wed Oct 16 23:53:10 2013 +0800
+| | | 
+| | |     Removed (comment out one line in DisplayReport) cohort report.
+| | |    
+| * | commit 9572d0bcf369c96637f40ff230d2d26be2186ee9
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Wed Oct 16 23:48:41 2013 +0800
+| | | 
+| | |     Editing marks - staff view mostly done. Currently doesn't display
+| | |     anything, as Staff.getAssessmentsMarked() only returns null.
+| | |    
+* | | commit da407dd8f3a219d28f2e1f9fa880c348f7874b1d
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Thu Oct 17 00:09:17 2013 +0800
+| | | 
+| | |     secret question now works - minor display bug if cancel pressed
+| | |      
+* | |   commit f319f384273d97f44197c523ce74ecd7481fe9fa
+|\ \ \  Merge: 1e6779d 572850b
+| | |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| |/|   Date:   Wed Oct 16 23:38:38 2013 +0800
+| | |   
+| | |       save before pull, about to get a whole pile of stuff....
+| | |    
+| * | commit 572850b4c20bacb90c6ef70ed9b2212ae117e43e
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Wed Oct 16 23:15:10 2013 +0800
+| | | 
+| | |     Javadoc for Student done.
+| | |    
+| * | commit b34b7621a409698ef6ae18a3652e940d57a4e357
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Wed Oct 16 22:52:07 2013 +0800
+| | | 
+| | |     saveStudent() no longer required because there is already updateRow()
+| | |      
+* | |   commit 1e6779d64eaf3b08b1acbe461e36a8f0985938bb
+|\ \ \  Merge: 9ae4a52 5d379d3
+| |/ /  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | |   Date:   Wed Oct 16 23:10:00 2013 +0800
+| | |   
+| | |       save before pull, about to get a whole pile of stuff....
+| | |    
+| * | commit 5d379d340dd53141f1ff692867baf591340ece3c
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Wed Oct 16 22:49:37 2013 +0800
+| | | 
+| | |     Javadoc for Assessment is done.
+| | |    
+| * | commit bcc3e0bc0aca526a0e80e5ec8f5ca662ebffb79d
+| |/  Author: Jonathan Chua <me@jonathanchua.com>
+| |   Date:   Wed Oct 16 22:35:48 2013 +0800
+| |   
+| |       Missing the relevant constructor for inserting record into database.
+| |   
+| * commit 267f0f55d6ea2e68d6bc75373cd38515fa64cdf1
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Oct 16 22:28:14 2013 +0800
+| | 
+| |     Did some work on saving mark changes to the database.
+| |   
+| * commit 66fb7a56b0fe512897835e6d3d227c1fb7a9260f
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 22:09:06 2013 +0800
+| | 
+| |     Bugfix: Parent unit not assigned during initialisation.
+| |     
+| *   commit 2f8d9b90292c3919c227453cd60364adaac661c3
+| |\  Merge: 424c200 d0ba753
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Wed Oct 16 17:42:05 2013 +0800
+| | | 
+| | |     Merge remote-tracking branch 'origin/develop' into develop
+| | |    
+| * | commit 424c20067f843769f55cfaeb37fe749f353fcd5c
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Wed Oct 16 17:40:55 2013 +0800
+| | | 
+| | |     Updated marks entering to display range and sd.
+| | |    
+* | | commit 9ae4a52f006e57c2817012321caa47f5c1b4484a
+| |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+|/|   Date:   Wed Oct 16 23:09:27 2013 +0800
+| |   
+| |       save before pull, about to get a whole pile of stuff....
+| |     
+* |   commit d0ba753e83ca7fac05bc9c479ef0815dd745745b
+|\ \  Merge: 727e010 3b3413f
+| |/  Author: Sam <sam.widenbar@gmail.com>
+| |   Date:   Wed Oct 16 17:31:07 2013 +0800
+| |   
+| |       Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| |   
+| * commit 3b3413f4acea0eacaa232ce072237a45b59b2872
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Oct 16 17:24:55 2013 +0800
+| | 
+| |     Can enter marks, but changes are not updated.
+| |   
+| * commit 90dd3a8ae79f91ef5b5fb4c6628f802749c4c23f
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Oct 16 17:08:43 2013 +0800
+| | 
+| |     Removed print statement which was used for testing.
+| |   
+| * commit 2ece84814a196d237dc9060bc4d79e88f74047b4
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Oct 16 17:06:24 2013 +0800
+| | 
+| |     Added shading to identify editable fields in the marks entering view.
+| |   
+* | commit 727e0108bc99f7367c4737988a3c2ce5411479e8
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Wed Oct 16 17:30:24 2013 +0800
+| | 
+| |     Added range
+| |   
+* | commit 7ec0b7a5c6e09607c374c74493536404f687a2bd
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Wed Oct 16 17:14:34 2013 +0800
+| | 
+| |     Added range to subassessments
+| |   
+* | commit 995617e678e6734669abdfd1ba53ba82b0ce8b35
+|/  Author: Sam <sam.widenbar@gmail.com>
+|   Date:   Wed Oct 16 17:09:18 2013 +0800
+|   
+|       Added range and standard deviation calculation without breaking build
+|  
+* commit b6b1accf6edf5e1b3861fe7234863b5af8fd682a
+| Author: Tim Lander <tim57282@hotmail.com>
+| Date:   Wed Oct 16 16:55:09 2013 +0800
+| 
+|     Changes dimensions of text boxes.
+|    
+*   commit 931807c1d80709a7756e3ed6fa27f70f0caba4d8
+|\  Merge: 9bd97a3 23d5fe5
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Oct 16 16:45:16 2013 +0800
+| | 
+| |     Merge remote-tracking branch 'origin/develop' into develop
+| |   
+| * commit 23d5fe546c757b6d2113e734e58fd0de33950bd5
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 16:20:43 2013 +0800
+| | 
+| |     Javadoc for Mark done.
+| |   
+| * commit f59621e1c6d92ade231bfef0da872ae6e60b0d10
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 15:49:06 2013 +0800
+| | 
+| |     Remove unneeded imports.
+| |   
+| * commit b8b5d7bf9982d237340513c627f0c15f95ba5cd7
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 15:48:27 2013 +0800
+| | 
+| |     Formatting changes.
+| |   
+| * commit b230ecd1740626bc5f90c3b6ea936197bd727c85
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 15:40:00 2013 +0800
+| | 
+| |     Implemented forgotten setter method for subAssessmentID.
+| |   
+| * commit 7bfb61c9e9fb1ca7f592684f28385ee14db93ed8
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 15:37:13 2013 +0800
+| | 
+| |     Javadoc for Staff done.
+| |   
+| * commit a200a5b255c890897a1b077c92c9bc16600ea5cd
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 15:02:06 2013 +0800
+| | 
+| |     Javadoc edit.
+| |   
+| * commit 9b16d4559ef1e920d77fbafec58288518ec62165
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 14:57:18 2013 +0800
+| | 
+| |     Formatting changes.
+| |   
+| * commit ebafeefcdcf64f175f3f4c4b8fb7a5fe8930d45f
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 14:54:26 2013 +0800
+| | 
+| |     Javadoc for SubAssessment done.
+| |   
+| * commit f9583bab311936f4cf524ec5c2b93cea93886696
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 14:53:08 2013 +0800
+| | 
+| |     There won't be any maxMark in the beginning.
+| |   
+| * commit 7ed7373a470cdc01553901bace0c9bb1591a9a50
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 14:44:44 2013 +0800
+| | 
+| |     Missed out stuff for javadoc.
+| |   
+| * commit 5ea1483c977a90f91261ef523de534e5dfaf46e0
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 14:09:43 2013 +0800
+| | 
+| |     Added corresponding constructor to SubAssessment.
+| |   
+| * commit 44a8af5f4725f84258bfa8f7762a3b4c4ebebf75
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Wed Oct 16 11:14:37 2013 +0800
+| | 
+| |     Completed documentation for Unit.
+| |   
+* | commit 9bd97a3a9faa5a6e7f61063b9ca6cde4e3ce337a
+|/  Author: Tim Lander <tim57282@hotmail.com>
+|   Date:   Wed Oct 16 16:44:07 2013 +0800
+|   
+|       Created account recovery screen. No validation yet.
+|  
+* commit 2da1e6fb0d5f6967a9faae2f65782bfcffdfc45d
+| Author: Tim Lander <tim57282@hotmail.com>
+| Date:   Wed Oct 16 16:07:41 2013 +0800
+| 
+|     Overhall of the marks entering system. Not yet editable, but displays
+|     what I want it to display.
+|  
+* commit 77ef9471b408548ac745304e0d3b997572fe1b98
+| Author: Tim Lander <tim57282@hotmail.com>
+| Date:   Wed Oct 16 14:55:35 2013 +0800
+| 
+|     Moved location of forgoton password button.
+|     Added missing javadoc.
+|  
+* commit 6adcb5235bc4a6deec5bfc62ab80629ed2534deb
+| Author: Tim Lander <tim57282@hotmail.com>
+| Date:   Wed Oct 16 14:35:08 2013 +0800
+| 
+|     Cleaned up unused imports.
+|  
+* commit abdb6c5667c6a7a6948d2cf1a6fe37524219fba6
+| Author: Tim Lander <tim57282@hotmail.com>
+| Date:   Wed Oct 16 14:33:20 2013 +0800
+| 
+|     Moved the error popup for logons to the popupwindow class.
+|    
+*   commit 9295abc70bdb055c523c24878f1cf4030e70457a
+|\  Merge: 643e7fb 8798e4a
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Wed Oct 16 14:24:15 2013 +0800
+| | 
+| |     Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| |   
+| * commit 8798e4a369e147c6a3c77b1107e8f3021103217a
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Wed Oct 16 13:50:16 2013 +0800
+| | 
+| |     made a start on marker exporting
+| |   
+* | commit 643e7fbc6f7e8c458f52cf58b4518fd056ff3d1b
+|/  Author: Sam <sam.widenbar@gmail.com>
+|   Date:   Wed Oct 16 14:24:02 2013 +0800
+|   
+|       Fixed mark calculator errors, added new database with more dummy data
+|  
+* commit 3a77703d1474dca34fafebfc4dffcbbae910f1eb
+| Author: Sam <sam.widenbar@gmail.com>
+| Date:   Wed Oct 16 13:37:25 2013 +0800
+| 
+|     New database with setup data (no students or marks)
+|  
+* commit cb53161924e9e4acf870aa7954d0749000464d68
+| Author: Sam <sam.widenbar@gmail.com>
+| Date:   Wed Oct 16 13:36:18 2013 +0800
+| 
+|     added subassessments to setup data
+|    
+*   commit 3229690287e86f22fd342ec0a81838ca76455c6e
+|\  Merge: edd0fcf 0266ac6
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Wed Oct 16 13:21:05 2013 +0800
+| | 
+| |     progress on the assessment editing, not done yet
+| |   
+| * commit 0266ac642906c7d8d4f50c65095435d3ac17ea7e
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Wed Oct 16 13:11:27 2013 +0800
+| | 
+| |     Added stringbuffer containing range to subassessments
+| |   
+| * commit 0d9888fc6b3724d14d4f7929e87d5bd9b73fe7a2
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Wed Oct 16 12:35:10 2013 +0800
+| | 
+| |     Added Standard Deviation (standDev) to subassessments
+| |   
+* | commit edd0fcfaefad44202b14f167ebd02129daabb849
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Wed Oct 16 13:20:35 2013 +0800
+| | 
+| |     progress on the assessment editing, not done yet
+| |   
+* | commit 01fbafc3689429529e6e3295d1bd4468e752498d
+|/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+|   Date:   Wed Oct 16 11:43:33 2013 +0800
+|   
+|       minor fix
+|  
+* commit cadd19073d79f5b1aa22e53b7f2e3b8dd48547a8
+| Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| Date:   Wed Oct 16 11:38:00 2013 +0800
+| 
+|     basic account recovery, needs popup to enter secret answer and to show the conformation message properly
+|  
+* commit aec1e1805796681c7d328c8215c1dc442bef6c3a
+| Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| Date:   Wed Oct 16 10:42:46 2013 +0800
+| 
+|     exporting file picker, basic startup error popup
+|  
+* commit 557f8a22c34b8df0d6adbfcafba9788ca1793b0a
+| Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| Date:   Wed Oct 16 03:54:15 2013 +0800
+| 
+|     have unit export going, looks good
+|  
+* commit 005a315addb0b91d4ee21e8bb3f6578d7e6a6963
+| Author: Johnathan Lim <johnathan1234@gmail.com>
+| Date:   Wed Oct 16 03:46:32 2013 +0800
+| 
+|     Fully working Unit View.
+|  
+* commit ec47c18b1ffac269e593554c40eb1e4681ae7d6c
+| Author: Tim Lander <tim57282@hotmail.com>
+| Date:   Wed Oct 16 02:54:55 2013 +0800
+| 
+|     Updated save buttons under account settings.
+|     Minor update to the entering marks view.
+|    
+*   commit 74ec123e281efdce3f303535176850b2f8037131
+|\  Merge: 07b6c7b 64542e6
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Oct 16 02:37:38 2013 +0800
+| | 
+| |     Merge commit '64542e6f4e939c5e1671d38750a3c8b62279c2f6' into develop
+| |   
+| * commit 64542e6f4e939c5e1671d38750a3c8b62279c2f6
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Oct 16 02:34:06 2013 +0800
+| | 
+| |     Added in marks per marker for a student/assessment.
+| |   
+* | commit 07b6c7bf50c9eaccd807ca66c40d024dfa87a6cf
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Oct 16 02:34:06 2013 +0800
+| | 
+| |     Added in marks per marker for a student/assessment.
+| |   
+* | commit 22bc8e3e40975c882b80ad5ecb651cb64137b31c
+| | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | Date:   Wed Oct 16 02:25:09 2013 +0800
+| | 
+| |     Update CohortData.java
+| |     
+* |   commit 72bc02e0511caec18aa0cec69f67cd682385d16c
+|\ \  Merge: 722aebe abd3e6c
+| |/  Author: Sam <sam.widenbar@gmail.com>
+| |   Date:   Wed Oct 16 02:14:21 2013 +0800
+| |   
+| |       Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| |     
+| *   commit abd3e6c7153776116e84a0f5d29db8c46819341f
+| |\  Merge: 16c4ccf 6e9c535
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Wed Oct 16 02:08:48 2013 +0800
+| | | 
+| | |     Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database.git into develop
+| | |    
+| * | commit 16c4ccf405b742ff499b9165be270ab2615cfdb7
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Wed Oct 16 02:06:52 2013 +0800
+| | | 
+| | |     Added package decleration to stop errors
+| | |    
+* | | commit 722aebec95fbd3a80549b9ad3810ea1af7447e18
+| |/  Author: Sam <sam.widenbar@gmail.com>
+|/|   Date:   Wed Oct 16 02:13:51 2013 +0800
+| |   
+| |       Finished Unit report page and related work
+| |   
+* | commit 6e9c535745328f903829ccd88333976206c07b65
+|/  Author: Johnathan Lim <johnathan1234@gmail.com>
+|   Date:   Wed Oct 16 02:00:28 2013 +0800
+|   
+|       Unit pulls data from the database.
+|  
+* commit a95d3a51e20c08a387dfe812a5b6fa233162f545
+| Author: Tim Lander <tim57282@hotmail.com>
+| Date:   Wed Oct 16 01:59:21 2013 +0800
+| 
+|     Made a start on displaying marks. No editing implemented yet.
+|     Changed how the list of students were accessed in the report to Nick's
+|     method.
+|  
+* commit 971dce45fddeee77ca790585d9ccc24a67382f73
+| Author: Tim Lander <tim57282@hotmail.com>
+| Date:   Wed Oct 16 00:42:40 2013 +0800
+| 
+|     Expanded try catch block to catch more null pointers in the entering
+|     marks view.
+|  
+* commit 7a8c89192a168ba44736001ab30e280e11e9eb79
+| Author: Tim Lander <tim57282@hotmail.com>
+| Date:   Wed Oct 16 00:36:18 2013 +0800
+| 
+|     Units in the report should update depending on which student is
+|     selected.
+|  
+* commit 5a64b07d1500953d8ed3c93f6633db6c55c0c18a
+| Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| Date:   Wed Oct 16 01:55:48 2013 +0800
+| 
+|     getUnitByUnitCode, more exporting, progress with shell
+|    
+*   commit 38e311be20d6842f49b963f64535ac0722f91858
+|\  Merge: ec41f48 6cfda32
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Wed Oct 16 01:16:52 2013 +0800
+| | 
+| |     Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| |   
+| * commit 6cfda325abe7c3895d4099af1129d1522ee88fcc
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Wed Oct 16 01:10:47 2013 +0800
+| | 
+| |     adding to pull, some minor improvements
+| |     
+| *   commit 492f7b3d0e4144c118fb81dfc7afca1942830717
+| |\  Merge: 8722225 ef138de
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Wed Oct 16 01:02:20 2013 +0800
+| | | 
+| | |     adding to pull, some minor improvements
+| | |    
+| * | commit 8722225a028c94a8c3778e40605c154e7f14b272
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Wed Oct 16 01:00:10 2013 +0800
+| | | 
+| | |     adding to pull, some minor improvements
+| | |    
+* | | commit ec41f4878ad33379529bb7cf4bb4af63b3320571
+| | | Author: Sam <sam.widenbar@gmail.com>
+| | | Date:   Wed Oct 16 01:16:11 2013 +0800
+| | | 
+| | |     suppressed statistics calculator errors, still working on class
+| | |    
+* | | commit 9ffc2eed06af7ff78466106b2760f44ff0c7ef92
+| |/  Author: Sam <sam.widenbar@gmail.com>
+|/|   Date:   Wed Oct 16 00:56:20 2013 +0800
+| |   
+| |       Commented out compiler errors, will deal with the object later
+| |     
+* |   commit ef138de610f9c3cff016edef3074c17a7fefb0b0
+|\ \  Merge: aef26e0 e62e49c
+| |/  Author: Sam <sam.widenbar@gmail.com>
+| |   Date:   Wed Oct 16 00:36:37 2013 +0800
+| |   
+| |       Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| |     
+| *   commit e62e49c9d9931123db2f67463c5cbb9643ca87de
+| |\  Merge: 13a8f7b a31d7e5
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Wed Oct 16 00:34:09 2013 +0800
+| | | 
+| | |     subassessment.getall
+| | |    
+| * | commit 13a8f7b37daa77ee6ab3b49c393f42827a41b086
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Wed Oct 16 00:33:23 2013 +0800
+| | | 
+| | |     subassessment.getall
+| | |    
+* | | commit aef26e0a7762dc5de896f85f313c533a50a3b072
+| |/  Author: Sam <sam.widenbar@gmail.com>
+|/|   Date:   Wed Oct 16 00:35:50 2013 +0800
+| |   
+| |       Added courseMark calculation for students
+| |   
+* | commit a31d7e55b3f301e784e05834eb818ffb9e08b13e
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Wed Oct 16 00:31:20 2013 +0800
+| | 
+| |     Added changes to creation of orm classes
+| |     
+* |   commit d571dcc5a85d13d2688c955b8a7b93c87708b1cb
+|\ \  Merge: 69aa5e2 d3ffab4
+| |/  Author: Sam <sam.widenbar@gmail.com>
+| |   Date:   Wed Oct 16 00:27:27 2013 +0800
+| |   
+| |       Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| |     
+| *   commit d3ffab4ba8895364171df8803833456fe6ac5c80
+| |\  Merge: 824a455 dceae42
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Wed Oct 16 00:25:53 2013 +0800
+| | | 
+| | |     added some exporting
+| | |    
+| | * commit dceae425c5bbaaccd5ebcc28fdeec9d52e94f01c
+| | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | Date:   Wed Oct 16 00:23:18 2013 +0800
+| | | 
+| | |     getting unit into the unitTree with no details until orm/Unit is updated
+| | |    
+| | * commit 1efbd8fcf90af952572a6ac16cfb27b200a2a231
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Wed Oct 16 00:22:09 2013 +0800
+| | | 
+| | |     Removed printing of some errors to the out stream.
+| | |     Fixed some incorrect wording in Edit Staff view.
+| | |    
+| * | commit 824a4558a75e2002d6982b5172625bddfd6f16ae
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Wed Oct 16 00:25:24 2013 +0800
+| | | 
+| | |     added some exporting
+| | |      
+* | |   commit 69aa5e2ec8ebad06b53ca3139555f27ffe0ed726
+|\ \ \  Merge: aa16140 0c31419
+| | |/  Author: Sam <sam.widenbar@gmail.com>
+| |/|   Date:   Wed Oct 16 00:14:34 2013 +0800
+| | |   
+| | |       Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| | |    
+| * | commit 0c314191f04c6febadda551d679b5bcdb8a7607c
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Wed Oct 16 00:11:39 2013 +0800
+| | | 
+| | |     Added edit staff view. Needs more testing, but is ~probably~ fine.
+| | |    
+| * | commit eb7071e8d9ff15861f5f4af8fe4d83e69e1c1b89
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Wed Oct 16 00:01:34 2013 +0800
+| | | 
+| | |     Added (int, string, string) constructor for staff
+| | |      
+* | |   commit aa161405242de8c650119b33f759b908e00e0551
+|\ \ \  Merge: 3d36c05 7e739b2
+| |/ /  Author: Sam <sam.widenbar@gmail.com>
+| | |   Date:   Tue Oct 15 23:47:47 2013 +0800
+| | |   
+| | |       Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| | |    
+| * | commit 7e739b297413d13fb45dc27ad8e5d0a925181d31
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Tue Oct 15 23:42:10 2013 +0800
+| | | 
+| | |     Removed unneeded imports.
+| | |      
+| * |   commit 7fa1b02394fdc2c986ab44d173375e26b1489ef4
+| |\ \  Merge: 770386c 9a39a49
+| | |/  Author: Tim Lander <tim57282@hotmail.com>
+| | |   Date:   Tue Oct 15 23:32:37 2013 +0800
+| | |   
+| | |       Merge remote-tracking branch 'origin/develop' into develop
+| | |    
+| * | commit 770386c2459ab086329a3c17c416ce78c6699d25
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Tue Oct 15 23:32:10 2013 +0800
+| | | 
+| | |     Start work on entering marks
+| | |      
+* | |   commit 3d36c059fe4bdf6820ab122e9a1d3321a8bd66c4
+|\ \ \  Merge: 9f8fa3f 9a39a49
+| | |/  Author: Sam <sam.widenbar@gmail.com>
+| |/|   Date:   Tue Oct 15 23:26:27 2013 +0800
+| | |   
+| | |       Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| | |    
+| * | commit 9a39a49d252603ec2f18d364ce17280ccc6f10a9
+| |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| |   Date:   Tue Oct 15 23:18:56 2013 +0800
+| |   
+| |       Added password change, added sec qn/ans to System schema, added zip of new System DB (need to install you guys), changed login methods, made shell script for running in OSX - 2nd attempt
+| |     
+* |   commit 9f8fa3fa9a7fdfc69b871747164a56fa8552fdc1
+|\ \  Merge: aae6b56 ac5d005
+| |/  Author: Sam <sam.widenbar@gmail.com>
+| |   Date:   Tue Oct 15 23:15:17 2013 +0800
+| |   
+| |       Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| |     
+| *   commit ac5d0058b922c80934889662a2d2cf119c597bab
+| |\  Merge: 7032726 1b17bef
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Tue Oct 15 23:07:09 2013 +0800
+| | | 
+| | |     Merge remote-tracking branch 'origin/develop' into develop
+| | |      
+| | *   commit 1b17bef4b0108e13b0872b1571a9132245cb2fc1
+| | |\  Merge: e696021 2d0ef25
+| | | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | | Date:   Tue Oct 15 22:58:48 2013 +0800
+| | | | 
+| | | |     Added password change, added sec qn/ans to System schema, added zip of new System DB (need to install you guys), changed login methods, made shell script for running in OSX
+| | | |     
+| | * | commit e696021518ad58951e1e9a07626ea1c38c10dac2
+| | | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | | Date:   Tue Oct 15 22:57:56 2013 +0800
+| | | | 
+| | | |     Added password change, added sec qn/ans to System schema, added zip of new System DB (need to install you guys), changed login methods, made shell script for running in OSX
+| | | |     
+| * | | commit 70327265fa5829843e5117349f582ac1d041fc6e
+| | |/  Author: Tim Lander <tim57282@hotmail.com>
+| |/|   Date:   Tue Oct 15 23:06:43 2013 +0800
+| | |   
+| | |       Added in skeleton code for entering marks
+| | |    
+| * | commit 2d0ef256ad666ae1b026127aa412bbfbec008a47
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Tue Oct 15 22:49:55 2013 +0800
+| | | 
+| | |     Modified updating of data. Still needs more work.
+| | |    
+| * | commit 34bfb1c6ebbac135ba4f72494ac250287a1f6dee
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Tue Oct 15 21:50:23 2013 +0800
+| | | 
+| | |     Added displaying of course mark and grade to the student report.
+| | |    
+| * | commit 246171ccb5826a9ea6a129de206dffc922881cdf
+| |/  Author: Tim Lander <tim57282@hotmail.com>
+| |   Date:   Tue Oct 15 21:26:20 2013 +0800
+| |   
+| |       Notify Listeners when +, - buttons are pressed.
+| |     
+| *   commit 6aa1e4302b8c788746988c5c7bd4233e05b20586
+| |\  Merge: 69ee59c b9fde22
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Tue Oct 15 21:14:49 2013 +0800
+| | | 
+| | |     updating
+| | |      
+| | *   commit b9fde22d1fd120f1488ded16f8df9fcf80768fcf
+| | |\  Merge: 7e63645 7d05344
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Tue Oct 15 21:12:51 2013 +0800
+| | | | 
+| | | |     Merge remote-tracking branch 'origin/develop' into develop
+| | | |     
+| | * | commit 7e63645a14841ce4a54bb9f82b481052cf4027ef
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Tue Oct 15 21:11:02 2013 +0800
+| | | | 
+| | | |     Modified editstudent to use hard reset methods. fixed spelling/javadoc
+| | | |       
+| * | |   commit 69ee59c60f321990c1f56b91dd2cbb0595272ad0
+| |\ \ \  Merge: 2e157b7 7d05344
+| | | |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | |/|   Date:   Tue Oct 15 21:14:27 2013 +0800
+| | | |   
+| | | |       updating
+| | | |     
+| * | | commit 2e157b71ca449ba69226860f7a6bf632bf5bdab9
+| | | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | | Date:   Tue Oct 15 21:13:34 2013 +0800
+| | | | 
+| | | |     updating
+| | | |     
+* | | | commit aae6b5690137b9e2745011d9816ca80b6428032c
+| |/ /  Author: Sam <sam.widenbar@gmail.com>
+|/| |   Date:   Tue Oct 15 23:14:01 2013 +0800
+| | |   
+| | |       Working on marker and unit reports
+| | |    
+* | | commit 7d053441beeac288454047bd4de646d64964eaa9
+| | | Author: Sam <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 21:06:37 2013 +0800
+| | | 
+| | |     Updated orm files
+| | |      
+* | |   commit b11970e1606a0a22182b671849ec9163c0272350
+|\ \ \  Merge: f32ffb7 0273fee
+| | |/  Author: Sam <sam.widenbar@gmail.com>
+| |/|   Date:   Tue Oct 15 20:56:56 2013 +0800
+| | |   
+| | |       Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| | |    
+| * | commit 0273feec1e511af6105ac856f6ecfdb08b520160
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Tue Oct 15 20:54:51 2013 +0800
+| | | 
+| | |     Fixed function name, added in javadoc for some functions missing that.
+| | |    
+| * | commit f8d9d7001fe66a457f5b37f4660d4a190eed7fcb
+| |/  Author: Tim Lander <tim57282@hotmail.com>
+| |   Date:   Tue Oct 15 20:39:46 2013 +0800
+| |   
+| |       Added in button to delete stuff (ie. student). No functionality added
+| |       yet.
+| |   
+| * commit 2fc9d58b09f00b8e7e7502d7494c4f3ca6d40a21
+| | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | Date:   Tue Oct 15 20:02:33 2013 +0800
+| | 
+| |     chaged assessment layout as Tim suggested.
+| |   
+| * commit 7cc87945a5652aa220fa2193551d9e1536737728
+| | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | Date:   Tue Oct 15 18:28:00 2013 +0800
+| | 
+| |     fixed typo and JavaDoc
+| |   
+| * commit 4f87302dde4c5674048e0d63424fdc8e646a0365
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Oct 15 18:28:09 2013 +0800
+| | 
+| |     Added function to flag data as needing a hard reset.
+| |   
+| * commit 98abb1ca5e66fc4d639359395974b5d6c0b18a44
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Oct 15 18:23:07 2013 +0800
+| | 
+| |     Added type arguments to Comparable
+| |   
+| * commit 44598cbd3db7ab548ce64aa6bd9413312a47e872
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Oct 15 17:53:49 2013 +0800
+| | 
+| |     forgot to remove hardRefreshNeeded flag after reset
+| |   
+| * commit 036231106111c12714cb228eda919f13a6b9c112
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Oct 15 17:51:54 2013 +0800
+| | 
+| |     Added in hard reset function to redraw the entire tree.
+| |   
+| * commit b092b695e0a5959dcd6f619cd3b70772f69bddbb
+| | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | Date:   Tue Oct 15 17:06:40 2013 +0800
+| | 
+| |     Update BaseSubAssessment.java
+| |   
+| * commit d343be21d2e4d28a7869e273155256a2dfa295c3
+| | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | Date:   Tue Oct 15 17:06:04 2013 +0800
+| | 
+| |     Update BaseMark.java
+| |   
+| * commit 1abad984ef6d177e6bbe842a88967fa62e5e36c4
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Oct 15 17:03:20 2013 +0800
+| | 
+| |     Replaced setEditable with setEnabled
+| |     
+| *   commit 96a5b98fb4cad3d53bb9e7a83ca5cb8676dfcbf0
+| |\  Merge: 19bba9c 0285fdf
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Tue Oct 15 16:23:16 2013 +0800
+| | | 
+| | |     added some orm methods to most super classes for writing/deleting - not finished yet
+| | |    
+| | * commit 0285fdf69aa1b51b52cd1d57c7ed641153fb0416
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Tue Oct 15 16:22:46 2013 +0800
+| | | 
+| | |     Added in markers marks for sub assessments
+| | |    
+| | * commit 89e7209353d28d2433e948fd7375882b1f11f737
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 16:20:55 2013 +0800
+| | | 
+| | |     Update BaseStudent.java
+| | |    
+| | * commit 68876fad1e4a6e0e57532f7c179827bc5199147c
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 16:19:17 2013 +0800
+| | | 
+| | |     Update BaseMark.java
+| | |    
+| | * commit 52faf868c4706df521009325918e2d86055731c5
+| | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | Date:   Tue Oct 15 16:17:08 2013 +0800
+| | | 
+| | |     Change all the button size to the magical 33.
+| | |    
+| | * commit e1da3a6d297ed978aecdff92af50bc3ab7e410bb
+| | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | Date:   Tue Oct 15 16:16:21 2013 +0800
+| | | 
+| | |     Change all the button size to the magical 33.
+| | |    
+| | * commit c621eea63e710cd6ecce95cb9c248e15895dad89
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 16:15:53 2013 +0800
+| | | 
+| | |     Update BaseSubAssessment.java
+| | |    
+| | * commit 7f7c0760f4a8fe118fc9134a8011816b44d771e2
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 16:14:09 2013 +0800
+| | | 
+| | |     Update BaseStudent.java
+| | |    
+| | * commit f86ac6b2e6fb89e3f36c6e98d2384a4d0ef78cb4
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 16:13:04 2013 +0800
+| | | 
+| | |     Update MarkCalculator.java
+| | |    
+| | * commit 4197c165f44e2d36882755fa71652d5e2dad70c9
+| | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | Date:   Tue Oct 15 15:52:36 2013 +0800
+| | | 
+| | |     Proper grayed out whenever popup is shown. Fixed Assessment Tab.
+| | |    
+| * | commit 19bba9c67f79cff90060e93ac989be780693528f
+| |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| |   Date:   Tue Oct 15 16:22:36 2013 +0800
+| |   
+| |       added some orm methods to most super classes for writing/deleting - not finished yet
+| |     
+| *   commit 0152fa30937298127cea1071f4ceb43034a35414
+| |\  Merge: fabf39f 47d54f5
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Tue Oct 15 15:31:04 2013 +0800
+| | | 
+| | |     merging
+| | |    
+| | * commit 47d54f511c1b925c368dc578fa52d2b5218edebb
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Tue Oct 15 15:26:06 2013 +0800
+| | | 
+| | |     Caught error when a duplicate student is attempted to be created.
+| | |    
+| | * commit e4844c674381e9ee2cc42eee3ce5370ab1affa24
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Tue Oct 15 15:20:06 2013 +0800
+| | | 
+| | |     Shifted the ticking of staff checkboxes, so null pointers are handled correctly.
+| | |    
+| | * commit 5a4ca958ac7f435e4ffcc4ce372de950f9405b53
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 15:10:01 2013 +0800
+| | | 
+| | |     Update BaseUnit.java
+| | |    
+| | * commit f42bf143a37a93f8a034f14ea2872144d34197f1
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 15:09:21 2013 +0800
+| | | 
+| | |     Update BaseAssessment.java
+| | |    
+| | * commit 81134d22134071b6eabb4a7513fe6911823734e6
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 15:08:54 2013 +0800
+| | | 
+| | |     Update BaseSubAssessment.java
+| | |    
+| | * commit a0f854418f2db608feff5b07f4e9794e47573d54
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 15:08:38 2013 +0800
+| | | 
+| | |     Update BaseStudent.java
+| | |    
+| | * commit 1ca69f5db7ef4943cd254be46e911784d61c627e
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 15:08:13 2013 +0800
+| | | 
+| | |     Update BaseStaff.java
+| | |    
+| | * commit 1613f768bdabd8f49fbf4638577bb0bf79527a22
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Tue Oct 15 15:07:41 2013 +0800
+| | | 
+| | |     Update BaseMark.java
+| | |    
+| | * commit 06110bf33fc9645d9e975de1ed895e6b574855ef
+| | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | Date:   Tue Oct 15 14:50:07 2013 +0800
+| | | 
+| | |     Assessment remove is fixed
+| | |    
+| | * commit 3612af6f76d0eb80c076477c372836eb8dfa848f
+| | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | Date:   Tue Oct 15 14:07:58 2013 +0800
+| | | 
+| | |     removed redundunt codes in assessment and popup.
+| | |    
+| | * commit d4481ba1b6edb9ced8c8b6f656fa44cad26cf9ff
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 13:31:12 2013 +0800
+| | | 
+| | |     Bugfix: Marks can be compared now.
+| | |    
+| | * commit f1b77b57cf665995a10924ca5470849d39bccfec
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 10:37:08 2013 +0800
+| | | 
+| | |     Can now get all marks.
+| | |    
+| | * commit a352c44ce7bd2ec408e0584681984c4cad26c451
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 10:32:18 2013 +0800
+| | | 
+| | |     Bugfix: Forgot to change SQL query after pasting.
+| | |    
+| | * commit f0d7f4ed8a175550f0a69b595112364306681e98
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 10:31:13 2013 +0800
+| | | 
+| | |     Can now get all assessments.
+| | |    
+| | * commit c9e93781b038702c49b98a6a15f3f63a7dc905a4
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 10:29:28 2013 +0800
+| | | 
+| | |     Formatting changes.
+| | |    
+| | * commit c4e80286107f38766a29060be28a6b23f375b387
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 10:28:48 2013 +0800
+| | | 
+| | |     Can now get all sub assessments.
+| | |    
+| | * commit f871cfa4766e4d82a58ea9b49c86d9c9bc0502a3
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 10:27:28 2013 +0800
+| | | 
+| | |     Bugfix: Wrong SQL query.
+| | |    
+| | * commit d8d01e034c38a69dbd012679e5abf1e4c96ee1a8
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 10:25:10 2013 +0800
+| | | 
+| | |     Formatting change.
+| | |    
+| | * commit 7b8106a5ebc02d0e0e2450a8250d47c7b4231405
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 10:24:23 2013 +0800
+| | | 
+| | |     Can get all units now.
+| | |    
+| | * commit ad6d1420aa5b3e918b35aadf4880bf371d3bc33f
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 00:32:18 2013 +0800
+| | | 
+| | |     Can now create a new Unit.
+| | |    
+| | * commit cae61ba85a5b19a42ab844ac4e2c3e7deca02eb7
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 00:29:48 2013 +0800
+| | | 
+| | |     Formatting change.
+| | |    
+| | * commit 30e677474a1928c0aab4888bacda0820571b29d9
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 00:24:25 2013 +0800
+| | | 
+| | |     Forgot to specify that the constructor needs to decalre exception throwing as well.
+| | |    
+| | * commit 8730cada477573c021de07794980fb0f82afb934
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 00:22:36 2013 +0800
+| | | 
+| | |     Formatting change.
+| | |    
+| | * commit d6c5d160e6d9a2458240950a4a6ed6260794afe8
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 00:20:33 2013 +0800
+| | | 
+| | |     Makes constructors for insert operations through an exception as requested by Tim.
+| | |    
+| | * commit c7bcaa476276fbf0997b6e9ce9cc87489c236f7c
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 00:17:50 2013 +0800
+| | | 
+| | |     Can now create a new SubAssessment.
+| | |    
+| | * commit 3aabde65cbc14f685cbb7b8347d6a841984aaf60
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 00:07:39 2013 +0800
+| | | 
+| | |     Chuck in a todo for an issue to be looked at later.
+| | |    
+| | * commit 3c04e43ee45585b126108766f4616ab9f3533d4f
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Tue Oct 15 00:00:08 2013 +0800
+| | | 
+| | |     Formatting change.
+| | |    
+| | * commit 53b8842dd76a74b146943a80995e5102f16d5dac
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Mon Oct 14 23:57:44 2013 +0800
+| | | 
+| | |     Changes because Assessment already has auto-increment.
+| | |    
+| | * commit b4d0cf0cfc9bd7dce57d0175c54bad40f6948e2d
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Mon Oct 14 23:08:51 2013 +0800
+| | | 
+| | |     Can now create a new Staff in database.
+| | |    
+| | * commit e9f824ad2bb3d70f5f422cf0958cd92d755c5da6
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Mon Oct 14 23:04:24 2013 +0800
+| | | 
+| | |     Added in the marks part.
+| | |    
+| | * commit d8b3a8204c46dc855e688940a33a4422bb3ea615
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Mon Oct 14 22:18:36 2013 +0800
+| | | 
+| | |     Can now create a new Mark in the database.
+| | |    
+| | * commit 449b3aa33fbba333e8c9ffa7eb84987ad7232425
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Mon Oct 14 21:25:38 2013 +0800
+| | | 
+| | |     Cleaned up gitignore.
+| | |    
+| | * commit d60c8baff2b8669b86c31e27550acce9652f9c53
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Mon Oct 14 21:23:03 2013 +0800
+| | | 
+| | |     Removed tracking of the system db files.
+| | |    
+| * | commit fabf39f76b57c786856eb818eb2219e67c673738
+| |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| |   Date:   Tue Oct 15 09:42:57 2013 +0800
+| |   
+| |       minor conflict fix
+| |   
+| * commit d1a5124a7964136fecfa07819fa62c786ee96922
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Mon Oct 14 21:08:56 2013 +0800
+| | 
+| |     slight fix for deleting re that last push
+| |   
+| * commit 36ceccff7a22ab4c1bc93878abfb7337f0eabb83
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Mon Oct 14 21:04:02 2013 +0800
+| | 
+| |     can now update students' supervisors
+| |   
+| * commit 1eba0aff6009f9f57ce2034df8372dec0306d17c
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Mon Oct 14 20:09:25 2013 +0800
+| | 
+| |     can now update students (not their supervisors - yet)
+| |   
+| * commit 11ac61b8d6623c9fc3b5aa088c598172ea8fd64c
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Mon Oct 14 18:44:32 2013 +0800
+| | 
+| |     finished cohort import, pending some error checking in basestudent
+| |   
+| * commit e4b26b7df2fa7450e6d5304b2b12e9f9c26982f1
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Mon Oct 14 11:03:17 2013 +0800
+| | 
+| |     cohort importer progress
+| |   
+| * commit d1b5becdd23bc421295b60479ff3cea800eec2ca
+| | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | Date:   Mon Oct 14 06:35:19 2013 +0800
+| | 
+| |     working assessment adding and remove function in the gui (not connected to the database yet).
+| |   
+| * commit e5b97153e205b6e8d5d9ffc9d9c096c244c326b5
+| | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | Date:   Mon Oct 14 03:16:10 2013 +0800
+| | 
+| |     properly disabled and grayed out of the assessment tab when unit is selected.
+| |   
+| * commit ee63f00b72fa36e62492094f655312ae59dadb33
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 23:28:55 2013 +0800
+| | 
+| |     Moved the import students from excel button the the edit student area.
+| |   
+| * commit d969828ffd0de4d6aa117a326688ee085b440cce
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Sun Oct 13 23:09:00 2013 +0800
+| | 
+| |     finished create new cohort functionality (need to finalise excel import
+| |     still)
+| |   
+| * commit b898d1fb6617416f6a0a0be88d93b9d99d892b44
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Sun Oct 13 21:53:38 2013 +0800
+| | 
+| |     here's the system db zip Jon
+| |   
+| * commit 8afe40a667047ecc1225ed565aa157141d9bb753
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 20:12:42 2013 +0800
+| | 
+| |     Text changes to report, saving better handled in edit student.
+| |   
+| * commit 84343786f13af54e6b53e6402e58c3fafb7ea295
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 19:56:04 2013 +0800
+| | 
+| |     Edit Student can now add new students to the database (!)
+| |   
+| * commit a082e146c98c41309ad8781306792b40ac33213a
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 19:39:37 2013 +0800
+| | 
+| |     Made supervisors use string buffers.
+| |   
+| * commit 11758006252b642215c0806900111e5bd3628d32
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 19:35:41 2013 +0800
+| | 
+| |     Set stringBuffers to public
+| |   
+| * commit 03854509a78d2ec29279e5e7f7bb3bb485162ec4
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 19:33:58 2013 +0800
+| | 
+| |     Converted baseStaff to use stringbuffers
+| |   
+| * commit edd9be5e3403b922b29a8bb725685c8b0cbd0cc6
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 19:20:42 2013 +0800
+| | 
+| |     Restoring a file I should not have deleted.
+| |   
+| * commit fd940fd9440ca4f3f57a163299726a5fdc1c5ec9
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 18:25:02 2013 +0800
+| | 
+| |     made the map private
+| |   
+| * commit 3fa84ebc69d19507de4065fd4555408236a4998f
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 18:22:51 2013 +0800
+| | 
+| |     Updated students to use stringbuffers.
+| |   
+| * commit 8075f91ddde720387ec9f6be7568df33e8f7845e
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 17:50:25 2013 +0800
+| | 
+| |     Fixed centering of popups
+| |   
+| * commit a33575c06b3b98dd14fa37efac0d4eb3d6cd205f
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 17:48:58 2013 +0800
+| | 
+| |     Renamed 'Edit Cohort' to 'New Cohort'
+| |   
+| * commit dc634ee3f39bbcc59eb171717f3abd97d19c4c39
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 17:26:38 2013 +0800
+| | 
+| |     Added listener to auto-update the data displayed in the report whenever
+| |     the tab is selected.
+| |   
+| * commit 60096c21ed29abc637412128a23f26dd40b60fd3
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 17:07:29 2013 +0800
+| | 
+| |     Updated most of the student report. I think this is all I can do at the
+| |     moment.
+| |   
+| * commit 1ac7b4e593c51e648ad703e98f950b4e50287184
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 16:48:43 2013 +0800
+| | 
+| |     Updated Student Report.
+| |     refreshAll is now recursive, so any length of levels is now supported.
+| |   
+| * commit 2fdc9795135e7b6d7fb2f6081637ca80ab1d7efa
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 15:43:50 2013 +0800
+| | 
+| |     Added button listners for the top buttons in the reports
+| |   
+| * commit b11c3b4a2bc555024fb1ed8e15bcc80cffb0b532
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 15:28:40 2013 +0800
+| | 
+| |     Added buttons control reports
+| |   
+| * commit 0af1185f0afbfebe5bf011ac99f426c072ee0cfe
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Oct 13 14:37:29 2013 +0800
+| | 
+| |     Added catches for null's. Program now runs (but still lots of errors)
+| |     
+| *   commit 1ef83ef98110b1ff153f074666a999dad0827b99
+| |\  Merge: 0723b2a 340c8f1
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Sun Oct 13 14:36:07 2013 +0800
+| | | 
+| | |     Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database.git into develop
+| | |    
+| | * commit 340c8f156747c6778a80cbc28aea2b0b736fcfbd
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sun Oct 13 03:20:47 2013 +0800
+| | | 
+| | |     Bugfix: List not initialised.
+| | |    
+| | * commit bea5a56aa41e808c9b0b56ed3bf2604b6a052963
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sun Oct 13 03:11:27 2013 +0800
+| | | 
+| | |     Bugfix: Should be getting double and not int.
+| | |    
+| | * commit 926265c4f586c4262c8bf143ae21b6b8f65a158c
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sun Oct 13 03:10:56 2013 +0800
+| | | 
+| | |     Bugfix: In SQL query it should be AND and not &&.
+| | |    
+| | * commit ddb157f505b5391872bec2d41dc4fe61a9d3c095
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sun Oct 13 03:03:12 2013 +0800
+| | | 
+| | |     Bugfix: Need to initialise StringBuffer.
+| | |    
+| | * commit 8dcdf1caeab3e9435922a22df3d27d0887e63470
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sun Oct 13 02:38:11 2013 +0800
+| | | 
+| | |     Bugfix: Needs quotation mark to show that UnitCode is a String.
+| | |    
+| | * commit feb846ba4e895413fa516a45116954bb60e21a21
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sun Oct 13 02:12:19 2013 +0800
+| | | 
+| | |     Can now save student.
+| | |      
+| * |   commit 0723b2a40f3148a3f7793f6a9e71a608147d1881
+| |\ \  Merge: 4a5d6a0 f8d58cb
+| | |/  Author: Tim Lander <tim57282@hotmail.com>
+| | |   Date:   Sat Oct 12 21:12:40 2013 +0800
+| | |   
+| | |       Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database.git into develop
+| | |    
+| | * commit f8d58cbcf944f3e330333aaa3094df92ee5279dc
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Sat Oct 12 21:11:40 2013 +0800
+| | | 
+| | |     Started populating students in reports
+| | |     (DisplayReport_PopulateStudent.java).
+| | |     Program compiles, but running it produces a bunch (~100) of errors.
+| | |    
+| * | commit 4a5d6a0c6710657317a95a05e16f3ca0e8b1463a
+| |/  Author: Tim Lander <tim57282@hotmail.com>
+| |   Date:   Sat Oct 12 21:11:40 2013 +0800
+| |   
+| |       Started populating students in reports
+| |       (DisplayReport_PopulateStudent.java).
+| |       Program compiles, but running it produces a bunch (~100) of SQL errors.
+| |   
+| * commit c430d04fe6380122bb4dcb87a3616c43f530690f
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sat Oct 12 20:40:48 2013 +0800
+| | 
+| |     Removing log files from index
+| |   
+| * commit 8f2c2875a4c25f27fe50b51695980686310a77ba
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sat Oct 12 19:58:14 2013 +0800
+| | 
+| |     Removing unused imports
+| |     
+| *   commit 4e33850947f3a69b5f350023320bf56e4a52c883
+| |\  Merge: a76317b d3b2698
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Sat Oct 12 19:54:16 2013 +0800
+| | | 
+| | |     Merge remote-tracking branch 'origin/develop' into develop
+| | |     
+| | |     Conflicts:
+| | |     	.gitignore
+| | |    
+| | * commit d3b2698008542f81f7a494a7d4b612cdc5bf3e5b
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sat Oct 12 18:39:53 2013 +0800
+| | | 
+| | |     Recommitting default databases again.
+| | |    
+| | * commit fa3c384a93dfcc18190c2caa11e7bb516e0fb50d
+| | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | Date:   Sat Oct 12 18:28:57 2013 +0800
+| | | 
+| | |     Unit Course Assessment tab updated.
+| | |    
+| | * commit 9056eaea1f0833652db95ccc9cf3a1e9db33b4fe
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sat Oct 12 17:40:26 2013 +0800
+| | | 
+| | |     Can now create a new Assessment.
+| | |    
+| | * commit a6935fa0307d487e87667bd34e058f599fd83945
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sat Oct 12 16:58:31 2013 +0800
+| | | 
+| | |     coursePercent no longer needed.
+| | |    
+| | * commit 854df4eb7f9a0f8dcd6117c78272351128b4b511
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sat Oct 12 16:50:19 2013 +0800
+| | | 
+| | |     Renamed method for clarity.
+| | |    
+| | * commit e6c0e8a51cb0252902aa0ea6ed0324d9b6a2ba53
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sat Oct 12 16:49:12 2013 +0800
+| | | 
+| | |     Can now create a new Student.
+| | |    
+| | * commit 7e073eb47576ff9eb9febd9eff4e7e1d4b1505a1
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Sat Oct 12 17:24:20 2013 +0800
+| | | 
+| | |     Update SubAssessment.java
+| | |    
+| | * commit d347f1941bbb8d9f2fb28bd1adcf23da5d970955
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Sat Oct 12 17:23:52 2013 +0800
+| | | 
+| | |     Update Assessment.java
+| | |    
+| | * commit a9e68d89baf255653f2bc2ae7177b069368ed78f
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Sat Oct 12 17:23:30 2013 +0800
+| | | 
+| | |     Update Unit.java
+| | |    
+| | * commit 8ea57d997a646cd8c2ea438fc25ecaeda0f59157
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Sat Oct 12 17:22:43 2013 +0800
+| | | 
+| | |     Update Student.java
+| | |    
+| | * commit 364a8cce81acf6cbee669d52a172c09013f2d454
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Sat Oct 12 17:22:01 2013 +0800
+| | | 
+| | |     Update Mark.java
+| | |    
+| | * commit 0f769b4bc4d9e805560db24dd138e5fef1e173da
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Sat Oct 12 17:21:00 2013 +0800
+| | | 
+| | |     Update BaseMark.java
+| | |    
+| | * commit 139cd84dbca882a1144ca6168d877b2b73443f33
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Sat Oct 12 17:20:39 2013 +0800
+| | | 
+| | |     Update BaseSubAssessment.java
+| | |    
+| | * commit bdd2778bd4a9d7ea39492cf370435a56bb61fbfe
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Sat Oct 12 17:20:14 2013 +0800
+| | | 
+| | |     Update BaseAssessment.java
+| | |    
+| | * commit b009d6a3dbde3357ae6afd65e094ea4f9daea20c
+| | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | Date:   Sat Oct 12 17:19:56 2013 +0800
+| | | 
+| | |     Update BaseUnit.java
+| | |      
+| | *   commit 3eccea00a1bb2838a57de954054eb9a5758b8024
+| | |\  Merge: dfe217a bcbdcf9
+| | | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | | Date:   Sat Oct 12 17:19:33 2013 +0800
+| | | | 
+| | | |     gah icon......
+| | | |     
+| | | * commit bcbdcf9604e7c4233d001433c40708e1dde2597c
+| | | | Author: SamWidenbar <sam.widenbar@gmail.com>
+| | | | Date:   Sat Oct 12 17:12:00 2013 +0800
+| | | | 
+| | | |     Update BaseStudent.java
+| | | |       
+| | | *   commit 83d74490b3fea922a9fd0d0f06d9633003754ba4
+| | | |\  Merge: c129e92 ee8338c
+| | | | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | | | Date:   Sat Oct 12 15:49:41 2013 +0800
+| | | | | 
+| | | | |     Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| | | | |      
+| | | | * commit ee8338c8a4b9d1d9f20dca8321e4974c0df9eb3f
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Sat Oct 12 15:03:28 2013 +0800
+| | | | | 
+| | | | |     Johns Icon
+| | | | |      
+| | | * | commit c129e92f2b31f29cafe4fc380dbffa96f347cd20
+| | | | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | | | Date:   Sat Oct 12 15:49:03 2013 +0800
+| | | | | 
+| | | | |     dummy course and unit tab.
+| | | | |      
+| | * | | commit dfe217aecf7401c132d249c66eb9ecbd0afcd5a1
+| | | |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | |/|   Date:   Sat Oct 12 17:17:14 2013 +0800
+| | | |   
+| | | |       working on cohort creation
+| | | |       
+| | * |   commit f6e31b532de813df0887cdec98711e7fdbf5be41
+| | |\ \  Merge: 0b48bc7 8405849
+| | | |/  Author: Tim Lander <tim57282@hotmail.com>
+| | |/|   Date:   Sat Oct 12 13:42:16 2013 +0800
+| | | |   
+| | | |       Merge branch 'gui' into develop
+| | | |       
+| | | |       Conflicts:
+| | | |       	.gitignore
+| | | |       	src/gui/Data.java
+| | | |       	src/gui/DisplayCE_PopulateEditAssessment.java
+| | | |       	src/gui/DisplaySettings_PopulateBackupRestore.java
+| | | |       	src/gui/MainUI.java
+| | | |       	src/gui/PopupWindow.java
+| | | |       	src/orm/BaseStudent.java
+| | | |     
+| | | * commit 8405849a9c6f8bfecfff71d874d37bba68bbed25
+| | | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | | Date:   Sat Oct 12 12:27:14 2013 +0800
+| | | | 
+| | | |     fingers crossed 3......
+| | | |       
+| | | *   commit 5ddba7e98240207e360779ada92690c368872059
+| | | |\  Merge: 378e0d7 f6b7e9a
+| | | | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | | | Date:   Sat Oct 12 12:24:35 2013 +0800
+| | | | | 
+| | | | |     fingers crossed 2......
+| | | | |      
+| | | | * commit f6b7e9aa408c3bc73c738ba02801ba73b0e0a41d
+| | | | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | | | Date:   Sat Oct 12 11:36:53 2013 +0800
+| | | | | 
+| | | | |     Working edit assessment tab.
+| | | | |      
+| | | | * commit 6b8dc24b99b001dcaa7ff700e241238839f985c8
+| | | | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | | | Date:   Sat Oct 12 11:23:33 2013 +0800
+| | | | | 
+| | | | |     bigger icon
+| | | | |      
+| | | * | commit 378e0d741d87b0ceff6c27fca16acb7cf1d3ef49
+| | | | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | | | Date:   Sun Oct 6 11:51:46 2013 +0800
+| | | | | 
+| | | | |     some additional error handling, progress on new cohort functionality
+| | | | |        
+| | | * |   commit 3bf15c79555a2073fff6ab4299848dd1a5215cca
+| | | |\ \  Merge: adeec58 099a46b
+| | | | |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | | |   Date:   Sun Oct 6 10:24:44 2013 +0800
+| | | | |   
+| | | | |       hope this works ok, stupid db files...
+| | | | |      
+| | | | * commit 099a46bf57dd5554b920f263cb2b603bd9306060
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Sat Oct 5 18:53:02 2013 +0800
+| | | | | 
+| | | | |     re uploading
+| | | | |      
+| | | | * commit 7b5e139b7584199bf25156b57e036f47056529b1
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Sat Oct 5 18:36:29 2013 +0800
+| | | | | 
+| | | | |     Re-uploading Jon's gitignore, with my personal changes added in.
+| | | | |      
+| | | | * commit 267358c07b5f129a23509099a3d66b9d2c0ea783
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Sat Oct 5 18:34:21 2013 +0800
+| | | | | 
+| | | | |     fixing git issues
+| | | | |      
+| * | | | commit a76317b775865628bd0b682d0c1e837473c145b7
+| |/ / /  Author: Tim Lander <tim57282@hotmail.com>
+| | | |   Date:   Sat Oct 12 19:52:43 2013 +0800
+| | | |   
+| | | |       My updated gitignore
+| | | |     
+| * | | commit 0b48bc775efb43083bdd4cae7ee9fcf980c40380
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Thu Oct 10 22:13:09 2013 +0800
+| | | | 
+| | | |     Added more data to display in the student report. Should work once Jon
+| | | |     implements some more methods.
+| | | |     
+| * | | commit 598f0c656e4b86e21eabe8fb8f62bb98440c8837
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Thu Oct 10 21:52:05 2013 +0800
+| | | | 
+| | | |     Added more user feedback to editing students.
+| | | |     
+| * | | commit 1ee3d9062cace123c6d8579e059d4282dcd6b178
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Thu Oct 10 21:17:59 2013 +0800
+| | | | 
+| | | |     Fixed bug in validation of doubles
+| | | |     
+| * | | commit e4d65c0bfb84468b3fe7e4b755d6e223f6e89b1d
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Thu Oct 10 21:02:57 2013 +0800
+| | | | 
+| | | |     student editing should now save changes. Supervisor list should be
+| | | |     populated.
+| | | |     
+| * | | commit 9b5959ca642dd1df207b5476bd0109c8762cec75
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Thu Oct 10 20:16:01 2013 +0800
+| | | | 
+| | | |     Added a space in get student full name.
+| | | |     Implemented method getStudentByID.
+| | | |     PopulateEditStudent now uses data from the database.
+| | | |     
+| * | | commit b6e2b9c4ebfc74a6c77417854e81a724f4e411f1
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Thu Oct 10 16:56:05 2013 +0800
+| | | | 
+| | | |     Added more error handling to deal with no database being loaded
+| | | |     
+| * | | commit 46f0ea2552c716efbdad05dde884ad59e013d5b4
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Thu Oct 10 16:49:19 2013 +0800
+| | | | 
+| | | |     Added error handling for when no cohort is loaded.
+| | | |     
+| * | | commit 16d649c3fe6df2811b2640a62f75113ed56f9310
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Thu Oct 10 16:34:06 2013 +0800
+| | | | 
+| | | |     Updated to get staff data from database
+| | | |     
+| * | | commit 5a4d8fd44e480a4c951913bcfb9f4abe042fc84d
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Thu Oct 10 16:22:36 2013 +0800
+| | | | 
+| | | |     Implementd a get all staff method
+| | | |     
+| * | | commit 15b3ec00dfc09108e4f4eddd9c929fbcd7faf65d
+| | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | Date:   Thu Oct 10 05:14:56 2013 +0800
+| | | | 
+| | | |     GUI for proof of concept.
+| | | |     
+| * | | commit b3353d3e3292768bd8bc381cb96bdd3798847ce0
+| | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | Date:   Thu Oct 10 01:23:15 2013 +0800
+| | | | 
+| | | |     Staff now reads from database. Note that the marks part is not done though.
+| | | |     
+| * | | commit 904b24e418891f21a06eec6b1e9c732930309582
+| | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | Date:   Thu Oct 10 01:22:37 2013 +0800
+| | | | 
+| | | |     Easily retrieve the full name for staff.
+| | | |     
+| * | | commit 14e652c43e7e1cac6275d754870e5a89ae40439f
+| | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | Date:   Thu Oct 10 01:22:13 2013 +0800
+| | | | 
+| | | |     Provided a method to return a comma separated list of supervisors.
+| | | |     
+| * | | commit 92652030851d2e2f45106a902ec4484e979fbcdb
+| | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | Date:   Thu Oct 10 01:03:59 2013 +0800
+| | | | 
+| | | |     Changes as per the database schema.
+| | | |     
+| * | | commit fe109b6c6ea331963a3dd61e0ee57d80225910e3
+| | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | Date:   Thu Oct 10 00:37:01 2013 +0800
+| | | | 
+| | | |     Everything works now! Woohoo!
+| | | |     
+| * | | commit 40063eb2d330ab07eb597f4a8d2707ff1a8da579
+| | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | Date:   Thu Oct 10 00:34:46 2013 +0800
+| | | | 
+| | | |     Fix: studentID should not be entered as String.
+| | | |     
+| * | | commit 60bc490439f867227f9908b12c62be76b494bf0d
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Wed Oct 9 18:25:01 2013 +0800
+| | | | 
+| | | |     Commented out some code which was causing compile errors due to the
+| | | |     latest changes Jon made.
+| | | |       
+| * | |   commit a340a84101b201c5440368a5e1eb46a542c15bae
+| |\ \ \  Merge: 1fcd529 69a7413
+| | | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | | Date:   Wed Oct 9 17:54:59 2013 +0800
+| | | | | 
+| | | | |     Merge branch 'develop'
+| | | | |      
+| | * | | commit 69a7413dfaac35458f1b0c5737d0225e54798ec9
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Wed Oct 9 14:53:33 2013 +0800
+| | | | | 
+| | | | |     Exported settings management to its own class (Settings.java).
+| | | | |     Configured the main shell to safe its maximised state to the settings
+| | | | |     file.
+| | | | |     Renamed backupschedule class to just backup
+| | | | |      
+| | * | | commit 43e772b53cda93e8bd483b6b7ed41d67db7ae9db
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Wed Oct 9 14:07:48 2013 +0800
+| | | | | 
+| | | | |     Fixed bug in validation of doubles
+| | | | |      
+| | * | | commit e2cf1559ff43dcc43c194d98640dcbd26216eaf6
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Tue Oct 8 21:30:36 2013 +0800
+| | | | | 
+| | | | |     Minor code formatting
+| | | | |      
+| * | | | commit 1fcd52927f49e773f8ecde49ea57c24f69608076
+| | | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | | Date:   Wed Oct 9 17:48:54 2013 +0800
+| | | | | 
+| | | | |     Added default database.
+| | | | |      
+| * | | | commit 4001c1e6c981803cd244b7dce2c98a04f247d0f9
+| | | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | | Date:   Wed Oct 9 17:48:05 2013 +0800
+| | | | | 
+| | | | |     Removed databases from git.
+| | | | |      
+| * | | | commit 213c8f650e27c0df5c5a544acfbe35cb53bb86b6
+| | | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | | Date:   Sat Oct 5 15:39:50 2013 +0800
+| | | | | 
+| | | | |     Student class should be able to read from database now.
+| | | | |      
+| * | | | commit c604faeb467595fc19374e9962759cc71b43a788
+| | | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | | Date:   Sat Oct 5 14:48:39 2013 +0800
+| | | | | 
+| | | | |     Updated constructor definition for Unit.
+| | | | |      
+| * | | | commit 2dc77048a3152f2c071123003f95c4fed3e912dc
+| | | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | | Date:   Sat Oct 5 14:48:23 2013 +0800
+| | | | | 
+| | | | |     Updated constructor definition for Staff.
+| | | | |      
+| * | | | commit 5991a63d4e8d12b923949c1ab459aadd0813dc19
+| | | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | | Date:   Sat Oct 5 14:44:52 2013 +0800
+| | | | | 
+| | | | |     Renamed variable code to unitCode.
+| | | | |      
+| * | | | commit 2503cd587a95d0af2333d738bcfa3179a81d1530
+| | | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | | Date:   Sat Oct 5 12:59:13 2013 +0800
+| | | | | 
+| | | | |     Added a title variable to Student.
+| | | | |      
+| * | | | commit 19c4e321b7541f63841de1b834d5ababc588050c
+| | | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | | Date:   Sat Oct 5 12:55:29 2013 +0800
+| | | | | 
+| | | | |     Change type of courseMark to double.
+| | | | |      
+| * | | | commit a1fab62c026302a94d30ad9d22a321bc7d35ca1c
+| | | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | | Date:   Sat Oct 5 12:50:58 2013 +0800
+| | | | | 
+| | | | |     There's no longer a need for cohort.
+| | | | |        
+* | | | |   commit f32ffb779d3019b7771f412a44e5e6729a8b01e7
+|\ \ \ \ \  Merge: 5b3a3ee 6dd07d6
+| | |/ / /  Author: Sam <sam.widenbar@gmail.com>
+| |/| | |   Date:   Tue Oct 8 21:30:18 2013 +0800
+| | | | |   
+| | | | |       Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database into develop
+| | | | |      
+| * | | | commit 6dd07d6ae74e4d0c427992296fc0555af5068387
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Tue Oct 8 21:27:35 2013 +0800
+| | | | | 
+| | | | |     Added new cohort view under Manage Cohort -> Edit Cohort
+| | | | |      
+* | | | | commit 5b3a3ee8010bf2f15bfe71288ceae13794729907
+|/ / / /  Author: Sam <sam.widenbar@gmail.com>
+| | | |   Date:   Tue Oct 8 21:28:33 2013 +0800
+| | | |   
+| | | |       Added 20131 and 20132 zip files
+| | | |     
+* | | | commit 411e90d4a27ac1f7f086e9a1bfa4bff52af651cc
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Tue Oct 8 20:25:53 2013 +0800
+| | | | 
+| | | |     Added code to print to a log file (currently commented out)
+| | | |     
+* | | | commit aaa13dc94d276640a04d73ba8a4034a1deaac610
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Tue Oct 8 15:06:41 2013 +0800
+| | | | 
+| | | |     Made the backup restore list populate on tab focus.
+| | | |     
+* | | | commit f12bbedafb2079aec1857e50568cd4d2683a026f
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Tue Oct 8 14:44:22 2013 +0800
+| | | | 
+| | | |     Disables a backup when one is already in progress.
+| | | |     
+* | | | commit 0ffa33db71ef18f44e886cbf513b38fc95a20983
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Tue Oct 8 14:31:59 2013 +0800
+| | | | 
+| | | |     Fixing bug in validation of doubles (wrong fullstop code)
+| | | |     
+* | | | commit 38f0548002f9a673df1811837968798536f32750
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Tue Oct 8 14:26:07 2013 +0800
+| | | | 
+| | | |     test commit
+| | | |     
+* | | | commit fad098b70d25d5e05899d480fcf487ae8048c30f
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Sun Oct 6 16:39:17 2013 +0800
+| | | | 
+| | | |     Fixing packages and imports
+| | | |       
+* | | |   commit 37df2cac7888cce041f03a14ad0d7c5c863df9e7
+|\ \ \ \  Merge: 4b15e3a 98d0c00
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Sun Oct 6 14:48:21 2013 +0800
+| | | | | 
+| | | | |     Merge branch 'develop' of https://github.com/jon2512chua/Honours-Marks-Database.git into develop
+| | | | |      
+| * | | | commit 98d0c0072c5b3159119105b4cf8a3b8d21aa43ab
+| | | | | Author: Sam <sam.widenbar@gmail.com>
+| | | | | Date:   Sun Oct 6 13:16:13 2013 +0800
+| | | | | 
+| | | | |     Added sql files without newlines and semicolons for Nick
+| | | | |      
+| * | | | commit 35bb66dcbda2c13570da8970629e5eeb5665bb89
+| | | | | Author: Sam <sam.widenbar@gmail.com>
+| | | | | Date:   Sun Oct 6 01:08:31 2013 +0800
+| | | | | 
+| | | | |     Added class to calculate cohort statistics, added to schema, added zipped database
+| | | | |      
+* | | | | commit 4b15e3a3447cf5ad9fd532540a49716626fb35c0
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Sat Oct 5 20:56:40 2013 +0800
+| | | | | 
+| | | | |     Fixed button placement in settings files
+| | | | |      
+* | | | | commit 39133af4799e6b51d14b4825e33220f776614060
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Sat Oct 5 20:22:33 2013 +0800
+| | | | | 
+| | | | |     Bugfix for multi-monitor setups. John - can you make sure this works for
+| | | | |     you?
+| | | | |      
+* | | | | commit c6be386dace60615c0e4e9bf80a4080737df51e6
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Sat Oct 5 20:13:24 2013 +0800
+| | | | | 
+| | | | |     Made program gracefully exit when quit is pressed.
+| | | | |      
+* | | | | commit c33cab8fd009d178a1237fac8853c1088ad36406
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Sat Oct 5 20:09:34 2013 +0800
+| | | | | 
+| | | | |     Made dynamic label in top left better (now tested)
+| | | | |      
+* | | | | commit 42df6b935ced8f384b87b90e6adff72b16ed6269
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Sat Oct 5 20:06:15 2013 +0800
+| | | | | 
+| | | | |     Fixed spelling error, and made the text at the top left dynamic
+| | | | |     (untested)
+| | | | |      
+* | | | | commit c299ef43b2b333fd945e386d352da25cdb0f1a3e
+| | | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | | Date:   Sat Oct 5 19:26:29 2013 +0800
+| | | | | 
+| | | | |     The rest of Johns files
+| | | | |      
+* | | | | commit 522aced568ad41f0421879ef33cc6f8471cedd69
+|/ / / /  Author: Tim Lander <tim57282@hotmail.com>
+| | | |   Date:   Sat Oct 5 19:08:12 2013 +0800
+| | | |   
+| | | |       Committing half of Johns files
+| | | |     
+* | | | commit 4b1b3aa2db36986867bae9bc63c7284396aa49d9
+| | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | Date:   Sat Oct 5 17:37:25 2013 +0800
+| | | | 
+| | | |     Minor bugfix (probably caused by improper merging).
+| | | |     
+* | | | commit f467d061b3c1b7b2319f5a77db15a96e22d36f29
+| | | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | | Date:   Sat Oct 5 17:02:54 2013 +0800
+| | | | 
+| | | |     Changed the order that the log in screen appears - it's now before any window actually shows up.
+| | | |       
+* | | |   commit b2417014f5dc08d9cd269c89642d204d7cdb8f91
+|\ \ \ \  Merge: d15b636 adeec58
+| | |/ /  Author: Jonathan Chua <me@jonathanchua.com>
+| |/| |   Date:   Sat Oct 5 16:36:30 2013 +0800
+| | | |   
+| | | |       Merge branch 'origin/gui'
+| | | |       
+| * | |   commit adeec584b5921d01d01c71965329d368f6ec3e6b
+| |\ \ \  Merge: 262fdc1 d0e82b9
+| | | | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | | | Date:   Sat Oct 5 15:59:28 2013 +0800
+| | | | | 
+| | | | |     Merge branch 'gui' of https://github.com/jon2512chua/Honours-Marks-Database.git into gui
+| | | | |      
+| | * | | commit d0e82b9df2fad16df3854e992a1d67bfaf930355
+| | | | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | | | Date:   Sat Oct 5 15:44:04 2013 +0800
+| | | | | 
+| | | | |     Updated icon.
+| | | | |      
+| | * | | commit 00a674deb6b9d36813dca955675fed21a682537d
+| | |/ /  Author: Tim <tim57282@hotmail.com>
+| | | |   Date:   Sat Oct 5 14:15:24 2013 +0800
+| | | |   
+| | | |       Updated the common button layout (minor bugfix)
+| | | |     
+| * | | commit 262fdc1e6d9d37c9f5267fe95b51db285c8b0c9b
+| |/ /  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | |   Date:   Sat Oct 5 15:58:29 2013 +0800
+| | |   
+| | |       Error handling and other fixes
+| | |    
+* | | commit d15b636967fff53c3f658bc5377895c1a70e0754
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sat Oct 5 16:23:46 2013 +0800
+| | | 
+| | |     Fixed bug where program is looking in the wrong directory.
+| | |    
+* | | commit cd2b9e4aafa895807f143e5de9cdea9f871c2778
+| | | Author: Jonathan Chua <me@jonathanchua.com>
+| | | Date:   Sat Oct 5 13:07:50 2013 +0800
+| | | 
+| | |     Removed the file as we shouldn't be tracking it anyway.
+| | |    
+* | | commit 8dbe929c46ff4ebcffe5573aae9f54128ff8cebd
+|/ /  Author: Jonathan Chua <me@jonathanchua.com>
+| |   Date:   Sat Oct 5 13:07:15 2013 +0800
+| |   
+| |       Ignore derby's log file.
+| |   
+* | commit 63c7544988359f0356913223d566cb831768f636
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Sat Oct 5 12:15:05 2013 +0800
+| | 
+| |     Gave Sam's testing class the correct package definition and imports.
+| |   
+* | commit 3456f3786e0a045c468eb08d1e32608fb654a9ce
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Sat Oct 5 12:13:53 2013 +0800
+| | 
+| |     Defined the package and included the proper imports.
+| |   
+* | commit e64ee3068510afd53285b757634ec15e73fe6ba2
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Sat Oct 5 12:12:58 2013 +0800
+| | 
+| |     Change marks to be contained in a List instead.
+| |   
+* | commit fac30e6ce02e1054794f9448a50094f616f2681e
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Tue Oct 1 11:19:02 2013 +0800
+| | 
+| |     Change mark value type to double.
+| |   
+* | commit 6b9e51416d109cbe6c936b2ea1952bf1a4784b64
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Tue Oct 1 09:04:46 2013 +0800
+| | 
+| |     Added a new insideRange variable as requested by Sam.
+| |   
+* | commit cb8b8696ba1f8a149b25be268ae32d9d76e98a59
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Tue Oct 1 09:04:13 2013 +0800
+| | 
+| |     Added more things for git to ignore.
+| |   
+* | commit 095d243f9b4c39ef44bb1a0c8cf326a86b3a29b4
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Fri Sep 27 16:44:29 2013 +0800
+| | 
+| |     Created a new dir for utility classes.
+| |   
+* | commit d6b0f9ea61c47e2b71d584aa96b614c162de4291
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Thu Sep 26 10:55:21 2013 +0800
+| | 
+| |     Renamed Id to ID for the sake of uniformity.
+| |   
+* | commit 9fdd97b7ead40577bddaee379593aba59ec3f523
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Tue Sep 24 10:53:52 2013 +0800
+| | 
+| |     Extracted numberMarks into a method.
+| |   
+* | commit 75a864d93bfed97fb489c50dbe5cec3f0b512c95
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Tue Sep 24 10:51:09 2013 +0800
+| | 
+| |     Changed type of mark to double.
+| |   
+* | commit eb3c71acb9b8a581bf6bbf6634a7412f8704d016
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Tue Sep 24 10:48:51 2013 +0800
+| | 
+| |     Changed type of unitPercent and coursePercent to double.
+| |   
+* | commit b9805b2de7cc7ac0e751630ce1f6dd5d2c71fd20
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Tue Sep 24 10:46:08 2013 +0800
+| | 
+| |     Changed type of staffId to int.
+| |     
+* |   commit 4c8244e6ccfeb6a99e3c95379b470750abd0e533
+|\ \  Merge: cb0ed1c c16df7d
+| |/  Author: Jonathan Chua <me@jonathanchua.com>
+| |   Date:   Sat Oct 5 11:38:08 2013 +0800
+| |   
+| |       Merge branch 'gui' into develop
+| |       
+| |       Conflicts resolved:
+| |       	sql/Honours_schema.sql
+| |       	sql/Schema Documentation.txt
+| |   
+| * commit c16df7d82a0a2650b7bf9d743b6fdac202d50ff4
+| | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | Date:   Wed Oct 2 23:44:08 2013 +0800
+| | 
+| |     two icon added
+| |   
+| * commit 8615bc07b2cd0aaaa6b69720dd60b659e342fa5f
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Oct 2 19:50:42 2013 +0800
+| | 
+| |     Dynamic(ish) display of (testing) student marks for assessments
+| |   
+| * commit af5c9741b48979082e3b2ef8b545b6974593c82f
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Oct 2 17:03:59 2013 +0800
+| | 
+| |     Made my data class non-final, so I can later test editing.
+| |   
+| * commit dea3f5ace585fe2cf39f0b96ea6317247744d52c
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Wed Oct 2 14:16:23 2013 +0800
+| | 
+| |     fixed merge issues
+| |     
+| *   commit 3013e7c688243f9d080741cc85f6b508ac4250af
+| |\  Merge: b03ee83 d10e396
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Wed Oct 2 14:14:22 2013 +0800
+| | | 
+| | |     desplash
+| | |    
+| | * commit d10e396c971f2c4c64e9ef9f29faf1a3ee468934
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Wed Oct 2 13:57:51 2013 +0800
+| | | 
+| | |     Error fixing
+| | |    
+| | * commit 47279d1187257bb135519512710ff99c573f82bd
+| | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | Date:   Wed Oct 2 13:02:39 2013 +0800
+| | | 
+| | |     fixing the wrong commit previously
+| | |    
+| * | commit b03ee83ff10295321a886b28e54c5e977201bc58
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Wed Oct 2 14:09:53 2013 +0800
+| | | 
+| | |     splash
+| | |    
+| * | commit 0fc7b3521a9825dd2a6cd375be34c64a1cae471b
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Wed Oct 2 13:15:41 2013 +0800
+| | | 
+| | |     Basis for cohort instantiation - can create a new db with methods, need
+| | |     to fix sql/schema.sql first
+| | |      
+| * |   commit 9d7f2c33d5929a45758bc83877d228d48b27fdee
+| |\ \  Merge: 1bda58f 4ba21e7
+| | |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | |   Date:   Wed Oct 2 09:07:15 2013 +0800
+| | |   
+| | |       merge of something...
+| | |      
+| | *   commit 4ba21e77f7aa4f9575023696c07b0487e5be273e
+| | |\  Merge: 06befc6 be250b0
+| | | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | | Date:   Wed Oct 2 00:11:58 2013 +0800
+| | | | 
+| | | |     Merge branch 'gui' of https://github.com/jon2512chua/Honours-Marks-Database into gui
+| | | |     
+| | | |     Conflicts:
+| | | |     
+| | * | commit 06befc616362d40db3c9691cd7e9ec20ff655c95
+| | | | Author: Johnathan Lim <johnathan1234@gmail.com>
+| | | | Date:   Wed Oct 2 00:10:14 2013 +0800
+| | | | 
+| | | |     updated splash screen for my first commit
+| | | |     
+| * | | commit 1bda58f10ba544ef1418d61aee4a4fc81116849b
+| | |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| |/|   Date:   Tue Oct 1 13:47:59 2013 +0800
+| | |   
+| | |       some minor things
+| | |    
+| * | commit be250b0b398b3ea61c21813c9e31446db871296a
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Tue Oct 1 10:32:17 2013 +0800
+| | | 
+| | |     final fix before moving on
+| | |    
+| * | commit f2566b47d74061950419e61096fc3a6c974160ea
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Tue Oct 1 10:13:29 2013 +0800
+| | | 
+| | |     Added dependancies.
+| | |      
+| * |   commit ae544686aa36ae132c4a8c88080606ddb4d6c279
+| |\ \  Merge: 482c187 875a628
+| | | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | | Date:   Tue Oct 1 10:12:24 2013 +0800
+| | | | 
+| | | |     updated file structure, all extraneous files rm
+| | | |     
+| | * | commit 875a6287da5237e4095b4ea11444fae1323c8316
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Mon Sep 30 21:20:28 2013 +0800
+| | | | 
+| | | |     Added in restore backup view.
+| | | |     Fixed bugs in schedule backup view.
+| | | |     
+| | * | commit 5564d1f046261dea8b778f86247a747b5a2ff900
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Mon Sep 30 19:37:40 2013 +0800
+| | | | 
+| | | |     Fixed naming of objects.
+| | | |     Started work on backup stuff
+| | | |     
+| | * | commit 5fc8237579cd088c379e0fd11af857eb8f5eb952
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Mon Sep 30 16:50:38 2013 +0800
+| | | | 
+| | | |     Set popup icon to be the same as it's parent icon.
+| | | |     
+| | * | commit bb539c2f21f1b945c44e5197f23fb141ef050842
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Mon Sep 30 16:45:41 2013 +0800
+| | | | 
+| | | |     Updates to main UI
+| | | |     
+| | * | commit 931d247aca9fc9307361fd7c3d063cfba3c18baa
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Mon Sep 30 16:23:34 2013 +0800
+| | | | 
+| | | |     Modified main screen layout
+| | | |     
+| | * | commit 2c3ad867ab5db4d77c90c58fe0d4fee8587a57a9
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Mon Sep 30 15:35:16 2013 +0800
+| | | | 
+| | | |     Test commit.
+| | | |     
+| | * | commit 250fae02be0c65bdcf004fd2175a560240b4f3a1
+| | | | Author: Tim Lander <tim57282@hotmail.com>
+| | | | Date:   Mon Sep 30 15:30:52 2013 +0800
+| | | | 
+| | | |     Fixing git: Attempt #2
+| | | |     
+| | * | commit bf6b38c681105b5de15e84ee22a2e34a932898db
+| | |/  Author: Tim Lander <tim57282@hotmail.com>
+| | |   Date:   Mon Sep 30 15:21:39 2013 +0800
+| | |   
+| | |       Fixing git (?)
+| | |    
+| * | commit 482c1872c87bf2724219fbf21177397ca21e8597
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Mon Sep 30 10:58:10 2013 +0800
+| | | 
+| | |     system db
+| | |      
+| * |   commit 94ef379f7dc66ceafda7bea5ccf07fdbe82857c9
+| |\ \  Merge: f3b3ea7 cd5b6c8
+| | |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | |   Date:   Mon Sep 30 10:34:28 2013 +0800
+| | |   
+| | |       Merge branch 'gui' of https://github.com/jon2512chua/Honours-Marks-Database into gui
+| | |    
+| | * commit cd5b6c8039b8f105d07a2d3526365c7dc0c0f56f
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Sun Sep 29 20:27:44 2013 +0800
+| | | 
+| | |     Added a backup now button. Button action is partially commented out
+| | |     until Nick implements backup().
+| | |    
+| | * commit 0a7a546b411ac1b626d1fa3ca0525b2501974f01
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Sun Sep 29 19:55:22 2013 +0800
+| | | 
+| | |     Changes Account Settings view.
+| | |    
+| | * commit 5cba0a8176b613bd5b293c55facbdf5c9a39c802
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Sun Sep 29 19:42:36 2013 +0800
+| | | 
+| | |     Added a scroll bar to the left side of the main menu.
+| | |     Added a listener to close the database once the program is closed.
+| | |    
+| * | commit f3b3ea7167aaef0da75c5cb44be336f17c5f3b11
+| |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| |   Date:   Sun Sep 29 13:47:59 2013 +0800
+| |   
+| |       minor
+| |   
+| * commit 3c14a4f30c3b3e8721d2df3efbcfb377fb6cd4c1
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Sat Sep 28 18:00:00 2013 +0800
+| | 
+| |     Finalised backup functionality, change password, added title to student importer
+| |   
+| * commit 2523de5a10fe9691bfb46ae45d5d492d82dc9851
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Sat Sep 28 14:46:10 2013 +0800
+| | 
+| |     change password function working, all login stuff resolved (?)
+| |   
+| * commit 4355d3757c249c177547d549c855b4035550d664
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Sat Sep 28 13:33:25 2013 +0800
+| | 
+| |     Very big breakthroughs with login and general database interaction
+| |   
+| * commit 208659438505e1973c98ed39e41f8f03c4cb60c2
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Sat Sep 28 12:35:43 2013 +0800
+| | 
+| |     still having trouble with double logon attempt
+| |   
+| * commit a89403f1ccc752430d34a3ef28a3d169d0086d6c
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Sat Sep 28 11:20:24 2013 +0800
+| | 
+| |     minor
+| |   
+| * commit c2e218b3c56db7dd534aed6fad37babef3071835
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Sat Sep 28 11:13:00 2013 +0800
+| | 
+| |     fixed a merge issue
+| |     
+| *   commit b01ec46f3a46cefe926587111f633ba8214d166e
+| |\  Merge: c4b6e8c 2311399
+| | | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | | Date:   Sat Sep 28 10:58:19 2013 +0800
+| | | 
+| | |     Merge branch 'gui' of https://github.com/jon2512chua/Honours-Marks-Database into gui
+| | |     
+| | |     Conflicts:
+| | |     	HMD/src/backupSubsystem/BackupOperations.java
+| | |     	HMD/src/gui/PopupWindow.java
+| | |     	HMD/src/sessionControl/Session.java
+| | |    
+| | * commit 2311399ee7554d12e6cdd8326788994ce22af85c
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Fri Sep 27 17:28:36 2013 +0800
+| | | 
+| | |     changed comments
+| | |    
+| | * commit b31eb32d0681c99314758ea3bb63913f0d93b2b8
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Fri Sep 27 17:04:46 2013 +0800
+| | | 
+| | |     Changed absolute paths to relative paths for the database.
+| | |    
+| | * commit 9bfc23c41b77e494d585bf4d2de375e5a9d8c31e
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Fri Sep 27 16:05:03 2013 +0800
+| | | 
+| | |     Fixed formatting issues.
+| | |    
+| | * commit dc0bf7570c63f285b79bca73edb4886fc13367e6
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Fri Sep 27 15:20:44 2013 +0800
+| | | 
+| | |     Added error handling for a null username/password.
+| | |    
+| | * commit d36bb583b13de4c6ed3af11c189b4f9a4b1efcf2
+| | | Author: Tim Lander <tim57282@hotmail.com>
+| | | Date:   Fri Sep 27 15:03:09 2013 +0800
+| | | 
+| | |     Suppressed unused variable warnings.
+| | |    
+| | * commit 8c2f8a78a3ea3086e935cdde7866c3b917b53db2
+| | | Author: Tim <tim57282@hotmail.com>
+| | | Date:   Fri Sep 27 14:36:14 2013 +0800
+| | | 
+| | |     Delete .gitignore
+| | |     
+| | |     should not be commited
+| | |    
+| * | commit c4b6e8c0d83ae94d6c4a855c95547174272cf461
+| |/  Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| |   Date:   Fri Sep 27 00:14:28 2013 +0800
+| |   
+| |       session more of a mess, but have separated db connect and disconnect into methods - progress!
+| |   
+| * commit 0d8e643cd20dc0b627cb47ba0e1bf9352428e5c3
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Thu Sep 26 23:33:23 2013 +0800
+| | 
+| |     rudimentary login and semester list population
+| |     
+| |     much commenting is required by me, session is a mess
+| |   
+| * commit b77a32ef059c9c6955f2658576326e9aa23f3052
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Thu Sep 26 22:05:10 2013 +0800
+| | 
+| |     more minor fixes, login class working again, I have gui running
+| |   
+| * commit 559e2c85d25e7d9967bb50301f6cc2d3d7057cb5
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Thu Sep 26 21:28:02 2013 +0800
+| | 
+| |     minor fixes
+| |   
+| * commit 5701192ab71bd49d13b9f695337cd42702c1b8d9
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Thu Sep 26 21:12:22 2013 +0800
+| | 
+| |     sessioncontrol, backup
+| |   
+| * commit a684188af665cf32b6dc2c2765d9733855cdb5e4
+| | Author: Nicholas Abbey <20522805@student.uwa.edu.au>
+| | Date:   Thu Sep 26 21:03:44 2013 +0800
+| | 
+| |     Utilities, plus git test
+| |   
+| * commit d7e5e678cdc3915a62c2de57e3871689d671554d
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Sep 26 19:45:46 2013 +0800
+| | 
+| |     added todo
+| |   
+| * commit 39358330ff650682d2adc9fde07844118368ebfd
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Sep 26 19:44:23 2013 +0800
+| | 
+| |     Made displaying students in creation/editing more dynamic by changing a
+| |     switch/case to a try/while.
+| |   
+| * commit 7db0156848c2d409115176ddcdba5a2d877b5277
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Sep 26 19:09:03 2013 +0800
+| | 
+| |     Reuploading project
+| |   
+| * commit 15ad84b181299d3309add53034b079c624836d76
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Sep 26 18:55:03 2013 +0800
+| | 
+| |     test
+| |   
+| * commit f9dc26a7ac37a188fbca6f6148bce08a05470bb5
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Sep 26 18:51:30 2013 +0800
+| | 
+| |     Attempting to fix my git setup
+| |   
+| * commit 9dac10d345f49d82b2e2b9f7a2e466b8b3745826
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Sep 26 18:38:33 2013 +0800
+| | 
+| |     Added error handling for loading the icon, and included the icon
+| |     (whoops, forgot to do that before).
+| |   
+| * commit 8239b104d84383cf604de36ee848a5561abbb5d9
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Sep 24 16:57:11 2013 +0800
+| | 
+| |     Gave the UI an icon (placeholder).
+| |   
+| * commit b7df9b10e67e567d3e5080434d7abd3b6240d1ba
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Sep 24 16:48:32 2013 +0800
+| | 
+| |     Renamed button text.
+| |   
+| * commit dcee8ae1bd2acfb8e4deac5b0ba8a24b43f5f4f2
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Sep 24 16:47:29 2013 +0800
+| | 
+| |     Added in a combo box for selecting the cohort to load.
+| |   
+| * commit d5d52959487e815a2104260b026b13976b4496f0
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Sep 24 16:33:00 2013 +0800
+| | 
+| |     Bugfix. Main shell now insccessable while the logon window is up.
+| |   
+| * commit dda3d298dcf5af89754bf46df2c076f5d6320b92
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Mon Sep 23 22:41:47 2013 +0800
+| | 
+| |     Updated Javadoc.
+| |   
+| * commit bcac76883b7c05af539dcf22e25ad593522c64fa
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Mon Sep 23 22:38:37 2013 +0800
+| | 
+| |     Added a class for common arrangements of buttons. Should make it easer
+| |     to give the UI A consistent feel.
+| |   
+| * commit 6b8b2c7ab528b01fb3e4f5d4cf1186bf561d4b22
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Mon Sep 23 22:24:13 2013 +0800
+| | 
+| |     Fairly major reorganisation of classes. Now every tab has its own class.
+| |     I should probably create an interface for this.
+| |   
+| * commit 732de8bb59000ed6e68a515e9d53870aed3f1695
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Mon Sep 23 20:35:33 2013 +0800
+| | 
+| |     Files I forgot to include in the previous commit.
+| |   
+| * commit 8af111cf4b93c26bad749f08a0fb2b19a6d98382
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Mon Sep 23 20:34:59 2013 +0800
+| | 
+| |     Renamed a bunch of classes. The naming convention is a lot more logical
+| |     now.
+| |   
+| * commit 97e4171561b743d8650a8a0f40f58f3e6a3a8a8f
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 22 20:50:16 2013 +0800
+| | 
+| |     Edited todo's
+| |   
+| * commit 72820629cc7198664507ad6e49e771bcfea653df
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 22 20:48:50 2013 +0800
+| | 
+| |     Added a tooltip ot student number.
+| |   
+| * commit b59eb5256da785ca2a6343fe994ad00ab70fec0a
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 22 20:21:52 2013 +0800
+| | 
+| |     Renamed things.
+| |   
+| * commit ee421d0e1b410235da3780598f940e176b3b977a
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 22 20:17:27 2013 +0800
+| | 
+| |     Changed default backup settings.
+| |   
+| * commit cafc70d78388b0fcb7295bddfdc75d59e86b6127
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 22 20:12:58 2013 +0800
+| | 
+| |     Added support for validation the null character.
+| |   
+| * commit c8979c1ba696b246618f0f6d3c1891ea445a80cc
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 22 20:09:21 2013 +0800
+| | 
+| |     Edit Students now populates data when clicked. It's currently a little
+| |     hacky, but I'll fix it up once I know exactly how the data is going to
+| |     be handed to me.
+| |   
+| * commit f664bf222a0fa6723a16dc2ec1ddc43daaae62c1
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 22 19:40:13 2013 +0800
+| | 
+| |     Added validateDouble to Validation.java (untested)
+| |   
+| * commit b7f9779bfab927369acc4628cb9fe5e0af45c8e6
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 22 19:33:49 2013 +0800
+| | 
+| |     Added a data validation class. Only method currently is one which checks
+| |     if the input is an int.
+| |   
+| * commit ac3139927b4883ce5f4304cd1e7514ce48aff7e1
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 22 19:03:45 2013 +0800
+| | 
+| |     Added an account settings page.
+| |     Standardised the placement of the save/discard changes buttons
+| |   
+| * commit 6ef0455a967bcb80177a26a04255d6b9c3b3422f
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 22 17:16:37 2013 +0800
+| | 
+| |     Added a window for editing students
+| |   
+| * commit d64c4c86ccee5d09cc6fb02de7d2ec9b46a5f7ca
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sat Sep 21 01:10:18 2013 +0800
+| | 
+| |     Fixed typo.
+| |   
+| * commit ffcf297d3228fe632974340e398f964906b88a5c
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sat Sep 21 00:48:09 2013 +0800
+| | 
+| |     Added a popup in case an invalid account was entered.
+| |   
+| * commit 5cb7fb8c4f8cb3bc31499e5507750d045053b793
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sat Sep 21 00:27:30 2013 +0800
+| | 
+| |     Added error handling, in case the image was unable to be loaded.
+| |   
+| * commit 3b8eee679c8f751657a49385ccd94c1bcfafe561
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sat Sep 21 00:16:51 2013 +0800
+| | 
+| |     Tidied Log on Code. Included splash screen image.
+| |     The image 'splash.png' must be in the directory the project is run from.
+| |   
+| * commit 624c79a254fe79e0c847bb6ee46db8fdac04034b
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sat Sep 21 00:09:21 2013 +0800
+| | 
+| |     Added in a log on screen. No input validation, press OK to log on.
+| |   
+| * commit dcd60e3841487d5ffe9c30bd69473ce4c1417c2b
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Fri Sep 20 21:18:58 2013 +0800
+| | 
+| |     Settings now actually save (to a settings file in the main directory)
+| |     Setting input is validated, and errors are handled.
+| |     Fixed spelling in some Javadoc.
+| |   
+| * commit c90a19d232a856cff35203c0a62110f2f2a147ad
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Fri Sep 20 17:58:50 2013 +0800
+| | 
+| |     Added buttons and tabs for various things not already added, including
+| |     importing/exporting, creating/editing and reports.
+| |   
+| * commit 778c883ee983bd5d9a47d3f3954a20c88f6fde96
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Thu Sep 19 00:21:31 2013 +0800
+| | 
+| |     Window builder compatibility added (very minor changes)
+| |   
+| * commit 24cecefbaf93785aa147979347c2258451d9125b
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Sep 18 22:56:24 2013 +0800
+| | 
+| |     Rewrote the displaying and handling of the right hand pane. Code is
+| |     simplified and performance is improved.
+| |   
+| * commit 604246836bf689bc5fcb2aca3881b8b48582dec1
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Sep 18 21:45:08 2013 +0800
+| | 
+| |     Changed the display functions to take Composites instead of Shells as
+| |     arguments.
+| |   
+| * commit b2c57923c1903428a9fac7d56fcd556a1dfed309
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Sep 18 21:28:57 2013 +0800
+| | 
+| |     Implemented a popup class. Currently is only used when saving backup
+| |     settings.
+| |   
+| * commit 695568fd0599e1324497429c399eaa5f7a1ddbf7
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Sep 18 00:22:30 2013 +0800
+| | 
+| |     Added more information to the student report.
+| |   
+| * commit 14338f58f1f003c8a1cd4eb6709fcfbe8808d0d0
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Wed Sep 18 00:16:41 2013 +0800
+| | 
+| |     Added backup menu. Settings are not saved anywhere, but method stubs
+| |     exist.
+| |     Fleshed out the student report a bit more.
+| |   
+| * commit 94cb18c616d0d43f75bb6e12be47e6caa6e557f5
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Sep 17 20:53:58 2013 +0800
+| | 
+| |     Added listners to automatically expand/colapse report column widths, so
+| |     any length of data can now be displayed.
+| |   
+| * commit 13c9bdbbd6db5cafa78a899ad9f97f0033172c20
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Sep 17 18:41:17 2013 +0800
+| | 
+| |     Added more data to be displayed in the student report.
+| |   
+| * commit 570c95a64867a867c790bea64e777de0faa638ce
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Sep 17 18:06:21 2013 +0800
+| | 
+| |     Added more javadoc. Set some methods private.
+| |   
+| * commit 72cf8d454f8a7fae715affcf2a0e13c8a41752c4
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Sep 17 17:45:08 2013 +0800
+| | 
+| |     Forgot to grab the latest changes, so I'm re-deleting the stuff Jon
+| |     deleted.
+| |   
+| * commit 081d8a840a7f9eb97785f60c4b7f17930818e478
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Tue Sep 17 17:40:32 2013 +0800
+| | 
+| |     Added placeholder staff/student editing displays.
+| |   
+| * commit 7260fd380cb629fec9c872d0713b01e9713f0432
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Mon Sep 16 23:35:27 2013 +0800
+| | 
+| |     Removed print statements that were used for debugging.
+| |   
+| * commit 8202a9204447b947726f716e3f6c5a445762ce15
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Mon Sep 16 23:34:01 2013 +0800
+| | 
+| |     Improved automatic resizing of components, so they work better on a mac.
+| |     All resizing should now be done without hardcoded numbers.
+| |   
+| * commit 3297c1829df0753a007f733a984eac5b6cb6aaa7
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Mon Sep 16 23:30:31 2013 +0800
+| | 
+| |     Minor improvements to error handling.
+| |   
+| * commit 62e6453aa202091bc7ed41c71df7d49faea19fb8
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 15 20:25:09 2013 +0800
+| | 
+| |     Added error handling and comments
+| |   
+| * commit 7f69518927e9d03f35edfae0be61f3013e23a68a
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 15 20:13:59 2013 +0800
+| | 
+| |     removing SWTRenamer.java
+| |   
+| * commit 2337f9ead9aa479003205a1747938a6170c83381
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 15 20:11:41 2013 +0800
+| | 
+| |     Should now work on windows32/64 and osx32/64. Could easily add linux
+| |     support from here.
+| |     
+| |     SWTRenamer.java should also be removed from the src folder (if I did
+| |     this correctly...)
+| |   
+| * commit 7e4d6a6419db8fd3222575880d51fa7e8d9830eb
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 15 03:41:27 2013 +0800
+| | 
+| |     Commiting rest of source
+| |   
+| * commit 4e379c92bee9ec8bf6f8ddc90724e850823dab6b
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sun Sep 15 03:31:40 2013 +0800
+| | 
+| |     Recommiting files again.
+| |   
+| * commit 2046371d5a604760176bfa099fdd6a358b0367ce
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sat Sep 14 15:24:35 2013 +0800
+| | 
+| |     uploading eclipse files
+| |   
+| * commit 5705dccccec95a0d54cc5a081b5232c69d661a28
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sat Sep 14 15:08:05 2013 +0800
+| | 
+| |     My gui (hopefully it works this time)
+| |   
+| * commit 4c963f0034f035a3e6e5f6c95f69839d1c80da24
+| | Author: Tim Lander <tim57282@hotmail.com>
+| | Date:   Sat Sep 14 15:02:17 2013 +0800
+| | 
+| |     test again
+| |   
+* | commit cb0ed1c0fe0bc16630af690df139c2b14ae7754d
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Thu Oct 3 11:50:20 2013 +0800
+| | 
+| |     Added different database, due to original missing title field on student table
+| |   
+* | commit e7bbda4f32a5f40a7349c62b1d2c1546c306709b
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Thu Oct 3 11:47:04 2013 +0800
+| | 
+| |     Added different database, due to original missing title field on student table
+| |   
+* | commit d6c16bbbacb99061ff4595bd87cbaf207079a248
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Wed Oct 2 15:03:57 2013 +0800
+| | 
+| |     Schema updated, second version made as requested by Nick, test databases added
+| |   
+* | commit 245cb4aea86c7943ee3b477d3205b990d96d5cca
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Wed Oct 2 15:00:35 2013 +0800
+| | 
+| |     Schema updated, second version made as requested by Nick, test databases added
+| |   
+* | commit c71254c647231b4e871780d83e6a5a71e1659b0d
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Sun Sep 29 14:00:17 2013 +0800
+| | 
+| |     Added mark calculation
+| |   
+* | commit 18c53395fbb03d146d5943bd22e941466dd39581
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Fri Sep 20 22:44:34 2013 +0800
+| | 
+| |     Basic set up for all classes.
+| |   
+* | commit 518e9420b7b3cd670ff86243dfc61babddfd5d5b
+| | Author: Jonathan Chua <me@jonathanchua.com>
+| | Date:   Tue Sep 17 12:33:28 2013 +0800
+| | 
+| |     Ignores all properties files.
+| |   
+* | commit 1e193a1b08ad188613d758bf44da775b1f0c3904
+| | Author: Sam <sam.widenbar@gmail.com>
+| | Date:   Mon Sep 23 15:58:51 2013 +0800
+| | 
+| |     Added information to database and documentation
+| |   
+* | commit a1535810e3d39de0c22619fa1fc14d0adfa01973
+|/  Author: Sam <sam.widenbar@gmail.com>
+|   Date:   Fri Sep 20 13:46:24 2013 +0800
+|   
+|       Adding database schema and documentation
+|  
+* commit 70b3cc07729b0ccffacf6f6e77ad91fbde57bef3
+| Author: Jonathan Chua <me@jonathanchua.com>
+| Date:   Tue Sep 10 21:30:39 2013 +0800
+| 
+|     Created directory structure and brief description of what each directory will contain.
+|  
+* commit 2cc7a873ac33618c8439fe0851b51d4fef81199f
+| Author: Jonathan Chua <me@jonathanchua.com>
+| Date:   Tue Sep 10 21:17:10 2013 +0800
+| 
+|     Ignore Mac's folder structure arrangement file.
+|  
+* commit 725111ed701dc66940339c39cc24dea79b5c7a22
+| Author: Jonathan Chua <me@jonathanchua.com>
+| Date:   Tue Sep 10 11:14:35 2013 +0800
+| 
+|     Initial setup.
+|  
+* commit ce16942f95547f9e93d457611e15733168c66462
+  Author: Jonathan Chua <me@jonathanchua.com>
+  Date:   Mon Sep 9 20:08:04 2013 -0700
+  
+      Initial commit

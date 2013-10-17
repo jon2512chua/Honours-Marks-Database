@@ -225,7 +225,7 @@ public class DisplayCE_PopulateEditUnit {
 	}
 	
 	/**
-	 * Foced hard refresh and reload data
+	 * Forced hard refresh and reload data
 	 * @param tree the tree (unitTree) which is to be refreshed
 	 */
 	private static void hardRefresh(Tree tree) {
@@ -233,15 +233,14 @@ public class DisplayCE_PopulateEditUnit {
 		
 		if (!firstRun) CohortData.loadData();
 		firstRun = false;
-		
+
 		TreeItem newStudent = new TreeItem(tree, SWT.NONE);
 		newStudent.setText(new String[] {"+", "Add New Student"});
+		
 		for (Unit u : CohortData.units) {
 			TreeItem unit = new TreeItem(tree, SWT.NONE);
 			TreeItemMap.put(unit, new StringBuffer[]{u.unitCode, u.name});
-			refreshTree(tree);
 		}
-		hardRefreshNeeded = false;
 	}
 	
 

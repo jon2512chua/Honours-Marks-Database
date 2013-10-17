@@ -20,12 +20,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import orm.Assessment;
-import orm.Mark;
 import orm.Staff;
 import orm.Student;
 import orm.SubAssessment;
 import orm.Unit;
-import sessionControl.Session;
+
 /**
  * This is a class for exporting particular statistics from the database into excel format.
  * @author Nicholas Abbey

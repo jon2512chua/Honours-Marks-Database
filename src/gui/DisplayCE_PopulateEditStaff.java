@@ -81,6 +81,7 @@ public class DisplayCE_PopulateEditStaff {
 				if (staffTree.getSelectionCount() == 1)  {
 					TreeItem item = staffTree.getSelection()[0];
 					Staff s = Staff.getStaffByID(item.getText());
+					selectedStaff = s.getStaffID() +"";
 					populateSelectedData(s);
 				}
 			}
@@ -103,8 +104,6 @@ public class DisplayCE_PopulateEditStaff {
 				}
 			}
 		});*/
-
-
 
 		Composite rComposite = new Composite(editStaffComposite, SWT.NONE);
 		rComposite.setLayout(new GridLayout(2, false));
@@ -173,6 +172,7 @@ public class DisplayCE_PopulateEditStaff {
 			public void handleEvent(Event event) {
 				try {
 					Staff.getStaffByID(selectedStaff).deleteRow();
+					
 					PopupWindow.popupMessage(CETabFolder.getShell(), "Staff deleted.", "Complete");
 				}
 				catch (Exception e) {

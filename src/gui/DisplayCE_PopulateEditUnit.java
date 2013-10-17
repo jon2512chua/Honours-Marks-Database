@@ -37,6 +37,7 @@ public class DisplayCE_PopulateEditUnit {
 	private static Map<TreeItem, StringBuffer[]> TreeItemMap = new HashMap<TreeItem, StringBuffer[]>();
 	private static boolean hardRefreshNeeded;
 	private static boolean firstRun = true;
+	private static String selectedunit;
 
 	/**
 	 * Populates the Edit Unit Tab
@@ -141,8 +142,9 @@ public class DisplayCE_PopulateEditUnit {
 								+ "\" from the database", "WARNING!"))
 							try {
 								String[] selectedString = selected[0].getText().split(" ");
-								Unit.getUnitByCode(selectedString[0]).deleteRow();
+								Unit.getUnitByCode(selectedunit).deleteRow();
 								PopupWindow.popupMessage(rComposite.getShell(), "Unit removed.", "SUCCESS!");
+								selectedunit = "";
 								unitTree.getSelection()[0].dispose();
 								unitName.setText("");
 								unitCode.setText("");
@@ -150,7 +152,7 @@ public class DisplayCE_PopulateEditUnit {
 								hardRefreshNeeded = true;
 								refreshTree(unitTree);
 							} catch (SQLException e) {
-								PopupWindow.popupMessage(rComposite.getShell(), "Unit not removed.", "ERROR!");
+								PopupWindow.popupMessage(rComposite.getShell(), "Unit not removed.", "ERROR!");								
 							}
 				} else PopupWindow.popupMessage(rComposite.getShell(), "Please select an Unit to be Removed.", "ERROR!");
 			}
@@ -177,6 +179,7 @@ public class DisplayCE_PopulateEditUnit {
 						unitName.setText("");
 						creditPoints.setText("");
 					} else {
+						selectedunit = selectedString[0];
 						Unit u = Unit.getUnitByCode(selectedString[0]);
 						populateSelectedData(u);
 					}
@@ -236,9 +239,9 @@ public class DisplayCE_PopulateEditUnit {
 		for (Unit u : CohortData.units) {
 			TreeItem unit = new TreeItem(tree, SWT.NONE);
 			TreeItemMap.put(unit, new StringBuffer[]{u.unitCode, u.name});
-			System.out.println(u.unitCode);
 			refreshTree(tree);
 		}
+		hardRefreshNeeded = false;
 	}
 	
 

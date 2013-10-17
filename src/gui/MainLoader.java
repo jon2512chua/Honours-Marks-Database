@@ -12,6 +12,7 @@ import gui.MainUI;
  * @author Tim Lander
  */
 public class MainLoader {
+	@SuppressWarnings("unused")
 	private static final String errorFile = "LogFile.log"; 	//This is for when we want the errors to be printed to a log file.
 
 	public static void main(String[] args) {

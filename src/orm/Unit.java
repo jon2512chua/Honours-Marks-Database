@@ -101,7 +101,7 @@ public class Unit extends BaseUnit {
      */
     public void deleteRow() throws SQLException {
     	CohortData.units.remove(this);
-    	String sql = "DELETE from Unit WHERE UnitCode = " + this.getUnitCode().toString();
+    	String sql = "DELETE from Unit WHERE UnitCode = '" + this.getUnitCode().toString() + "'";
     	Statement stmt = Session.dbConn.getConnection().createStatement();
     	stmt.execute(sql);
     	stmt.close();

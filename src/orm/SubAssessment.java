@@ -58,10 +58,11 @@ public class SubAssessment extends BaseSubAssessment {
      * @param name the name of the sub assessment
      * @param parentAssessment the Assessment object this sub assessment belongs to
      * @param assessmentPercent the percentage this sub assessment takes up in the parent assessment
+     * @param maxMark the maximum mark of the sub assessment
      * @throws SQLException when there's an error with the SQL statement
      */
-    public SubAssessment(String name, Assessment parentAssessment, int assessmentPercent) throws SQLException {
-        super(name, parentAssessment, assessmentPercent);
+    public SubAssessment(String name, Assessment parentAssessment, int assessmentPercent, int maxMark) throws SQLException {
+        super(name, parentAssessment, assessmentPercent, maxMark);
     }
 
     /**
@@ -87,6 +88,20 @@ public class SubAssessment extends BaseSubAssessment {
     }
     
     /**
+     * return assessment detail of a specific unit code and assessment name
+     * @param AssessID the specific assessment ID
+     * @param subAssessmentName the specific sub assessment name
+     * @return the Sub Assessment class of the specific assessment
+     */
+    public static SubAssessment getSubAssessByAssessCodeAndName (String AssessID, String subAssessmentName) {
+    	for (SubAssessment s : SubAssessment.getAllSubAssessments()) {
+    		try {if (AssessID == s.getParentAssessment().getAssessmentID()+"" && subAssessmentName.equals(s.getName()+"")) return s;
+    		} catch (java.lang.NumberFormatException e) {}
+    	}
+    	return null;
+    }
+    
+    /**
      * Update a single row of the SubAssessment table 
      * 	- called when the save changes button is hit.
      *  - SubAssessmentID number is omitted so that it can never be changed. 
@@ -100,7 +115,7 @@ public class SubAssessment extends BaseSubAssessment {
     }
     
     /**
-     * Delete this student
+     * Delete this sub assessment
      * @throws SQLException
      */
     public void deleteRow() throws SQLException {

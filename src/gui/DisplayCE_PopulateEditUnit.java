@@ -112,6 +112,9 @@ public class DisplayCE_PopulateEditUnit {
 						try {
 							new Unit(unitCode.getText().toUpperCase(), unitName.getText(), Integer.parseInt(creditPoints.getText()));
 							PopupWindow.popupMessage(rComposite.getShell(), "New Unit created successfully.", "Save Successful");
+							unitName.setText("");
+							unitCode.setText("");
+							creditPoints.setText("");
 						} catch (SQLException ex) {
 							PopupWindow.popupMessage(rComposite.getShell(), "New unit was unable to be created. \nPossible duplicate unit code.", "ERROR! Save Unsuccessful");
 						}

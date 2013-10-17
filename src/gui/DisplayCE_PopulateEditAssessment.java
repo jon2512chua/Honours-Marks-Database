@@ -262,6 +262,13 @@ public class DisplayCE_PopulateEditAssessment {
 				PopupWindow.popupAddSubAssessment(editAssessmentComposite.getShell(), 
 						"Please fill in the Sub Assessment Details", "Adding Sub Assessment", 
 						subAssessmentTree, Assessment.getAssessByCodeAndName(lblUnitName.getText(), assessmentName.getText()));
+				for (TreeItem ti : subAssessmentTree.getItems()) ti.dispose();
+				for (SubAssessment s : Assessment.getAssessByCodeAndName(lblUnitName.getText(),
+						assessmentName.getText()).getSubAssessments()) {
+					TreeItem subAssessment = new TreeItem(subAssessmentTree, SWT.NONE);
+					subAssessment.setText(new String[] {s.getName()+"", s.getMaxMark()+"", s.getAssessmentPercent()+""});
+
+				}
 				hardRefreshNeeded = true;
 				refreshTree();
 			}
@@ -275,9 +282,27 @@ public class DisplayCE_PopulateEditAssessment {
 						"Are you sure you want to REMOVE \"" + subAssessmentTree.getSelection()[0].getText()
 						+ "\" from the database", "WARNING!")) {
 					
+					try {
+						Assessment newa = Assessment.getAssessByCodeAndName(lblUnitName.getText(), assessmentName.getText());
+						System.out.println(newa.getAssessmentID());
+						SubAssessment.getSubAssessByAssessCodeAndName(
+								Assessment.getAssessByCodeAndName(lblUnitName.getText(), assessmentName.getText()).toString(), 
+								subAssessmentTree.getSelection()[0].getText()).deleteRow();
+					} catch (SQLException | java.lang.NullPointerException ex) {PopupWindow.popupMessage(rComposite.getShell(),
+							"Sub Assessment was unable to be removed. \nPossible corrupted database", "ERROR! Remove Unsuccessful");}
+					
 					// Enable the previous window
 					recursiveSetEnabled(editAssessmentComposite.getShell(), true);
-					subAssessmentTree.getSelection()[0].dispose();
+					//subAssessmentTree.getSelection()[0].dispose();
+					for (TreeItem ti : subAssessmentTree.getItems()) ti.dispose();
+					for (SubAssessment s : Assessment.getAssessByCodeAndName(lblUnitName.getText(),
+							assessmentName.getText()).getSubAssessments()) {
+						TreeItem subAssessment = new TreeItem(subAssessmentTree, SWT.NONE);
+						subAssessment.setText(new String[] {s.getName()+"", s.getMaxMark()+"", s.getAssessmentPercent()+""});
+
+					}
+					hardRefreshNeeded = true;
+					refreshTree();
 				}
 				else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select a Sub Assessment to be Removed.", "ERROR!");
 			}
@@ -355,10 +380,10 @@ public class DisplayCE_PopulateEditAssessment {
 	 */
 	private static void hardRefresh() {
 		for (TreeItem ti : assessmentTree.getItems()) ti.dispose();
-		for (TreeItem ti : subAssessmentTree.getItems()) ti.dispose();
 
 		if (!firstRun) CohortData.loadData();
 		firstRun = false;
+		
 
 		TreeItem newUnit = new TreeItem(assessmentTree, SWT.NONE);
 		newUnit.setText("+  Add New Assessment");

@@ -32,6 +32,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
 
 import orm.Assessment;
+import orm.SubAssessment;
 import orm.Unit;
 
 import sessionControl.BCrypt;
@@ -658,11 +659,12 @@ public class PopupWindow {
 					if (!subAssessmentName.getText().isEmpty() && !maximumMark.getText().isEmpty() && !assessmentPercentage.getText().isEmpty()) {
 						for (TreeColumn tc : tree.getColumns()) tc.pack();
 						//TODO proper constructor need to be done or not this will not be working
-	//					try {
-	//						new SubAssessment(subAssessmentName.getText()+"", parentAssess, 
-	//								Integer.parseInt(assessmentPercentage.getText())).updateRow();
-	//						
-	//					} catch (NumberFormatException | SQLException e) {}
+						try {
+							new SubAssessment(subAssessmentName.getText()+"", parentAssess, 
+									Integer.parseInt(assessmentPercentage.getText()), Integer.parseInt(maximumMark.getText())).updateRow();
+							
+						} catch (NumberFormatException | SQLException e) {PopupWindow.popupMessage(shell, 
+								"New sub assessment was unable to be created. \nPossible corrupted data", "ERROR! Save Unsuccessful");}
 						DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, true);
 						shell.close();
 					} else {

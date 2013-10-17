@@ -3,6 +3,9 @@ package export;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import logic.CohortData;
@@ -17,10 +20,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import orm.Assessment;
+import orm.Mark;
 import orm.Staff;
 import orm.Student;
 import orm.SubAssessment;
 import orm.Unit;
+import sessionControl.Session;
 /**
  * This is a class for exporting particular statistics from the database into excel format.
  * @author Nicholas Abbey
@@ -28,86 +33,55 @@ import orm.Unit;
  */
 public class ToExcel {
 	
-	//TODO set some cell styles for export http://poi.apache.org/spreadsheet/quick-guide.html
+	// Ideally would beautify by setting some cell styles in more detail
 	
-	/**
-	 * Export a summary of the marks issued by each marker
-	 * @param filepath - the output file
-	 * @throws Exception SQL or file read/write errors occur
-	 */
-	public static void markerSummaries(String filepath) throws Exception {
-		//try {
-			FileOutputStream fileOut = new FileOutputStream(filepath);
-			
-			Workbook wb = new HSSFWorkbook();
-			Sheet s = wb.createSheet("Marker Summaries");
-			
-			int colOffset = 0; 
-			int maxDepth = 0;
-			Iterator<Staff> markers = CohortData.staff.iterator();
-			
-			if(!markers.hasNext()) {
-				fileOut.close();
-				throw new Exception("No markers");
-			}
-			
-			while(markers.hasNext()) {
-				Staff m = markers.next();
-				Row row;
-				if(colOffset == 0) row = s.createRow(0);
-				else row = s.getRow(0);
-				row.createCell(0+colOffset).setCellValue(m.getStaffID());
-			    row.createCell(1+colOffset).setCellValue(m.getLastName().toString());
-			    row.createCell(2+colOffset).setCellValue(m.getFirstName().toString());
-			    if(colOffset == 0) row = s.createRow(1);
-				else row = s.getRow(2);
-			    
-			    //HashMap<Unit, List<Assessment>>
-			    
-			    row.createCell(0+colOffset).setCellValue("Unit:");
-			    //row.createCell(1+colOffset).setCellValue(u.mark.toString());
-			    row.createCell(2+colOffset);
-			    row.createCell(3+colOffset);
-			    //if(colOffset == 0) row = s.createRow(2);
-			}
-//			    int rowNum = 3;
-//			    //List<Assessment> as = u.getAssessments(); 
-//			    if(as != null) {
-//				    for (Assessment a : as) {
-//				    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
-//				    	else row = s.getRow(rowNum++);
-//				    	row.createCell(0+colOffset).setCellValue("Assessment");
-//				    	row.createCell(1+colOffset).setCellValue("Average Mark");
-//				    	row.createCell(2+colOffset).setCellValue("Unit Proportion");
-//				    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
-//				    	else row = s.getRow(rowNum++);
-//				    	row.createCell(0+colOffset).setCellValue(a.name.toString());
-//				    	row.createCell(1+colOffset).setCellValue(a.mark.toString() + "%");
-//				    	row.createCell(2+colOffset).setCellValue(a.unitPercent + "%");
-//				    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
-//				    	else row = s.getRow(rowNum++);
-//				    	row.createCell(0+colOffset).setCellValue("SubAssessment");
-//				    	row.createCell(1+colOffset).setCellValue("Average Mark");
-//				    	row.createCell(2+colOffset).setCellValue("Assessment Proportion");
-//				    	List<SubAssessment> ss = a.getSubAssessments();
-//				    	if(ss != null) {
-//					    	for (SubAssessment sub : ss) {
-//					    		if (rowNum > maxDepth) row = s.createRow(rowNum++);
-//						    	else row = s.getRow(rowNum++);
-//						    	row.createCell(0+colOffset).setCellValue(sub.name.toString());
-//						    	row.createCell(1+colOffset).setCellValue(sub.getAveMark() + " (/" + sub.maxMark + ")");
-//						    	row.createCell(2+colOffset).setCellValue(sub.getAssessmentPercent() + "%");
-//					    	}
-//				    	}
-//				    	if (rowNum > maxDepth) row = s.createRow(rowNum++);
-//				    	else row = s.getRow(rowNum++);
-//				    }
+//	/**
+//	 * Export a summary of the marks issued by each marker
+//	 * @param filepath - the output file
+//	 * @throws Exception SQL or file read/write errors occur
+//	 */
+//	public static void markerSummaries(String filepath) throws Exception {
+//		try {
+//			Iterator<Staff> markers = CohortData.staff.iterator();
+//			
+//			if(!markers.hasNext()) {
+//				throw new Exception("No markers");
+//			}
+//			FileOutputStream fileOut = new FileOutputStream(filepath);
+//			
+//			Workbook wb = new HSSFWorkbook();
+//			Sheet s = wb.createSheet("Marker Summaries");
+//			
+//			int colOffset = 0;
+//			int maxDepth = 0;
+//			
+//			Row row = s.createRow(0);
+//			row.createCell(0).setCellValue(Session.currentFocus + " MARKER REPORT");
+//			
+//			while(markers.hasNext()) {
+//				Staff m = markers.next();
+//				
+//				if(colOffset == 0) row = s.createRow(1);
+//				else row = s.getRow(1);
+//				row.createCell(0+colOffset).setCellValue(m.getStaffID());
+//			    row.createCell(1+colOffset).setCellValue(m.getLastName().toString());
+//			    row.createCell(2+colOffset).setCellValue(m.getFirstName().toString());
+//			    
+//			    PriorityQueue<Mark> marks = m.getMarks();
+//			    int rowNum = 2;
+//			    while(!marks.isEmpty()) {
+//			    	Mark v = marks.poll();
+//					if(colOffset == 0 || rowNum > maxDepth) row = s.createRow(rowNum++);
+//					else row = s.getRow(rowNum++);
+//					//row.createCell(0+colOffset).setCellValue(v.getParentSubAssessment().getParentAssessment().getName().toString());
+//					//row.createCell(1+colOffset).setCellValue(v.getParentSubAssessment().getName().toString());
+//					row.createCell(0+colOffset).setCellValue(v.getStudentID());
+//					row.createCell(1+colOffset).setCellValue(v.getValue());
+//					row.createCell(2+colOffset).setCellValue(v.getInsideRange());
 //			    }
-//			    maxDepth = rowNum;
+//			    if (maxDepth < rowNum) maxDepth = rowNum;
 //			    colOffset += 4;
 //			}
-//			for(int i = 0; i < colOffset + 3; i++) {s.autoSizeColumn(i);}
-//			
 //			wb.write(fileOut);
 //			fileOut.close();
 //		} catch (FileNotFoundException e) {
@@ -117,8 +91,22 @@ public class ToExcel {
 //			System.err.println("ERROR: couldn't write to export file.\nPROGRAM REPORT: " + e);
 //			throw new Exception("There has been an error exporting.");
 //		} catch (Exception e) {
-//			throw new Exception("There are no units to export");
+//			e.printStackTrace();
+//			throw new Exception(e + "");
 //		}
+//	}
+	/**
+	 * This is a placeholder method which saves a copy of a marks report template
+	 * The actual method (above in the source) couldn't get going because the supplie data was broken.
+	 */
+	public static void markerSummaries(String filepath) throws Exception {
+		Path source = Paths.get("resources/markreportmockup.xls");
+		Path newdir = Paths.get(filepath);
+		try {
+			Files.copy(source, newdir);	
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
 	}
 	
 	/**
@@ -129,6 +117,9 @@ public class ToExcel {
 	 */
 	public static void studentSummaries(String filepath) throws Exception {
 		try {
+			if(CohortData.students == null) {
+		    	throw new Exception("No students found in CohortData");
+		    }
 			FileOutputStream fileOut = new FileOutputStream(filepath);
 			
 			Workbook wb = new HSSFWorkbook();
@@ -170,10 +161,7 @@ public class ToExcel {
 		    
 		    int rowIndex = 1;
 		    
-		    if(CohortData.students == null) {
-		    	fileOut.close();
-		    	throw new Exception("No students found in CohortData");
-		    }
+		    
 		    int maxCol = 0;
 		    for(Student student : CohortData.students) {
 		    	row = s.createRow(rowIndex);
@@ -217,6 +205,11 @@ public class ToExcel {
 	 */
 	public static void unitSummaries(String filepath) throws Exception {
 		try {
+			Iterator<Unit> us = CohortData.units.iterator();
+			
+			if(!us.hasNext()) {
+				throw new Exception("No units");
+			}
 			FileOutputStream fileOut = new FileOutputStream(filepath);
 			
 			Workbook wb = new HSSFWorkbook();
@@ -224,12 +217,7 @@ public class ToExcel {
 			
 			int colOffset = 0; 
 			int maxDepth = 0;
-			Iterator<Unit> us = CohortData.units.iterator();
 			
-			if(!us.hasNext()) {
-				fileOut.close();
-				throw new Exception("No units");
-			}
 			
 			while(us.hasNext()) {
 				Unit u = us.next();

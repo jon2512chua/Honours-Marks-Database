@@ -376,12 +376,12 @@ public class BaseStudent {
     }
     
     /**
-     * Private helper method to get a list of units given the discipline name.
+     * helper method to get a list of units given the discipline name.
      * 
      * @param disciplineName the name of the discipline
      * @return the list of units for said discipline
      */
-    private List<Unit> getUnitListByDisciplineName(String disciplineName) {
+    public List<Unit> getUnitListByDisciplineName(String disciplineName) {
         List<Unit> unitsList = new ArrayList<>();
         
         try (Statement s = Session.dbConn.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

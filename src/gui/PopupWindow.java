@@ -111,8 +111,6 @@ public class PopupWindow {
 	 * @param title the title to display
 	 */
 	public static Shell popupMsg(final Shell parentShell, String text, String title) {
-		// Disable the previous window
-		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(parentShell, false);
 
 		final Shell shell = new Shell(parentShell, SWT.CLOSE | SWT.TITLE);
 		shell.setImage(parentShell.getImage());
@@ -147,7 +145,7 @@ public class PopupWindow {
 				System.exit(0);	//Gracefully exit system.
 			}
 		};
-		btnOk.addListener(SWT.Close, btnQuitListener);
+		btnOk.addListener(SWT.Selection, btnQuitListener);
 
 		return shell;
 	}
@@ -659,8 +657,6 @@ public class PopupWindow {
 			Listener btnOKListener = new Listener() {
 				public void handleEvent(Event event) {
 					if (!subAssessmentName.getText().isEmpty() && !maximumMark.getText().isEmpty() && !assessmentPercentage.getText().isEmpty()) {
-						TreeItem data = new TreeItem(tree, SWT.NONE);
-						data.setText(new String[] {subAssessmentName.getText(), maximumMark.getText(), assessmentPercentage.getText()});
 						for (TreeColumn tc : tree.getColumns()) tc.pack();
 						//TODO proper constructor need to be done or not this will not be working
 	//					try {
@@ -711,6 +707,7 @@ public class PopupWindow {
 		 * @param parentShell the display currently in use
 		 * @param text the text the popup displays 
 		 * @param title the title to display
+		 * @param tree the assesementTree
 		 * @param assessmentName the assessmentName
 		 * @param percentageUnit the percentage unit
 		 */
@@ -736,13 +733,13 @@ public class PopupWindow {
 
 
 			final Combo unitName = new Combo(shell, SWT.READ_ONLY);
-			String[] unitNameString = new String[Data.Unit.length];
-			int i = -1;
+			String[] unitNameString = new String[Unit.getAllUnits().size()];
+			int i = 0;
 			for (Unit u : CohortData.units) {
-				i++;
 				unitNameString[i] = u.unitCode+" "+u.name;
+				i++;
 			}
-			unitName.setItems(Arrays.copyOfRange(unitNameString, 0, i+1));
+			unitName.setItems(Arrays.copyOfRange(unitNameString, 0, i));
 			unitName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 			Composite composite = new Composite(shell, SWT.NONE);
@@ -758,15 +755,16 @@ public class PopupWindow {
 						while (i < tree.getItemCount() && !added){
 							String[] selectedUnit = unitName.getText().split(" ");
 							if (tree.getItem(i).getText().equals(selectedUnit[0])) {
-								TreeItem data = new TreeItem(tree.getItem(i), SWT.NONE);
-								data.setText(assessmentName.getText());
 								for (TreeColumn tc : tree.getColumns()) tc.pack();
 								try {
 									new Assessment(Assessment.getMaxAssessID()+1,assessmentName.getText(), 
-											Unit.getUnitByCode(tree.getItem(i).getText()), Integer.parseInt(percentageUnit.getText())).updateRow();
-									PopupWindow.popupMessage(unitName.getShell(), "New Unit created successfully.", "Save Successful");
+											Unit.getUnitByCode(tree.getItem(i).getText()), Integer.parseInt(percentageUnit.getText()));
+										CohortData.loadData();
+										DisplayCE_PopulateEditAssessment.hardRefreshNeeded = true;
+										DisplayCE_PopulateEditAssessment.refreshTree();
+									PopupWindow.popupMessage(unitName.getShell(), "New Assessment created successfully.", "Save Successful");
 								} catch (SQLException ex) {
-									PopupWindow.popupMessage(unitName.getShell(), "New unit was unable to be created. \nPossible duplicate unit code.", "ERROR! Save Unsuccessful");
+									PopupWindow.popupMessage(unitName.getShell(), "New Aseessment was unable to be created. \nPossible corrupt data.", "ERROR! Save Unsuccessful");
 								}
 								added = true;
 							}
@@ -837,7 +835,7 @@ public class PopupWindow {
 	 * TODO needs fixing
 	 * @param s the error message to display
 	 */
-	public static void failedLoad(Shell shell, String s) {
+	public static void failedLoad(final Shell shell, String s) {
 		shell.setLayout(new GridLayout(2, false));
 		try {
 			Image icon = new Image(shell.getDisplay(),MainUI.getIconPath());

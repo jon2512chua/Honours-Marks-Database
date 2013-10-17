@@ -31,6 +31,7 @@ public class DisplayCE_PopulateEditAssessment {
 	
 	private static Tree assessmentTree;
 	private static Tree subAssessmentTree;
+	private static boolean firstRun = true;
 
 	/**
 	 * helper class to disable and grayed out anything in the composite
@@ -220,7 +221,16 @@ public class DisplayCE_PopulateEditAssessment {
 								"Adding Assessment", assessmentTree, assessmentName, percentageUnit);
 					} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Null Value is not allowed.", "ERROR!");
 				} else {
-					//TODO Save
+					Assessment assess = Assessment.getAssessByCodeAndName(assessmentTree.getSelection()[0].getParentItem().getText(),
+							assessmentTree.getSelection()[0].getText());
+					assess.setName(assessmentName.getText());
+					assess.setUnitPercent(Integer.parseInt(percentageUnit.getText()));
+					//TODO save into sub assessment
+					try {
+						assess.updateRow();
+					} catch (SQLException e) {
+						PopupWindow.popupMessage(rComposite.getShell(), "Unable to save change. \nPossible corrupt data.", "ERROR! Save Unsuccessful");
+					}
 				}
 			}
 		};
@@ -230,18 +240,19 @@ public class DisplayCE_PopulateEditAssessment {
 				if (assessmentTree.getSelection().length != 0) {
 					if (assessmentTree.getSelection()[0] != null)
 						if (PopupWindow.popupYessNo(editAssessmentComposite.getShell(),
-							"Are you sure you want to REMOVE \"" + assessmentTree.getSelection()[0].getText()
-							+ "\" from the database", "WARNING!"))
-					try {
-						Assessment.getAssessByCodeAndName(assessmentTree.getSelection()[0].getParentItem().getText(),
-							assessmentTree.getSelection()[0].getText()).deleteRow();
-						PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Assessment removed.", "SUCCESS!");
-						assessmentTree.getSelection()[0].dispose();
-						assessmentName.setText("");
-						percentageUnit.setText("");
-					} catch (SQLException e) {
-						PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Assessment not removed.", "ERROR!");
-					}
+								"Are you sure you want to REMOVE \"" + assessmentTree.getSelection()[0].getText()
+								+ "\" from the database", "WARNING!"))
+							try {
+								Assessment.getAssessByCodeAndName(assessmentTree.getSelection()[0].getParentItem().getText(),
+										assessmentTree.getSelection()[0].getText()).deleteRow();
+								PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Assessment removed.", "SUCCESS!");
+								hardRefreshNeeded = true;
+								refreshTree();
+								assessmentName.setText("");
+								percentageUnit.setText("");
+							} catch (SQLException e) {
+								PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Assessment not removed.", "ERROR!");
+							}
 				} else PopupWindow.popupMessage(editAssessmentComposite.getShell(), "Please select an Assessment to be Removed.", "ERROR!");
 			}
 		};
@@ -251,6 +262,8 @@ public class DisplayCE_PopulateEditAssessment {
 				PopupWindow.popupAddSubAssessment(editAssessmentComposite.getShell(), 
 						"Please fill in the Sub Assessment Details", "Adding Sub Assessment", 
 						subAssessmentTree, Assessment.getAssessByCodeAndName(lblUnitName.getText(), assessmentName.getText()));
+				hardRefreshNeeded = true;
+				refreshTree();
 			}
 		};
 
@@ -344,6 +357,9 @@ public class DisplayCE_PopulateEditAssessment {
 		for (TreeItem ti : assessmentTree.getItems()) ti.dispose();
 		for (TreeItem ti : subAssessmentTree.getItems()) ti.dispose();
 
+		if (!firstRun) CohortData.loadData();
+		firstRun = false;
+
 		TreeItem newUnit = new TreeItem(assessmentTree, SWT.NONE);
 		newUnit.setText("+  Add New Assessment");
 		for (Unit u : CohortData.units) {
@@ -354,5 +370,6 @@ public class DisplayCE_PopulateEditAssessment {
 				TreeItemMap.put(assessment, a.name);
 			}
 		}
+		for (TreeItem ti : assessmentTree.getItems()) ti.setExpanded(true);
 	}
 }

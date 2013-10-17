@@ -41,7 +41,8 @@ import org.eclipse.swt.widgets.Combo;
 public class DisplayCE_PopulateEditStudent {
 	private static Map<TreeItem, StringBuffer[]> TreeItemMap = new HashMap<TreeItem, StringBuffer[]>();
 	public static Boolean hardRefreshNeeded = true;
-
+	
+	
 	private static Text studentNumber;
 	private static Text title;
 	private static Text lastName;
@@ -49,6 +50,7 @@ public class DisplayCE_PopulateEditStudent {
 	private static Text dissertationTitle;
 	private static Tree supervisorTree;
 	private static Tree studentTree;
+	private static Boolean firstRun = true;
 
 	/**
 	 * Populates the Edit Students Tab
@@ -194,6 +196,8 @@ public class DisplayCE_PopulateEditStudent {
 				try {
 					Student.getStudentByID(studentNumber.getText()).deleteRow();
 					PopupWindow.popupMessage(CETabFolder.getShell(), "Student deleted.", "Complete");
+					hardRefreshNeeded = true;
+					refreshTree();
 				}
 				catch (Exception e) {
 					PopupWindow.popupMessage(CETabFolder.getShell(), "Student could not be deleted.", "WARNING");
@@ -362,6 +366,9 @@ public class DisplayCE_PopulateEditStudent {
 	private static void hardRefresh() {
 		for (TreeItem ti : studentTree.getItems()) ti.dispose();
 		for (TreeItem ti : supervisorTree.getItems()) ti.dispose();
+		
+		if (!firstRun) CohortData.loadData();
+		firstRun = false;
 		
 		TreeItem newStudent = new TreeItem(studentTree, SWT.NONE);
 		newStudent.setText(new String[] {"+", "Add New Student"});

@@ -42,6 +42,7 @@ public class DisplayCE_PopulateEditStaff {
 	private static Text firstName;
 	private static Tree staffTree;
 	private static String selectedStaff;
+	private static Boolean firstRun = true; 
 	/**
 	 * Populates the Edit Staff Tab
 	 * @param CETabFolder the folder to put the tab in
@@ -277,7 +278,10 @@ public class DisplayCE_PopulateEditStaff {
 
 	private static void hardRefresh() {
 		for (TreeItem ti : staffTree.getItems()) ti.dispose();
-
+		
+		if (!firstRun) CohortData.loadData();
+		firstRun = false;
+		
 		TreeItem newStaff = new TreeItem(staffTree, SWT.NONE);
 		newStaff.setText(new String[] {"+", "Add New Staff member"});
 

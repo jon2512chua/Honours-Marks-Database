@@ -36,6 +36,7 @@ public class DisplayCE_PopulateEditUnit {
 	private static Text creditPoints;
 	private static Map<TreeItem, StringBuffer[]> TreeItemMap = new HashMap<TreeItem, StringBuffer[]>();
 	private static boolean hardRefreshNeeded;
+	private static boolean firstRun = true;
 
 	/**
 	 * Populates the Edit Unit Tab
@@ -98,39 +99,60 @@ public class DisplayCE_PopulateEditUnit {
 		Validation.validateInt(creditPoints);
 		
 
-		Button[] btnSaveDiscard = CommonButtons.addSaveDiscardChangesButton(rComposite);
+		Button[] btnSaveDiscard = CommonButtons.addSaveChangesDeleteButton(rComposite, "Unit");
 
 		tbtmEditUnit.setControl(editUnitComposite);
-		
-		DisplayCE_PopulateEditAssessment.recursiveSetEnabled(rComposite, false);
 		
 		btnSaveDiscard[0].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				TreeItem[] selected = unitTree.getSelection();
-				if (selected.length != 0) {
-					if (unitTree.indexOf(unitTree.getSelection()[0]) == 0) {
-						if (!unitName.getText().isEmpty() && !unitCode.getText().isEmpty()) {
-							try {
-								new Unit(unitCode.getText().toUpperCase(), unitName.getText(), Integer.parseInt(creditPoints.getText()));
-								PopupWindow.popupMessage(unitTree.getShell(), "New Unit created successfully.", "Save Successful");
-								hardRefreshNeeded = true;
-								refreshTree(unitTree);
-							} catch (SQLException ex) {
-								PopupWindow.popupMessage(unitTree.getShell(), "New unit was unable to be created. \nPossible duplicate unit code.", "ERROR! Save Unsuccessful");
-							}
-						} else PopupWindow.popupMessage(unitTree.getShell(), "Null Value is not allowed.", "ERROR!");
-					} else {
-						Unit unit = Unit.getUnitByCode(selected[0].getText());
-						unit.setName(unitName.getText());
-						unit.setUnitCode(unitCode.getText().toUpperCase());
-						unit.setPoints(Integer.parseInt(creditPoints.getText()));
+				if (unitTree.getSelectionCount() == 0 || unitTree.indexOf(unitTree.getSelection()[0]) == 0) {
+					if (!unitName.getText().isEmpty() && !unitCode.getText().isEmpty()) {
 						try {
-							unit.updateRow();
-						} catch (SQLException e) {
-							PopupWindow.popupMessage(unitTree.getShell(), "Unable to save change. \nPossible corrupt data.", "ERROR! Save Unsuccessful");
+							new Unit(unitCode.getText().toUpperCase(), unitName.getText(), Integer.parseInt(creditPoints.getText()));
+							PopupWindow.popupMessage(rComposite.getShell(), "New Unit created successfully.", "Save Successful");
+							hardRefreshNeeded = true;
+							refreshTree(unitTree);
+						} catch (SQLException ex) {
+							PopupWindow.popupMessage(rComposite.getShell(), "New unit was unable to be created. \nPossible duplicate unit code.", "ERROR! Save Unsuccessful");
 						}
+					} else PopupWindow.popupMessage(rComposite.getShell(), "Null Value is not allowed.", "ERROR!");
+				} else {
+					Unit unit = Unit.getUnitByCode(selected[0].getText());
+					unit.setName(unitName.getText());
+					unit.setUnitCode(unitCode.getText().toUpperCase());
+					unit.setPoints(Integer.parseInt(creditPoints.getText()));
+					try {
+						unit.updateRow();
+					} catch (SQLException e) {
+						PopupWindow.popupMessage(rComposite.getShell(), "Unable to save change. \nPossible corrupt data.", "ERROR! Save Unsuccessful");
 					}
 				}
+			}
+		});
+		
+		btnSaveDiscard[1].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				TreeItem[] selected = unitTree.getSelection();
+				if (selected.length != 0) {
+					if (selected[0] != null)
+						if (PopupWindow.popupYessNo(rComposite.getShell(),
+								"Are you sure you want to REMOVE \"" + selected[0].getText()
+								+ "\" from the database", "WARNING!"))
+							try {
+								String[] selectedString = selected[0].getText().split(" ");
+								Unit.getUnitByCode(selectedString[0]).deleteRow();
+								PopupWindow.popupMessage(rComposite.getShell(), "Unit removed.", "SUCCESS!");
+								unitTree.getSelection()[0].dispose();
+								unitName.setText("");
+								unitCode.setText("");
+								creditPoints.setText("");
+								hardRefreshNeeded = true;
+								refreshTree(unitTree);
+							} catch (SQLException e) {
+								PopupWindow.popupMessage(rComposite.getShell(), "Unit not removed.", "ERROR!");
+							}
+				} else PopupWindow.popupMessage(rComposite.getShell(), "Please select an Unit to be Removed.", "ERROR!");
 			}
 		});
 		
@@ -146,7 +168,6 @@ public class DisplayCE_PopulateEditUnit {
 		
 		unitTree.addListener(SWT.Selection,new Listener() {
 			public void handleEvent(Event event) {
-				DisplayCE_PopulateEditAssessment.recursiveSetEnabled(rComposite, true);
 				TreeItem[] selected = unitTree.getSelection();
 				if (selected.length != 0) {
 					String[] selectedString = selected[0].getText().split(" ");
@@ -186,11 +207,12 @@ public class DisplayCE_PopulateEditUnit {
 	
 	/**
 	 * Refreshes all data displayed in the tree
-	 * @param tree the tree which is to be refreshed
+	 * @param tree the tree (unitTree) which is to be refreshed
 	 */
 	public static void refreshTree(Tree tree) {
 		if (hardRefreshNeeded) {
 			hardRefresh(tree);
+			hardRefreshNeeded = false;
 		}
 		for ( TreeItem ti : tree.getItems() ) {
 			try {
@@ -198,16 +220,23 @@ public class DisplayCE_PopulateEditUnit {
 			} catch (java.lang.NullPointerException e) {}
 		}
 	}
-
+	
+	/**
+	 * Foced hard refresh and reload data
+	 * @param tree the tree (unitTree) which is to be refreshed
+	 */
 	private static void hardRefresh(Tree tree) {
-		hardRefreshNeeded = false;
 		for (TreeItem ti : tree.getItems()) ti.dispose();
+		
+		if (!firstRun) CohortData.loadData();
+		firstRun = false;
 		
 		TreeItem newStudent = new TreeItem(tree, SWT.NONE);
 		newStudent.setText(new String[] {"+", "Add New Student"});
 		for (Unit u : CohortData.units) {
 			TreeItem unit = new TreeItem(tree, SWT.NONE);
 			TreeItemMap.put(unit, new StringBuffer[]{u.unitCode, u.name});
+			System.out.println(u.unitCode);
 			refreshTree(tree);
 		}
 	}

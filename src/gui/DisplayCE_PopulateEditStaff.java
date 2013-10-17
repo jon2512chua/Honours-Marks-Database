@@ -185,12 +185,20 @@ public class DisplayCE_PopulateEditStaff {
 					Staff.getStaffByID(selectedStaff).deleteRow();
 					
 					PopupWindow.popupMessage(CETabFolder.getShell(), "Staff deleted.", "Complete");
+					
+					staffNumber.setEnabled(true);
+					staffNumber.setText("");
+					lastName.setText("");
+					firstName.setText("");
 				}
 				catch (Exception e) {
 					PopupWindow.popupMessage(CETabFolder.getShell(), "Staff could not be deleted.", "WARNING");
 				}
 				hardRefreshNeeded = true;
 				refreshTree();
+
+				DisplayCE_PopulateEditStudent.hardRefreshNeeded = true;
+				DisplayCE_PopulateEditStudent.refreshTree();
 			}	
 		});
 
@@ -258,18 +266,27 @@ public class DisplayCE_PopulateEditStaff {
 
 			staff.updateRow();
 			refreshTree();
+			
+			DisplayCE_PopulateEditStudent.refreshTree();
 
 			PopupWindow.popupMessage(staffTree.getShell(), "Staff member saved successfully", "Save Successful");
 		} catch (java.lang.NullPointerException | SQLException e) {
 			try {
 				new Staff(Integer.parseInt(staffNumber.getText()), firstName.getText(), lastName.getText());
 				PopupWindow.popupMessage(staffTree.getShell(), "New staff member created successfully", "Save Successful");
-				hardRefreshNeeded = true;
-				refreshTree();
+//				hardRefreshNeeded = true;
+//				refreshTree();
+//
+//				DisplayCE_PopulateEditStudent.hardRefreshNeeded = true;
+//				DisplayCE_PopulateEditStudent.refreshTree();
 			} catch (SQLException ex) {
 				PopupWindow.popupMessage(staffTree.getShell(), "New satff member was unable to be created. \nPossible duplicate staff number", "Save Unsuccessful");
 			}
+			hardRefreshNeeded = true;
+			refreshTree();
 
+			DisplayCE_PopulateEditStudent.hardRefreshNeeded = true;
+			DisplayCE_PopulateEditStudent.refreshTree();
 		} 
 	}
 

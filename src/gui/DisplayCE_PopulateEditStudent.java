@@ -128,7 +128,7 @@ public class DisplayCE_PopulateEditStudent {
 		lblDiscipline.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblDiscipline.setText("Discipline:");
 		
-		Combo DisciplineCombo = new Combo(rComposite, SWT.READ_ONLY);
+		final Combo DisciplineCombo = new Combo(rComposite, SWT.READ_ONLY);
 		DisciplineCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		//Hardcoded discipline options. TODO: get properly.
 		DisciplineCombo.add("PHYS");
@@ -196,6 +196,12 @@ public class DisplayCE_PopulateEditStudent {
 				try {
 					Student.getStudentByID(studentNumber.getText()).deleteRow();
 					PopupWindow.popupMessage(CETabFolder.getShell(), "Student deleted.", "Complete");
+					studentNumber.setText("");
+					title.setText("");
+					lastName.setText("");
+					firstName.setText("");
+					dissertationTitle.setText("");
+					DisciplineCombo.setText("");
 				}
 				catch (Exception e) {
 					PopupWindow.popupMessage(CETabFolder.getShell(), "Student could not be deleted.", "WARNING");
@@ -320,6 +326,7 @@ public class DisplayCE_PopulateEditStudent {
 			 
 
 			PopupWindow.popupMessage(studentTree.getShell(), "Student saved successfully", "Save Successful");
+			refreshTree();
 		} catch (java.lang.NullPointerException | SQLException e) {
 			try {
 				/*Student newStudent = */new Student(
@@ -331,14 +338,12 @@ public class DisplayCE_PopulateEditStudent {
 				//TreeItemMap.put(studentTreeItem, new StringBuffer[]{newStudent.studentID, newStudent.firstName, newStudent.lastName});
 				//studentTree.setSelection(studentTreeItem);	//TODO: does not seem to work properly
 				PopupWindow.popupMessage(studentTree.getShell(), "New student created successfully", "Save Successful");
-				hardRefreshNeeded = true;
-				refreshTree();
 			} catch (SQLException ex) {
 				PopupWindow.popupMessage(studentTree.getShell(), "New student was unable to be created. \nPossible duplicate student number", "Save Unsuccessful");
 			}
-
+			hardRefreshNeeded = true;
+			refreshTree();
 		}
-		refreshTree();
 	}
 
 	/**

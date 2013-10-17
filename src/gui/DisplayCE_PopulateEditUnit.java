@@ -112,11 +112,13 @@ public class DisplayCE_PopulateEditUnit {
 						try {
 							new Unit(unitCode.getText().toUpperCase(), unitName.getText(), Integer.parseInt(creditPoints.getText()));
 							PopupWindow.popupMessage(rComposite.getShell(), "New Unit created successfully.", "Save Successful");
-							hardRefreshNeeded = true;
-							refreshTree(unitTree);
 						} catch (SQLException ex) {
 							PopupWindow.popupMessage(rComposite.getShell(), "New unit was unable to be created. \nPossible duplicate unit code.", "ERROR! Save Unsuccessful");
 						}
+						hardRefreshNeeded = true;
+						refreshTree(unitTree);
+						DisplayCE_PopulateEditAssessment.hardRefreshNeeded = true;
+						DisplayCE_PopulateEditAssessment.refreshTree();
 					} else PopupWindow.popupMessage(rComposite.getShell(), "Null Value is not allowed.", "ERROR!");
 				} else {
 					Unit unit = Unit.getUnitByCode(selected[0].getText());
@@ -125,9 +127,13 @@ public class DisplayCE_PopulateEditUnit {
 					unit.setPoints(Integer.parseInt(creditPoints.getText()));
 					try {
 						unit.updateRow();
+						PopupWindow.popupMessage(unitTree.getShell(), "Unit saved successfully", "Save Successful");
 					} catch (SQLException e) {
 						PopupWindow.popupMessage(rComposite.getShell(), "Unable to save change. \nPossible corrupt data.", "ERROR! Save Unsuccessful");
 					}
+					refreshTree(unitTree);
+
+					DisplayCE_PopulateEditAssessment.refreshTree();
 				}
 			}
 		});
@@ -154,6 +160,9 @@ public class DisplayCE_PopulateEditUnit {
 							}
 					hardRefreshNeeded = true;
 					refreshTree(unitTree);
+					
+					DisplayCE_PopulateEditAssessment.hardRefreshNeeded = true;
+					DisplayCE_PopulateEditAssessment.refreshTree();
 				} else PopupWindow.popupMessage(rComposite.getShell(), "Please select an Unit to be Removed.", "ERROR!");
 			}
 		});

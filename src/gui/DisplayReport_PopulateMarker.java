@@ -109,7 +109,6 @@ public class DisplayReport_PopulateMarker {
 	 * Refreshes all data displayed in the tree
 	 * @param tree the tree which is to be refreshed
 	 */
-	//TODO: currently does not add new treeItems
 	public static void refreshAll(Tree tree) {
 		if (hardRefreshNeeded) {
 			for (TreeItem ti : tree.getItems()) ti.dispose();

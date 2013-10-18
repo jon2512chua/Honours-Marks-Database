@@ -82,6 +82,6 @@ public class DisplayReport {
 			}
 		};
 		tree.addListener(SWT.Collapse, autoExpandStudentColumn);
-		tree.addListener(SWT.Expand, autoExpandStudentColumn);	//TODO: is the really needed? Just doing on expand would possibly do fine
+		tree.addListener(SWT.Expand, autoExpandStudentColumn);
 	}
 }

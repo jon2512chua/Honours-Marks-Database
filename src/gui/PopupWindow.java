@@ -445,7 +445,6 @@ public class PopupWindow {
 		gd_userNameText.widthHint = 350;
 		userNameText.setLayoutData(gd_userNameText);
 		new Label(shell, SWT.NONE);
-		userNameText.setText("Heather"); //TODO remove this - just for ease at the moment
 
 		Label passwordLabel = new Label(shell, SWT.NONE);
 		GridData gd_passwordLabel = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -458,7 +457,6 @@ public class PopupWindow {
 		gd_passwordText.widthHint = 350;
 		passwordText.setLayoutData(gd_passwordText);
 		new Label(shell, SWT.NONE);
-		passwordText.setText("default"); //TODO remove this - just for ease at the moment
 		new Label(shell, SWT.NONE);
 
 		Button btnRecover = new Button(shell, SWT.CENTER);

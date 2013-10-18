@@ -13,7 +13,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 
 import sessionControl.Errors;
-// TODO Tim - the dropdown menu here doesn't refresh itself : update: i think it might once you swap the order of popup and main window...?
+
 public class DisplaySettings_PopulateBackupRestore {
 
 	/**

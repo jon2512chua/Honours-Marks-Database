@@ -83,7 +83,6 @@ public class DisplaySettings_Account {
 		gd_usernameText.widthHint = 350;
 		usernameText.setLayoutData(gd_usernameText);
 
-		//Padding - TODO: make this better
 		new Label(accountSettingsComposite, SWT.NONE);
 		new Label(accountSettingsComposite, SWT.NONE);
 
@@ -107,7 +106,6 @@ public class DisplaySettings_Account {
 		
 		setFields();
 
-		//Padding - TODO: make this better
 		new Label(accountSettingsComposite, SWT.NONE);
 		new Label(accountSettingsComposite, SWT.NONE);
 

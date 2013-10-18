@@ -102,7 +102,7 @@ public class DisplayEnterMarks_PopulateMarkerView {
 
 		
 		//set up editing
-		final TreeCursor cursor = new TreeCursor(marksTree, SWT.NONE);	//TODO: fix border
+		final TreeCursor cursor = new TreeCursor(marksTree, SWT.NONE);
 		cursor.setForeground(cursor.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 
 		final ControlEditor editor = new ControlEditor(cursor);
@@ -242,7 +242,6 @@ public class DisplayEnterMarks_PopulateMarkerView {
 		String staffNumber = staffCombo.getItem(staffCombo.getSelectionIndex()).substring(1, 10);	//TODO: check if staff number length is static
 		for (Assessment a : Staff.getStaffByID(staffNumber).getAssessmentsMarked()) {
 			try {
-			System.out.println(a.name);	//TODO: testing- remove later
 			TreeItem assessment = new TreeItem(marksTree, SWT.NONE);
 			TreeItemMap.put(assessment, new StringBuffer[]{a.name});
 

@@ -132,7 +132,7 @@ public class DisplayEnterMarks_PopulateStudentView {
 		});
 
 		//set up editing
-		final TreeCursor cursor = new TreeCursor(marksTree, SWT.NONE);	//TODO: fix border
+		final TreeCursor cursor = new TreeCursor(marksTree, SWT.NONE);
 		cursor.setForeground(cursor.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 
 		final ControlEditor editor = new ControlEditor(cursor);
@@ -288,7 +288,7 @@ public class DisplayEnterMarks_PopulateStudentView {
 		//remove old marker columns.
 		int nStaticColumns = 5;
 		for ( TreeColumn tc : marksTree.getColumns() ) {
-			if (nStaticColumns-- <= 0)	//TODO: double check this is correct
+			if (nStaticColumns-- <= 0)
 				tc.dispose();
 		}
 

@@ -119,7 +119,7 @@ public class DisplaySettings_PopulateBackup {
 			System.err.println("Warning: Invalid settings file. Default values have been loaded.");
 			radioSelection = 5;
 			comboSelection = 1;
-			((Button) radioButtoncomposite.getChildren()[radioSelection]).setSelection(true);	//TODO: ensure this is correct, even if UI changes
+			((Button) radioButtoncomposite.getChildren()[radioSelection]).setSelection(true);
 			combo.select(comboSelection);
 		}
 

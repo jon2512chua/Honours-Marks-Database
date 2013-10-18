@@ -49,7 +49,6 @@ public class DisplayCE_PopulateEditUnit {
 		CTabItem tbtmEditUnit = new CTabItem(CETabFolder, SWT.NONE);
 		tbtmEditUnit.setText(tabName);
 
-		//TODO: replace with staff stuff
 		final Composite editUnitComposite = new Composite(CETabFolder, SWT.NONE);
 		editUnitComposite.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1));
 		GridLayout gl_editUnitComposite = new GridLayout(2, false);

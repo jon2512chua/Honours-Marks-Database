@@ -33,7 +33,7 @@ public class MainUI {
 	//Constants
 	private final static int DefaultHeight = 600;
 	private final static int DefaultWidth = 900;
-	public final static int LColumnWidth = 200;	//TODO: calculate dynamically
+	public final static int LColumnWidth = 200;
 	public final static int RColumnWidth = 500;
 	private static final String iconFileName = "icon.png";
 
@@ -254,12 +254,6 @@ public class MainUI {
 		//DisplayReport_PopulateUnit.hardRefreshNeeded = true;
 		DisplayCE_PopulateEditStudent.hardRefreshNeeded = true;
 	}
-
-	//TODO: Tree *should* update automatically. If not, try this:
-	/*public static void refresh(TreeItem ctrl, Tree tree) {
-		//tree.getItems()	//list of all children
-		//TreeItemsetSelection() //might work
-	}*/
 	
 	/**
 	 * Return the filename of the program's icon 

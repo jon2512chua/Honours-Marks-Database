@@ -165,8 +165,8 @@ public class DisplayCE_PopulateEditStaff {
 		//Action to perform when the save button is pressed
 		btnSaveDiscard[0].addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				if (staffNumber.getText().length() != 8) {
-					PopupWindow.popupMessage(CETabFolder.getShell(), "Staff number must be 8 digits long. \nStaff member has not been saved", "Error");
+				if (staffNumber.getText().length() != 9) {
+					PopupWindow.popupMessage(CETabFolder.getShell(), "Staff number must be 9 digits long. \nStaff member has not been saved", "Error");
 				} else {
 					try {
 						TreeItem item = staffTree.getSelection()[0];
@@ -205,7 +205,7 @@ public class DisplayCE_PopulateEditStaff {
 		//Tool tip.
 		//TODO: display when input is invalid
 		final ToolTip tip = new ToolTip(CETabFolder.getShell(), SWT.BALLOON);
-		tip.setMessage("Staff number must be 8 digits long.");
+		tip.setMessage("Staff number must be 9 digits long.");
 		staffNumber.addFocusListener(new FocusListener() {
 			public void focusLost(FocusEvent e) {
 				tip.setVisible(false);
